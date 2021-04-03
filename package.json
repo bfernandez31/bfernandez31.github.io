@@ -2,11 +2,10 @@
   "name": "bfernandez31.github.io",
   "version": "1.0.0",
   "description": "Portfolio Fernandez Benoit",
-  "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "parcel src/index.html",
-    "build": "parcel build src/index.html"
+    "build": "parcel build src/index.html --dist-dir docs/"
   },
   "repository": {
     "type": "git",
