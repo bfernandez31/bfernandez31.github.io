@@ -1,3 +1,7 @@
+import barba from '@barba/core';
+import { gsap } from "gsap";
+
+
 function pageTransition() {
     let t1Page = gsap.timeline();
     t1Page.to('ul.transition li', {duration: .5, scaleY: 1, transformOrigin: 'bottom left', stagger: .2});
