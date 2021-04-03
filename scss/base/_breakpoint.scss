@@ -1,0 +1,31 @@
+@media (min-width: 650px) {
+  main {
+    display: flex;
+    margin-top: 3em;
+    position: relative;
+    z-index: 3;
+  }
+
+  .wrapper {
+    max-width: 950px;
+    margin: 0 auto;
+  }
+
+  .left {
+    padding-right: 2em;
+  }
+
+  .img {
+    width: 400px;
+  }
+
+  .cta {
+    padding: 1em;
+    background: white;
+    position: absolute;
+    z-index: 21 !important;
+    width: 80%;
+    animation-fill-mode: initial;
+  }
+}
+
