@@ -1,6 +1,6 @@
 import barba from '@barba/core';
-import { gsap } from "gsap";
-
+import {gsap} from "gsap";
+import './scss/main.scss';
 
 function pageTransition() {
     let t1Page = gsap.timeline();
@@ -11,7 +11,7 @@ function pageTransition() {
 function contentAnimation() {
     let t1Content = gsap.timeline();
     t1Content.from('.left', {duration: 1.5, translateY: 50, opacity: 0});
-    t1Content.to('img', {clipPath:"polygon(0 0, 100% 0, 100% 100%, 0% 100%)"});
+    t1Content.to('img', {clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)"});
 }
 
 function delay(n) {
@@ -26,7 +26,7 @@ function delay(n) {
 // barba js
 barba.init({
     sync: true,
-    transition: [{
+    transitions: [{
         async leave(data) {
             const done = this.async();
             pageTransition();
