@@ -4,37 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio Fernandez Benoît</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.0/fullpage.min.css">
 </head>
-<boody data-barba="wrapper">
+<body data-barba="wrapper">
 
-    <ul class="transition">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-    </ul>
-    <div class="wrapper">
-        <header>
-            <nav class="header__nav nav">
-                <ul>
-                    <li><a href="index.html" class="header__nav__link">home</a></li>
-                    <li><a href="about.html" class="header__nav__link">about me</a></li>
-                </ul>
-            </nav>
-        </header>
-        <main data-barba="container" data-barba-namespace="home">
-            <div class="left">
-                <h1>Portfolio Benoit Fernandez</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    A, culpa deleniti dolorum error harum modi nemo quis quod rerum voluptatum?
-                </p>
-                <a href="about.html" class="cta">About me</a>
+<ul class="transition">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
+<div class="wrapper">
+    <header>
+        <nav class="header__nav nav">
+            <ul>
+                <li><a href="./#top" class="header__nav__link">HOME</a></li>
+                <li><a href="./#works" class="header__nav__link">WORKS</a></li>
+                <li><a href="./#about" class="header__nav__link">ABOUT ME</a></li>
+                <li><a href="./#contact" class="header__nav__link">CONTACT</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main data-barba="container" data-barba-namespace="home">
+        <div class="fullpage fullpage-wrapper">
+            <div class="section fp-section-1" data-anchor="top">
+                <div class="left">
+                    <h1>Portfolio Benoit Fernandez</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        A, culpa deleniti dolorum error harum modi nemo quis quod rerum voluptatum?
+                    </p>
+                    <a href="about.html" class="cta">About me</a>
+                </div>
             </div>
-            <img src="images/motm.jpg" alt="man on the moon">
-        </main>
-    </div>
+            <div class="section fp-section-2 section--alt" data-anchor="works">
+                <h1>Works</h1>
+            </div>
+            <div class="section fp-section-3" data-anchor="about">
+                <h1>About Me</h1>
+            </div>
+            <div class="section fp-section-4 section--alt" data-anchor="contact">
+                <h1>contact</h1>
+            </div>
+        </div>
+    </main>
+</div>
 
 
-    <script src="./index.js"></script>
-</boody>
+<script src="./index.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.0/fullpage.min.js"></script>
+<script>
+    // fullpage
+    new fullpage('.fullpage', {
+        autoScrolling: true,
+        navigation: true
+    })
+
+</script>
+</body>
 </html>

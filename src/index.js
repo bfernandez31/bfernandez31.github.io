@@ -1,7 +1,8 @@
 import barba from '@barba/core';
 import {gsap} from "gsap";
-import './scss/main.scss';
+import './scss/main.css';
 
+// barba js
 function pageTransition() {
     let t1Page = gsap.timeline();
     t1Page.to('ul.transition li', {duration: .5, scaleY: 1, transformOrigin: 'bottom left', stagger: .2});
@@ -23,7 +24,7 @@ function delay(n) {
     });
 }
 
-// barba js
+
 barba.init({
     sync: true,
     transitions: [{
