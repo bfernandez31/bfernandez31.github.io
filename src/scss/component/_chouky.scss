@@ -8,11 +8,24 @@
   background-image: linear-gradient(to right top, #000000, #19000c, #23001a, #290029, #29003d, #2b1859, #242e75, #004491, #1d70af, #519bc7, #8bc6de, #caf0f8);
 }
 
+.header__name {
+  font-size: 2em;
+  letter-spacing: 0.1em;
+  position: absolute;
+  top: 0;
+  z-index: 1000;
+}
+
+.header__nav {
+  position: absolute;
+  top: 0;
+  right: 30px;
+}
+
 .section {
 
-
   &--alt {
-    background-color: black;
+    background-color: cornflowerblue;
 
     h1 {
       color: white;
@@ -20,3 +33,54 @@
   }
 }
 
+.title {
+  color: black;
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  -webkit-transform: translate3d(0, -50%, 0);
+  transform: translate3d(0, -50%, 0);
+  z-index: 200;
+  margin-left: 11%;
+
+  &__text {
+    font-size: 10em;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.6em;
+    font-family: "futura_m";
+    font-weight: normal;
+  }
+}
+
+.image {
+  display: block;
+  position: relative;
+  width: 53.125%;
+  height: 74.81%;
+  margin: 0 8% 0 auto;
+  -webkit-box-shadow: 0 80px 140px -40px rgb(0 0 0 / 60%);
+  box-shadow: 0 80px 140px -40px rgb(0 0 0 / 60%);
+
+  &--works {
+    background: url(/src/images/motm.jpg) no-repeat center;
+    background-size: cover;
+  }
+}
+
+.slide {
+
+
+}
+
+.fp-prev {
+  margin-left: 2em;
+}
+
+.fp-next {
+  margin-right: 2em;
+}
+
+#fp-nav {
+
+}

@@ -15,29 +15,59 @@
     <li></li>
 </ul>
 <div class="wrapper">
-    <header>
-        <nav class="header__nav nav">
-            <ul>
-                <li><a href="./#top" class="header__nav__link">HOME</a></li>
-                <li><a href="./#works" class="header__nav__link">WORKS</a></li>
-                <li><a href="./#about" class="header__nav__link">ABOUT ME</a></li>
-                <li><a href="./#contact" class="header__nav__link">CONTACT</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main data-barba="container" data-barba-namespace="home">
-        <div class="fullpage fullpage-wrapper">
+    <div id="fullpage" class="fullpage-wrapper">
+        <header>
+            <a class="header__name" href="./">Fernandez Benoît</a>
+            <nav class="header__nav nav">
+                <ul>
+                    <li><a href="./#top" class="header__nav__link">HOME</a></li>
+                    <li><a href="./#works" class="header__nav__link">WORKS</a></li>
+                    <li><a href="./#about" class="header__nav__link">ABOUT ME</a></li>
+                    <li><a href="./#contact" class="header__nav__link">CONTACT</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main data-barba="container" data-barba-namespace="home">
+
             <div class="section fp-section-1" data-anchor="top">
                 <div class="left">
                     <h1>Portfolio Benoit Fernandez</h1>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                         A, culpa deleniti dolorum error harum modi nemo quis quod rerum voluptatum?
                     </p>
-                    <a href="about.html" class="cta">About me</a>
                 </div>
             </div>
             <div class="section fp-section-2 section--alt" data-anchor="works">
-                <h1>Works</h1>
+                <div class="slide">
+                    <div class="title">
+                        <div class="title__text">
+                            onepoint
+                        </div>
+                    </div>
+                    <div class="image image--works">
+
+                    </div>
+                </div>
+                <div class="slide">
+                    <div class="title">
+                        <div class="title__text">
+                            TEST
+                        </div>
+                    </div>
+                    <div class="image">
+
+                    </div>
+                </div>
+                <div class="slide">
+                    <div class="title">
+                        <div class="title__text">
+                            TITI
+                        </div>
+                    </div>
+                    <div class="image">
+
+                    </div>
+                </div>
             </div>
             <div class="section fp-section-3" data-anchor="about">
                 <h1>About Me</h1>
@@ -45,20 +75,11 @@
             <div class="section fp-section-4 section--alt" data-anchor="contact">
                 <h1>contact</h1>
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 </div>
 
-
-<script src="./index.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.0/fullpage.min.js"></script>
-<script>
-    // fullpage
-    new fullpage('.fullpage', {
-        autoScrolling: true,
-        navigation: true
-    })
-
-</script>
+<script src="./index.js"></script>
 </body>
 </html>

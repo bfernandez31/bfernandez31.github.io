@@ -1,7 +1,7 @@
 :root {
   --clr-primary-700: hsl(300, 43%, 22%);
   --clr-primary-300: hsl(333, 80%, 67%);
-  --ff-primary: "Space Mono", monospace;
+  --ff-primary: "spartan", sans-serif;
   --fs-400: .8125rem;
   --fs-500: .9725rem;
   --fs-900: 2rem;
@@ -95,13 +95,8 @@ h1 {
   font-size: var(--fs-900);
 }
 
-.wrapper {
-  padding: 1em;
-}
-
 ul {
   list-style: none;
-  display: flex;
   padding: 0;
   margin-right: auto;
 }
@@ -148,11 +143,66 @@ ul.transition li {
   background-image: linear-gradient(to right top, #000000, #19000c, #23001a, #290029, #29003d, #2b1859, #242e75, #004491, #1d70af, #519bc7, #8bc6de, #caf0f8);
 }
 
+.header__name {
+  font-size: 2em;
+  letter-spacing: 0.1em;
+  position: absolute;
+  top: 0;
+  z-index: 1000;
+}
+
+.header__nav {
+  position: absolute;
+  top: 0;
+  right: 30px;
+}
+
 .section--alt {
-  background-color: black;
+  background-color: cornflowerblue;
 }
 .section--alt h1 {
   color: white;
+}
+
+.title {
+  color: black;
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  -webkit-transform: translate3d(0, -50%, 0);
+  transform: translate3d(0, -50%, 0);
+  z-index: 200;
+  margin-left: 11%;
+}
+.title__text {
+  font-size: 10em;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.6em;
+  font-family: "futura_m";
+  font-weight: normal;
+}
+
+.image {
+  display: block;
+  position: relative;
+  width: 53.125%;
+  height: 74.81%;
+  margin: 0 8% 0 auto;
+  -webkit-box-shadow: 0 80px 140px -40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 80px 140px -40px rgba(0, 0, 0, 0.6);
+}
+.image--works {
+  background: url(/src/images/motm.jpg) no-repeat center;
+  background-size: cover;
+}
+
+.fp-prev {
+  margin-left: 2em;
+}
+
+.fp-next {
+  margin-right: 2em;
 }
 
 /*# sourceMappingURL=main.css.map */
