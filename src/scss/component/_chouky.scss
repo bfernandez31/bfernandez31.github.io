@@ -8,24 +8,31 @@
   background-image: linear-gradient(to right top, #000000, #19000c, #23001a, #290029, #29003d, #2b1859, #242e75, #004491, #1d70af, #519bc7, #8bc6de, #caf0f8);
 }
 
-.header__name {
-  font-size: 2em;
-  letter-spacing: 0.1em;
+header {
+  padding: 40px 40px 0;
   position: absolute;
   top: 0;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   z-index: 1000;
 }
 
+.header__name {
+  font-size: 2rem;
+  letter-spacing: 0.1rem;
+}
+
 .header__nav {
-  position: absolute;
-  top: 0;
-  right: 30px;
+  display: none;
 }
 
 .section {
+  background-image: linear-gradient(to left bottom, #534695, #5a58a5, #626ab5, #6c7dc5, #768fd4, #9392d7, #ad96d7, #c39ad6, #e192ba, #ec919a, #e6997d, #d1a56b);
 
   &--alt {
-    background-color: cornflowerblue;
+    background-image: linear-gradient(to right top, #534695, #5a58a5, #626ab5, #6c7dc5, #768fd4, #9392d7, #ad96d7, #c39ad6, #e192ba, #ec919a, #e6997d, #d1a56b);
 
     h1 {
       color: white;
@@ -33,8 +40,15 @@
   }
 }
 
+.fullpage__slide {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
 .title {
-  color: black;
   position: absolute;
   overflow: hidden;
   top: 50%;
@@ -44,13 +58,40 @@
   margin-left: 11%;
 
   &__text {
-    font-size: 10em;
+    font-size: var(--fs-1300);
     line-height: 1;
-    letter-spacing: 0.1em;
-    margin-bottom: 1.6em;
-    font-family: "futura_m";
-    font-weight: normal;
+    letter-spacing: 0.1rem;
+    margin-bottom: 1.6rem;
   }
+
+  &__border {
+    display: inline-block;
+    margin-bottom: 3.2rem;
+
+    span:first-child {
+      margin-bottom: 1.4rem;
+    }
+
+    span:last-child {
+      margin-left: 4rem;
+    }
+
+    span {
+      display: block;
+      width: 100px;
+      height: 4px;
+      border-radius: 5px;
+      background: #534695;
+    }
+  }
+
+  &__lead {
+    color: #fff;
+    font-size: 2.8rem;
+    line-height: 1.5;
+    letter-spacing: 0.1em;
+  }
+
 }
 
 .image {
@@ -66,6 +107,11 @@
     background: url(/src/images/motm.jpg) no-repeat center;
     background-size: cover;
   }
+
+  &--about {
+    background: url(/src/images/about-me.jpg) no-repeat center;
+    background-size: cover;
+  }
 }
 
 .slide {
@@ -74,13 +120,15 @@
 }
 
 .fp-prev {
-  margin-left: 2em;
+  margin-left: 2rem;
 }
 
 .fp-next {
-  margin-right: 2em;
+  margin-right: 2rem;
 }
 
-#fp-nav {
-
+#fp-nav ul li a.active span {
+  height: 16px !important;
+  width: 16px !important;
+  background: url(/src/images/dragon_ball.svg) no-repeat center;
 }

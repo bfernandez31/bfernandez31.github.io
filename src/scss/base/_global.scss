@@ -1,10 +1,14 @@
 body {
   font-family: var(--ff-primary);
   font-size: var(--fs-400);
+  background: rgb(38, 39, 44);
+  color: white;
 }
 
 h1 {
-  font-size: var(--fs-900);
+  font-size: var(--fs-1300);
+  line-height: 1;
+  letter-spacing: 0.1rem;
 }
 
 .wrapper {
@@ -18,11 +22,11 @@ ul {
 
 a {
   text-decoration: none;
-  color: black;
+  color: white;
 }
 
 li a {
-  margin-right: 2em;
+  margin-right: 2rem;
 }
 
 img {

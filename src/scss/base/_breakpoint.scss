@@ -1,7 +1,7 @@
 @media (min-width: 650px) {
   main {
     display: flex;
-    margin-top: 3em;
+    margin-top: 3rem;
     position: relative;
     z-index: 3;
   }
@@ -12,7 +12,7 @@
   }
 
   .left {
-    padding-right: 2em;
+    padding-right: 2rem;
   }
 
   .img {
@@ -20,7 +20,7 @@
   }
 
   .cta {
-    padding: 1em;
+    padding: 1rem;
     background: white;
     position: absolute;
     z-index: 21 !important;

@@ -15,10 +15,24 @@ new fullpage('#fullpage', {
     onLeave: (origin, destination, direction) => {
         const section = destination.item;
         if (destination.index !== 1) {
-            const title = section.querySelector('h1');
-            console.log(title);
+            const title = section.querySelector('.title__text');
             const t1 = gsap.timeline();
-            t1.fromTo(title, 1, {x: '-30%', opacity: 0}, {x: '10%', opacity: 1});
+            t1.fromTo(title, {x: '-100%', opacity: 0}, {x: '0', opacity: 1, duration: 1});
+
+            const titleBorder = section.querySelector('.title__border');
+            const t2 = gsap.timeline();
+            t2.fromTo(titleBorder, {x: '-100%', opacity: 0}, {x: '0', opacity: 1, duration:1})
+                .delay(0.2);
+
+            const titleLead = section.querySelector('.title__lead');
+            const t3 = gsap.timeline();
+            t3.fromTo(titleLead, {x: '-100%', opacity: 0}, {x: '0', opacity: 1, duration:1})
+                .delay(0.4);
+
+            const image = section.querySelector('.image');
+            const t4 = gsap.timeline();
+            t4.fromTo(image, {x: '50%', opacity: 0, scale: 0}, {x: '0', opacity: 1, scale:1, duration:1.5});
+
         }
     }
 })
