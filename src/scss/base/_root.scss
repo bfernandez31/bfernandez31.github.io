@@ -2,14 +2,10 @@
   --clr-primary-700: hsl(300, 43%, 22%);
   --clr-primary-300: hsl(333, 80%, 67%);
 
-  --ff-primary: 'futura', sans-serif;
+  --ff-primary: 'Poppins', monospace;
 
   --fs-400: .8125rem;
   --fs-500: .9725rem;
-  --fs-900: 2rem;
-  --fs-1300: 8rem;
-
-  @media (min-width: 50em) {
-    --fs-900: 3rem;
-  }
+  --fs-900: 1.3rem;
+  --fs-1300: 2.5rem;
 }
