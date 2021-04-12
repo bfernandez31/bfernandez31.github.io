@@ -1,7 +1,14 @@
 import barba from '@barba/core';
 import {gsap} from "gsap";
 import './scss/main.css';
+import vanillaTilt from 'vanilla-tilt';
 
+
+const imgDoc = document.querySelector(".header__name");
+const hover = gsap.to(imgDoc, {scale: 1.12, color: "blue", duration: 1.5, paused: true, ease: "power1.inOut"});
+
+imgDoc.addEventListener("mouseenter", () => hover.play());
+imgDoc.addEventListener("mouseleave", () => hover.reverse());
 
 // fullpage
 new fullpage('#fullpage', {
@@ -13,29 +20,63 @@ new fullpage('#fullpage', {
     slidesNavPosition: 'bottom',
     fixedElements: 'header',
     onLeave: (origin, destination, direction) => {
+
         const section = destination.item;
-        if (destination.index !== 1) {
-            const title = section.querySelector('.title__text');
-            const t1 = gsap.timeline();
-            t1.fromTo(title, {x: '-100%', opacity: 0}, {x: '0', opacity: 1, duration: 1});
+        const title = section.querySelector('.title__text');
+        const titleBorder = section.querySelector('.title__border');
+        const titleLead = section.querySelector('.title__lead');
+        const image = section.querySelector('.image');
 
-            const titleBorder = section.querySelector('.title__border');
-            const t2 = gsap.timeline();
-            t2.fromTo(titleBorder, {x: '-100%', opacity: 0}, {x: '0', opacity: 1, duration:1})
-                .delay(0.2);
-
-            const titleLead = section.querySelector('.title__lead');
-            const t3 = gsap.timeline();
-            t3.fromTo(titleLead, {x: '-100%', opacity: 0}, {x: '0', opacity: 1, duration:1})
-                .delay(0.4);
-
-            const image = section.querySelector('.image');
-            const t4 = gsap.timeline();
-            t4.fromTo(image, {x: '50%', opacity: 0, scale: 0}, {x: '0', opacity: 1, scale:1, duration:1.5});
-
+        //remove vanillaTilt on image before the animation
+        if(image.vanillaTilt){
+            image.vanillaTilt.destroy();
         }
+
+        const tl = gsap.timeline();
+        tl.fromTo(title, {
+            x: '-100%',
+            opacity: 0
+        }, {
+            x: '0',
+            opacity: 1,
+            duration: 1
+        })
+            .fromTo(titleBorder, {
+                x: '-100%', opacity: 0
+            }, {
+                x: '0', opacity: 1, duration: 1
+            }, "-=0.8")
+            .fromTo(titleLead, {
+                x: '-100%', opacity: 0
+            }, {
+                x: '0',
+                opacity: 1,
+                duration: 1.5,
+                ease: 'power2.out'
+            }, "-=0.8")
+            .fromTo(image, {
+                x: '50%', opacity: 0, scale: 0
+            }, {
+                x: '0',
+                opacity: 1,
+                scale: 1,
+                duration: 2,
+                ease: 'power2.out'
+            }, "-=1.5");
+
+        tl.eventCallback("onComplete", initTilt, [image]);
     }
+
 })
+
+function initTilt(image) {
+    vanillaTilt.init(image, {
+        glare: true,
+        maxGlare: .3,
+        maxTilt: 7,
+        speed: 750
+    });
+}
 
 
 // barba js
@@ -80,3 +121,5 @@ barba.init({
         }
     }]
 })
+
+

@@ -248,6 +248,10 @@ header {
 }
 
 @media (min-width: 768px) {
+  header {
+    padding: 40px 40px 0;
+  }
+
   .fullpage__slide {
     display: flex;
     align-items: center;
@@ -260,7 +264,13 @@ header {
     -webkit-transform: translate3d(0, -50%, 0);
     transform: translate3d(0, -50%, 0);
     margin: 0 0 0 11%;
-    bottom: 0;
+    bottom: revert;
+  }
+  .title__lead {
+    line-height: 1.5;
+  }
+  .title__border {
+    margin-bottom: 3.2rem;
   }
 
   .image {
