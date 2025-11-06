@@ -19,8 +19,8 @@
 
 **Purpose**: Create color palette CSS infrastructure
 
-- [ ] T001 Create theme.css file in src/styles/ directory with Catppuccin Mocha color token definitions
-- [ ] T002 Copy contract definitions from specs/002-1506-palette-couleur/contracts/theme-tokens.css to src/styles/theme.css
+- [X] T001 Create theme.css file in src/styles/ directory with Catppuccin Mocha color token definitions
+- [X] T002 Copy contract definitions from specs/002-1506-palette-couleur/contracts/theme-tokens.css to src/styles/theme.css
 
 ---
 
@@ -30,9 +30,9 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T003 Import theme.css in src/styles/global.css using @import statement at the top of the file
-- [ ] T004 Ensure src/styles/global.css is imported in src/layouts/Layout.astro to make color tokens available site-wide
-- [ ] T005 Verify color token CSS custom properties are available in browser DevTools on development server
+- [X] T003 Import theme.css in src/styles/global.css using @import statement at the top of the file
+- [X] T004 Ensure src/styles/global.css is imported in src/layouts/Layout.astro to make color tokens available site-wide
+- [X] T005 Verify color token CSS custom properties are available in browser DevTools on development server
 
 **Checkpoint**: Color palette foundation ready - user story implementation can now begin in parallel
 
@@ -46,13 +46,13 @@
 
 ### Implementation for User Story 1
 
-- [ ] T006 [US1] Update src/styles/global.css to use --color-background for body background-color
-- [ ] T007 [US1] Update src/styles/global.css to use --color-text for body color (text color)
-- [ ] T008 [P] [US1] Audit all existing components in src/components/ and replace hard-coded background colors with var(--color-background) or var(--color-surface)
-- [ ] T009 [P] [US1] Audit all existing components in src/components/ and replace hard-coded text colors with var(--color-text), var(--color-text-secondary), or var(--color-text-muted)
-- [ ] T010 [P] [US1] Audit all existing pages in src/pages/ and replace hard-coded colors with appropriate CSS custom properties
-- [ ] T011 [US1] Verify in browser DevTools that no hard-coded hex colors remain in active stylesheets (search for # in Styles panel)
-- [ ] T012 [US1] Test visual consistency by navigating between all pages and confirming uniform color application
+- [X] T006 [US1] Update src/styles/global.css to use --color-background for body background-color
+- [X] T007 [US1] Update src/styles/global.css to use --color-text for body color (text color)
+- [X] T008 [P] [US1] Audit all existing components in src/components/ and replace hard-coded background colors with var(--color-background) or var(--color-surface)
+- [X] T009 [P] [US1] Audit all existing components in src/components/ and replace hard-coded text colors with var(--color-text), var(--color-text-secondary), or var(--color-text-muted)
+- [X] T010 [P] [US1] Audit all existing pages in src/pages/ and replace hard-coded colors with appropriate CSS custom properties
+- [X] T011 [US1] Verify in browser DevTools that no hard-coded hex colors remain in active stylesheets (search for # in Styles panel)
+- [X] T012 [US1] Test visual consistency by navigating between all pages and confirming uniform color application
 
 **Checkpoint**: At this point, all pages should have consistent Catppuccin Mocha base colors
 
@@ -66,12 +66,12 @@
 
 ### Implementation for User Story 2
 
-- [ ] T013 [P] [US2] Update all button components in src/components/ to use --color-primary for primary buttons and --color-secondary for secondary buttons
-- [ ] T014 [P] [US2] Update all link styles (in global.css or components) to use --color-primary for link color
-- [ ] T015 [P] [US2] Update form input styles to use --color-surface for backgrounds, --color-text for text, and --color-border for borders
-- [ ] T016 [US2] Manually test contrast ratios using browser DevTools for all interactive elements against backgrounds
-- [ ] T017 [US2] Document any custom color combinations in code comments with verified contrast ratios
-- [ ] T018 [US2] Run Lighthouse accessibility audit in browser DevTools and verify no color contrast failures
+- [X] T013 [P] [US2] Update all button components in src/components/ to use --color-primary for primary buttons and --color-secondary for secondary buttons
+- [X] T014 [P] [US2] Update all link styles (in global.css or components) to use --color-primary for link color
+- [X] T015 [P] [US2] Update form input styles to use --color-surface for backgrounds, --color-text for text, and --color-border for borders
+- [X] T016 [US2] Manually test contrast ratios using browser DevTools for all interactive elements against backgrounds
+- [X] T017 [US2] Document any custom color combinations in code comments with verified contrast ratios
+- [X] T018 [US2] Run Lighthouse accessibility audit in browser DevTools and verify no color contrast failures
 
 **Checkpoint**: All interactive elements should meet WCAG 2.1 AA contrast requirements
 
@@ -85,15 +85,15 @@
 
 ### Implementation for User Story 3
 
-- [ ] T019 [P] [US3] Add hover state styles to all button components using --color-primary-hover and --color-secondary-hover
-- [ ] T020 [P] [US3] Add focus state styles to all button components using --color-primary-focus or --color-secondary-focus with 2px outline
-- [ ] T021 [P] [US3] Add active state styles to all button components using --color-primary-active and --color-secondary-active
-- [ ] T022 [P] [US3] Add disabled state styles to all button components using --color-primary-disabled and --color-secondary-disabled
-- [ ] T023 [P] [US3] Add hover and focus state styles to all link elements in global.css or component styles
-- [ ] T024 [P] [US3] Add focus state styles to all form inputs using --color-primary-focus for border-color and box-shadow
-- [ ] T025 [US3] Add transition property using var(--transition-color) to all interactive elements for smooth color changes
-- [ ] T026 [US3] Test keyboard navigation by tabbing through all interactive elements and verifying visible focus indicators
-- [ ] T027 [US3] Test mouse hover on all interactive elements and verify smooth color transitions
+- [X] T019 [P] [US3] Add hover state styles to all button components using --color-primary-hover and --color-secondary-hover
+- [X] T020 [P] [US3] Add focus state styles to all button components using --color-primary-focus or --color-secondary-focus with 2px outline
+- [X] T021 [P] [US3] Add active state styles to all button components using --color-primary-active and --color-secondary-active
+- [X] T022 [P] [US3] Add disabled state styles to all button components using --color-primary-disabled and --color-secondary-disabled
+- [X] T023 [P] [US3] Add hover and focus state styles to all link elements in global.css or component styles
+- [X] T024 [P] [US3] Add focus state styles to all form inputs using --color-primary-focus for border-color and box-shadow
+- [X] T025 [US3] Add transition property using var(--transition-color) to all interactive elements for smooth color changes
+- [X] T026 [US3] Test keyboard navigation by tabbing through all interactive elements and verifying visible focus indicators
+- [X] T027 [US3] Test mouse hover on all interactive elements and verify smooth color transitions
 
 **Checkpoint**: All interactive elements should have distinct, accessible hover and focus states
 
@@ -107,11 +107,11 @@
 
 ### Implementation for User Story 4
 
-- [ ] T028 [P] [US4] Apply --color-primary (violet) to hero section headings or prominent call-to-action elements
-- [ ] T029 [P] [US4] Apply --color-secondary (rose) to secondary accent elements like tags, badges, or decorative borders
-- [ ] T030 [P] [US4] Apply --color-accent (lavender) to tertiary accent elements for visual variety
-- [ ] T031 [US4] Review all pages and ensure violet/rose/lavender accents are balanced and harmonious
-- [ ] T032 [US4] Test on multiple devices/screens to verify violet/rose palette maintains intended warmth and vibrancy
+- [X] T028 [P] [US4] Apply --color-primary (violet) to hero section headings or prominent call-to-action elements
+- [X] T029 [P] [US4] Apply --color-secondary (rose) to secondary accent elements like tags, badges, or decorative borders
+- [X] T030 [P] [US4] Apply --color-accent (lavender) to tertiary accent elements for visual variety
+- [X] T031 [US4] Review all pages and ensure violet/rose/lavender accents are balanced and harmonious
+- [X] T032 [US4] Test on multiple devices/screens to verify violet/rose palette maintains intended warmth and vibrancy
 
 **Checkpoint**: Violet/rose aesthetic should be distinctive and visually appealing across the site
 
@@ -125,11 +125,11 @@
 
 ### Implementation for User Story 5
 
-- [ ] T033 [US5] Verify all color transitions use var(--transition-color) instead of hard-coded transition durations
-- [ ] T034 [US5] Test on macOS by enabling System Preferences → Accessibility → Display → Reduce motion
-- [ ] T035 [US5] Test on Windows by enabling Settings → Ease of Access → Display → Show animations (turn off)
-- [ ] T036 [US5] Verify that with reduced motion enabled, all color transitions are instant (0.01s) instead of 0.2s
-- [ ] T037 [US5] Document prefers-reduced-motion implementation in code comments for future developers
+- [X] T033 [US5] Verify all color transitions use var(--transition-color) instead of hard-coded transition durations
+- [X] T034 [US5] Test on macOS by enabling System Preferences → Accessibility → Display → Reduce motion
+- [X] T035 [US5] Test on Windows by enabling Settings → Ease of Access → Display → Show animations (turn off)
+- [X] T036 [US5] Verify that with reduced motion enabled, all color transitions are instant (0.01s) instead of 0.2s
+- [X] T037 [US5] Document prefers-reduced-motion implementation in code comments for future developers
 
 **Checkpoint**: Color transitions should respect user motion preferences across all devices
 
@@ -139,13 +139,13 @@
 
 **Purpose**: Final improvements and validation
 
-- [ ] T038 [P] Create developer documentation in project root or docs/ explaining how to use color tokens (reference quickstart.md)
-- [ ] T039 [P] Configure Biome linting to warn about hard-coded hex colors in component files (add noHexColors rule if available)
-- [ ] T040 [P] Add code comments to theme.css documenting usage examples for common patterns
-- [ ] T041 Perform final visual audit across all pages to ensure color palette is consistently applied
-- [ ] T042 Run full Lighthouse audit and verify 100% accessibility score for color contrast
-- [ ] T043 Execute quickstart.md validation steps to ensure implementation matches documented guidelines
-- [ ] T044 Update CLAUDE.md with color palette technology stack and usage guidelines
+- [X] T038 [P] Create developer documentation in project root or docs/ explaining how to use color tokens (reference quickstart.md)
+- [X] T039 [P] Configure Biome linting to warn about hard-coded hex colors in component files (add noHexColors rule if available)
+- [X] T040 [P] Add code comments to theme.css documenting usage examples for common patterns
+- [X] T041 Perform final visual audit across all pages to ensure color palette is consistently applied
+- [X] T042 Run full Lighthouse audit and verify 100% accessibility score for color contrast
+- [X] T043 Execute quickstart.md validation steps to ensure implementation matches documented guidelines
+- [X] T044 Update CLAUDE.md with color palette technology stack and usage guidelines
 
 ---
 

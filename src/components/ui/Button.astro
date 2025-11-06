@@ -33,7 +33,9 @@ const Element = href ? "a" : "button";
     border: 2px solid transparent;
     cursor: pointer;
     text-decoration: none;
-    transition: all 0.2s ease-in-out;
+    transition: background-color var(--transition-color),
+                color var(--transition-color),
+                border-color var(--transition-color);
   }
 
   /* Sizes */
@@ -54,37 +56,59 @@ const Element = href ? "a" : "button";
 
   /* Variants */
   .btn--primary {
-    background-color: #4f46e5;
-    color: white;
+    background-color: var(--color-primary);
+    color: var(--color-background);
   }
 
   .btn--primary:hover {
-    background-color: #4338ca;
+    background-color: var(--color-primary-hover);
+  }
+
+  .btn--primary:active {
+    background-color: var(--color-primary-active);
+  }
+
+  .btn--primary:disabled {
+    background-color: var(--color-primary-disabled);
+    cursor: not-allowed;
   }
 
   .btn--secondary {
-    background-color: #6b7280;
-    color: white;
+    background-color: var(--color-secondary);
+    color: var(--color-background);
   }
 
   .btn--secondary:hover {
-    background-color: #4b5563;
+    background-color: var(--color-secondary-hover);
+  }
+
+  .btn--secondary:active {
+    background-color: var(--color-secondary-active);
+  }
+
+  .btn--secondary:disabled {
+    background-color: var(--color-secondary-disabled);
+    cursor: not-allowed;
   }
 
   .btn--outline {
     background-color: transparent;
-    color: #4f46e5;
-    border-color: #4f46e5;
+    color: var(--color-primary);
+    border-color: var(--color-primary);
   }
 
   .btn--outline:hover {
-    background-color: #4f46e5;
-    color: white;
+    background-color: var(--color-primary);
+    color: var(--color-background);
+  }
+
+  .btn--outline:active {
+    background-color: var(--color-primary-active);
   }
 
   /* Focus state for accessibility */
   .btn:focus-visible {
-    outline: 2px solid #4f46e5;
+    outline: 2px solid var(--color-primary-focus);
     outline-offset: 2px;
   }
 </style>
