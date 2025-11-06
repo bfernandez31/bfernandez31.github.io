@@ -52,13 +52,17 @@ portfolio/
 **Structure**:
 - `layout/` - Structural components that define page structure
   - Header, Footer, Navigation
-  - Page sections (Hero, Features, Testimonials)
+  - BurgerMenu (magnetic menu with neural pathway animations)
+- `sections/` - Page-specific section components
+  - Hero (neural network canvas animation)
+  - AboutIDE, ProjectsHexGrid, ExpertiseMatrix, BlogCommits, ContactProtocol (planned)
 - `ui/` - Generic UI elements
   - Buttons, Cards, Modals
   - Forms, Inputs, Dropdowns
 - `islands/` - Interactive components with client-side JavaScript
   - Framework-specific components (React, Vue, Svelte)
   - Hydrated with Astro's `client:*` directives
+  - Used for animations requiring client-side state
 
 **Conventions**:
 - One component per file
@@ -187,8 +191,8 @@ import Button from '../components/ui/Button.astro';
 **Structure**:
 - `global.css` - CSS reset, base styles, imports theme.css
 - `theme.css` - Color palette tokens (Catppuccin Mocha-based)
+- `animations.css` - Global animation styles, GPU-accelerated transitions, reduced-motion queries
 - `utilities.css` - Utility classes (optional)
-- `animations.css` - GSAP/animation styles (optional)
 
 **Conventions**:
 - Imported in BaseLayout
@@ -225,15 +229,51 @@ body {
 **Purpose**: Type-safe content collections with validated schemas
 
 **Structure**:
-- `config.ts` - Define collection schemas
-- `blog/` - Blog post markdown files
-- `projects/` - Project case study files
+- `config.ts` - Define collection schemas with Zod
+- `blog/` - Blog post markdown files (planned)
+- `projects/` - Project case study files (planned)
 
 **Conventions**:
 - Define Zod schemas for type safety
 - Use frontmatter for metadata
 - Markdown or MDX for content
 - Query with `getCollection()` API
+
+### Scripts (`src/scripts/`)
+
+**Purpose**: Client-side JavaScript utilities and animation logic
+
+**Structure**:
+- `animation-config.ts` - Centralized animation constants and configuration
+- `gsap-config.ts` - GSAP initialization and ScrollTrigger setup
+- `scroll-animations.ts` - Lenis smooth scroll integration
+- `accessibility.ts` - Focus management, keyboard navigation, motion preferences
+- `neural-network.ts` - Neural network Canvas animation class
+- `magnetic-menu.ts` - Magnetic effect utility for burger menu
+- `device-tier.ts` - Device capability detection and performance targeting
+- `performance.ts` - Frame rate monitoring and performance utilities
+
+**Conventions**:
+- Export named functions and classes
+- Include JSDoc comments for public APIs
+- Check `prefers-reduced-motion` before applying animations
+- Clean up resources (event listeners, timers, animation frames)
+- Use TypeScript interfaces for configuration objects
+
+### Data (`src/data/`)
+
+**Purpose**: Static structured data for site configuration
+
+**Structure**:
+- `navigation.ts` - Navigation links with metadata (text, path, displayOrder, ariaLabel)
+- `pages.ts` - Page metadata (title, description, Open Graph images)
+- `skills.json` - Skills matrix data (planned)
+
+**Conventions**:
+- Use TypeScript for type-safe exports
+- Export as constants with clear types
+- Keep data separate from component logic
+- Use JSON for simple data structures, TypeScript for complex data
 
 **Example Content Config**:
 ```typescript
