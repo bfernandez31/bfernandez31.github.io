@@ -88,14 +88,21 @@ const { variant = 'primary', type = 'button' } = Astro.props;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color var(--transition-color);
   }
   .btn-primary {
-    background: #0070f3;
-    color: white;
+    background-color: var(--color-primary);
+    color: var(--color-background);
+  }
+  .btn-primary:hover {
+    background-color: var(--color-primary-hover);
   }
   .btn-secondary {
-    background: #eaeaea;
-    color: black;
+    background-color: var(--color-secondary);
+    color: var(--color-background);
+  }
+  .btn-secondary:hover {
+    background-color: var(--color-secondary-hover);
   }
 </style>
 ```
@@ -178,21 +185,23 @@ import Button from '../components/ui/Button.astro';
 **Purpose**: Global styles, design tokens, CSS utilities
 
 **Structure**:
-- `global.css` - CSS reset, base styles, design tokens
+- `global.css` - CSS reset, base styles, imports theme.css
+- `theme.css` - Color palette tokens (Catppuccin Mocha-based)
 - `utilities.css` - Utility classes (optional)
 - `animations.css` - GSAP/animation styles (optional)
 
 **Conventions**:
 - Imported in BaseLayout
 - Use CSS custom properties for design tokens
+- All colors referenced via `var(--color-*)` tokens
 - Minimal global styles (prefer component styles)
 
 **Example Global CSS**:
 ```css
 /* src/styles/global.css */
+@import './theme.css';  /* Loads color palette tokens */
+
 :root {
-  --color-primary: #0070f3;
-  --color-secondary: #eaeaea;
   --font-sans: system-ui, -apple-system, sans-serif;
   --font-mono: 'Courier New', monospace;
 }
@@ -206,6 +215,8 @@ import Button from '../components/ui/Button.astro';
 body {
   font-family: var(--font-sans);
   line-height: 1.6;
+  background-color: var(--color-background);
+  color: var(--color-text);
 }
 ```
 

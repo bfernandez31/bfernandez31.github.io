@@ -70,6 +70,14 @@ bun test --watch         # Run tests in watch mode
 - Group imports: framework → components → utilities → styles
 - Use named exports for utilities
 
+### CSS and Styling
+- **Always** use CSS custom properties for colors (e.g., `var(--color-primary)`)
+- **Never** hard-code hex/rgb color values in components
+- **Always** include all interaction states: hover, focus, active, disabled
+- **Always** use `var(--transition-color)` for color transitions (respects reduced motion)
+- Prefer component-scoped styles over global styles
+- Use semantic color tokens (primary, secondary) not color names (violet, rose)
+
 ### Performance Best Practices
 - **Zero JavaScript by default** (Astro Islands architecture)
 - Use client directives sparingly (`client:load`, `client:visible`, `client:idle`)
