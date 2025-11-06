@@ -19,6 +19,13 @@ The portfolio generates static HTML pages at build time, resulting in:
 - SEO-optimized output
 - Deployable to any static hosting service
 
+### Visual Design
+The portfolio features a cohesive, accessible visual design:
+- Comprehensive color palette based on Catppuccin Mocha
+- Violet/rose theme accents for brand identity
+- WCAG 2.1 AA compliant contrast ratios
+- Smooth interaction states with reduced motion support
+
 ### Responsive Design
 The portfolio adapts to all screen sizes and devices:
 - Mobile-first approach
