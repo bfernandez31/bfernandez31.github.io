@@ -1,5 +1,4 @@
 ---
-
 description: "Task list template for feature implementation"
 ---
 
@@ -13,13 +12,11 @@ description: "Task list template for feature implementation"
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
 ## Format: `[ID] [P?] [Story] Description`
-
 - **[P]**: Can run in parallel (different files, no dependencies)
 - **[Story]**: Which user story this task belongs to (e.g., US1, US2, US3)
 - Include exact file paths in descriptions
 
 ## Path Conventions
-
 - **Single project**: `src/`, `tests/` at repository root
 - **Web app**: `backend/src/`, `frontend/src/`
 - **Mobile**: `api/src/`, `ios/src/` or `android/src/`
@@ -81,7 +78,7 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Tests for User Story 1 (OPTIONAL - only if tests requested) ⚠️
 
-> **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
+**NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
 - [ ] T010 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
 - [ ] T011 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
@@ -156,46 +153,6 @@ Examples of foundational tasks (adjust based on your project):
 - [ ] TXXX [P] Additional unit tests (if requested) in tests/unit/
 - [ ] TXXX Security hardening
 - [ ] TXXX Run quickstart.md validation
-
-## Phase N+1: Constitutional Validation (Static Site)
-
-**Purpose**: Ensure compliance with constitutional principles (Constitution v1.1.0)
-
-### Principle I: Performance First
-- [ ] TXXX [P] Run Lighthouse CI audit (target: ≥95 all categories)
-- [ ] TXXX [P] Core Web Vitals validation (LCP <2.5s, FID <100ms, CLS <0.1)
-- [ ] TXXX [P] Performance testing on 3G network (TTI <3s)
-- [ ] TXXX [P] Animation frame rate monitoring (60fps sustained during GSAP animations)
-- [ ] TXXX Verify 0KB JavaScript initial load (Astro Islands architecture)
-
-### Principle II: Quality & Accessibility
-- [ ] TXXX [P] Accessibility validation with Pa11y (WCAG 2.1 AA)
-- [ ] TXXX [P] Keyboard navigation testing
-- [ ] TXXX [P] Screen reader testing
-- [ ] TXXX prefers-reduced-motion implementation verification
-- [ ] TXXX [P] Cross-browser testing (last 2 versions major browsers)
-
-### Principle III: Build & Deployment Optimization
-- [ ] TXXX Build time measurement with Bun (<30s full build target)
-- [ ] TXXX [P] Bundle size analysis (HTML <50KB, CSS <100KB, JS <200KB including GSAP ≤50KB)
-- [ ] TXXX CDN caching strategy verification (GitHub Pages)
-- [ ] TXXX Verify Astro static output to /dist directory
-
-### Principle V: Content & SEO Excellence
-- [ ] TXXX SEO validation (unique meta tags per page)
-- [ ] TXXX [P] Structured data validation (JSON-LD for Person, Portfolio, WebSite)
-- [ ] TXXX [P] Sitemap.xml and robots.txt generation verification
-- [ ] TXXX [P] Open Graph and Twitter Card meta tags validation
-
-### Principle VI: Tooling & Runtime Excellence
-- [ ] TXXX Verify Bun runtime usage (bun install, bun run commands)
-- [ ] TXXX Check Bun version in package.json engines field (>=1.0.0)
-- [ ] TXXX Verify TypeScript with Bun native support (no tsx/ts-node)
-
-### GSAP Animation Standards
-- [ ] TXXX [P] Verify GPU-accelerated properties only (transform, opacity)
-- [ ] TXXX GSAP ScrollTrigger cleanup verification on unmount
-- [ ] TXXX Animation performance monitoring via DevTools
 
 ---
 
@@ -289,3 +246,5 @@ With multiple developers:
 - Commit after each task or logical group
 - Stop at any checkpoint to validate story independently
 - Avoid: vague tasks, same file conflicts, cross-story dependencies that break independence
+
+
