@@ -10,6 +10,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - **Testing**: Bun test runner (built-in, Jest-compatible API)
 - **Animation**: GSAP ≥3.13.0 + Lenis ≥1.0.0
 - **Deployment**: GitHub Pages (automated via GitHub Actions)
+- TypeScript 5.0+ (strict mode, native Bun support) + Astro ≥4.0.0, Biome ≥2.0.0 (linting), GSAP ≥3.13.0 (animations), Lenis ≥1.0.0 (smooth scroll) (002-1506-palette-couleur)
+- N/A (CSS custom properties defined in global stylesheet, no data persistence) (002-1506-palette-couleur)
 
 ## Project Structure
 ```
@@ -98,6 +100,7 @@ bun test --watch         # Run tests in watch mode
 - **Build verification**: Type check + build + optimize + deploy
 
 ## Recent Changes
+- 002-1506-palette-couleur: Added TypeScript 5.0+ (strict mode, native Bun support) + Astro ≥4.0.0, Biome ≥2.0.0 (linting), GSAP ≥3.13.0 (animations), Lenis ≥1.0.0 (smooth scroll)
 - 001-1505-initialise-le: Complete portfolio initialization with Bun + Astro
   - Added TypeScript 5.0+ with strict mode
   - Configured Biome for linting and formatting
