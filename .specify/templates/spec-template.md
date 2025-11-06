@@ -113,3 +113,15 @@
 - **SC-002**: [Measurable metric, e.g., "System handles 1000 concurrent users without degradation"]
 - **SC-003**: [User satisfaction metric, e.g., "90% of users successfully complete primary task on first attempt"]
 - **SC-004**: [Business metric, e.g., "Reduce support tickets related to [X] by 50%"]
+
+### Performance & Quality Criteria (Static Site)
+
+*Remove this section if not applicable to your feature*
+
+- **Performance**: Lighthouse score ≥95, page load <3s on 3G, 60fps animations, TBT <200ms
+- **JavaScript Strategy**: 0KB initial load via Astro Islands (Constitution I)
+- **Accessibility**: WCAG 2.1 AA compliance, keyboard navigation functional, prefers-reduced-motion respected
+- **SEO**: Meta tags complete, structured data present (JSON-LD), sitemap auto-generated via Astro
+- **Bundle Size**: Within constitutional budgets (HTML <50KB, CSS <100KB, JS <200KB total including GSAP ≤50KB)
+- **Build Performance**: <30s full build with Bun + Astro (Constitution III)
+- **Animation Performance**: GSAP using GPU-accelerated properties only (transform, opacity)

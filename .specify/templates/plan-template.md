@@ -17,21 +17,35 @@
   the iteration process.
 -->
 
-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]  
-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]  
-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]  
-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]  
-**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
-**Project Type**: [single/web/mobile - determines source structure]  
-**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]  
-**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
-**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
+**Language/Version**: [e.g., TypeScript, HTML5, CSS3 or NEEDS CLARIFICATION]
+**Runtime**: [Bun >=1.0.0 (REQUIRED per Constitution VI)]
+**Primary Dependencies**: [Astro (static site generator), GSAP (animations), Tailwind CSS or NEEDS CLARIFICATION]
+**Storage**: [Static files, JSON/Markdown content, Astro Content Collections]
+**Testing**: [e.g., Lighthouse CI, Playwright, Bun test, Pa11y or NEEDS CLARIFICATION]
+**Target Platform**: [Static hosting: GitHub Pages (primary), Netlify, Vercel, Cloudflare Pages]
+**Project Type**: [static-site - determines source structure]
+**Framework**: [Astro 4.x with static export mode]
+**Performance Goals**: [Lighthouse ≥95, LCP <2.5s, FID <100ms, CLS <0.1, TTI <3s on 3G, 60fps animations]
+**Constraints**: [0KB JS initial (Astro Islands), <500KB initial load, <50KB HTML/page, <100KB CSS total, <200KB JS total including GSAP]
+**Scale/Scope**: [Portfolio site: ~5-20 pages, project showcases, blog posts]
+**Build Target**: [<30s full build, <5s incremental (Bun + Astro)]
 
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
 [Gates determined based on constitution file]
+
+**Static Site Specific Checks**:
+- [ ] Performance budget impact assessed (page weight, bundle sizes per Constitution)
+- [ ] Lighthouse score targets identified (≥95 for all categories)
+- [ ] Accessibility compliance plan (WCAG 2.1 AA, animation accessibility)
+- [ ] SEO requirements defined (meta tags, structured data, sitemap via Astro)
+- [ ] Build time impact estimated (<30s for full build with Bun + Astro)
+- [ ] CDN and caching strategy confirmed (GitHub Pages CDN)
+- [ ] Bun runtime requirement documented (Constitution VI)
+- [ ] Astro Islands architecture planned (0KB JS initial per Constitution I)
+- [ ] GSAP animation performance verified (60fps, GPU-accelerated per Constitution II)
 
 ## Project Structure
 
@@ -56,7 +70,22 @@ specs/[###-feature]/
 -->
 
 ```text
-# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
+# [REMOVE IF UNUSED] Option 1: Static Site (PORTFOLIO DEFAULT)
+src/
+├── components/       # Reusable UI components
+├── layouts/          # Page layouts and templates
+├── pages/            # Route pages
+├── content/          # Markdown/JSON content
+├── styles/           # Global styles, themes
+└── assets/           # Images, fonts, static files
+
+public/               # Static assets copied as-is
+tests/
+├── e2e/              # End-to-end tests (Playwright)
+├── accessibility/    # Accessibility tests (Pa11y)
+└── performance/      # Lighthouse CI tests
+
+# [REMOVE IF UNUSED] Option 2: Single project (backend/CLI)
 src/
 ├── models/
 ├── services/
@@ -68,7 +97,7 @@ tests/
 ├── integration/
 └── unit/
 
-# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
+# [REMOVE IF UNUSED] Option 3: Web application (when "frontend" + "backend" detected)
 backend/
 ├── src/
 │   ├── models/
@@ -83,7 +112,7 @@ frontend/
 │   └── services/
 └── tests/
 
-# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
+# [REMOVE IF UNUSED] Option 4: Mobile + API (when "iOS/Android" detected)
 api/
 └── [same as backend above]
 
