@@ -1,0 +1,49 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import ContactProtocol from '../components/sections/ContactProtocol.astro';
+
+const title = "Contact - Portfolio";
+const description = "Get in touch for project inquiries, collaborations, or just to say hello";
+---
+
+<PageLayout title={title} description={description}>
+  <main class="contact-page">
+    <ContactProtocol />
+  </main>
+</PageLayout>
+
+<style>
+  .contact-page {
+    min-height: 100vh;
+    padding-top: var(--header-height, 80px);
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+
+  // Animate contact section on load
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const tl = gsap.timeline();
+
+    tl.fromTo('.contact-protocol__header',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
+    )
+    .fromTo('.contact-protocol__output',
+      { opacity: 0, x: -20 },
+      { opacity: 1, x: 0, duration: 0.5, ease: 'power2.out' },
+      '-=0.3'
+    )
+    .fromTo('.contact-protocol__form',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+      '-=0.2'
+    )
+    .fromTo('.contact-protocol__alternatives',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+      '-=0.2'
+    );
+  }
+</script>

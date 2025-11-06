@@ -1,0 +1,397 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+type Props = {
+  project: CollectionEntry<'projects'>;
+};
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+---
+
+<PageLayout title={`${project.data.title} - Portfolio`} description={project.data.description}>
+  <main class="project-detail">
+    <article class="project-detail__container">
+      <header class="project-detail__header">
+        <a href="/projects" class="project-detail__back" aria-label="Back to projects">
+          ← Back to Projects
+        </a>
+
+        <h1 class="project-detail__title">{project.data.title}</h1>
+
+        <p class="project-detail__description">{project.data.description}</p>
+
+        <div class="project-detail__meta">
+          <time class="project-detail__date" datetime={project.data.startDate.toISOString()}>
+            {new Date(project.data.startDate).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
+          </time>
+
+          <div class="project-detail__links">
+            {project.data.githubUrl && (
+              <a
+                href={project.data.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="project-detail__link project-detail__link--github"
+                aria-label="View on GitHub"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+              </a>
+            )}
+            {project.data.externalUrl && (
+              <a
+                href={project.data.externalUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="project-detail__link project-detail__link--live"
+                aria-label="View live project"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+                Live Demo
+              </a>
+            )}
+          </div>
+        </div>
+
+        <div class="project-detail__technologies">
+          {project.data.technologies.map((tech) => (
+            <span class="project-detail__tech-tag">{tech}</span>
+          ))}
+        </div>
+      </header>
+
+      {project.data.image && (
+        <div class="project-detail__image">
+          <img
+            src={project.data.image}
+            alt={`${project.data.title} preview`}
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+      )}
+
+      <div class="project-detail__content">
+        <Content />
+      </div>
+
+      <nav class="project-detail__nav">
+        <a href="/projects" class="project-detail__nav-link">
+          ← All Projects
+        </a>
+      </nav>
+    </article>
+  </main>
+</PageLayout>
+
+<style>
+  .project-detail {
+    min-height: 100vh;
+    padding: calc(var(--header-height, 80px) + var(--spacing-xl)) var(--spacing-base) var(--spacing-xl);
+  }
+
+  .project-detail__container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .project-detail__back {
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    margin-bottom: var(--spacing-large);
+    transition: color var(--transition-color);
+  }
+
+  .project-detail__back:hover {
+    color: var(--color-primary);
+  }
+
+  .project-detail__header {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .project-detail__title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-base);
+    background: linear-gradient(
+      135deg,
+      var(--color-primary) 0%,
+      var(--color-accent) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .project-detail__description {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-base);
+  }
+
+  .project-detail__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-base);
+    margin-bottom: var(--spacing-base);
+    padding-bottom: var(--spacing-base);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .project-detail__date {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+
+  .project-detail__links {
+    display: flex;
+    gap: var(--spacing-small);
+    margin-left: auto;
+  }
+
+  .project-detail__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-medium);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all var(--transition-normal);
+  }
+
+  .project-detail__link--github {
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+
+  .project-detail__link--github:hover {
+    background: var(--color-surface-hover);
+    transform: translateY(-2px);
+  }
+
+  .project-detail__link--live {
+    background: var(--color-primary);
+    color: var(--color-background);
+  }
+
+  .project-detail__link--live:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-2px);
+  }
+
+  .project-detail__technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .project-detail__tech-tag {
+    padding: 0.375rem 0.75rem;
+    background: var(--color-primary-subtle);
+    color: var(--color-primary);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .project-detail__image {
+    margin-bottom: var(--spacing-xl);
+    border-radius: var(--radius-large);
+    overflow: hidden;
+    background: var(--color-surface);
+  }
+
+  .project-detail__image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Content styles */
+  .project-detail__content {
+    color: var(--color-text);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .project-detail__content :global(h2) {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-base);
+    color: var(--color-text);
+  }
+
+  .project-detail__content :global(h3) {
+    font-size: 1.375rem;
+    font-weight: 600;
+    margin-top: var(--spacing-large);
+    margin-bottom: var(--spacing-small);
+    color: var(--color-text);
+  }
+
+  .project-detail__content :global(p) {
+    margin-bottom: var(--spacing-base);
+  }
+
+  .project-detail__content :global(ul),
+  .project-detail__content :global(ol) {
+    margin-bottom: var(--spacing-base);
+    padding-left: var(--spacing-large);
+  }
+
+  .project-detail__content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .project-detail__content :global(code) {
+    background: var(--color-surface);
+    padding: 0.125rem 0.375rem;
+    border-radius: var(--radius-small);
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+
+  .project-detail__content :global(pre) {
+    background: var(--color-surface);
+    padding: var(--spacing-base);
+    border-radius: var(--radius-medium);
+    overflow-x: auto;
+    margin-bottom: var(--spacing-base);
+  }
+
+  .project-detail__content :global(blockquote) {
+    border-left: 3px solid var(--color-primary);
+    padding-left: var(--spacing-base);
+    margin: var(--spacing-base) 0;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  .project-detail__content :global(a) {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color var(--transition-color);
+  }
+
+  .project-detail__content :global(a:hover) {
+    color: var(--color-primary-hover);
+  }
+
+  .project-detail__content :global(strong) {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  /* Navigation */
+  .project-detail__nav {
+    padding-top: var(--spacing-large);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .project-detail__nav-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all var(--transition-normal);
+  }
+
+  .project-detail__nav-link:hover {
+    transform: translateX(-5px);
+  }
+
+  /* Mobile styles */
+  @media (max-width: 768px) {
+    .project-detail {
+      padding: calc(var(--header-height, 80px) + var(--spacing-base)) var(--spacing-small) var(--spacing-large);
+    }
+
+    .project-detail__description {
+      font-size: 1.125rem;
+    }
+
+    .project-detail__meta {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .project-detail__links {
+      margin-left: 0;
+      width: 100%;
+    }
+
+    .project-detail__link {
+      flex: 1;
+      justify-content: center;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .project-detail__back,
+    .project-detail__link,
+    .project-detail__nav-link {
+      transition: none;
+    }
+
+    .project-detail__link:hover,
+    .project-detail__nav-link:hover {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+
+  // Animate page elements on load
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const tl = gsap.timeline();
+
+    tl.fromTo('.project-detail__header',
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
+    )
+    .fromTo('.project-detail__image',
+      { opacity: 0, scale: 0.95 },
+      { opacity: 1, scale: 1, duration: 0.8, ease: 'power2.out' },
+      '-=0.4'
+    )
+    .fromTo('.project-detail__content',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+      '-=0.3'
+    );
+  }
+</script>

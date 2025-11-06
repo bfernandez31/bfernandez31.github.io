@@ -1,128 +1,30 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import PageLayout from "../layouts/PageLayout.astro";
+import AboutIDE from "../components/sections/AboutIDE.astro";
+import { pageMetadata } from "../data/pages";
+
+const metadata = pageMetadata.about;
+
+const biography = `
+I'm a passionate full stack developer with a focus on creating exceptional web experiences.
+With expertise in modern JavaScript frameworks, performance optimization, and accessible design,
+I build applications that are both beautiful and functional. I believe in writing clean,
+maintainable code and continuously learning new technologies to stay at the forefront of web development.
+`.trim();
+
+const highlights = [
+	"5+ years of experience in web development",
+	"Expert in TypeScript, React, and Node.js",
+	"Strong advocate for accessibility and performance",
+	"Contributed to open-source projects",
+	"Passionate about clean code and best practices"
+];
 ---
 
-<BaseLayout title="About - Portfolio" description="Learn more about this portfolio project built with Bun and Astro">
-  <main class="about">
-    <div class="about__container">
-      <h1 class="about__title">About This Project</h1>
-
-      <section class="about__section">
-        <h2>Built With Modern Tools</h2>
-        <p>
-          This portfolio is built using cutting-edge web development tools that prioritize performance,
-          developer experience, and maintainability.
-        </p>
-
-        <ul class="about__tech-list">
-          <li><strong>Bun</strong> - Ultra-fast JavaScript runtime and package manager</li>
-          <li><strong>Astro</strong> - Modern static site generator with 0KB JavaScript default</li>
-          <li><strong>TypeScript</strong> - Type-safe development with strict mode</li>
-          <li><strong>Biome</strong> - Lightning-fast linting and formatting</li>
-          <li><strong>GSAP</strong> - Professional-grade animation library</li>
-          <li><strong>Lenis</strong> - Smooth scrolling for enhanced UX</li>
-        </ul>
-      </section>
-
-      <section class="about__section">
-        <h2>Performance First</h2>
-        <p>
-          This site is optimized for performance with:
-        </p>
-        <ul>
-          <li>Lighthouse Performance score ≥95</li>
-          <li>Core Web Vitals targets met</li>
-          <li>0KB JavaScript initial load (Astro Islands architecture)</li>
-          <li>Sub-3-second Time to Interactive on 3G networks</li>
-          <li>60fps sustained animations</li>
-        </ul>
-      </section>
-
-      <section class="about__section">
-        <h2>Open Source</h2>
-        <p>
-          This project demonstrates best practices for modern web development and is available
-          as a reference for building fast, accessible, and maintainable static sites.
-        </p>
-      </section>
-    </div>
-  </main>
-</BaseLayout>
-
-<style>
-  .about {
-    min-height: calc(100vh - 4rem);
-    padding: 3rem 2rem;
-  }
-
-  .about__container {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .about__title {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 2rem;
-    color: var(--color-text);
-  }
-
-  .about__section {
-    margin-bottom: 3rem;
-  }
-
-  .about__section h2 {
-    font-size: 1.75rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: var(--color-text);
-  }
-
-  .about__section p {
-    font-size: 1.125rem;
-    line-height: 1.75;
-    color: var(--color-text-secondary);
-    margin-bottom: 1rem;
-  }
-
-  .about__section ul {
-    list-style: disc;
-    padding-left: 2rem;
-    color: var(--color-text-secondary);
-  }
-
-  .about__section li {
-    font-size: 1.125rem;
-    line-height: 1.75;
-    margin-bottom: 0.5rem;
-  }
-
-  .about__tech-list {
-    margin-top: 1rem;
-  }
-
-  .about__tech-list strong {
-    color: var(--color-primary);
-    font-weight: 600;
-  }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    .about {
-      padding: 2rem 1rem;
-    }
-
-    .about__title {
-      font-size: 2rem;
-    }
-
-    .about__section h2 {
-      font-size: 1.5rem;
-    }
-
-    .about__section p,
-    .about__section li {
-      font-size: 1rem;
-    }
-  }
-</style>
+<PageLayout
+	title={metadata.title}
+	description={metadata.description}
+	ogImage={metadata.ogImage}
+>
+	<AboutIDE biography={biography} highlights={highlights} />
+</PageLayout>

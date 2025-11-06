@@ -1,0 +1,652 @@
+---
+/**
+ * ContactProtocol Component
+ * Feature: 003-1507-architecture-globale
+ *
+ * Terminal/protocol-themed contact form with command-line aesthetics
+ */
+---
+
+<section class="contact-protocol">
+  <div class="contact-protocol__container">
+    <header class="contact-protocol__header">
+      <div class="contact-protocol__prompt">
+        <span class="contact-protocol__user">guest@portfolio</span>
+        <span class="contact-protocol__separator">:</span>
+        <span class="contact-protocol__path">~/contact</span>
+        <span class="contact-protocol__symbol">$</span>
+      </div>
+      <h2 class="contact-protocol__title">./initiate_contact.sh</h2>
+    </header>
+
+    <div class="contact-protocol__output">
+      <p class="contact-protocol__line">
+        <span class="contact-protocol__timestamp">[{new Date().toISOString()}]</span>
+        <span class="contact-protocol__status">INFO</span>
+        Connection protocol initiated...
+      </p>
+      <p class="contact-protocol__line">
+        <span class="contact-protocol__status">READY</span>
+        Awaiting transmission parameters
+      </p>
+    </div>
+
+    <form class="contact-protocol__form" id="contact-form" novalidate>
+      <!-- Honeypot for spam protection -->
+      <input
+        type="text"
+        name="bot-field"
+        class="contact-protocol__honeypot"
+        tabindex="-1"
+        aria-hidden="true"
+        autocomplete="off"
+      />
+
+      <div class="contact-protocol__field-group">
+        <label for="name" class="contact-protocol__label">
+          <span class="contact-protocol__label-prefix">--name</span>
+          <span class="contact-protocol__label-text">Sender identification</span>
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          class="contact-protocol__input"
+          required
+          autocomplete="name"
+          placeholder="John Doe"
+          aria-required="true"
+        />
+        <div class="contact-protocol__error" data-field="name" role="alert"></div>
+      </div>
+
+      <div class="contact-protocol__field-group">
+        <label for="email" class="contact-protocol__label">
+          <span class="contact-protocol__label-prefix">--email</span>
+          <span class="contact-protocol__label-text">Return address</span>
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="contact-protocol__input"
+          required
+          autocomplete="email"
+          placeholder="john@example.com"
+          aria-required="true"
+        />
+        <div class="contact-protocol__error" data-field="email" role="alert"></div>
+      </div>
+
+      <div class="contact-protocol__field-group">
+        <label for="subject" class="contact-protocol__label">
+          <span class="contact-protocol__label-prefix">--subject</span>
+          <span class="contact-protocol__label-text">Transmission topic</span>
+        </label>
+        <input
+          type="text"
+          id="subject"
+          name="subject"
+          class="contact-protocol__input"
+          placeholder="Project inquiry"
+          autocomplete="off"
+        />
+        <div class="contact-protocol__error" data-field="subject" role="alert"></div>
+      </div>
+
+      <div class="contact-protocol__field-group">
+        <label for="message" class="contact-protocol__label">
+          <span class="contact-protocol__label-prefix">--message</span>
+          <span class="contact-protocol__label-text">Payload data</span>
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          class="contact-protocol__textarea"
+          required
+          rows="6"
+          placeholder="Enter your message here..."
+          aria-required="true"
+        ></textarea>
+        <div class="contact-protocol__error" data-field="message" role="alert"></div>
+      </div>
+
+      <div class="contact-protocol__actions">
+        <button
+          type="submit"
+          class="contact-protocol__submit"
+          aria-label="Send message"
+        >
+          <span class="contact-protocol__submit-text">Execute transmission</span>
+          <span class="contact-protocol__submit-icon">→</span>
+        </button>
+      </div>
+
+      <div class="contact-protocol__response" role="status" aria-live="polite"></div>
+    </form>
+
+    <aside class="contact-protocol__alternatives">
+      <h3 class="contact-protocol__alt-title">
+        <span class="contact-protocol__prompt-symbol">$</span>
+        Alternative protocols:
+      </h3>
+      <ul class="contact-protocol__alt-list">
+        <li class="contact-protocol__alt-item">
+          <a
+            href="mailto:hello@example.com"
+            class="contact-protocol__alt-link"
+            aria-label="Send email"
+          >
+            <span class="contact-protocol__alt-prefix">mailto:</span>
+            <span class="contact-protocol__alt-value">hello@example.com</span>
+          </a>
+        </li>
+        <li class="contact-protocol__alt-item">
+          <a
+            href="https://github.com/username"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contact-protocol__alt-link"
+            aria-label="Visit GitHub profile"
+          >
+            <span class="contact-protocol__alt-prefix">github://</span>
+            <span class="contact-protocol__alt-value">@username</span>
+          </a>
+        </li>
+        <li class="contact-protocol__alt-item">
+          <a
+            href="https://linkedin.com/in/username"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contact-protocol__alt-link"
+            aria-label="Visit LinkedIn profile"
+          >
+            <span class="contact-protocol__alt-prefix">linkedin://</span>
+            <span class="contact-protocol__alt-value">/in/username</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .contact-protocol {
+    padding: var(--spacing-xl) var(--spacing-base);
+    min-height: 100vh;
+    background: var(--color-background);
+    font-family: var(--font-mono, 'Monaco', 'Courier New', monospace);
+  }
+
+  .contact-protocol__container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* Terminal Header */
+  .contact-protocol__header {
+    margin-bottom: var(--spacing-large);
+  }
+
+  .contact-protocol__prompt {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-protocol__user {
+    color: var(--color-accent);
+  }
+
+  .contact-protocol__separator {
+    color: var(--color-text-muted);
+  }
+
+  .contact-protocol__path {
+    color: var(--color-primary);
+  }
+
+  .contact-protocol__symbol {
+    color: var(--color-text);
+    margin-left: 0.5rem;
+  }
+
+  .contact-protocol__title {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: var(--color-secondary);
+    font-weight: 400;
+  }
+
+  /* Terminal Output */
+  .contact-protocol__output {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-small);
+    padding: var(--spacing-base);
+    margin-bottom: var(--spacing-large);
+    font-size: 0.875rem;
+  }
+
+  .contact-protocol__line {
+    margin-bottom: 0.5rem;
+    color: var(--color-text-muted);
+  }
+
+  .contact-protocol__line:last-child {
+    margin-bottom: 0;
+  }
+
+  .contact-protocol__timestamp {
+    color: var(--color-text-muted);
+    opacity: 0.6;
+    margin-right: 0.5rem;
+  }
+
+  .contact-protocol__status {
+    color: var(--color-accent);
+    margin-right: 0.5rem;
+    font-weight: 600;
+  }
+
+  /* Form Styles */
+  .contact-protocol__form {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+    padding: var(--spacing-large);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .contact-protocol__honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+  }
+
+  .contact-protocol__field-group {
+    margin-bottom: var(--spacing-base);
+  }
+
+  .contact-protocol__label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .contact-protocol__label-prefix {
+    color: var(--color-primary);
+    margin-right: 0.5rem;
+  }
+
+  .contact-protocol__label-text {
+    color: var(--color-text-muted);
+  }
+
+  .contact-protocol__input,
+  .contact-protocol__textarea {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-small);
+    color: var(--color-text);
+    font-family: var(--font-mono, 'Monaco', 'Courier New', monospace);
+    font-size: 0.95rem;
+    transition: all var(--transition-normal);
+  }
+
+  .contact-protocol__input:focus,
+  .contact-protocol__textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-subtle);
+  }
+
+  .contact-protocol__textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .contact-protocol__error {
+    display: none;
+    margin-top: 0.5rem;
+    color: var(--color-error);
+    font-size: 0.875rem;
+  }
+
+  .contact-protocol__error.visible {
+    display: block;
+  }
+
+  .contact-protocol__field-group.has-error .contact-protocol__input,
+  .contact-protocol__field-group.has-error .contact-protocol__textarea {
+    border-color: var(--color-error);
+  }
+
+  /* Submit Button */
+  .contact-protocol__actions {
+    margin-top: var(--spacing-large);
+  }
+
+  .contact-protocol__submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.5rem;
+    background: var(--color-primary);
+    color: var(--color-background);
+    border: none;
+    border-radius: var(--radius-medium);
+    font-family: var(--font-mono, 'Monaco', 'Courier New', monospace);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+  }
+
+  .contact-protocol__submit:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-2px);
+  }
+
+  .contact-protocol__submit:active {
+    transform: translateY(0);
+  }
+
+  .contact-protocol__submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .contact-protocol__submit-icon {
+    transition: transform var(--transition-normal);
+  }
+
+  .contact-protocol__submit:hover .contact-protocol__submit-icon {
+    transform: translateX(4px);
+  }
+
+  /* Loading State */
+  .contact-protocol__submit.loading::after {
+    content: '';
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    margin-left: 0.5rem;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Response Messages */
+  .contact-protocol__response {
+    margin-top: var(--spacing-base);
+    padding: var(--spacing-base);
+    border-radius: var(--radius-small);
+    font-size: 0.875rem;
+    display: none;
+  }
+
+  .contact-protocol__response.visible {
+    display: block;
+  }
+
+  .contact-protocol__response.success {
+    background: color-mix(in srgb, var(--color-success) 10%, transparent);
+    border: 1px solid var(--color-success);
+    color: var(--color-success);
+  }
+
+  .contact-protocol__response.error {
+    background: color-mix(in srgb, var(--color-error) 10%, transparent);
+    border: 1px solid var(--color-error);
+    color: var(--color-error);
+  }
+
+  /* Alternative Contact Methods */
+  .contact-protocol__alternatives {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+    padding: var(--spacing-large);
+  }
+
+  .contact-protocol__alt-title {
+    font-size: 1rem;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-base);
+    font-weight: 400;
+  }
+
+  .contact-protocol__prompt-symbol {
+    color: var(--color-primary);
+    margin-right: 0.5rem;
+  }
+
+  .contact-protocol__alt-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .contact-protocol__alt-item {
+    margin-bottom: 0.75rem;
+  }
+
+  .contact-protocol__alt-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .contact-protocol__alt-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: all var(--transition-color);
+  }
+
+  .contact-protocol__alt-link:hover {
+    color: var(--color-primary);
+  }
+
+  .contact-protocol__alt-prefix {
+    color: var(--color-accent);
+    margin-right: 0.5rem;
+  }
+
+  .contact-protocol__alt-value {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* Mobile Styles */
+  @media (max-width: 768px) {
+    .contact-protocol {
+      padding: var(--spacing-large) var(--spacing-small);
+    }
+
+    .contact-protocol__form {
+      padding: var(--spacing-base);
+    }
+
+    .contact-protocol__submit {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .contact-protocol__submit,
+    .contact-protocol__submit-icon,
+    .contact-protocol__input,
+    .contact-protocol__textarea {
+      transition: none;
+    }
+
+    .contact-protocol__submit:hover {
+      transform: none;
+    }
+
+    .contact-protocol__submit:hover .contact-protocol__submit-icon {
+      transform: none;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  }
+</style>
+
+<script>
+  // Form validation and submission
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const submitBtn = form?.querySelector('.contact-protocol__submit') as HTMLButtonElement;
+  const responseEl = form?.querySelector('.contact-protocol__response') as HTMLDivElement;
+
+  if (form && submitBtn && responseEl) {
+    // Validation schema
+    const validators = {
+      name: (value: string) => {
+        if (!value.trim()) return 'Name is required';
+        if (value.trim().length < 2) return 'Name must be at least 2 characters';
+        return null;
+      },
+      email: (value: string) => {
+        if (!value.trim()) return 'Email is required';
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) return 'Please enter a valid email address';
+        return null;
+      },
+      message: (value: string) => {
+        if (!value.trim()) return 'Message is required';
+        if (value.trim().length < 10) return 'Message must be at least 10 characters';
+        return null;
+      }
+    };
+
+    // Show error message
+    const showError = (field: string, message: string) => {
+      const fieldGroup = form.querySelector(`#${field}`)?.closest('.contact-protocol__field-group');
+      const errorEl = fieldGroup?.querySelector(`[data-field="${field}"]`) as HTMLDivElement;
+
+      if (fieldGroup && errorEl) {
+        fieldGroup.classList.add('has-error');
+        errorEl.textContent = `Error: ${message}`;
+        errorEl.classList.add('visible');
+      }
+    };
+
+    // Clear error message
+    const clearError = (field: string) => {
+      const fieldGroup = form.querySelector(`#${field}`)?.closest('.contact-protocol__field-group');
+      const errorEl = fieldGroup?.querySelector(`[data-field="${field}"]`) as HTMLDivElement;
+
+      if (fieldGroup && errorEl) {
+        fieldGroup.classList.remove('has-error');
+        errorEl.classList.remove('visible');
+      }
+    };
+
+    // Validate field
+    const validateField = (field: keyof typeof validators, value: string): boolean => {
+      const error = validators[field](value);
+
+      if (error) {
+        showError(field, error);
+        return false;
+      }
+
+      clearError(field);
+      return true;
+    };
+
+    // Real-time validation
+    ['name', 'email', 'message'].forEach(field => {
+      const input = form.querySelector(`#${field}`) as HTMLInputElement | HTMLTextAreaElement;
+      if (input) {
+        input.addEventListener('blur', () => {
+          validateField(field as keyof typeof validators, input.value);
+        });
+      }
+    });
+
+    // Form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Clear previous response
+      responseEl.className = 'contact-protocol__response';
+      responseEl.textContent = '';
+
+      // Validate all fields
+      const formData = new FormData(form);
+      const name = formData.get('name') as string;
+      const email = formData.get('email') as string;
+      const message = formData.get('message') as string;
+      const honeypot = formData.get('bot-field') as string;
+
+      // Check honeypot
+      if (honeypot) {
+        return; // Silent rejection for spam bots
+      }
+
+      // Validate
+      const isNameValid = validateField('name', name);
+      const isEmailValid = validateField('email', email);
+      const isMessageValid = validateField('message', message);
+
+      if (!isNameValid || !isEmailValid || !isMessageValid) {
+        responseEl.textContent = '[ERROR 400] Validation failed. Please check the form fields.';
+        responseEl.classList.add('visible', 'error');
+        return;
+      }
+
+      // Show loading state
+      submitBtn.disabled = true;
+      submitBtn.classList.add('loading');
+      submitBtn.querySelector('.contact-protocol__submit-text')!.textContent = 'Transmitting...';
+
+      try {
+        // TODO: Replace with actual endpoint (Formspree, Netlify Forms, etc.)
+        // For now, simulate submission
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        // Success
+        responseEl.textContent = '[200 OK] Message transmitted successfully. Connection closed.';
+        responseEl.classList.add('visible', 'success');
+        form.reset();
+
+        // Reset button after delay
+        setTimeout(() => {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('loading');
+          submitBtn.querySelector('.contact-protocol__submit-text')!.textContent = 'Execute transmission';
+        }, 2000);
+
+      } catch (error) {
+        // Error
+        responseEl.textContent = '[500 ERROR] Transmission failed. Please try alternative protocols below.';
+        responseEl.classList.add('visible', 'error');
+
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+        submitBtn.querySelector('.contact-protocol__submit-text')!.textContent = 'Execute transmission';
+      }
+    });
+  }
+
+  // Cleanup on navigation
+  document.addEventListener('astro:before-swap', () => {
+    if (form) {
+      form.reset();
+    }
+  });
+</script>

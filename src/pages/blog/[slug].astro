@@ -1,0 +1,314 @@
+---
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import PageLayout from "../../layouts/PageLayout.astro";
+
+export async function getStaticPaths() {
+	const posts = await getCollection("blog");
+	return posts.map((post) => ({
+		params: { slug: post.slug },
+		props: { post },
+	}));
+}
+
+interface Props {
+	post: CollectionEntry<"blog">;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+// Format date
+function formatDate(date: Date): string {
+	return new Intl.DateTimeFormat("en-US", {
+		year: "numeric",
+		month: "long",
+		day: "numeric",
+	}).format(date);
+}
+
+// Calculate reading time (rough estimate: 200 words per minute)
+function calculateReadingTime(content: string): number {
+	const words = content.trim().split(/\s+/).length;
+	return Math.ceil(words / 200);
+}
+
+const readingTime = calculateReadingTime(post.body);
+---
+
+<PageLayout
+	title={`${post.data.title} - Blog`}
+	description={post.data.description}
+>
+	<article class="blog-post">
+		<div class="blog-post__container">
+			<header class="blog-post__header">
+				<!-- Commit-style metadata -->
+				<div class="blog-post__commit">
+					<span class="blog-post__hash">{post.data.commitHash}</span>
+					<span class="blog-post__author">{post.data.author}</span>
+					<span class="blog-post__date">{formatDate(post.data.publishDate)}</span>
+				</div>
+
+				<h1 class="blog-post__title">{post.data.title}</h1>
+				<p class="blog-post__description">{post.data.description}</p>
+
+				<div class="blog-post__meta">
+					<span class="blog-post__reading-time">
+						{readingTime} min read
+					</span>
+					<div class="blog-post__tags">
+						{
+							post.data.tags.map((tag) => (
+								<span class="blog-post__tag">{tag}</span>
+							))
+						}
+					</div>
+				</div>
+			</header>
+
+			<div class="blog-post__content">
+				<Content />
+			</div>
+
+			<footer class="blog-post__footer">
+				<a href="/blog" class="blog-post__back">
+					← Back to all posts
+				</a>
+			</footer>
+		</div>
+	</article>
+</PageLayout>
+
+<style>
+	.blog-post {
+		padding: 4rem 2rem;
+		min-height: 100vh;
+	}
+
+	.blog-post__container {
+		max-width: 800px;
+		margin: 0 auto;
+	}
+
+	.blog-post__header {
+		margin-bottom: 3rem;
+		padding-bottom: 2rem;
+		border-bottom: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+	}
+
+	.blog-post__commit {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin-bottom: 1.5rem;
+		font-family: "Fira Code", "Courier New", monospace;
+		font-size: 0.875rem;
+		color: var(--color-text-muted, rgba(205, 214, 244, 0.6));
+	}
+
+	.blog-post__hash {
+		color: var(--color-accent, #b4befe);
+		font-weight: 600;
+	}
+
+	.blog-post__author {
+		font-weight: 600;
+	}
+
+	.blog-post__title {
+		font-size: clamp(2rem, 5vw, 3rem);
+		font-weight: 700;
+		color: var(--color-text, #cdd6f4);
+		margin-bottom: 1rem;
+		line-height: 1.2;
+		font-family: "Fira Code", "Courier New", monospace;
+	}
+
+	.blog-post__description {
+		font-size: 1.25rem;
+		line-height: 1.6;
+		color: var(--color-text-muted, rgba(205, 214, 244, 0.8));
+		margin-bottom: 1.5rem;
+	}
+
+	.blog-post__meta {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+
+	.blog-post__reading-time {
+		font-size: 0.875rem;
+		color: var(--color-text-muted, rgba(205, 214, 244, 0.6));
+		font-family: "Fira Code", "Courier New", monospace;
+	}
+
+	.blog-post__tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.blog-post__tag {
+		padding: 0.25rem 0.75rem;
+		background: var(--color-surface-raised, rgba(17, 17, 27, 0.6));
+		border-radius: 4px;
+		font-size: 0.75rem;
+		color: var(--color-accent, #b4befe);
+		font-family: "Fira Code", "Courier New", monospace;
+	}
+
+	.blog-post__content {
+		line-height: 1.8;
+		color: var(--color-text, #cdd6f4);
+	}
+
+	/* Typography for markdown content */
+	.blog-post__content :global(h1),
+	.blog-post__content :global(h2),
+	.blog-post__content :global(h3),
+	.blog-post__content :global(h4),
+	.blog-post__content :global(h5),
+	.blog-post__content :global(h6) {
+		margin-top: 2.5rem;
+		margin-bottom: 1rem;
+		font-weight: 600;
+		line-height: 1.3;
+		color: var(--color-text, #cdd6f4);
+	}
+
+	.blog-post__content :global(h2) {
+		font-size: 2rem;
+		border-bottom: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+		padding-bottom: 0.5rem;
+	}
+
+	.blog-post__content :global(h3) {
+		font-size: 1.5rem;
+	}
+
+	.blog-post__content :global(p) {
+		margin-bottom: 1.5rem;
+	}
+
+	.blog-post__content :global(a) {
+		color: var(--color-primary, #cba6f7);
+		text-decoration: underline;
+		transition: color var(--transition-color);
+	}
+
+	@media (hover: hover) {
+		.blog-post__content :global(a:hover) {
+			color: var(--color-secondary, #f5c2e7);
+		}
+	}
+
+	.blog-post__content :global(code) {
+		font-family: "Fira Code", "Courier New", monospace;
+		background: var(--color-surface-raised, rgba(17, 17, 27, 0.8));
+		padding: 0.125rem 0.375rem;
+		border-radius: 4px;
+		font-size: 0.875em;
+		color: var(--color-secondary, #f5c2e7);
+	}
+
+	.blog-post__content :global(pre) {
+		background: var(--color-surface-raised, rgba(17, 17, 27, 0.8));
+		padding: 1.5rem;
+		border-radius: 8px;
+		overflow-x: auto;
+		margin-bottom: 1.5rem;
+		border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+	}
+
+	.blog-post__content :global(pre code) {
+		background: none;
+		padding: 0;
+		color: var(--color-text, #cdd6f4);
+	}
+
+	.blog-post__content :global(ul),
+	.blog-post__content :global(ol) {
+		margin-bottom: 1.5rem;
+		padding-left: 2rem;
+	}
+
+	.blog-post__content :global(li) {
+		margin-bottom: 0.5rem;
+	}
+
+	.blog-post__content :global(blockquote) {
+		border-left: 4px solid var(--color-primary, #cba6f7);
+		padding-left: 1.5rem;
+		margin: 1.5rem 0;
+		font-style: italic;
+		color: var(--color-text-muted, rgba(205, 214, 244, 0.8));
+	}
+
+	.blog-post__footer {
+		margin-top: 4rem;
+		padding-top: 2rem;
+		border-top: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+	}
+
+	.blog-post__back {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--color-primary, #cba6f7);
+		text-decoration: none;
+		font-weight: 600;
+		transition: color var(--transition-color);
+		font-family: "Fira Code", "Courier New", monospace;
+	}
+
+	@media (hover: hover) {
+		.blog-post__back:hover {
+			color: var(--color-secondary, #f5c2e7);
+		}
+	}
+
+	.blog-post__back:focus-visible {
+		outline: 2px solid var(--color-primary, #cba6f7);
+		outline-offset: 4px;
+		border-radius: 4px;
+	}
+
+	/* Mobile adjustments */
+	@media (max-width: 768px) {
+		.blog-post {
+			padding: 2rem 1rem;
+		}
+
+		.blog-post__commit {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.5rem;
+		}
+
+		.blog-post__title {
+			font-size: 1.75rem;
+		}
+
+		.blog-post__description {
+			font-size: 1.125rem;
+		}
+
+		.blog-post__meta {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.blog-post__content :global(h2) {
+			font-size: 1.5rem;
+		}
+
+		.blog-post__content :global(pre) {
+			padding: 1rem;
+			font-size: 0.875rem;
+		}
+	}
+</style>

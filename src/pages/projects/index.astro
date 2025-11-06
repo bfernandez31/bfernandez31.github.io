@@ -1,0 +1,106 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import ProjectsHexGrid from '../../components/sections/ProjectsHexGrid.astro';
+
+const title = "Projects - Portfolio";
+const description = "Explore my portfolio of web development projects, from open-source libraries to enterprise applications";
+---
+
+<PageLayout title={title} description={description}>
+  <main class="projects-page">
+    <div class="projects-page__hero">
+      <h1 class="projects-page__title">
+        <span class="projects-page__title-main">Projects</span>
+        <span class="projects-page__title-sub">Crafting Digital Experiences</span>
+      </h1>
+      <p class="projects-page__intro">
+        A collection of my work spanning web applications, open-source libraries, and experimental projects.
+        Each project represents a unique challenge and learning opportunity.
+      </p>
+    </div>
+
+    <ProjectsHexGrid limit={12} />
+  </main>
+</PageLayout>
+
+<style>
+  .projects-page {
+    min-height: 100vh;
+    padding-top: var(--header-height, 80px);
+  }
+
+  .projects-page__hero {
+    text-align: center;
+    padding: var(--spacing-xl) var(--spacing-base);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .projects-page__title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: var(--spacing-large);
+  }
+
+  .projects-page__title-main {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    background: linear-gradient(
+      135deg,
+      var(--color-primary) 0%,
+      var(--color-secondary) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .projects-page__title-sub {
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    color: var(--color-text-muted);
+    font-weight: 300;
+  }
+
+  .projects-page__intro {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .projects-page__hero {
+      padding: var(--spacing-large) var(--spacing-small);
+    }
+
+    .projects-page__intro {
+      font-size: 1rem;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+
+  // Animate hero section on load
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const tl = gsap.timeline();
+
+    tl.fromTo('.projects-page__title-main',
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
+    )
+    .fromTo('.projects-page__title-sub',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+      '-=0.4'
+    )
+    .fromTo('.projects-page__intro',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+      '-=0.3'
+    );
+  }
+</script>
