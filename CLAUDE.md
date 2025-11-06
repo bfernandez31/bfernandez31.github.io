@@ -12,6 +12,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - **Deployment**: GitHub Pages (automated via GitHub Actions)
 - TypeScript 5.0+ (strict mode, native Bun support) + Astro ≥4.0.0, Biome ≥2.0.0 (linting), GSAP ≥3.13.0 (animations), Lenis ≥1.0.0 (smooth scroll) (002-1506-palette-couleur)
 - N/A (CSS custom properties defined in global stylesheet, no data persistence) (002-1506-palette-couleur)
+- TypeScript 5.0+ (strict mode) with Bun ≥1.0.0 runtime (003-1507-architecture-globale)
+- Static content (Markdown files via Astro Content Collections for blog/projects, JSON for structured data like skills) (003-1507-architecture-globale)
 
 ## Project Structure
 ```
@@ -136,6 +138,7 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
 - Quickstart: `specs/002-1506-palette-couleur/quickstart.md`
 
 ## Recent Changes
+- 003-1507-architecture-globale: Added TypeScript 5.0+ (strict mode) with Bun ≥1.0.0 runtime
 - 002-1506-palette-couleur: Implemented site-wide color palette
   - Created comprehensive Catppuccin Mocha color token system
   - Updated all components to use semantic color tokens
