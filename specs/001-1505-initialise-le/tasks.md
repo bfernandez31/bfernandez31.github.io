@@ -23,17 +23,17 @@
 
 **Purpose**: Project initialization and basic structure using Bun + Astro
 
-- [ ] T001 Verify Bun installation (≥1.0.0) and display version
-- [ ] T002 Initialize Astro project using `bun create astro@latest` with Empty template, TypeScript strict mode
-- [ ] T003 Add required dependencies: `bun add astro gsap @studio-freight/lenis`
-- [ ] T004 [P] Add dev dependencies: `bun add -d @biomejs/biome @astrojs/check typescript`
-- [ ] T005 [P] Update package.json with engines field: `"engines": { "bun": ">=1.0.0" }`
-- [ ] T006 [P] Update package.json scripts section with all required commands (dev, build, preview, lint, format, test, astro)
-- [ ] T007 Initialize Biome configuration using `bunx @biomejs/biome init`
-- [ ] T008 [P] Create astro.config.mjs with static output, site URL, base path, and compressHTML settings
-- [ ] T009 [P] Update tsconfig.json to extend Astro strict config and enable strict mode
-- [ ] T010 [P] Create directory structure: src/components/{layout,ui,islands}, src/layouts, src/styles, src/content, public/assets, tests/{unit,integration}
-- [ ] T011 [P] Create .github/workflows directory for GitHub Actions
+- [X] T001 Verify Bun installation (≥1.0.0) and display version
+- [X] T002 Initialize Astro project using `bun create astro@latest` with Empty template, TypeScript strict mode
+- [X] T003 Add required dependencies: `bun add astro gsap @studio-freight/lenis`
+- [X] T004 [P] Add dev dependencies: `bun add -d @biomejs/biome @astrojs/check typescript`
+- [X] T005 [P] Update package.json with engines field: `"engines": { "bun": ">=1.0.0" }`
+- [X] T006 [P] Update package.json scripts section with all required commands (dev, build, preview, lint, format, test, astro)
+- [X] T007 Initialize Biome configuration using `bunx @biomejs/biome init`
+- [X] T008 [P] Create astro.config.mjs with static output, site URL, base path, and compressHTML settings
+- [X] T009 [P] Update tsconfig.json to extend Astro strict config and enable strict mode
+- [X] T010 [P] Create directory structure: src/components/{layout,ui,islands}, src/layouts, src/styles, src/content, public/assets, tests/{unit,integration}
+- [X] T011 [P] Create .github/workflows directory for GitHub Actions
 
 ---
 
@@ -43,12 +43,12 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T012 [P] Create src/layouts/BaseLayout.astro with HTML5 structure, meta tags, and slot for content
-- [ ] T013 [P] Create src/styles/global.css with CSS reset and base styles
-- [ ] T014 [P] Create public/robots.txt with sitemap reference and basic directives
-- [ ] T015 [P] Create public/favicon.svg with simple SVG icon
-- [ ] T016 [P] Update .gitignore to include node_modules/, dist/, .astro/, .env*, editor files, OS files
-- [ ] T017 Create .github/workflows/deploy.yml with GitHub Pages deployment workflow for Bun + Astro
+- [X] T012 [P] Create src/layouts/BaseLayout.astro with HTML5 structure, meta tags, and slot for content
+- [X] T013 [P] Create src/styles/global.css with CSS reset and base styles
+- [X] T014 [P] Create public/robots.txt with sitemap reference and basic directives
+- [X] T015 [P] Create public/favicon.svg with simple SVG icon
+- [X] T016 [P] Update .gitignore to include node_modules/, dist/, .astro/, .env*, editor files, OS files
+- [X] T017 Create .github/workflows/deploy.yml with GitHub Pages deployment workflow for Bun + Astro
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -68,14 +68,14 @@
 
 ### Implementation for User Story 1
 
-- [ ] T018 [P] [US1] Create src/pages/index.astro homepage with BaseLayout import and welcome content
-- [ ] T019 [P] [US1] Update BaseLayout.astro to import global.css in head section
-- [ ] T020 [US1] Validate package.json structure against contracts/package-json.schema.json
-- [ ] T021 [US1] Validate astro.config.mjs structure against contracts/astro-config.schema.ts
-- [ ] T022 [US1] Run `bun install` and verify all dependencies install without errors
-- [ ] T023 [US1] Run `bun run dev` and verify development server starts on port 4321
-- [ ] T024 [US1] Verify homepage loads at http://localhost:4321 with welcome content
-- [ ] T025 [US1] Create README.md with project description, setup instructions, and command reference
+- [X] T018 [P] [US1] Create src/pages/index.astro homepage with BaseLayout import and welcome content
+- [X] T019 [P] [US1] Update BaseLayout.astro to import global.css in head section
+- [X] T020 [US1] Validate package.json structure against contracts/package-json.schema.json
+- [X] T021 [US1] Validate astro.config.mjs structure against contracts/astro-config.schema.ts
+- [X] T022 [US1] Run `bun install` and verify all dependencies install without errors
+- [X] T023 [US1] Run `bun run dev` and verify development server starts on port 4321
+- [X] T024 [US1] Verify homepage loads at http://localhost:4321 with welcome content
+- [X] T025 [US1] Create README.md with project description, setup instructions, and command reference
 
 **Checkpoint**: At this point, User Story 1 should be fully functional - project initializes successfully with working dev server
 
@@ -95,14 +95,14 @@
 
 ### Implementation for User Story 2
 
-- [ ] T026 [P] [US2] Test hot module replacement by modifying src/pages/index.astro and verifying browser auto-refresh
-- [ ] T027 [P] [US2] Run `bun run lint` and verify Biome linting executes without errors
-- [ ] T028 [P] [US2] Run `bun run format` and verify Biome formatting executes without errors
-- [ ] T029 [US2] Run `bun run build` (includes astro check) and verify TypeScript type checking passes
-- [ ] T030 [US2] Verify build output in dist/ directory with optimized HTML, CSS, and assets
-- [ ] T031 [US2] Run `bun run preview` and verify production build serves correctly
-- [ ] T032 [US2] Validate build performance: build time <30s for initial build
-- [ ] T033 [US2] Validate page performance: HTML <50KB, CSS <100KB, total page load <500KB (uncompressed)
+- [X] T026 [P] [US2] Test hot module replacement by modifying src/pages/index.astro and verifying browser auto-refresh
+- [X] T027 [P] [US2] Run `bun run lint` and verify Biome linting executes without errors
+- [X] T028 [P] [US2] Run `bun run format` and verify Biome formatting executes without errors
+- [X] T029 [US2] Run `bun run build` (includes astro check) and verify TypeScript type checking passes
+- [X] T030 [US2] Verify build output in dist/ directory with optimized HTML, CSS, and assets
+- [X] T031 [US2] Run `bun run preview` and verify production build serves correctly
+- [X] T032 [US2] Validate build performance: build time <30s for initial build
+- [X] T033 [US2] Validate page performance: HTML <50KB, CSS <100KB, total page load <500KB (uncompressed)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work - project initializes and all development commands execute successfully
 
@@ -122,16 +122,16 @@
 
 ### Implementation for User Story 3
 
-- [ ] T034 [P] [US3] Create sample component in src/components/ui/Button.astro demonstrating component structure
-- [ ] T035 [P] [US3] Create sample layout component in src/components/layout/Header.astro demonstrating layout patterns
-- [ ] T036 [P] [US3] Create second page in src/pages/about.astro to demonstrate routing
-- [ ] T037 [US3] Import and use Button component in src/pages/index.astro to demonstrate component reuse
-- [ ] T038 [US3] Import and use Header component in BaseLayout.astro to demonstrate layout composition
-- [ ] T039 [US3] Add sample image to public/assets/ and reference in src/pages/index.astro to demonstrate asset serving
-- [ ] T040 [US3] Create src/content/config.ts with empty content collection schema to demonstrate content structure pattern
-- [ ] T041 [US3] Verify /about page is accessible and renders correctly
-- [ ] T042 [US3] Verify component imports work across multiple pages without errors
-- [ ] T043 [US3] Update README.md with directory structure explanation and extension patterns
+- [X] T034 [P] [US3] Create sample component in src/components/ui/Button.astro demonstrating component structure
+- [X] T035 [P] [US3] Create sample layout component in src/components/layout/Header.astro demonstrating layout patterns
+- [X] T036 [P] [US3] Create second page in src/pages/about.astro to demonstrate routing
+- [X] T037 [US3] Import and use Button component in src/pages/index.astro to demonstrate component reuse
+- [X] T038 [US3] Import and use Header component in BaseLayout.astro to demonstrate layout composition
+- [X] T039 [US3] Add sample image to public/assets/ and reference in src/pages/index.astro to demonstrate asset serving
+- [X] T040 [US3] Create src/content/config.ts with empty content collection schema to demonstrate content structure pattern
+- [X] T041 [US3] Verify /about page is accessible and renders correctly
+- [X] T042 [US3] Verify component imports work across multiple pages without errors
+- [X] T043 [US3] Update README.md with directory structure explanation and extension patterns
 
 **Checkpoint**: All user stories should now be independently functional - project is ready for feature development
 
@@ -141,16 +141,16 @@
 
 **Purpose**: Improvements and validations that affect the entire project
 
-- [ ] T044 [P] Run full validation checklist from quickstart.md (Bun version, dependency install, lint, build, dev server, preview)
+- [X] T044 [P] Run full validation checklist from quickstart.md (Bun version, dependency install, lint, build, dev server, preview)
 - [ ] T045 [P] Validate constitutional compliance: Lighthouse Performance ≥95, Core Web Vitals targets, 0KB JavaScript initial load
-- [ ] T046 [P] Verify all package.json scripts execute successfully: dev, build, preview, lint, format, test
+- [X] T046 [P] Verify all package.json scripts execute successfully: dev, build, preview, lint, format, test
 - [ ] T047 [P] Validate GitHub Actions workflow syntax and permissions using `gh workflow view deploy.yml`
-- [ ] T048 [P] Add example Bun test file in tests/unit/example.test.ts demonstrating test structure
-- [ ] T049 [P] Run `bun test` and verify test runner executes successfully
+- [X] T048 [P] Add example Bun test file in tests/unit/example.test.ts demonstrating test structure
+- [X] T049 [P] Run `bun test` and verify test runner executes successfully
 - [ ] T050 Update README.md with troubleshooting section and next steps for feature development
-- [ ] T051 Create CONTRIBUTING.md with development workflow and code standards
-- [ ] T052 Verify all configuration contracts are satisfied (package.json, astro.config.mjs schemas)
-- [ ] T053 Final build verification: `bun run build && bun run preview` completes successfully with no errors
+- [X] T051 Create CONTRIBUTING.md with development workflow and code standards
+- [X] T052 Verify all configuration contracts are satisfied (package.json, astro.config.mjs schemas)
+- [X] T053 Final build verification: `bun run build && bun run preview` completes successfully with no errors
 - [ ] T054 Document all technology decisions from research.md in README.md references section
 
 ---

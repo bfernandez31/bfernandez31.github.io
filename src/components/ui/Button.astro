@@ -1,0 +1,90 @@
+---
+interface Props {
+	variant?: "primary" | "secondary" | "outline";
+	size?: "small" | "medium" | "large";
+	href?: string;
+	class?: string;
+}
+
+const {
+	variant = "primary",
+	size = "medium",
+	href,
+	class: className = "",
+} = Astro.props;
+
+const Element = href ? "a" : "button";
+---
+
+<Element
+  class:list={['btn', `btn--${variant}`, `btn--${size}`, className]}
+  href={href}
+>
+  <slot />
+</Element>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    border: 2px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+  }
+
+  /* Sizes */
+  .btn--small {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .btn--medium {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .btn--large {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+  }
+
+  /* Variants */
+  .btn--primary {
+    background-color: #4f46e5;
+    color: white;
+  }
+
+  .btn--primary:hover {
+    background-color: #4338ca;
+  }
+
+  .btn--secondary {
+    background-color: #6b7280;
+    color: white;
+  }
+
+  .btn--secondary:hover {
+    background-color: #4b5563;
+  }
+
+  .btn--outline {
+    background-color: transparent;
+    color: #4f46e5;
+    border-color: #4f46e5;
+  }
+
+  .btn--outline:hover {
+    background-color: #4f46e5;
+    color: white;
+  }
+
+  /* Focus state for accessibility */
+  .btn:focus-visible {
+    outline: 2px solid #4f46e5;
+    outline-offset: 2px;
+  }
+</style>

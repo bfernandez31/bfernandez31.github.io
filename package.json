@@ -1,0 +1,27 @@
+{
+	"name": "portfolio",
+	"type": "module",
+	"version": "0.1.0",
+	"engines": {
+		"bun": ">=1.0.0"
+	},
+	"scripts": {
+		"dev": "astro dev",
+		"build": "astro check && astro build",
+		"preview": "astro preview",
+		"lint": "biome check .",
+		"format": "biome format . --write",
+		"test": "bun test",
+		"astro": "astro"
+	},
+	"dependencies": {
+		"@studio-freight/lenis": "^1.0.42",
+		"astro": "^5.15.3",
+		"gsap": "^3.13.0"
+	},
+	"devDependencies": {
+		"@astrojs/check": "^0.9.5",
+		"@biomejs/biome": "^2.3.4",
+		"typescript": "^5.9.3"
+	}
+}
