@@ -1,0 +1,338 @@
+---
+import { getCollection } from "astro:content";
+
+// Get all non-draft blog posts sorted by date (newest first)
+const allPosts = await getCollection("blog", ({ data }) => !data.draft);
+const posts = allPosts.sort(
+	(a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+);
+
+// Get unique tags for filtering
+const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
+
+// Format date like git log
+function formatDate(date: Date): string {
+	return new Intl.DateTimeFormat("en-US", {
+		month: "short",
+		day: "numeric",
+		year: "numeric",
+	}).format(date);
+}
+---
+
+<section class="blog">
+	<div class="blog__container">
+		<div class="blog__header">
+			<h1 class="blog__title">Commit Log</h1>
+			<p class="blog__subtitle">
+				Technical articles and development insights
+			</p>
+		</div>
+
+		<!-- Tag filter (optional, can be enhanced with JS) -->
+		<div class="blog__tags">
+			<button class="blog__tag blog__tag--active" data-tag="all">
+				All Posts
+			</button>
+			{
+				allTags.map((tag) => (
+					<button class="blog__tag" data-tag={tag}>
+						{tag}
+					</button>
+				))
+			}
+		</div>
+
+		<div class="blog__commits">
+			{
+				posts.map((post) => (
+					<article class="commit" data-tags={post.data.tags.join(",")}>
+						<a href={`/blog/${post.slug}`} class="commit__link">
+							<div class="commit__hash">{post.data.commitHash}</div>
+							<div class="commit__details">
+								<div class="commit__meta">
+									<span class="commit__author">{post.data.author}</span>
+									<span class="commit__date">{formatDate(post.data.publishDate)}</span>
+								</div>
+								<h2 class="commit__title">{post.data.title}</h2>
+								<p class="commit__description">{post.data.description}</p>
+								<div class="commit__tags">
+									{post.data.tags.map((tag) => (
+										<span class="commit__tag">{tag}</span>
+									))}
+								</div>
+							</div>
+						</a>
+					</article>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<script>
+	// Tag filtering
+	const tagButtons = document.querySelectorAll(".blog__tag");
+	const commits = document.querySelectorAll(".commit");
+
+	tagButtons.forEach((button) => {
+		button.addEventListener("click", () => {
+			const selectedTag = button.getAttribute("data-tag");
+
+			// Update active state
+			tagButtons.forEach((btn) => btn.classList.remove("blog__tag--active"));
+			button.classList.add("blog__tag--active");
+
+			// Filter commits
+			commits.forEach((commit) => {
+				const commitTags = commit.getAttribute("data-tags") || "";
+
+				if (selectedTag === "all" || commitTags.includes(selectedTag || "")) {
+					commit.classList.remove("commit--hidden");
+				} else {
+					commit.classList.add("commit--hidden");
+				}
+			});
+		});
+	});
+</script>
+
+<style>
+	.blog {
+		padding: 4rem 2rem;
+		min-height: 100vh;
+	}
+
+	.blog__container {
+		max-width: 1000px;
+		margin: 0 auto;
+	}
+
+	.blog__header {
+		text-align: center;
+		margin-bottom: 3rem;
+	}
+
+	.blog__title {
+		font-size: clamp(2.5rem, 5vw, 3.5rem);
+		font-weight: 700;
+		color: var(--color-text, #cdd6f4);
+		margin-bottom: 1rem;
+		font-family: "Fira Code", "Courier New", monospace;
+	}
+
+	.blog__subtitle {
+		font-size: clamp(1rem, 2vw, 1.25rem);
+		color: var(--color-text-muted, rgba(205, 214, 244, 0.7));
+	}
+
+	.blog__tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		margin-bottom: 2rem;
+		justify-content: center;
+	}
+
+	.blog__tag {
+		padding: 0.5rem 1rem;
+		background: var(--color-surface, rgba(30, 30, 46, 0.8));
+		border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+		border-radius: 6px;
+		color: var(--color-text, #cdd6f4);
+		font-size: 0.875rem;
+		cursor: pointer;
+		transition:
+			background var(--transition-color),
+			border-color var(--transition-color);
+		font-family: "Fira Code", "Courier New", monospace;
+	}
+
+	@media (hover: hover) {
+		.blog__tag:hover {
+			background: var(--color-surface-raised, rgba(30, 30, 46, 1));
+			border-color: var(--color-primary, #cba6f7);
+		}
+	}
+
+	.blog__tag--active {
+		background: var(--color-primary, #cba6f7);
+		border-color: var(--color-primary, #cba6f7);
+		color: var(--color-background, #1e1e2e);
+		font-weight: 600;
+	}
+
+	.blog__commits {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+		position: relative;
+	}
+
+	/* Git log timeline */
+	.blog__commits::before {
+		content: "";
+		position: absolute;
+		left: 4rem;
+		top: 0;
+		bottom: 0;
+		width: 2px;
+		background: var(--color-border, rgba(255, 255, 255, 0.2));
+	}
+
+	.commit {
+		position: relative;
+		opacity: 1;
+		transition: opacity var(--transition-color);
+	}
+
+	.commit--hidden {
+		display: none;
+	}
+
+	.commit__link {
+		display: grid;
+		grid-template-columns: 6rem 1fr;
+		gap: 2rem;
+		padding: 1.5rem 1rem;
+		text-decoration: none;
+		transition: background var(--transition-color);
+		position: relative;
+	}
+
+	/* Commit dot on timeline */
+	.commit__link::before {
+		content: "";
+		position: absolute;
+		left: 4rem;
+		top: 2rem;
+		width: 10px;
+		height: 10px;
+		background: var(--color-primary, #cba6f7);
+		border-radius: 50%;
+		border: 2px solid var(--color-background, #1e1e2e);
+		z-index: 1;
+		transform: translateX(-50%);
+	}
+
+	@media (hover: hover) {
+		.commit__link:hover {
+			background: var(--color-surface, rgba(30, 30, 46, 0.4));
+		}
+
+		.commit__link:hover::before {
+			background: var(--color-secondary, #f5c2e7);
+			box-shadow: 0 0 12px var(--color-secondary, #f5c2e7);
+		}
+	}
+
+	.commit__hash {
+		font-family: "Fira Code", "Courier New", monospace;
+		font-size: 0.875rem;
+		color: var(--color-accent, #b4befe);
+		font-weight: 600;
+		padding-top: 0.25rem;
+	}
+
+	.commit__details {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.commit__meta {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		font-size: 0.875rem;
+		color: var(--color-text-muted, rgba(205, 214, 244, 0.6));
+		font-family: "Fira Code", "Courier New", monospace;
+	}
+
+	.commit__author {
+		font-weight: 600;
+	}
+
+	.commit__date {
+		opacity: 0.8;
+	}
+
+	.commit__title {
+		font-size: 1.25rem;
+		font-weight: 600;
+		color: var(--color-text, #cdd6f4);
+		margin: 0;
+		line-height: 1.4;
+		font-family: "Fira Code", "Courier New", monospace;
+	}
+
+	.commit__description {
+		font-size: 1rem;
+		line-height: 1.6;
+		color: var(--color-text-muted, rgba(205, 214, 244, 0.8));
+		margin: 0;
+	}
+
+	.commit__tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-top: 0.5rem;
+	}
+
+	.commit__tag {
+		padding: 0.25rem 0.75rem;
+		background: var(--color-surface-raised, rgba(17, 17, 27, 0.6));
+		border-radius: 4px;
+		font-size: 0.75rem;
+		color: var(--color-accent, #b4befe);
+		font-family: "Fira Code", "Courier New", monospace;
+	}
+
+	/* Mobile adjustments */
+	@media (max-width: 768px) {
+		.blog {
+			padding: 2rem 1rem;
+		}
+
+		.blog__commits::before {
+			left: 3rem;
+		}
+
+		.commit__link {
+			grid-template-columns: 5rem 1fr;
+			gap: 1rem;
+			padding: 1rem 0.5rem;
+		}
+
+		.commit__link::before {
+			left: 3rem;
+		}
+
+		.commit__hash {
+			font-size: 0.75rem;
+		}
+
+		.commit__title {
+			font-size: 1.125rem;
+		}
+
+		.commit__description {
+			font-size: 0.875rem;
+		}
+	}
+
+	/* Accessibility */
+	.commit__link:focus-visible {
+		outline: 2px solid var(--color-primary, #cba6f7);
+		outline-offset: 4px;
+		border-radius: 8px;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.commit,
+		.commit__link {
+			transition: none;
+		}
+	}
+</style>

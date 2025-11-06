@@ -1,0 +1,425 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "404 - Page Not Found";
+const description = "The page you're looking for doesn't exist";
+---
+
+<BaseLayout title={title} description={description}>
+  <main class="not-found">
+    <div class="not-found__container">
+      <div class="not-found__visual">
+        <canvas
+          id="broken-network"
+          class="not-found__canvas"
+          aria-hidden="true"
+        ></canvas>
+      </div>
+
+      <div class="not-found__content">
+        <h1 class="not-found__code">404</h1>
+        <h2 class="not-found__title">Connection Lost</h2>
+        <p class="not-found__message">
+          The neural pathway you're trying to access doesn't exist in this network.
+          It may have been removed, relocated, or never existed.
+        </p>
+
+        <div class="not-found__terminal">
+          <div class="not-found__terminal-line">
+            <span class="not-found__prompt">$</span>
+            <span class="not-found__command">locate_resource --path "{Astro.url.pathname}"</span>
+          </div>
+          <div class="not-found__terminal-line">
+            <span class="not-found__error">Error:</span>
+            <span class="not-found__error-msg">Resource not found in current network topology</span>
+          </div>
+        </div>
+
+        <nav class="not-found__nav">
+          <h3 class="not-found__nav-title">Available Routes:</h3>
+          <ul class="not-found__nav-list">
+            <li class="not-found__nav-item">
+              <a href="/" class="not-found__nav-link">
+                <span class="not-found__nav-icon">→</span>
+                <span class="not-found__nav-text">Home</span>
+              </a>
+            </li>
+            <li class="not-found__nav-item">
+              <a href="/projects" class="not-found__nav-link">
+                <span class="not-found__nav-icon">→</span>
+                <span class="not-found__nav-text">Projects</span>
+              </a>
+            </li>
+            <li class="not-found__nav-item">
+              <a href="/about" class="not-found__nav-link">
+                <span class="not-found__nav-icon">→</span>
+                <span class="not-found__nav-text">About</span>
+              </a>
+            </li>
+            <li class="not-found__nav-item">
+              <a href="/contact" class="not-found__nav-link">
+                <span class="not-found__nav-icon">→</span>
+                <span class="not-found__nav-text">Contact</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .not-found {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xl) var(--spacing-base);
+    background: var(--color-background);
+  }
+
+  .not-found__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    align-items: center;
+  }
+
+  /* Visual Section */
+  .not-found__visual {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+  }
+
+  .not-found__canvas {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-large);
+    background: var(--color-surface);
+  }
+
+  /* Content Section */
+  .not-found__content {
+    max-width: 500px;
+  }
+
+  .not-found__code {
+    font-size: clamp(4rem, 12vw, 8rem);
+    font-weight: 700;
+    line-height: 1;
+    background: linear-gradient(
+      135deg,
+      var(--color-error) 0%,
+      var(--color-primary) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+
+  .not-found__title {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-base);
+  }
+
+  .not-found__message {
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-large);
+  }
+
+  /* Terminal Output */
+  .not-found__terminal {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-small);
+    padding: var(--spacing-base);
+    font-family: var(--font-mono, 'Monaco', 'Courier New', monospace);
+    font-size: 0.875rem;
+    margin-bottom: var(--spacing-large);
+  }
+
+  .not-found__terminal-line {
+    margin-bottom: 0.5rem;
+  }
+
+  .not-found__terminal-line:last-child {
+    margin-bottom: 0;
+  }
+
+  .not-found__prompt {
+    color: var(--color-primary);
+    margin-right: 0.5rem;
+  }
+
+  .not-found__command {
+    color: var(--color-text-muted);
+  }
+
+  .not-found__error {
+    color: var(--color-error);
+    margin-right: 0.5rem;
+    font-weight: 600;
+  }
+
+  .not-found__error-msg {
+    color: var(--color-text-muted);
+  }
+
+  /* Navigation */
+  .not-found__nav-title {
+    font-size: 1rem;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-small);
+    font-weight: 500;
+  }
+
+  .not-found__nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .not-found__nav-item {
+    margin: 0;
+  }
+
+  .not-found__nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+    color: var(--color-text);
+    text-decoration: none;
+    transition: all var(--transition-normal);
+  }
+
+  .not-found__nav-link:hover {
+    border-color: var(--color-primary);
+    background: var(--color-primary-subtle);
+    transform: translateX(4px);
+  }
+
+  .not-found__nav-icon {
+    color: var(--color-primary);
+    transition: transform var(--transition-normal);
+  }
+
+  .not-found__nav-link:hover .not-found__nav-icon {
+    transform: translateX(4px);
+  }
+
+  .not-found__nav-text {
+    font-weight: 500;
+  }
+
+  /* Mobile Styles */
+  @media (max-width: 768px) {
+    .not-found {
+      padding: var(--spacing-large) var(--spacing-small);
+    }
+
+    .not-found__container {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-large);
+    }
+
+    .not-found__visual {
+      order: 2;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    .not-found__content {
+      order: 1;
+      max-width: 100%;
+      text-align: center;
+    }
+
+    .not-found__nav-list {
+      grid-template-columns: 1fr;
+    }
+
+    .not-found__nav-link:hover {
+      transform: translateY(-2px);
+    }
+  }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .not-found__nav-link,
+    .not-found__nav-icon {
+      transition: none;
+    }
+
+    .not-found__nav-link:hover,
+    .not-found__nav-link:hover .not-found__nav-icon {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { prefersReducedMotion } from '../scripts/accessibility';
+
+  // Broken network visualization
+  const canvas = document.getElementById('broken-network') as HTMLCanvasElement;
+
+  if (canvas) {
+    const ctx = canvas.getContext('2d')!;
+    const dpr = window.devicePixelRatio || 1;
+
+    // Set canvas size
+    const resizeCanvas = () => {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+    };
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Broken network nodes
+    interface Node {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      broken: boolean;
+    }
+
+    const nodes: Node[] = [];
+    const nodeCount = 20;
+    const width = canvas.width / dpr;
+    const height = canvas.height / dpr;
+
+    // Create nodes
+    for (let i = 0; i < nodeCount; i++) {
+      nodes.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        broken: Math.random() > 0.5
+      });
+    }
+
+    // Animation loop
+    let animationId: number;
+
+    const animate = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      // Update and draw nodes
+      nodes.forEach((node, i) => {
+        // Update position
+        node.x += node.vx;
+        node.y += node.vy;
+
+        // Bounce off edges
+        if (node.x < 0 || node.x > width) node.vx *= -1;
+        if (node.y < 0 || node.y > height) node.vy *= -1;
+
+        // Draw connections
+        nodes.slice(i + 1).forEach(other => {
+          const dx = other.x - node.x;
+          const dy = other.y - node.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 100) {
+            ctx.beginPath();
+            ctx.moveTo(node.x, node.y);
+            ctx.lineTo(other.x, other.y);
+
+            // Broken connections
+            if (node.broken || other.broken) {
+              ctx.strokeStyle = `rgba(243, 139, 168, ${1 - distance / 100})`;
+              ctx.setLineDash([5, 5]);
+            } else {
+              ctx.strokeStyle = `rgba(203, 166, 247, ${1 - distance / 100})`;
+              ctx.setLineDash([]);
+            }
+
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        });
+
+        // Draw node
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, 3, 0, Math.PI * 2);
+        ctx.fillStyle = node.broken ? '#f38ba8' : '#cba6f7';
+        ctx.fill();
+      });
+
+      if (!prefersReducedMotion()) {
+        animationId = requestAnimationFrame(animate);
+      }
+    };
+
+    // Start animation if motion is allowed
+    if (!prefersReducedMotion()) {
+      animate();
+    } else {
+      // Draw static frame
+      animate();
+    }
+
+    // Cleanup
+    document.addEventListener('astro:before-swap', () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+      window.removeEventListener('resize', resizeCanvas);
+    });
+  }
+
+  // Entrance animations
+  if (!prefersReducedMotion()) {
+    const tl = gsap.timeline();
+
+    tl.fromTo('.not-found__code',
+      { opacity: 0, scale: 0.8, y: 30 },
+      { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: 'back.out(1.7)' }
+    )
+    .fromTo('.not-found__title',
+      { opacity: 0, x: -20 },
+      { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' },
+      '-=0.4'
+    )
+    .fromTo('.not-found__message',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+      '-=0.3'
+    )
+    .fromTo('.not-found__terminal',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+      '-=0.2'
+    )
+    .fromTo('.not-found__nav',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+      '-=0.2'
+    )
+    .fromTo('.not-found__visual',
+      { opacity: 0, scale: 0.9 },
+      { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out' },
+      '-=0.6'
+    );
+  }
+</script>

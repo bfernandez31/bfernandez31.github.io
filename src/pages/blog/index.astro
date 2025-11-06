@@ -1,0 +1,15 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import BlogCommits from "../../components/sections/BlogCommits.astro";
+import { pageMetadata } from "../../data/pages";
+
+const metadata = pageMetadata.blog;
+---
+
+<PageLayout
+	title={metadata.title}
+	description={metadata.description}
+	ogImage={metadata.ogImage}
+>
+	<BlogCommits />
+</PageLayout>
