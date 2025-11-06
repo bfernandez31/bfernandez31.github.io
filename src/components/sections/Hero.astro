@@ -1,0 +1,125 @@
+---
+export interface Props {
+	headline: string;
+	subheadline?: string;
+	ctaText?: string;
+	ctaLink?: string;
+}
+
+const { headline, subheadline, ctaText, ctaLink } = Astro.props;
+---
+
+<section class="hero">
+	<canvas id="hero-canvas" class="hero__canvas"></canvas>
+	<div class="hero__content">
+		<h1 class="hero__headline">{headline}</h1>
+		{subheadline && <p class="hero__subheadline">{subheadline}</p>}
+		{
+			ctaText && ctaLink && (
+				<a href={ctaLink} class="hero__cta">
+					{ctaText}
+				</a>
+			)
+		}
+	</div>
+</section>
+
+<script>
+	import { NeuralNetworkAnimation } from "../../scripts/neural-network";
+	import { NEURAL_NETWORK_DEFAULTS } from "../../scripts/animation-config";
+
+	const canvas = document.getElementById("hero-canvas") as HTMLCanvasElement;
+	if (canvas) {
+		try {
+			const animation = new NeuralNetworkAnimation(canvas, {
+				colors: {
+					nodes: NEURAL_NETWORK_DEFAULTS.COLORS.NODES,
+					edges: NEURAL_NETWORK_DEFAULTS.COLORS.EDGES,
+					pulses: NEURAL_NETWORK_DEFAULTS.COLORS.PULSES,
+				},
+			});
+
+			// Cleanup on page navigation
+			document.addEventListener("astro:before-swap", () => {
+				animation.destroy();
+			});
+		} catch (error) {
+			console.error("[Hero] Failed to initialize neural network:", error);
+		}
+	}
+</script>
+
+<style>
+	.hero {
+		position: relative;
+		min-height: 100vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		padding: 2rem;
+	}
+
+	.hero__canvas {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 0;
+	}
+
+	.hero__content {
+		position: relative;
+		z-index: 1;
+		text-align: center;
+		max-width: 800px;
+		margin: 0 auto;
+	}
+
+	.hero__headline {
+		font-size: clamp(2rem, 5vw, 4rem);
+		font-weight: 700;
+		color: var(--color-text);
+		margin-bottom: 1rem;
+		line-height: 1.2;
+	}
+
+	.hero__subheadline {
+		font-size: clamp(1rem, 2.5vw, 1.5rem);
+		color: var(--color-text);
+		opacity: 0.8;
+		margin-bottom: 2rem;
+		line-height: 1.5;
+	}
+
+	.hero__cta {
+		display: inline-block;
+		padding: 1rem 2rem;
+		font-size: 1.125rem;
+		font-weight: 600;
+		color: var(--color-background);
+		background: var(--color-primary);
+		border-radius: 8px;
+		text-decoration: none;
+		transition:
+			background-color var(--transition-color),
+			transform var(--transition-color);
+		will-change: transform;
+	}
+
+	@media (hover: hover) {
+		.hero__cta:hover {
+			background: var(--color-secondary);
+			transform: translateY(-2px);
+		}
+	}
+
+	.hero__cta:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 4px;
+	}
+
+	.hero__cta:active {
+		transform: translateY(0);
+	}
+</style>

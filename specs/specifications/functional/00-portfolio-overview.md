@@ -35,10 +35,13 @@ The portfolio adapts to all screen sizes and devices:
 
 ### Smooth Animations
 The portfolio includes integrated animation capabilities:
+- Neural network hero animation with Canvas 2D rendering (60fps desktop, 30fps mobile)
+- Magnetic menu effect using GSAP quickTo() for smooth cursor interaction
 - GSAP for high-performance animations
 - ScrollTrigger for scroll-based effects
 - Lenis for smooth scrolling
 - GPU-accelerated transforms
+- Adaptive performance based on device capabilities
 - Respects `prefers-reduced-motion` preferences
 
 ### Development Workflow
@@ -53,9 +56,12 @@ The portfolio provides a streamlined development experience:
 
 ### Navigation
 Users can navigate the portfolio through:
-- Clean header navigation
+- Magnetic burger menu with animated neural pathway links
+- Interactive menu that responds to cursor proximity with magnetic pull effect
+- Full-screen overlay navigation with smooth animations
 - File-based routing (URLs match page structure)
 - Fast client-side transitions
+- Keyboard and screen reader accessible navigation
 - Clear visual hierarchy
 
 ### Performance

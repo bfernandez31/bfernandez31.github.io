@@ -1,69 +1,31 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Button from "../components/ui/Button.astro";
+import PageLayout from "../layouts/PageLayout.astro";
+import Hero from "../components/sections/Hero.astro";
+import { pageMetadata } from "../data/pages";
+
+const metadata = pageMetadata.home;
 ---
 
-<BaseLayout title="Portfolio">
-  <main>
-    <div class="hero-image">
-      <img
-        src={`${import.meta.env.BASE_URL}assets/sample-image.svg`}
-        alt="Portfolio hero image - abstract geometric design"
-        width="800"
-        height="600"
-        loading="eager"
-      />
-    </div>
+<PageLayout
+	title={metadata.title}
+	description={metadata.description}
+	ogImage={metadata.ogImage}
+>
+	<Hero
+		headline="Full Stack Developer & Creative Technologist"
+		subheadline="Crafting performant, accessible web experiences with modern technologies"
+		ctaText="Explore Projects"
+		ctaLink="/portfolio/projects"
+	/>
+</PageLayout>
 
-    <h1>Welcome to Portfolio</h1>
-    <p>Built with Bun and Astro</p>
+<script>
+	import { initGSAP } from "../scripts/gsap-config";
+	import { initSmoothScroll } from "../scripts/scroll-animations";
+	import { initKeyboardNavDetection } from "../scripts/accessibility";
 
-    <div class="button-group">
-      <Button variant="primary" size="medium">Get Started</Button>
-      <Button variant="outline" size="medium" href="/portfolio/about/">Learn More</Button>
-    </div>
-  </main>
-</BaseLayout>
-
-<style>
-  main {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-  }
-
-  .hero-image {
-    margin-bottom: 2rem;
-    border-radius: 0.5rem;
-    overflow: hidden;
-  }
-
-  .hero-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-  }
-
-  .button-group {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-
-  @media (max-width: 768px) {
-    .button-group {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    h1 {
-      font-size: 2rem;
-    }
-  }
-</style>
+	// Initialize global animations and utilities
+	initGSAP();
+	initSmoothScroll();
+	initKeyboardNavDetection();
+</script>

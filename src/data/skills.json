@@ -1,0 +1,65 @@
+{
+  "categories": [
+    { "id": "frontend", "name": "Frontend Development", "displayOrder": 1 },
+    { "id": "backend", "name": "Backend Development", "displayOrder": 2 },
+    { "id": "devops", "name": "DevOps & Infrastructure", "displayOrder": 3 },
+    { "id": "design", "name": "Design & UX", "displayOrder": 4 },
+    { "id": "tools", "name": "Tools & Workflow", "displayOrder": 5 }
+  ],
+  "skills": [
+    {
+      "id": "typescript",
+      "name": "TypeScript",
+      "category": "frontend",
+      "proficiencyLevel": 5,
+      "yearsExperience": 4,
+      "relatedProjects": [],
+      "icon": "typescript"
+    },
+    {
+      "id": "react",
+      "name": "React",
+      "category": "frontend",
+      "proficiencyLevel": 5,
+      "yearsExperience": 5,
+      "relatedProjects": [],
+      "icon": "react"
+    },
+    {
+      "id": "astro",
+      "name": "Astro",
+      "category": "frontend",
+      "proficiencyLevel": 4,
+      "yearsExperience": 2,
+      "relatedProjects": [],
+      "icon": "astro"
+    },
+    {
+      "id": "gsap",
+      "name": "GSAP",
+      "category": "frontend",
+      "proficiencyLevel": 4,
+      "yearsExperience": 3,
+      "relatedProjects": [],
+      "icon": "gsap"
+    },
+    {
+      "id": "nodejs",
+      "name": "Node.js",
+      "category": "backend",
+      "proficiencyLevel": 4,
+      "yearsExperience": 5,
+      "relatedProjects": [],
+      "icon": "nodejs"
+    },
+    {
+      "id": "git",
+      "name": "Git",
+      "category": "tools",
+      "proficiencyLevel": 5,
+      "yearsExperience": 6,
+      "relatedProjects": [],
+      "icon": "git"
+    }
+  ]
+}

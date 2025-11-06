@@ -1,29 +1,59 @@
 ---
-import Header from "../components/layout/Header.astro";
 import "../styles/global.css";
 
-interface Props {
+export interface Props {
 	title: string;
 	description?: string;
+	ogImage?: string;
+	noindex?: boolean;
+	canonicalUrl?: string;
 }
 
 const {
 	title,
 	description = "Portfolio static site built with Bun and Astro",
+	ogImage = "/portfolio/images/og-images/home.webp",
+	noindex = false,
+	canonicalUrl = Astro.url.pathname,
 } = Astro.props;
+
+const baseUrl = Astro.site || "https://b-fernandez.github.io";
+const fullCanonicalUrl = new URL(canonicalUrl, baseUrl).href;
+const fullOgImage = new URL(ogImage, baseUrl).href;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
-    <title>{title}</title>
-    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
-  </head>
-  <body>
-    <Header />
-    <slot />
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="description" content={description} />
+		<title>{title}</title>
+
+		<!-- Canonical URL -->
+		<link rel="canonical" href={fullCanonicalUrl} />
+
+		<!-- Favicon -->
+		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={fullCanonicalUrl} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={fullOgImage} />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={fullCanonicalUrl} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={fullOgImage} />
+
+		<!-- Robots -->
+		{noindex && <meta name="robots" content="noindex, nofollow" />}
+	</head>
+	<body>
+		<slot />
+	</body>
 </html>
