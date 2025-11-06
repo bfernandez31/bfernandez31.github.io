@@ -1,0 +1,189 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Portfolio Package.json Contract",
+  "description": "Schema for package.json configuration in portfolio static site project",
+  "type": "object",
+  "required": ["name", "version", "type", "scripts", "engines"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Project name in lowercase with hyphens",
+      "examples": ["portfolio", "my-portfolio", "john-doe-portfolio"]
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version (MAJOR.MINOR.PATCH)",
+      "examples": ["0.1.0", "1.0.0", "1.2.3"]
+    },
+    "type": {
+      "type": "string",
+      "enum": ["module"],
+      "description": "Module type - MUST be 'module' for ES modules"
+    },
+    "private": {
+      "type": "boolean",
+      "description": "Prevent accidental publishing to npm",
+      "default": true
+    },
+    "scripts": {
+      "type": "object",
+      "required": ["dev", "build", "preview", "lint", "format", "test"],
+      "properties": {
+        "dev": {
+          "type": "string",
+          "pattern": "^(bun run )?astro dev",
+          "description": "Development server command",
+          "examples": ["astro dev", "bun run astro dev"]
+        },
+        "build": {
+          "type": "string",
+          "pattern": "^(bun run )?astro (check &&|check;)? ?astro build",
+          "description": "Production build command with optional type checking",
+          "examples": ["astro build", "astro check && astro build"]
+        },
+        "preview": {
+          "type": "string",
+          "pattern": "^(bun run )?astro preview",
+          "description": "Preview production build locally",
+          "examples": ["astro preview"]
+        },
+        "lint": {
+          "type": "string",
+          "pattern": "^(bun run )?biome (check|lint)",
+          "description": "Linting command using Biome",
+          "examples": ["biome check .", "biome lint ."]
+        },
+        "format": {
+          "type": "string",
+          "pattern": "^(bun run )?biome format",
+          "description": "Formatting command using Biome",
+          "examples": ["biome format . --write", "biome format ."]
+        },
+        "test": {
+          "type": "string",
+          "pattern": "^bun test",
+          "description": "Test command using Bun's test runner",
+          "examples": ["bun test", "bun test --coverage"]
+        },
+        "astro": {
+          "type": "string",
+          "pattern": "^astro",
+          "description": "Direct Astro CLI access",
+          "examples": ["astro"]
+        }
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "engines": {
+      "type": "object",
+      "required": ["bun"],
+      "properties": {
+        "bun": {
+          "type": "string",
+          "pattern": "^>=?\\d+\\.\\d+\\.\\d+$",
+          "description": "Required Bun version (MUST be >=1.0.0)",
+          "examples": [">=1.0.0", ">=1.1.0"]
+        },
+        "node": {
+          "type": "string",
+          "pattern": "^>=?\\d+\\.\\d+\\.\\d+$",
+          "description": "Optional Node.js version for compatibility",
+          "examples": [">=18.0.0", ">=20.0.0"]
+        }
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "description": "Production dependencies",
+      "required": ["astro", "gsap", "@studio-freight/lenis"],
+      "properties": {
+        "astro": {
+          "type": "string",
+          "pattern": "^[~^]?\\d+\\.\\d+\\.\\d+$",
+          "description": "Astro framework version (MUST be ^4.0.0 or higher)",
+          "examples": ["^4.0.0", "^4.1.0"]
+        },
+        "gsap": {
+          "type": "string",
+          "pattern": "^[~^]?\\d+\\.\\d+\\.\\d+$",
+          "description": "GSAP animation library version",
+          "examples": ["^3.12.0", "^3.12.5"]
+        },
+        "@studio-freight/lenis": {
+          "type": "string",
+          "pattern": "^[~^]?\\d+\\.\\d+\\.\\d+$",
+          "description": "Lenis smooth scroll library version",
+          "examples": ["^1.0.0", "^1.0.45"]
+        },
+        "typescript": {
+          "type": "string",
+          "pattern": "^[~^]?\\d+\\.\\d+\\.\\d+$",
+          "description": "TypeScript version (MUST be ^5.0.0 or higher)",
+          "examples": ["^5.0.0", "^5.3.0"]
+        }
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "devDependencies": {
+      "type": "object",
+      "description": "Development dependencies",
+      "required": ["@biomejs/biome", "@astrojs/check"],
+      "properties": {
+        "@biomejs/biome": {
+          "type": "string",
+          "pattern": "^[~^]?\\d+\\.\\d+\\.\\d+$",
+          "description": "Biome linter and formatter version",
+          "examples": ["^1.5.0", "^1.6.0"]
+        },
+        "@astrojs/check": {
+          "type": "string",
+          "pattern": "^[~^]?\\d+\\.\\d+\\.\\d+$",
+          "description": "Astro TypeScript checker version",
+          "examples": ["^0.4.0", "^0.5.0"]
+        },
+        "@astrojs/react": {
+          "type": "string",
+          "pattern": "^[~^]?\\d+\\.\\d+\\.\\d+$",
+          "description": "Optional React integration for Islands",
+          "examples": ["^3.0.0"]
+        },
+        "react": {
+          "type": "string",
+          "pattern": "^[~^]?\\d+\\.\\d+\\.\\d+$",
+          "description": "Optional React library for Islands",
+          "examples": ["^18.0.0"]
+        },
+        "react-dom": {
+          "type": "string",
+          "pattern": "^[~^]?\\d+\\.\\d+\\.\\d+$",
+          "description": "Optional React DOM for Islands",
+          "examples": ["^18.0.0"]
+        }
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "description": {
+      "type": "string",
+      "description": "Project description",
+      "maxLength": 200
+    },
+    "author": {
+      "type": "string",
+      "description": "Project author"
+    },
+    "license": {
+      "type": "string",
+      "description": "Project license",
+      "examples": ["MIT", "Apache-2.0", "GPL-3.0"]
+    }
+  },
+  "additionalProperties": true
+}
