@@ -1,0 +1,270 @@
+---
+import { navigationLinks } from "../../data/navigation";
+
+// Sort links by display order
+const sortedLinks = [...navigationLinks].sort(
+	(a, b) => a.displayOrder - b.displayOrder,
+);
+---
+
+<div class="burger-wrapper">
+	<button
+		class="burger-menu"
+		aria-label="Toggle menu"
+		aria-expanded="false"
+		aria-controls="nav-menu"
+	>
+		<span class="burger-line"></span>
+		<span class="burger-line"></span>
+		<span class="burger-line"></span>
+	</button>
+
+	<nav class="nav-menu" id="nav-menu" hidden>
+		<ul class="nav-menu__list">
+			{
+				sortedLinks.map((link) => (
+					<li class="nav-menu__item">
+						<a
+							href={link.path}
+							class="nav-menu__link"
+							aria-label={link.ariaLabel || link.text}
+						>
+							{link.text}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</nav>
+</div>
+
+<script>
+	import { gsap } from "gsap";
+	import { initMagneticMenu } from "../../scripts/magnetic-menu";
+	import { trapFocus } from "../../scripts/accessibility";
+
+	const button = document.querySelector(".burger-menu") as HTMLElement;
+	const menu = document.querySelector(".nav-menu") as HTMLElement;
+	let cleanupMagnetic: (() => void) | null = null;
+	let cleanupFocusTrap: (() => void) | null = null;
+
+	if (button && menu) {
+		// Initialize magnetic effect on burger button
+		cleanupMagnetic = initMagneticMenu(button, {
+			threshold: 100,
+			strength: 0.4,
+		});
+
+		// Toggle menu function
+		const toggleMenu = (open: boolean) => {
+			button.setAttribute("aria-expanded", String(open));
+			menu.hidden = !open;
+
+			if (open) {
+				// Trap focus in menu
+				cleanupFocusTrap = trapFocus(menu);
+
+				// Animate menu in
+				gsap.fromTo(
+					menu,
+					{ opacity: 0 },
+					{ opacity: 1, duration: 0.3, ease: "power2.out" },
+				);
+
+				// Animate links in with stagger
+				const links = menu.querySelectorAll(".nav-menu__link");
+				gsap.fromTo(
+					links,
+					{ opacity: 0, y: 20 },
+					{
+						opacity: 1,
+						y: 0,
+						duration: 0.4,
+						stagger: 0.05,
+						ease: "power2.out",
+						delay: 0.1,
+					},
+				);
+
+				// Focus first link
+				const firstLink = links[0] as HTMLElement;
+				firstLink?.focus();
+
+				// Prevent body scroll
+				document.body.style.overflow = "hidden";
+			} else {
+				// Remove focus trap
+				if (cleanupFocusTrap) {
+					cleanupFocusTrap();
+					cleanupFocusTrap = null;
+				}
+
+				// Animate menu out
+				gsap.to(menu, {
+					opacity: 0,
+					duration: 0.2,
+					ease: "power2.in",
+					onComplete: () => {
+						menu.hidden = true;
+					},
+				});
+
+				// Restore body scroll
+				document.body.style.overflow = "";
+
+				// Return focus to button
+				button.focus();
+			}
+		};
+
+		// Button click handler
+		button.addEventListener("click", () => {
+			const isExpanded = button.getAttribute("aria-expanded") === "true";
+			toggleMenu(!isExpanded);
+		});
+
+		// Escape key handler
+		document.addEventListener("keydown", (e) => {
+			if (e.key === "Escape" && !menu.hidden) {
+				toggleMenu(false);
+			}
+		});
+
+		// Close menu on link click
+		const links = menu.querySelectorAll(".nav-menu__link");
+		links.forEach((link) => {
+			link.addEventListener("click", () => {
+				toggleMenu(false);
+			});
+		});
+
+		// Cleanup on page navigation
+		document.addEventListener("astro:before-swap", () => {
+			if (cleanupMagnetic) cleanupMagnetic();
+			if (cleanupFocusTrap) cleanupFocusTrap();
+		});
+	}
+</script>
+
+<style>
+	.burger-wrapper {
+		position: fixed;
+		top: 1.5rem;
+		right: 1.5rem;
+		z-index: 1000;
+	}
+
+	.burger-menu {
+		width: 48px;
+		height: 48px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 6px;
+		background: var(--color-surface, rgba(30, 30, 46, 0.9));
+		border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+		border-radius: 8px;
+		cursor: pointer;
+		padding: 12px;
+		transition:
+			background-color var(--transition-color),
+			border-color var(--transition-color);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+	}
+
+	@media (hover: hover) {
+		.burger-menu:hover {
+			background: var(--color-surface-raised, rgba(30, 30, 46, 1));
+			border-color: var(--color-primary, #cba6f7);
+		}
+	}
+
+	.burger-menu:focus-visible {
+		outline: 2px solid var(--color-primary, #cba6f7);
+		outline-offset: 4px;
+	}
+
+	.burger-line {
+		width: 24px;
+		height: 2px;
+		background: var(--color-text, #cdd6f4);
+		transition: transform var(--transition-color);
+		border-radius: 2px;
+	}
+
+	.burger-menu[aria-expanded="true"] .burger-line:nth-child(1) {
+		transform: translateY(8px) rotate(45deg);
+	}
+
+	.burger-menu[aria-expanded="true"] .burger-line:nth-child(2) {
+		opacity: 0;
+	}
+
+	.burger-menu[aria-expanded="true"] .burger-line:nth-child(3) {
+		transform: translateY(-8px) rotate(-45deg);
+	}
+
+	.nav-menu {
+		position: fixed;
+		inset: 0;
+		background: var(--color-background, #1e1e2e);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 999;
+		opacity: 0;
+	}
+
+	.nav-menu[hidden] {
+		display: none;
+	}
+
+	.nav-menu__list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		text-align: center;
+	}
+
+	.nav-menu__item {
+		margin: 0;
+	}
+
+	.nav-menu__link {
+		display: block;
+		padding: 1rem 2rem;
+		font-size: clamp(1.5rem, 4vw, 2.5rem);
+		font-weight: 600;
+		color: var(--color-text, #cdd6f4);
+		text-decoration: none;
+		transition: color var(--transition-color);
+		position: relative;
+	}
+
+	@media (hover: hover) {
+		.nav-menu__link:hover {
+			color: var(--color-primary, #cba6f7);
+		}
+	}
+
+	.nav-menu__link:focus-visible {
+		outline: 2px solid var(--color-primary, #cba6f7);
+		outline-offset: 4px;
+		border-radius: 4px;
+	}
+
+	/* Mobile adjustments */
+	@media (max-width: 768px) {
+		.burger-wrapper {
+			top: 1rem;
+			right: 1rem;
+		}
+
+		.nav-menu__link {
+			font-size: clamp(1.25rem, 5vw, 2rem);
+			padding: 0.75rem 1.5rem;
+		}
+	}
+</style>
