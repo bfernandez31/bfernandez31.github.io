@@ -58,7 +58,8 @@ The portfolio uses a single-page architecture with 5 full-viewport sections:
 
 ### Navigation Scripts
 ```javascript
-// All three must be initialized in index.astro
+// All four must be initialized in index.astro (order matters!)
+initSmoothScroll();        // Initialize Lenis first (exposes window.lenis)
 initActiveNavigation();    // Updates active link state
 initNavigationLinks();     // Handles link clicks + smooth scroll
 initNavigationHistory();   // Handles deep linking + back/forward
@@ -177,6 +178,17 @@ bun test --watch         # Run tests in watch mode
 - Implement pause/resume when canvas not visible (Intersection Observer)
 - Clean up: Cancel animation frame, clear canvas context
 
+### Lenis Smooth Scroll
+- Initialize with `initSmoothScroll()` from `src/scripts/smooth-scroll.ts` (call before navigation scripts)
+- Configured with easeInOutExpo easing (1.2s duration) for natural momentum feel
+- Section snap enabled: automatically snaps to nearest section when scroll velocity drops
+- Integrates with GSAP ScrollTrigger via `gsap.ticker`
+- Exposed on `window.lenis` for navigation system compatibility
+- **Always** check `prefersReducedMotion()` before initialization - returns null if user prefers reduced motion
+- Use `scrollToElement(target, options)` for programmatic smooth scrolling
+- Use `stopSmoothScroll()` / `startSmoothScroll()` to pause/resume (e.g., during modal open)
+- Clean up: Call `destroySmoothScroll()` on page navigation
+
 ### Reduced Motion Support
 ```typescript
 // Check preference before animating
@@ -256,6 +268,16 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
 - Quickstart: `specs/002-1506-palette-couleur/quickstart.md`
 
 ## Recent Changes
+- 006-title-lenis-smooth: Enhanced Lenis smooth scroll with section snap
+  - Configured easeInOutExpo easing for natural momentum feel (1.2s duration)
+  - Implemented automatic section snap when scroll velocity drops below threshold
+  - Created smooth-scroll.ts utility module with snap functionality
+  - Added velocity-based snap detection (triggers at <0.1 velocity)
+  - Implemented 150ms debounce for snap trigger to prevent interference
+  - Exposed window.lenis for navigation system compatibility
+  - Added utility functions: scrollToElement, scrollToTop, stop/startSmoothScroll
+  - Integrated with GSAP ticker for smooth updates (lagSmoothing disabled)
+  - Respects prefers-reduced-motion (disables smooth scroll when user prefers reduced motion)
 - 005-1510-convert-multi: Converted to single-page architecture with sectioned layout
   - Consolidated all main content into index.astro with 5 full-viewport sections
   - Implemented hash-based navigation (#hero, #about, #projects, #expertise, #contact)

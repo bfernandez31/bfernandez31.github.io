@@ -81,28 +81,117 @@ ScrollTrigger.defaults({
 
 **Version**: 1.0.42+
 
-**Usage**: Smooth, momentum-based scrolling
+**Usage**: Smooth, momentum-based scrolling with section snap functionality
 
-**Configuration** (`src/scripts/scroll-animations.ts`):
+**Configuration** (`src/scripts/smooth-scroll.ts`):
 ```typescript
 import Lenis from '@studio-freight/lenis';
 
+// Custom easeInOutExpo easing function
+function easeInOutExpo(t: number): number {
+  if (t === 0) return 0;
+  if (t === 1) return 1;
+  if (t < 0.5) {
+    return Math.pow(2, 20 * t - 10) / 2;
+  }
+  return (2 - Math.pow(2, -20 * t + 10)) / 2;
+}
+
 const lenis = new Lenis({
   duration: 1.2,
-  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smooth: true,
-  smoothTouch: false, // Disable on touch devices
+  easing: easeInOutExpo,
+  orientation: 'vertical',
+  gestureOrientation: 'vertical',
+  smoothWheel: true,
+  wheelMultiplier: 1.0,
+  touchMultiplier: 2.0,
+  infinite: false,
+  syncTouch: true,        // Enable momentum scrolling
+  syncTouchLerp: 0.1,
 });
 
 // Integrate with GSAP ScrollTrigger
-lenis.on('scroll', ScrollTrigger.update);
+lenis.on('scroll', () => {
+  ScrollTrigger.update();
+});
 
-// Animation loop
-function raf(time: number) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
+// Add to GSAP ticker for smooth updates
+gsap.ticker.add((time) => {
+  lenis?.raf(time * 1000); // Convert to milliseconds
+});
+
+// Disable GSAP's lag smoothing to prevent conflicts
+gsap.ticker.lagSmoothing(0);
+```
+
+**Section Snap Functionality**:
+```typescript
+// Setup snap to portfolio sections
+function setupSectionSnap(lenisInstance: Lenis): void {
+  const sections = document.querySelectorAll<HTMLElement>('[data-section]');
+  let snapTimeout: ReturnType<typeof setTimeout> | null = null;
+  let isSnapping = false;
+
+  lenisInstance.on('scroll', ({ velocity }: { velocity: number }) => {
+    // Snap when scroll velocity is low (user stopped scrolling)
+    if (Math.abs(velocity) < 0.1 && !isSnapping) {
+      if (snapTimeout) clearTimeout(snapTimeout);
+
+      snapTimeout = setTimeout(() => {
+        const scrollY = window.scrollY;
+        const viewportHeight = window.innerHeight;
+        let closestSection: HTMLElement | null = null;
+        let closestDistance = Number.POSITIVE_INFINITY;
+
+        // Find the closest section to snap to
+        sections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+          const sectionTop = scrollY + rect.top;
+          const distance = Math.abs(sectionTop - scrollY);
+
+          if (distance < viewportHeight && distance < closestDistance) {
+            closestDistance = distance;
+            closestSection = section;
+          }
+        });
+
+        // Snap to closest section
+        if (closestSection && closestDistance > 10) {
+          isSnapping = true;
+          lenisInstance.scrollTo(closestSection, {
+            duration: 1.2,
+            easing: easeInOutExpo,
+            onComplete: () => {
+              isSnapping = false;
+            },
+          });
+        }
+      }, 150); // Debounce snap trigger
+    }
+  });
 }
-requestAnimationFrame(raf);
+```
+
+**Utility Functions**:
+```typescript
+// Initialize smooth scroll with snap
+export function initSmoothScroll(): Lenis | null;
+
+// Scroll to element smoothly
+export function scrollToElement(target: HTMLElement | string, options?: ScrollOptions): void;
+
+// Scroll to top of page
+export function scrollToTop(duration?: number): void;
+
+// Pause/resume smooth scroll (for modals)
+export function stopSmoothScroll(): void;
+export function startSmoothScroll(): void;
+
+// Cleanup
+export function destroySmoothScroll(): void;
+
+// Get current instance
+export function getSmoothScroll(): Lenis | null;
 ```
 
 ## Animation Components

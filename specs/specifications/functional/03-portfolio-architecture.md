@@ -119,7 +119,10 @@ The single-page architecture includes an intelligent navigation system that trac
 
 **Navigation Behavior**:
 - Click navigation links to smoothly scroll to target section
-- Smooth scroll powered by Lenis library (respects `prefers-reduced-motion`)
+- Smooth scroll powered by Lenis library with section snap functionality
+- Scrolling uses "easeInOutExpo" easing (1.2s duration) for natural momentum feel
+- Automatic snap to nearest section when scroll velocity drops below threshold
+- Smooth scroll respects `prefers-reduced-motion` (disabled when user prefers reduced motion)
 - Focus automatically moves to target section for keyboard users
 - URL hash updates to reflect current section
 - Browser history tracks section changes (back/forward buttons work)
