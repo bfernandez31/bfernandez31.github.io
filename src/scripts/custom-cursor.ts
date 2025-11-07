@@ -30,10 +30,20 @@ const state: CursorState = {
 
 /**
  * Initialize custom cursor
+ * Optimized in Phase 5 (T034-T035):
+ * - Removed MutationObserver (use static selector + event delegation)
+ * - Added device tier check (disabled on MID/LOW tier devices)
  */
 export function initCustomCursor(): void {
 	// Don't initialize on touch devices or if user prefers reduced motion
 	if (isTouchDevice()) {
+		return;
+	}
+
+	// T035: Device tier check - disable on MID and LOW tier devices
+	const deviceTier = typeof window !== 'undefined' ? (window as any).__DEVICE_TIER__ : null;
+	if (deviceTier && (deviceTier.tier === 'MID' || deviceTier.tier === 'LOW')) {
+		console.log('[CustomCursor] Disabled on MID/LOW tier device for performance');
 		return;
 	}
 
@@ -120,9 +130,11 @@ function setupInstantCursor(cursor: HTMLElement): void {
 
 /**
  * Set up hover state detection for interactive elements
+ * T034: Simplified to use event delegation instead of MutationObserver
+ * Reduces overhead from observing entire DOM tree
  */
 function setupHoverDetection(cursor: HTMLElement): void {
-	// Select all interactive elements
+	// Interactive element selectors
 	const interactiveSelectors = [
 		"a[href]",
 		"button:not([disabled])",
@@ -132,62 +144,42 @@ function setupHoverDetection(cursor: HTMLElement): void {
 		"select:not([disabled])",
 	].join(", ");
 
-	const handleMouseEnter = () => {
-		if (!state.isHovering) {
-			state.isHovering = true;
-			cursor.classList.add("custom-cursor--hover");
+	// Use event delegation on document for better performance
+	const handleMouseOver = (e: Event) => {
+		const target = e.target as Element;
+		// Check if target or any parent matches interactive selectors
+		if (target.closest(interactiveSelectors)) {
+			if (!state.isHovering) {
+				state.isHovering = true;
+				cursor.classList.add("custom-cursor--hover");
+			}
 		}
 	};
 
-	const handleMouseLeave = () => {
-		if (state.isHovering) {
-			state.isHovering = false;
-			cursor.classList.remove("custom-cursor--hover");
-		}
-	};
-
-	// Add listeners to all interactive elements
-	const addListenersToElement = (element: Element) => {
-		element.addEventListener("mouseenter", handleMouseEnter);
-		element.addEventListener("mouseleave", handleMouseLeave);
-	};
-
-	// Initial setup
-	document
-		.querySelectorAll(interactiveSelectors)
-		.forEach(addListenersToElement);
-
-	// Use MutationObserver to handle dynamically added elements
-	const observer = new MutationObserver((mutations) => {
-		for (const mutation of mutations) {
-			for (const node of mutation.addedNodes) {
-				if (node instanceof Element) {
-					// Check if the node itself matches
-					if (node.matches(interactiveSelectors)) {
-						addListenersToElement(node);
-					}
-					// Check for matching descendants
-					node
-						.querySelectorAll(interactiveSelectors)
-						.forEach(addListenersToElement);
+	const handleMouseOut = (e: Event) => {
+		const target = e.target as Element;
+		// Check if we're leaving an interactive element
+		if (target.closest(interactiveSelectors)) {
+			const relatedTarget = (e as MouseEvent).relatedTarget as Element;
+			// Only remove hover if not moving to another interactive element
+			if (!relatedTarget || !relatedTarget.closest(interactiveSelectors)) {
+				if (state.isHovering) {
+					state.isHovering = false;
+					cursor.classList.remove("custom-cursor--hover");
 				}
 			}
 		}
-	});
+	};
 
-	observer.observe(document.body, {
-		childList: true,
-		subtree: true,
-	});
+	// Add event listeners to document (event delegation)
+	document.addEventListener("mouseover", handleMouseOver);
+	document.addEventListener("mouseout", handleMouseOut);
 
-	// Update cleanup to disconnect observer and remove listeners
+	// Update cleanup to remove listeners
 	const previousCleanup = state.cleanup;
 	state.cleanup = () => {
-		observer.disconnect();
-		document.querySelectorAll(interactiveSelectors).forEach((element) => {
-			element.removeEventListener("mouseenter", handleMouseEnter);
-			element.removeEventListener("mouseleave", handleMouseLeave);
-		});
+		document.removeEventListener("mouseover", handleMouseOver);
+		document.removeEventListener("mouseout", handleMouseOut);
 		if (previousCleanup) previousCleanup();
 	};
 }
