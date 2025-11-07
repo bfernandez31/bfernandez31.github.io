@@ -316,6 +316,85 @@ export function initMagneticMenu(
    - Bottom line: rotate -45deg + translateY
    - All transitions: CSS with `var(--transition-color)` duration
 
+### Scroll Progress Animation
+
+**Location**: `src/components/ui/ScrollProgress.astro` and `src/scripts/scroll-progress.ts`
+
+**Description**: Visual scroll progress indicator that dynamically tracks page scroll position
+
+**Component**: `ScrollProgress.astro`
+
+**Configuration Options**:
+```typescript
+interface Props {
+  zIndex?: number;  // Z-index for layering (default: 9999)
+}
+```
+
+**Visual Design**:
+- Fixed position at top of viewport (top: 0, left: 0)
+- 4px height (3px on high-DPI displays)
+- Transparent background, no pointer events
+- Gradient fill: `linear-gradient(90deg, var(--color-primary), var(--color-secondary))`
+- Width animates from 0% to 100% based on scroll progress
+- Smooth transition: 0.1s ease-out (respects reduced motion)
+
+**Scroll Tracking** (`src/scripts/scroll-progress.ts`):
+
+**Functions**:
+```typescript
+// Initialize scroll progress tracking
+export function initScrollProgress(): void;
+
+// Calculate scroll progress percentage (0-100)
+function calculateScrollProgress(): number;
+
+// Update progress bar width and ARIA attributes
+function updateProgressBar(): void;
+
+// Cleanup listeners and animation frames
+export function destroyScrollProgress(): void;
+```
+
+**Algorithm**:
+1. Calculate scrollable height: `scrollHeight - clientHeight`
+2. Calculate current scroll position: `scrollY`
+3. Compute percentage: `(scrollY / scrollableHeight) * 100`
+4. Clamp value between 0-100%
+5. Update progress bar width via CSS width property
+6. Update ARIA `aria-valuenow` attribute for accessibility
+
+**Performance**:
+- Integrates with Lenis smooth scroll for synchronized updates
+- Falls back to native scroll events if Lenis unavailable
+- Uses `requestAnimationFrame` throttling to prevent excessive updates
+- Handles window resize events (recalculates scrollable height)
+- Passive event listeners for better scrolling performance
+
+**Lenis Integration**:
+```typescript
+// Prefer Lenis scroll event for smoother updates
+if (window.lenis) {
+  window.lenis.on('scroll', updateProgressBar);
+} else {
+  window.addEventListener('scroll', handleScroll, { passive: true });
+}
+```
+
+**Accessibility**:
+- ARIA `role="progressbar"` for screen reader support
+- `aria-label="Page scroll progress"` describes purpose
+- `aria-valuemin="0"`, `aria-valuemax="100"` define range
+- `aria-valuenow` updates dynamically with scroll position
+- `pointer-events: none` prevents interference with user interaction
+- Respects `prefers-reduced-motion` by disabling transition
+
+**Edge Cases Handled**:
+- No scrollable content (progress stays at 0%)
+- Scroll at top (0%) or bottom (100%) of page
+- Window resize during scroll (recalculates dynamically)
+- Lenis instance not available (falls back to native events)
+
 ## Performance Monitoring
 
 ### Device Tier Detection
