@@ -206,6 +206,49 @@ The portfolio features a custom cursor that replaces the system cursor on deskto
 - Minimal CPU overhead (~1-2KB JavaScript)
 - Automatic cleanup on page navigation
 
+### Cursor Trail Effect
+
+The custom cursor is enhanced with a luminous particle trail that creates a visual wake as the cursor moves across the page.
+
+**Behavior**:
+- Spawns fading particles at cursor position that leave a glowing trail
+- Particles gradually fade out and shrink over time
+- Uses luminous violet color matching the site theme
+- Renders smoothly at 60fps using Canvas 2D and requestAnimationFrame
+- Maximum of 30 particles displayed at once to maintain performance
+
+**Visual Design**:
+- Particles rendered as luminous circles with glow effect
+- Initial size: 6px diameter
+- Color: Violet (`hsl(267 84% 81%)`) matching `--color-primary`
+- Shadow blur effect for luminous appearance
+- Particles fade from opacity 1 to 0 over ~1 second
+- Size decreases as particles fade (decay rate: 0.95 per frame)
+
+**Canvas Implementation**:
+- Full-viewport canvas overlay positioned behind cursor
+- High-DPI (Retina) display support for crisp rendering
+- Transparent background, no pointer events interference
+- Positioned at z-index: 9999 (below cursor at 10000)
+
+**Device Support**:
+- Desktop only (disabled on touch devices)
+- Automatically disabled when custom cursor is disabled
+- Canvas element hidden on touch-enabled screens
+
+**Accessibility**:
+- Respects `prefers-reduced-motion` user preference (trail disabled)
+- Canvas marked as `aria-hidden="true"` (decorative only)
+- Does not interfere with keyboard navigation or screen readers
+- Trail effect is purely decorative, no functional purpose
+
+**Performance**:
+- Efficient particle management (array-based with FIFO removal)
+- Spawn rate: 2 particles per frame
+- Canvas cleared and redrawn each frame (requestAnimationFrame)
+- Automatic cleanup on page navigation
+- Minimal memory footprint (~2-3KB JavaScript)
+
 ## Animation System
 
 ### Core Animation Utilities

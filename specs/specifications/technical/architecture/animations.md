@@ -526,6 +526,178 @@ if (window.lenis) {
 - Window resize during scroll (recalculates dynamically)
 - Lenis instance not available (falls back to native events)
 
+### Cursor Trail Animation
+
+**Location**: `src/scripts/cursor-trail.ts`
+
+**Description**: Canvas-based particle trail system that follows the custom cursor with luminous fading particles
+
+**Functions**:
+```typescript
+// Initialize cursor trail effect
+export function initCursorTrail(): void;
+
+// Set up canvas dimensions for high-DPI displays
+function setupCanvasDimensions(): void;
+
+// Start the animation loop
+function startAnimation(): void;
+
+// Stop the animation loop
+function stopAnimation(): void;
+
+// Update particles (spawn new, update existing, remove faded)
+function updateParticles(): void;
+
+// Render all particles to canvas
+function renderParticles(): void;
+
+// Clean up cursor trail (remove listeners, stop animation)
+export function cleanupCursorTrail(): void;
+```
+
+**State Management**:
+```typescript
+interface Particle {
+  x: number;          // Particle X position
+  y: number;          // Particle Y position
+  alpha: number;      // Current opacity (1 to 0)
+  size: number;       // Current size in pixels
+}
+
+interface CursorTrailState {
+  canvas: HTMLCanvasElement | null;     // Canvas element reference
+  ctx: CanvasRenderingContext2D | null; // 2D rendering context
+  particles: Particle[];                // Active particles array
+  animationFrameId: number | null;      // RAF ID for cleanup
+  lastMouseX: number;                   // Last mouse X position
+  lastMouseY: number;                   // Last mouse Y position
+  cleanup: (() => void) | null;         // Cleanup function
+}
+```
+
+**Configuration Constants**:
+```typescript
+const MAX_PARTICLES = 30;              // Maximum particles on screen
+const PARTICLE_SPAWN_RATE = 2;         // Particles spawned per frame
+const PARTICLE_INITIAL_SIZE = 6;       // Initial particle diameter (px)
+const PARTICLE_FADE_SPEED = 0.05;      // Alpha reduction per frame
+const PARTICLE_SIZE_DECAY = 0.95;      // Size multiplier per frame
+const PARTICLE_COLOR = "hsl(267 84% 81%)"; // --color-primary (violet)
+```
+
+**Algorithm**:
+
+1. **Initialization**:
+   - Check device type (skip on touch devices)
+   - Check motion preference (skip if reduced motion)
+   - Get canvas element and 2D context
+   - Set up high-DPI canvas dimensions
+   - Add mousemove and resize event listeners
+   - Start animation loop with requestAnimationFrame
+
+2. **Particle Spawning** (per frame):
+   - Create 2 new particles at current cursor position
+   - If max particle count reached, remove oldest particle (FIFO)
+   - Initialize particles with full opacity and size
+
+3. **Particle Update** (per frame):
+   - Fade out: Reduce alpha by 0.05 per frame
+   - Shrink: Multiply size by 0.95 per frame
+   - Remove particles when alpha reaches 0
+
+4. **Rendering** (per frame):
+   - Clear entire canvas
+   - For each particle:
+     - Set fill color to violet with current alpha
+     - Draw circle using arc() method
+     - Apply shadow blur for luminous glow effect
+   - Request next animation frame
+
+5. **Cleanup**:
+   - Cancel animation frame
+   - Remove event listeners
+   - Clear particles array
+   - Reset state
+
+**Canvas Setup**:
+```typescript
+function setupCanvasDimensions(): void {
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+
+  // Set actual canvas size (accounting for device pixel ratio)
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+
+  // Scale context to account for device pixel ratio
+  ctx.scale(dpr, dpr);
+
+  // Set display size via CSS
+  canvas.style.width = `${rect.width}px`;
+  canvas.style.height = `${rect.height}px`;
+}
+```
+
+**Particle Rendering**:
+```typescript
+function renderParticles(): void {
+  // Clear canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw each particle
+  for (const particle of particles) {
+    ctx.save();
+
+    // Set particle style with current alpha
+    ctx.fillStyle = PARTICLE_COLOR;
+    ctx.globalAlpha = particle.alpha;
+
+    // Draw circle
+    ctx.beginPath();
+    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Add glow effect
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = PARTICLE_COLOR;
+
+    ctx.restore();
+  }
+}
+```
+
+**Performance**:
+- Uses requestAnimationFrame for 60fps rendering
+- FIFO particle management prevents array growth
+- Efficient canvas clearing and redrawing
+- High-DPI support for crisp visuals on Retina displays
+- Passive event listeners for better scroll performance
+- Minimal memory footprint (~2-3KB JavaScript)
+
+**Integration**:
+```typescript
+// Initialize on page load (in layout)
+initCursorTrail();
+
+// Clean up on page navigation (Astro)
+document.addEventListener('astro:before-swap', () => {
+  cleanupCursorTrail();
+});
+```
+
+**Device Detection**:
+- Uses `isTouchDevice()` utility to detect touch support
+- Skips initialization on tablets and phones
+- Canvas element uses CSS media queries for visibility
+
+**Accessibility**:
+- Respects `prefers-reduced-motion` preference (disabled completely)
+- Canvas marked as `aria-hidden="true"` (decorative only)
+- No pointer events (doesn't interfere with user interaction)
+- Purely visual enhancement, no functional purpose
+- Keyboard navigation unaffected by trail effect
+
 ## Performance Monitoring
 
 ### Device Tier Detection
