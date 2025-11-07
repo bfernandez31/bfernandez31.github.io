@@ -2,7 +2,7 @@
 title: "feat: Implement dark mode with CSS custom properties"
 commitHash: "a3f7b2c"
 description: "Learn how to build a maintainable dark mode system using CSS custom properties and the prefers-color-scheme media query."
-author: "Your Name"
+author: "Benoit Fernandez"
 publishDate: 2024-10-15
 tags: ["CSS", "Accessibility", "Design Systems"]
 draft: false

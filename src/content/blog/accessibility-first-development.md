@@ -2,7 +2,7 @@
 title: "feat: Add WCAG 2.1 AA compliance and keyboard navigation"
 commitHash: "e7f8b9a"
 description: "Building accessible web applications from the ground up with WCAG 2.1 AA compliance."
-author: "Your Name"
+author: "Benoit Fernandez"
 publishDate: 2024-06-15
 tags: ["Accessibility", "WCAG", "Inclusive Design"]
 draft: false
