@@ -6,14 +6,14 @@ interface Props {
 const { class: className = "" } = Astro.props;
 
 const navItems = [
-	{ href: "/portfolio/", label: "Home" },
-	{ href: "/portfolio/about/", label: "About" },
+	{ href: "/", label: "Home" },
+	{ href: "/about/", label: "About" },
 ];
 ---
 
 <header class:list={['header', className]}>
   <div class="header__container">
-    <a href="/portfolio/" class="header__logo">
+    <a href="/" class="header__logo">
       <span class="header__logo-text">Portfolio</span>
     </a>
 

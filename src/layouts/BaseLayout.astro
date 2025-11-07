@@ -12,12 +12,12 @@ export interface Props {
 const {
 	title,
 	description = "Portfolio static site built with Bun and Astro",
-	ogImage = "/portfolio/images/og-images/home.webp",
+	ogImage = "/images/og-images/home.webp",
 	noindex = false,
 	canonicalUrl = Astro.url.pathname,
 } = Astro.props;
 
-const baseUrl = Astro.site || "https://b-fernandez.github.io";
+const baseUrl = Astro.site || "https://bfernandez31.github.io";
 const fullCanonicalUrl = new URL(canonicalUrl, baseUrl).href;
 const fullOgImage = new URL(ogImage, baseUrl).href;
 ---
