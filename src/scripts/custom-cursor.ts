@@ -10,7 +10,7 @@
  */
 
 import { gsap } from "gsap";
-import { prefersReducedMotion, isTouchDevice } from "./accessibility";
+import { isTouchDevice, prefersReducedMotion } from "./accessibility";
 
 interface CursorState {
 	cursor: HTMLElement | null;
@@ -41,9 +41,12 @@ export function initCustomCursor(): void {
 	}
 
 	// T035: Device tier check - disable on MID and LOW tier devices
-	const deviceTier = typeof window !== 'undefined' ? (window as any).__DEVICE_TIER__ : null;
-	if (deviceTier && (deviceTier.tier === 'MID' || deviceTier.tier === 'LOW')) {
-		console.log('[CustomCursor] Disabled on MID/LOW tier device for performance');
+	const deviceTier =
+		typeof window !== "undefined" ? (window as any).__DEVICE_TIER__ : null;
+	if (deviceTier && (deviceTier.tier === "MID" || deviceTier.tier === "LOW")) {
+		console.log(
+			"[CustomCursor] Disabled on MID/LOW tier device for performance",
+		);
 		return;
 	}
 

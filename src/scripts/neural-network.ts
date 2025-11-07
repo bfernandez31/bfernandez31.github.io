@@ -9,11 +9,11 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
-	NEURAL_NETWORK_DEFAULTS,
+	FrameRateMonitor,
 	getNeuralNodeCount,
 	getTargetFPS,
+	NEURAL_NETWORK_DEFAULTS,
 	prefersReducedMotion,
-	FrameRateMonitor,
 } from "./animation-config";
 
 gsap.registerPlugin(ScrollTrigger);

@@ -239,10 +239,11 @@ export const getDeviceTier = ():
  */
 export const getTargetFPS = (): number => {
 	// Check for global device tier detection (from device-tier.ts)
-	const globalTier = typeof window !== 'undefined' ? (window as any).__DEVICE_TIER__ : null;
+	const globalTier =
+		typeof window !== "undefined" ? (window as any).__DEVICE_TIER__ : null;
 
 	if (globalTier) {
-		const { getDeviceConfig } = require('../config/performance');
+		const { getDeviceConfig } = require("../config/performance");
 		const config = getDeviceConfig(globalTier.tier);
 		return config.targetFPS;
 	}
@@ -262,11 +263,12 @@ export const getNeuralNodeCount = (): number => {
 	}
 
 	// Check for global device tier detection (from device-tier.ts)
-	const globalTier = typeof window !== 'undefined' ? (window as any).__DEVICE_TIER__ : null;
+	const globalTier =
+		typeof window !== "undefined" ? (window as any).__DEVICE_TIER__ : null;
 
 	if (globalTier) {
 		// Use device tier from performance config
-		const { getDeviceConfig } = require('../config/performance');
+		const { getDeviceConfig } = require("../config/performance");
 		const config = getDeviceConfig(globalTier.tier);
 		return config.particles;
 	}

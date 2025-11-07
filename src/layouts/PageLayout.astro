@@ -1,10 +1,4 @@
 ---
-import BaseLayout from "./BaseLayout.astro";
-import BurgerMenu from "../components/layout/BurgerMenu.astro";
-import Footer from "../components/layout/Footer.astro";
-import ScrollProgress from "../components/ui/ScrollProgress.astro";
-import CustomCursor from "../components/ui/CustomCursor.astro";
-
 export interface Props {
 	title: string;
 	description?: string;
@@ -46,6 +40,25 @@ const { title, description, ogImage, noindex, canonicalUrl } = Astro.props;
 
 	// Expose as CSS custom property for styling-based optimizations
 	document.documentElement.style.setProperty('--device-tier', deviceTierResult.tier.toLowerCase());
+
+	// Initialize performance monitor in development mode only
+	if (import.meta.env.DEV) {
+		import('../scripts/performance/performance-monitor').then((module) => {
+			module.performanceMonitor.startMonitoring();
+
+			// Check budget every 5 seconds and log violations
+			import('../config/performance').then((config) => {
+				setInterval(() => {
+					module.performanceMonitor.checkBudget(config.PERFORMANCE_CONFIG.budget);
+				}, 5000);
+			});
+
+			// Log report every 30 seconds
+			setInterval(() => {
+				console.log(module.performanceMonitor.getReport());
+			}, 30000);
+		});
+	}
 </script>
 
 <style>

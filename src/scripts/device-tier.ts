@@ -6,8 +6,8 @@
  * for optimal performance across all device tiers.
  */
 
-import { FPS_TARGETS, NEURAL_NETWORK_DEFAULTS } from "./animation-config";
 import { prefersReducedMotion } from "./accessibility";
+import { FPS_TARGETS, NEURAL_NETWORK_DEFAULTS } from "./animation-config";
 
 /**
  * Device tier categories
@@ -231,7 +231,7 @@ if (import.meta.env.DEV && typeof window !== "undefined") {
 
 		// Log additional capabilities
 		console.log("[GPU Support]", deviceCapabilities.hasGoodGPU());
-		console.log("[Memory]", deviceCapabilities.getMemoryEstimate() + "GB");
+		console.log("[Memory]", `${deviceCapabilities.getMemoryEstimate()}GB`);
 		console.log("[Connection]", deviceCapabilities.getConnectionQuality());
 	});
 }

@@ -25,7 +25,7 @@ let lenis: Lenis | null = null;
  * More responsive than easeInOutExpo for user-initiated scrolling
  */
 function easeOutCubic(t: number): number {
-	return 1 - Math.pow(1 - t, 3);
+	return 1 - (1 - t) ** 3;
 }
 
 /**
@@ -49,8 +49,9 @@ export function initSmoothScroll(): Lenis | null {
 	}
 
 	// Check device tier - disable on LOW tier devices (T023)
-	const deviceTier = typeof window !== 'undefined' ? (window as any).__DEVICE_TIER__ : null;
-	if (deviceTier?.tier === 'LOW') {
+	const deviceTier =
+		typeof window !== "undefined" ? (window as any).__DEVICE_TIER__ : null;
+	if (deviceTier?.tier === "LOW") {
 		console.log(
 			"[SmoothScroll] LOW tier device detected - smooth scroll disabled for performance",
 		);
@@ -71,7 +72,7 @@ export function initSmoothScroll(): Lenis | null {
 		syncTouch: true,
 		syncTouchLerp: 0.1,
 		// Scroll interruption handling (T025)
-		prevent: (node) => {
+		prevent: (_node) => {
 			// Allow natural scroll interruption
 			return false;
 		},
@@ -95,7 +96,9 @@ export function initSmoothScroll(): Lenis | null {
 	// Expose Lenis instance on window for navigation-links.ts compatibility
 	window.lenis = lenis;
 
-	console.log("[SmoothScroll] Initialized successfully (optimized: 0.6s duration, easeOutCubic, no snap)");
+	console.log(
+		"[SmoothScroll] Initialized successfully (optimized: 0.6s duration, easeOutCubic, no snap)",
+	);
 
 	return lenis;
 }

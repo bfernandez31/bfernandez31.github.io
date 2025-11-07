@@ -96,16 +96,16 @@
 
 ### Implementation for User Story 3
 
-- [ ] T027 [P] [US3] Create performance monitor utility in src/scripts/performance/performance-monitor.ts with FPS tracking via requestAnimationFrame
-- [ ] T028 [P] [US3] Add Core Web Vitals monitoring using PerformanceObserver API in src/scripts/performance/performance-monitor.ts
-- [ ] T029 [P] [US3] Add memory usage tracking (Chrome-only performance.memory API) in src/scripts/performance/performance-monitor.ts
-- [ ] T030 [US3] Add budget violation detection comparing metrics against PERFORMANCE_CONFIG.budget in src/scripts/performance/performance-monitor.ts
-- [ ] T031 [US3] Initialize performance monitor in development mode only in src/layouts/PageLayout.astro (conditional on import.meta.env.DEV)
-- [ ] T032 [US3] Add pause/resume methods to neural network animation class in src/scripts/neural-network.ts
-- [ ] T033 [US3] Register neural network animation cleanup handler for astro:before-swap event in src/scripts/neural-network.ts
-- [ ] T034 [US3] Simplify custom cursor to remove MutationObserver (use static selector query + event delegation) in src/scripts/custom-cursor.ts
-- [ ] T035 [US3] Add device tier check to disable custom cursor on MID and LOW tier devices in src/scripts/custom-cursor.ts
-- [ ] T036 [US3] Ensure all animations respect prefers-reduced-motion preference (disable neural network, cursor effects) in relevant scripts
+- [x] T027 [P] [US3] Create performance monitor utility in src/scripts/performance/performance-monitor.ts with FPS tracking via requestAnimationFrame
+- [x] T028 [P] [US3] Add Core Web Vitals monitoring using PerformanceObserver API in src/scripts/performance/performance-monitor.ts
+- [x] T029 [P] [US3] Add memory usage tracking (Chrome-only performance.memory API) in src/scripts/performance/performance-monitor.ts
+- [x] T030 [US3] Add budget violation detection comparing metrics against PERFORMANCE_CONFIG.budget in src/scripts/performance/performance-monitor.ts
+- [x] T031 [US3] Initialize performance monitor in development mode only in src/layouts/PageLayout.astro (conditional on import.meta.env.DEV)
+- [x] T032 [US3] Add pause/resume methods to neural network animation class in src/scripts/neural-network.ts
+- [x] T033 [US3] Register neural network animation cleanup handler for astro:before-swap event in src/scripts/neural-network.ts
+- [x] T034 [US3] Simplify custom cursor to remove MutationObserver (use static selector query + event delegation) in src/scripts/custom-cursor.ts
+- [x] T035 [US3] Add device tier check to disable custom cursor on MID and LOW tier devices in src/scripts/custom-cursor.ts
+- [x] T036 [US3] Ensure all animations respect prefers-reduced-motion preference (disable neural network, cursor effects) in relevant scripts
 
 **Checkpoint**: All three user stories should now work independently - fast load, smooth scroll, and optimized animations on all device tiers
 

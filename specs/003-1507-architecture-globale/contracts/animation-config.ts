@@ -261,7 +261,7 @@ export const SCROLL_TRIGGER_PRESETS = {
  */
 export const SMOOTH_SCROLL_CONFIG = {
 	duration: 1.2, // Scroll animation duration
-	easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Custom easing
+	easing: (t: number) => Math.min(1, 1.001 - 2 ** (-10 * t)), // Custom easing
 	smooth: true,
 	smoothTouch: false, // Disable on touch devices (feels unnatural)
 	wheelMultiplier: 1.0, // Scroll speed multiplier
