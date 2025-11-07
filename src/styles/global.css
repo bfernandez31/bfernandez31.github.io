@@ -1,6 +1,9 @@
 /* Import color palette */
 @import './theme.css';
 
+/* Import section layout styles */
+@import './sections.css';
+
 /* Reset and base styles */
 *,
 *::before,

@@ -226,7 +226,8 @@ export function validateNavigationMenu(menu: NavigationMenu): void {
     try {
       validateNavigationLink(link);
     } catch (error) {
-      throw new Error(`NavigationMenu link at index ${index} is invalid: ${error.message}`);
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      throw new Error(`NavigationMenu link at index ${index} is invalid: ${message}`);
     }
   });
 

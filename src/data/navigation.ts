@@ -22,7 +22,7 @@ export const navigationLinks: NavigationLink[] = [
 	{
 		id: "home",
 		text: "Home",
-		path: "/",
+		path: "/#hero",
 		displayOrder: 1,
 		neuralPathwayConfig: {
 			nodeCount: 5,
@@ -33,7 +33,7 @@ export const navigationLinks: NavigationLink[] = [
 	{
 		id: "about",
 		text: "About",
-		path: "/about",
+		path: "/#about",
 		ariaLabel: "Learn about my background and experience",
 		displayOrder: 2,
 		neuralPathwayConfig: {
@@ -45,7 +45,7 @@ export const navigationLinks: NavigationLink[] = [
 	{
 		id: "projects",
 		text: "Projects",
-		path: "/projects",
+		path: "/#projects",
 		ariaLabel: "View my portfolio projects",
 		displayOrder: 3,
 		neuralPathwayConfig: {
@@ -57,7 +57,7 @@ export const navigationLinks: NavigationLink[] = [
 	{
 		id: "expertise",
 		text: "Expertise",
-		path: "/expertise",
+		path: "/#expertise",
 		ariaLabel: "Explore my technical skills and expertise",
 		displayOrder: 4,
 		neuralPathwayConfig: {
@@ -81,7 +81,7 @@ export const navigationLinks: NavigationLink[] = [
 	{
 		id: "contact",
 		text: "Contact",
-		path: "/contact",
+		path: "/#contact",
 		ariaLabel: "Get in touch with me",
 		displayOrder: 6,
 		neuralPathwayConfig: {

@@ -7,4 +7,10 @@ export default defineConfig({
 	// No base path needed for user/org GitHub Pages (username.github.io)
 	output: "static",
 	compressHTML: true,
+	redirects: {
+		'/about': '/#about',
+		'/projects': '/#projects',
+		'/expertise': '/#expertise',
+		'/contact': '/#contact',
+	},
 });

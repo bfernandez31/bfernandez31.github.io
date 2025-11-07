@@ -40,6 +40,50 @@ portfolio/
 └── .github/workflows/    # CI/CD automation
 ```
 
+## Single-Page Architecture
+
+The portfolio uses a single-page architecture with 5 full-viewport sections:
+
+### Navigation Pattern
+- **Main sections**: `#hero`, `#about`, `#projects`, `#expertise`, `#contact`
+- **URL structure**: All main content accessible via hash anchors (e.g., `/#about`)
+- **Blog**: Separate multi-page section at `/blog` (not included in single-page layout)
+
+### Implementation Details
+- **IntersectionObserver**: Tracks active section (30% threshold)
+- **Smooth scroll**: Powered by Lenis + GSAP ScrollTrigger
+- **Focus management**: Automatic focus on section navigation
+- **Deep linking**: Initial page load with hash scrolls to target section
+- **History management**: Browser back/forward buttons work correctly
+
+### Navigation Scripts
+```javascript
+// All three must be initialized in index.astro
+initActiveNavigation();    // Updates active link state
+initNavigationLinks();     // Handles link clicks + smooth scroll
+initNavigationHistory();   // Handles deep linking + back/forward
+```
+
+### Section Structure
+```astro
+<section
+  id="hero"
+  data-section="hero"
+  class="portfolio-section portfolio-section--hero"
+  role="main"
+  aria-label="Hero section with introduction"
+>
+  <!-- Content -->
+</section>
+```
+
+### Redirects
+Old page URLs automatically redirect to hash anchors:
+- `/about` → `/#about`
+- `/projects` → `/#projects`
+- `/expertise` → `/#expertise`
+- `/contact` → `/#contact`
+
 ## Commands
 ```bash
 bun install              # Install dependencies

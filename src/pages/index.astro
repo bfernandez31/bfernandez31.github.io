@@ -1,9 +1,74 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import Hero from "../components/sections/Hero.astro";
+import AboutIDE from "../components/sections/AboutIDE.astro";
+import ProjectsHexGrid from "../components/sections/ProjectsHexGrid.astro";
+import ExpertiseMatrix from "../components/sections/ExpertiseMatrix.astro";
+import ContactProtocol from "../components/sections/ContactProtocol.astro";
 import { pageMetadata } from "../data/pages";
+import type { JSONLDStructuredData } from "../types/seo";
 
 const metadata = pageMetadata.home;
+
+// About section content
+const biography = `
+I'm a passionate full stack developer with a focus on creating exceptional web experiences.
+With expertise in modern JavaScript frameworks, performance optimization, and accessible design,
+I build applications that are both beautiful and functional. I believe in writing clean,
+maintainable code and continuously learning new technologies to stay at the forefront of web development.
+`.trim();
+
+const highlights = [
+	"5+ years of experience in web development",
+	"Expert in TypeScript, React, and Node.js",
+	"Strong advocate for accessibility and performance",
+	"Contributed to open-source projects",
+	"Passionate about clean code and best practices"
+];
+
+// JSON-LD Structured Data for SEO
+const jsonLd: JSONLDStructuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'WebSite',
+	name: 'Benoit Fernandez Portfolio',
+	url: 'https://b-fernandez.github.io/portfolio/',
+	description: metadata.description,
+	mainEntity: {
+		'@type': 'Person',
+		name: 'Benoit Fernandez',
+		url: 'https://b-fernandez.github.io/portfolio/',
+		description: 'Full Stack Developer & Creative Technologist specializing in modern web technologies',
+		image: 'https://b-fernandez.github.io/portfolio/images/profile.jpg',
+		jobTitle: 'Full Stack Developer',
+		email: 'contact@b-fernandez.com',
+		sameAs: [
+			'https://github.com/b-fernandez',
+			'https://linkedin.com/in/benoit-fernandez',
+		],
+		knowsAbout: [
+			'TypeScript',
+			'React',
+			'Node.js',
+			'Astro',
+			'Web Performance',
+			'Accessibility (WCAG 2.1)',
+			'GSAP Animation',
+		],
+		hasPart: [
+			{
+				'@type': 'CreativeWork',
+				name: 'Portfolio Projects',
+				description: 'Collection of web development projects showcasing modern technologies',
+				url: 'https://b-fernandez.github.io/portfolio/#projects',
+			},
+		],
+	},
+	potentialAction: {
+		'@type': 'Action',
+		target: 'https://b-fernandez.github.io/portfolio/#contact',
+		name: 'Contact',
+	},
+};
 ---
 
 <PageLayout
@@ -11,21 +76,85 @@ const metadata = pageMetadata.home;
 	description={metadata.description}
 	ogImage={metadata.ogImage}
 >
-	<Hero
-		headline="Full Stack Developer & Creative Technologist"
-		subheadline="Crafting performant, accessible web experiences with modern technologies"
-		ctaText="Explore Projects"
-		ctaLink="/projects"
-	/>
+	<!-- JSON-LD Structured Data -->
+	<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} slot="head" />
+
+	<!-- Hero Section -->
+	<section
+		id="hero"
+		data-section="hero"
+		class="portfolio-section portfolio-section--hero"
+		role="main"
+		aria-label="Hero section with introduction and call to action"
+	>
+		<Hero
+			headline="Full Stack Developer & Creative Technologist"
+			subheadline="Crafting performant, accessible web experiences with modern technologies"
+			ctaText="Explore Projects"
+			ctaLink="#projects"
+		/>
+	</section>
+
+	<!-- About Section -->
+	<section
+		id="about"
+		data-section="about"
+		class="portfolio-section portfolio-section--about"
+		role="region"
+		aria-label="About section with background and experience"
+	>
+		<AboutIDE biography={biography} highlights={highlights} />
+	</section>
+
+	<!-- Projects Section -->
+	<section
+		id="projects"
+		data-section="projects"
+		class="portfolio-section portfolio-section--projects"
+		role="region"
+		aria-label="Projects section showcasing portfolio work"
+	>
+		<ProjectsHexGrid />
+	</section>
+
+	<!-- Expertise Section -->
+	<section
+		id="expertise"
+		data-section="expertise"
+		class="portfolio-section portfolio-section--expertise"
+		role="region"
+		aria-label="Expertise section with technical skills and competencies"
+	>
+		<ExpertiseMatrix />
+	</section>
+
+	<!-- Contact Section -->
+	<section
+		id="contact"
+		data-section="contact"
+		class="portfolio-section portfolio-section--contact"
+		role="region"
+		aria-label="Contact section for inquiries and collaboration"
+	>
+		<ContactProtocol />
+	</section>
 </PageLayout>
 
 <script>
 	import { initGSAP } from "../scripts/gsap-config";
 	import { initSmoothScroll } from "../scripts/scroll-animations";
 	import { initKeyboardNavDetection } from "../scripts/accessibility";
+	import { initActiveNavigation } from "../scripts/active-navigation";
+	import { initNavigationLinks } from "../scripts/navigation-links";
+	import { initNavigationHistory } from "../scripts/navigation-history";
 
 	// Initialize global animations and utilities
 	initGSAP();
 	initSmoothScroll();
 	initKeyboardNavDetection();
+
+	// Initialize single-page navigation
+	initActiveNavigation();
+	initNavigationLinks();
+	initNavigationHistory();
 </script>
