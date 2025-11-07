@@ -256,7 +256,17 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
 - Quickstart: `specs/002-1506-palette-couleur/quickstart.md`
 
 ## Recent Changes
-- 005-1510-convert-multi: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro ≥5.15.3 (static site generator), GSAP ≥3.13.0 (animations), Lenis ≥1.0.42 (smooth scroll)
+- 005-1510-convert-multi: Converted to single-page architecture with sectioned layout
+  - Consolidated all main content into index.astro with 5 full-viewport sections
+  - Implemented hash-based navigation (#hero, #about, #projects, #expertise, #contact)
+  - Created active section tracking with IntersectionObserver (30% threshold)
+  - Added smooth scroll navigation with Lenis integration
+  - Implemented browser history management and deep linking support
+  - Added URL redirects from old page paths to hash anchors
+  - Created navigation scripts: active-navigation.ts, navigation-links.ts, navigation-history.ts
+  - Implemented sections.css with 100vh/100dvh responsive patterns
+  - Ensured full accessibility with ARIA landmarks and keyboard navigation
+  - Maintained WCAG 2.1 AA compliance and reduced motion support
 - 003-1507-architecture-globale: Implemented Awwwards-worthy portfolio architecture (MVP)
   - Created neural network hero animation with Canvas 2D (60fps desktop, 30fps mobile)
   - Implemented magnetic burger menu with cursor proximity effect

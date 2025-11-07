@@ -156,31 +156,73 @@ const { title, description = 'Portfolio site' } = Astro.props;
 
 **Purpose**: File-based routing (files map to URLs)
 
+**Current Structure**:
+- `index.astro` → `/` (single-page layout with 5 sections)
+- `blog/` → `/blog/*` (multi-page blog section)
+- `404.astro` → `/404` (error page)
+
+**Single-Page Architecture**:
+The portfolio uses a single-page layout where all main content is consolidated into `index.astro`:
+- Contains 5 full-viewport sections: hero, about, projects, expertise, contact
+- Each section has unique `id` and `data-section` attributes
+- Navigation uses hash anchors (e.g., `/#about`, `/#projects`)
+- Old page URLs redirect to hash anchors via Astro redirects configuration
+
 **Routing Rules**:
-- `index.astro` → `/`
-- `about.astro` → `/about`
-- `blog/index.astro` → `/blog`
+- `index.astro` → `/` (single-page with sections `#hero`, `#about`, `#projects`, `#expertise`, `#contact`)
+- `blog/index.astro` → `/blog` (separate multi-page section)
 - `blog/[slug].astro` → `/blog/post-title` (dynamic routes)
+- Redirects: `/about` → `/#about`, `/projects` → `/#projects`, `/expertise` → `/#expertise`, `/contact` → `/#contact`
 
 **Conventions**:
 - Import and use layouts
 - Define frontmatter for page-specific logic
 - Use `getStaticPaths()` for dynamic routes
 - Export `prerender = true` for static generation
+- Use semantic HTML with proper ARIA landmarks for sections
 
-**Example Page**:
+**Example Single-Page Structure**:
 ```astro
 ---
 // src/pages/index.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Button from '../components/ui/Button.astro';
+import Hero from '../components/sections/Hero.astro';
+import AboutIDE from '../components/sections/AboutIDE.astro';
+import ProjectsHexGrid from '../components/sections/ProjectsHexGrid.astro';
+import ExpertiseMatrix from '../components/sections/ExpertiseMatrix.astro';
+import ContactProtocol from '../components/sections/ContactProtocol.astro';
 ---
 
-<BaseLayout title="Home">
-  <main>
-    <h1>Welcome to Portfolio</h1>
-    <Button variant="primary">Get Started</Button>
-  </main>
+<BaseLayout title="Portfolio">
+  <section id="hero" data-section="hero" class="portfolio-section portfolio-section--hero" role="main" aria-label="Hero section with introduction">
+    <Hero />
+  </section>
+
+  <section id="about" data-section="about" class="portfolio-section portfolio-section--about" role="region" aria-label="About section">
+    <AboutIDE />
+  </section>
+
+  <section id="projects" data-section="projects" class="portfolio-section portfolio-section--projects" role="region" aria-label="Projects showcase">
+    <ProjectsHexGrid />
+  </section>
+
+  <section id="expertise" data-section="expertise" class="portfolio-section portfolio-section--expertise" role="region" aria-label="Expertise and skills">
+    <ExpertiseMatrix />
+  </section>
+
+  <section id="contact" data-section="contact" class="portfolio-section portfolio-section--contact" role="region" aria-label="Contact information">
+    <ContactProtocol />
+  </section>
+
+  <script>
+    import { initActiveNavigation } from '@/scripts/active-navigation';
+    import { initNavigationLinks } from '@/scripts/navigation-links';
+    import { initNavigationHistory } from '@/scripts/navigation-history';
+
+    initActiveNavigation();
+    initNavigationLinks();
+    initNavigationHistory();
+  </script>
 </BaseLayout>
 ```
 
@@ -189,8 +231,9 @@ import Button from '../components/ui/Button.astro';
 **Purpose**: Global styles, design tokens, CSS utilities
 
 **Structure**:
-- `global.css` - CSS reset, base styles, imports theme.css
+- `global.css` - CSS reset, base styles, imports theme.css and sections.css
 - `theme.css` - Color palette tokens (Catppuccin Mocha-based)
+- `sections.css` - Section layout styles for single-page architecture (100vh/100dvh patterns)
 - `animations.css` - Global animation styles, GPU-accelerated transitions, reduced-motion queries
 - `utilities.css` - Utility classes (optional)
 
@@ -252,6 +295,9 @@ body {
 - `magnetic-menu.ts` - Magnetic effect utility for burger menu
 - `device-tier.ts` - Device capability detection and performance targeting
 - `performance.ts` - Frame rate monitoring and performance utilities
+- `active-navigation.ts` - Active section tracking with IntersectionObserver
+- `navigation-links.ts` - Navigation link click handler with smooth scroll
+- `navigation-history.ts` - Browser history and deep linking management
 
 **Conventions**:
 - Export named functions and classes
@@ -265,8 +311,9 @@ body {
 **Purpose**: Static structured data for site configuration
 
 **Structure**:
-- `navigation.ts` - Navigation links with metadata (text, path, displayOrder, ariaLabel)
-- `pages.ts` - Page metadata (title, description, Open Graph images)
+- `navigation.ts` - Navigation links with metadata using hash anchors (e.g., `/#hero`, `/#about`)
+- `pages.ts` - Page metadata for single-page structure (title, description, Open Graph images, canonical URL)
+- `sections.ts` - Section configuration data (id, title, aria-label for all 5 sections)
 - `skills.json` - Skills matrix data (planned)
 
 **Conventions**:
@@ -274,6 +321,19 @@ body {
 - Export as constants with clear types
 - Keep data separate from component logic
 - Use JSON for simple data structures, TypeScript for complex data
+- Navigation links use hash anchors for single-page architecture
+
+**Example Navigation Data**:
+```typescript
+// src/data/navigation.ts
+export const navigationLinks = [
+  { text: 'Home', path: '/#hero', displayOrder: 1, ariaLabel: 'Navigate to hero section' },
+  { text: 'About', path: '/#about', displayOrder: 2, ariaLabel: 'Navigate to about section' },
+  { text: 'Projects', path: '/#projects', displayOrder: 3, ariaLabel: 'Navigate to projects section' },
+  { text: 'Expertise', path: '/#expertise', displayOrder: 4, ariaLabel: 'Navigate to expertise section' },
+  { text: 'Contact', path: '/#contact', displayOrder: 5, ariaLabel: 'Navigate to contact section' },
+];
+```
 
 **Example Content Config**:
 ```typescript
