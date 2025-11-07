@@ -146,7 +146,7 @@ const jsonLd: JSONLDStructuredData = {
 	import { initActiveNavigation } from "../scripts/active-navigation";
 	import { initNavigationLinks } from "../scripts/navigation-links";
 	import { initNavigationHistory } from "../scripts/navigation-history";
-	import { initNavigationDots } from "../scripts/navigation-dots";
+	import { initNavigationDotsLazy } from "../scripts/navigation-dots";
 
 	// Initialize global animations and utilities
 	initGSAP();
@@ -157,5 +157,7 @@ const jsonLd: JSONLDStructuredData = {
 	initActiveNavigation();
 	initNavigationLinks();
 	initNavigationHistory();
-	initNavigationDots();
+
+	// T040: Lazy load navigation dots - loads when hero section exits viewport
+	initNavigationDotsLazy();
 </script>

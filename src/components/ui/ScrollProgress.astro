@@ -68,10 +68,10 @@ const { zIndex = 9999 } = Astro.props;
 </style>
 
 <script>
-	import { initScrollProgress } from "../../scripts/scroll-progress";
+	import { initScrollProgressLazy } from "../../scripts/scroll-progress";
 
-	// Initialize scroll progress tracking
-	initScrollProgress();
+	// T039: Lazy load scroll progress - loads on first scroll event
+	initScrollProgressLazy();
 
 	// Cleanup on page navigation (Astro view transitions)
 	document.addEventListener("astro:before-swap", () => {

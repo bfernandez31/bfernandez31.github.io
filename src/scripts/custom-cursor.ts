@@ -188,6 +188,37 @@ function setupHoverDetection(cursor: HTMLElement): void {
 }
 
 /**
+ * Lazy-loaded initialization (T041)
+ * Triggers after 2s idle or on first mousemove to reduce initial bundle size
+ */
+export function initCustomCursorLazy(): void {
+	let hasInitialized = false;
+
+	const initialize = () => {
+		if (!hasInitialized) {
+			hasInitialized = true;
+			initCustomCursor();
+			// Remove the mousemove listener after initialization
+			document.removeEventListener("mousemove", initialize);
+		}
+	};
+
+	// Initialize on first mousemove
+	document.addEventListener("mousemove", initialize, { once: true, passive: true });
+
+	// Or initialize after 2s idle
+	if ("requestIdleCallback" in window) {
+		(window as Window & typeof globalThis).requestIdleCallback(initialize);
+	} else {
+		setTimeout(initialize, 2000);
+	}
+
+	console.log(
+		"[CustomCursor] Lazy initialization registered (will load on first mousemove or after 2s idle)",
+	);
+}
+
+/**
  * Clean up custom cursor (remove event listeners, kill animations)
  */
 export function cleanupCustomCursor(): void {

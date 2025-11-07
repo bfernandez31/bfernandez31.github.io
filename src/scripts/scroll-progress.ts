@@ -90,6 +90,28 @@ export function initScrollProgress(): void {
 }
 
 /**
+ * Lazy-loaded initialization (T039)
+ * Triggers on first scroll event to reduce initial bundle size
+ */
+export function initScrollProgressLazy(): void {
+	let hasInitialized = false;
+
+	const onScroll = () => {
+		if (!hasInitialized) {
+			hasInitialized = true;
+			initScrollProgress();
+		}
+	};
+
+	// Initialize on first scroll
+	window.addEventListener("scroll", onScroll, { once: true, passive: true });
+
+	console.log(
+		"[ScrollProgress] Lazy initialization registered (will load on first scroll)",
+	);
+}
+
+/**
  * Destroy scroll progress tracking
  * Cleanup listeners and cancel pending animations
  */
