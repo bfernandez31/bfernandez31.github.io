@@ -118,7 +118,7 @@ The single-page architecture includes an intelligent navigation system that trac
 - `aria-current="page"` attribute updates for accessibility
 
 **Navigation Behavior**:
-- Click navigation links to smoothly scroll to target section
+- Click navigation links or dots to smoothly scroll to target section
 - Smooth scroll powered by Lenis library with section snap functionality
 - Scrolling uses "easeInOutExpo" easing (1.2s duration) for natural momentum feel
 - Automatic snap to nearest section when scroll velocity drops below threshold
@@ -139,9 +139,20 @@ The single-page architecture includes an intelligent navigation system that trac
 - Other sections use `role="region"` with descriptive `aria-label`
 - Proper heading hierarchy (h1 in Hero, h2 in other sections)
 
+**Vertical Navigation Dots**:
+- Fixed-position navigation dots on right side of viewport (desktop only)
+- One dot per main section (5 dots total)
+- Active dot scales up and changes color to indicate current section
+- Hover reveals section label with smooth fade-in animation
+- Click dot to scroll to corresponding section
+- Synchronized with main navigation active state
+- Hidden on mobile/tablet devices (<1024px)
+- Fully keyboard accessible with visible focus indicators
+- Respects `prefers-reduced-motion` preference
+
 **Responsive Behavior**:
-- Desktop (≥1024px): Sections fixed at 100vh height
-- Tablet/Mobile (<1024px): Sections use `min-height: 100vh` to prevent content cutoff
+- Desktop (≥1024px): Sections fixed at 100vh height, navigation dots visible
+- Tablet/Mobile (<1024px): Sections use `min-height: 100vh`, navigation dots hidden
 - Dynamic viewport units (100dvh) account for mobile browser UI
 - Sections allow natural overflow on smaller screens
 

@@ -8,7 +8,7 @@ The portfolio implements a sophisticated single-page navigation system that prov
 
 ### Core Components
 
-The navigation system consists of four primary JavaScript modules:
+The navigation system consists of five primary JavaScript modules:
 
 1. **Smooth Scroll Manager** (`src/scripts/smooth-scroll.ts`)
    - Initializes Lenis smooth scroll library
@@ -31,21 +31,29 @@ The navigation system consists of four primary JavaScript modules:
    - Manages browser back/forward navigation
    - Updates URL hash on section changes
 
+5. **Navigation Dots Manager** (`src/scripts/navigation-dots.ts`)
+   - Synchronizes dot active states with section visibility
+   - Handles dot click events for smooth scrolling
+   - Uses MutationObserver to sync with main navigation
+   - Manages cleanup on page navigation
+
 ### Implementation Pattern
 
-All four modules must be initialized in `index.astro`:
+All five modules must be initialized in `index.astro`:
 
 ```javascript
 import { initSmoothScroll } from '../scripts/smooth-scroll';
 import { initActiveNavigation } from '@/scripts/active-navigation';
 import { initNavigationLinks } from '@/scripts/navigation-links';
 import { initNavigationHistory } from '@/scripts/navigation-history';
+import { initNavigationDots } from '@/scripts/navigation-dots';
 
 // Initialize on page load (order matters!)
 initSmoothScroll();        // Initialize Lenis first (exposes window.lenis)
 initActiveNavigation();    // Tracks active section
 initNavigationLinks();     // Handles link clicks (depends on window.lenis)
 initNavigationHistory();   // Handles deep linking + history
+initNavigationDots();      // Syncs navigation dots with active section
 ```
 
 ## Active Section Tracking
@@ -229,6 +237,177 @@ document.querySelectorAll('a[href^="/#"]').forEach((link) => {
 });
 ```
 
+## Navigation Dots Component
+
+### Component Structure
+
+The NavigationDots component (`src/components/ui/NavigationDots.astro`) provides a vertical navigation interface positioned on the right side of the viewport:
+
+```astro
+---
+import { navigationLinks } from "../../data/navigation";
+
+// Filter out blog link (not a section on single-page layout)
+const sectionLinks = navigationLinks.filter(
+  (link) => !link.href.includes("blog")
+);
+---
+
+<nav
+  class="navigation-dots"
+  aria-label="Section navigation"
+  data-navigation-dots
+>
+  <ul class="navigation-dots__list" role="list">
+    {sectionLinks.map((link) => (
+      <li class="navigation-dots__item">
+        <a
+          href={link.href}
+          class="navigation-dots__link"
+          data-section-id={link.targetSectionId}
+          aria-label={link.ariaLabel}
+        >
+          <span class="navigation-dots__dot" aria-hidden="true" />
+          <span class="navigation-dots__label">{link.label}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+```
+
+### Active State Synchronization
+
+The navigation dots sync their active state with the main navigation system using a MutationObserver:
+
+```typescript
+// src/scripts/navigation-dots.ts
+const syncActiveDots = () => {
+  // Find the currently active main navigation link
+  const activeNavLink = document.querySelector<HTMLAnchorElement>(
+    'a[href^="#"][aria-current="page"]'
+  );
+
+  if (!activeNavLink) return;
+
+  // Extract section ID from the active link
+  const href = activeNavLink.getAttribute("href");
+  const sectionId = href?.replace(/^\/#?/, "");
+
+  // Update dot states
+  dotLinks.forEach((dotLink) => {
+    const dotSectionId = dotLink.getAttribute("data-section-id");
+
+    if (dotSectionId === sectionId) {
+      dotLink.classList.add("active");
+      dotLink.setAttribute("aria-current", "page");
+    } else {
+      dotLink.classList.remove("active");
+      dotLink.removeAttribute("aria-current");
+    }
+  });
+};
+
+// Watch for changes when active-navigation updates nav links
+const observer = new MutationObserver(() => {
+  syncActiveDots();
+});
+
+observer.observe(document.body, {
+  attributes: true,
+  attributeFilter: ["aria-current", "class"],
+  subtree: true,
+});
+```
+
+### Smooth Scroll Integration
+
+Navigation dots trigger smooth scrolling using the Lenis library:
+
+```typescript
+dotLinks.forEach((dotLink) => {
+  dotLink.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const href = dotLink.getAttribute("href");
+    const targetId = href?.replace(/^\/#?/, "");
+    const targetSection = document.getElementById(targetId);
+
+    if (!targetSection) return;
+
+    // Use Lenis for smooth scrolling if available
+    if (window.lenis) {
+      window.lenis.scrollTo(targetSection, {
+        offset: 0,
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - 2 ** (-10 * t)),
+      });
+    } else {
+      // Fallback to native smooth scroll
+      targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    // Update URL hash
+    window.history.pushState(null, "", `#${targetId}`);
+  });
+});
+```
+
+### Visual Styling
+
+The component uses CSS custom properties and respects user motion preferences:
+
+```css
+.navigation-dots {
+  position: fixed;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+}
+
+/* Active state */
+.navigation-dots__link.active .navigation-dots__dot {
+  transform: scale(1.6);
+  background-color: var(--color-primary);
+}
+
+/* Hover reveals label */
+.navigation-dots__link:hover .navigation-dots__label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Responsive: Hide on mobile/tablet */
+@media (max-width: 1024px) {
+  .navigation-dots {
+    display: none;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .navigation-dots__link,
+  .navigation-dots__dot,
+  .navigation-dots__label {
+    transition-duration: 0.01ms !important;
+  }
+
+  .navigation-dots__link.active .navigation-dots__dot {
+    transform: scale(1.2); /* Subtle scale instead of large */
+  }
+}
+```
+
+### Accessibility Features
+
+- **Keyboard Navigation**: All dots are keyboard accessible with Tab key
+- **Focus Indicators**: Visible outline on focus-visible state
+- **ARIA Attributes**: `aria-label` on links, `aria-current="page"` on active dot
+- **Semantic HTML**: Uses `<nav>` with `role="list"` for proper structure
+- **Screen Reader Support**: Descriptive labels for each dot
+- **Reduced Motion**: Respects `prefers-reduced-motion` preference
+
 ## URL Redirects
 
 Old page URLs redirect to corresponding hash anchors using Astro's redirect configuration:
@@ -399,7 +578,8 @@ document.addEventListener('astro:before-swap', () => {
 | active-navigation.ts | ~1.5 KB |
 | navigation-links.ts | ~1.2 KB |
 | navigation-history.ts | ~0.8 KB |
-| **Total** | **~6.0 KB** |
+| navigation-dots.ts | ~1.8 KB |
+| **Total** | **~7.8 KB** |
 
 Lenis library: ~10 KB (included for smooth scroll + snap functionality)
 
@@ -445,6 +625,14 @@ Lenis library: ~10 KB (included for smooth scroll + snap functionality)
    - Verify active link is announced
    - Verify landmarks are recognized
 
+8. **Navigation Dots**:
+   - Click each dot to navigate to section
+   - Verify active dot updates when scrolling manually
+   - Hover over dots to reveal labels
+   - Tab through dots with keyboard
+   - Verify dots are hidden on mobile/tablet (<1024px)
+   - Test with reduced motion enabled
+
 ### Automated Tests
 
 ```typescript
@@ -469,6 +657,18 @@ describe('Section Navigation', () => {
   test('handles deep linking', () => {
     // Set window.location.hash
     // Check section is scrolled to
+  });
+
+  test('navigation dots sync with active section', () => {
+    // Simulate scroll to section
+    // Check corresponding dot has active class
+    // Check aria-current="page" is set on dot
+  });
+
+  test('navigation dots trigger smooth scroll on click', () => {
+    // Click navigation dot
+    // Check scrollTo was called with correct target
+    // Check URL hash was updated
   });
 });
 ```
@@ -496,6 +696,17 @@ describe('Section Navigation', () => {
 - Verify sections have `tabindex="-1"` attribute
 - Check focus timing (may need delay after scroll)
 - Ensure `preventScroll: true` is used in focus call
+
+**Navigation dots not syncing**:
+- Verify `data-navigation-dots` attribute is present on component
+- Check `data-section-id` attributes match section IDs
+- Verify MutationObserver is watching for `aria-current` changes
+- Ensure `initNavigationDots()` is called after `initActiveNavigation()`
+
+**Navigation dots visible on mobile**:
+- Check media query breakpoint is set to 1024px
+- Verify CSS `display: none` is applied at correct breakpoint
+- Check for CSS specificity issues overriding mobile styles
 
 ## Future Enhancements
 

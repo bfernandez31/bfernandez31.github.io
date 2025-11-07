@@ -58,11 +58,12 @@ The portfolio uses a single-page architecture with 5 full-viewport sections:
 
 ### Navigation Scripts
 ```javascript
-// All four must be initialized in index.astro (order matters!)
+// All five must be initialized in index.astro (order matters!)
 initSmoothScroll();        // Initialize Lenis first (exposes window.lenis)
 initActiveNavigation();    // Updates active link state
 initNavigationLinks();     // Handles link clicks + smooth scroll
 initNavigationHistory();   // Handles deep linking + back/forward
+initNavigationDots();      // Syncs navigation dots with active section
 ```
 
 ### Section Structure
@@ -268,6 +269,17 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
 - Quickstart: `specs/002-1506-palette-couleur/quickstart.md`
 
 ## Recent Changes
+- 007-title-vertical-navigation: Added vertical navigation dots component
+  - Created NavigationDots.astro component with fixed positioning (right: 2rem)
+  - Implemented active state synchronization with main navigation via MutationObserver
+  - Added smooth scroll integration with Lenis library
+  - Implemented hover state revealing section labels with fade-in animation
+  - Created navigation-dots.ts script for active state management
+  - Added responsive behavior (hidden on mobile/tablet <1024px)
+  - Ensured full keyboard accessibility with focus indicators
+  - Implemented reduced motion support with subtle scale transforms
+  - Added visual feedback with scale animation (1.6x active, 1.4x hover)
+  - Integrated with existing navigation system (5 navigation scripts total)
 - 006-title-lenis-smooth: Enhanced Lenis smooth scroll with section snap
   - Configured easeInOutExpo easing for natural momentum feel (1.2s duration)
   - Implemented automatic section snap when scroll velocity drops below threshold
