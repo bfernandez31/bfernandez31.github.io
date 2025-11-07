@@ -58,6 +58,9 @@
 /* Hero Section - Always full height */
 .portfolio-section--hero {
 	min-height: 100vh;
+	/* Remove any default borders/outlines */
+	border: none;
+	outline: none;
 
 	@supports (height: 100dvh) {
 		min-height: 100dvh;

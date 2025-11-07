@@ -20,28 +20,28 @@ export interface DeviceTierConfig {
  */
 export const DEVICE_TIER_CONFIGS: Record<DeviceTierLevel, DeviceTierConfig> = {
 	HIGH: {
-		particles: 50,
+		particles: 30, // Balanced for visibility and performance
 		targetFPS: 60,
 		enableCursorEffects: true,
-		enableSmoothScroll: true,
+		enableSmoothScroll: false, // Disabled temporarily for performance
 	},
 	MID: {
-		particles: 30,
-		targetFPS: 30,
-		enableCursorEffects: false,
-		enableSmoothScroll: true,
-	},
-	LOW: {
 		particles: 20,
 		targetFPS: 30,
 		enableCursorEffects: false,
 		enableSmoothScroll: false,
 	},
-	UNKNOWN: {
-		particles: 30, // Default to mid-tier
+	LOW: {
+		particles: 15,
 		targetFPS: 30,
 		enableCursorEffects: false,
-		enableSmoothScroll: true,
+		enableSmoothScroll: false,
+	},
+	UNKNOWN: {
+		particles: 20, // Default to balanced
+		targetFPS: 30,
+		enableCursorEffects: false,
+		enableSmoothScroll: false,
 	},
 };
 
