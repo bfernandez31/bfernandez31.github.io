@@ -83,7 +83,7 @@ const skillsByCategory = categories.map((category) => ({
 		// Animate category cards on scroll
 		const categories = document.querySelectorAll(".expertise__category");
 
-		categories.forEach((category, index) => {
+		categories.forEach((category) => {
 			gsap.fromTo(
 				category,
 				{
@@ -136,10 +136,15 @@ const skillsByCategory = categories.map((category) => ({
 	.expertise {
 		padding: 4rem 2rem;
 		min-height: 100vh;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.expertise__container {
 		max-width: 1400px;
+		width: 100%;
 		margin: 0 auto;
 	}
 
@@ -148,14 +153,15 @@ const skillsByCategory = categories.map((category) => ({
 		font-weight: 700;
 		text-align: center;
 		margin-bottom: 1rem;
-		color: var(--color-text, #cdd6f4);
+		color: var(--color-text);
 	}
 
 	.expertise__subtitle {
 		font-size: clamp(1rem, 2vw, 1.25rem);
 		text-align: center;
 		margin-bottom: 4rem;
-		color: var(--color-text-muted, rgba(205, 214, 244, 0.7));
+		color: var(--color-text);
+		opacity: 0.8;
 	}
 
 	.expertise__matrix {
@@ -165,14 +171,13 @@ const skillsByCategory = categories.map((category) => ({
 	}
 
 	.expertise__category {
-		background: var(--color-surface, rgba(30, 30, 46, 0.8));
-		border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+		background: rgba(30, 30, 46, 0.95);
+		border: 1px solid rgba(203, 166, 247, 0.3);
 		border-radius: 12px;
 		padding: 2rem;
 		backdrop-filter: blur(10px);
 		-webkit-backdrop-filter: blur(10px);
-		transition: transform var(--transition-color),
-			box-shadow var(--transition-color);
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
 	}
 
 	@media (hover: hover) {
@@ -186,8 +191,8 @@ const skillsByCategory = categories.map((category) => ({
 		font-size: 1.5rem;
 		font-weight: 600;
 		margin-bottom: 1.5rem;
-		color: var(--color-primary, #cba6f7);
-		border-bottom: 2px solid var(--color-primary, #cba6f7);
+		color: var(--color-primary);
+		border-bottom: 2px solid var(--color-primary);
 		padding-bottom: 0.5rem;
 	}
 
@@ -211,19 +216,20 @@ const skillsByCategory = categories.map((category) => ({
 	.expertise__skill-name {
 		font-size: 1.125rem;
 		font-weight: 500;
-		color: var(--color-text, #cdd6f4);
+		color: var(--color-text);
 	}
 
 	.expertise__skill-years {
 		font-size: 0.875rem;
 		font-weight: 400;
-		color: var(--color-text-muted, rgba(205, 214, 244, 0.6));
+		color: var(--color-text);
+		opacity: 0.6;
 		font-family: "Fira Code", "Courier New", monospace;
 	}
 
 	.expertise__skill-bar {
 		height: 8px;
-		background: var(--color-surface-raised, rgba(17, 17, 27, 0.6));
+		background: rgba(17, 17, 27, 0.8);
 		border-radius: 4px;
 		overflow: hidden;
 		position: relative;
@@ -231,38 +237,22 @@ const skillsByCategory = categories.map((category) => ({
 
 	.expertise__skill-fill {
 		height: 100%;
-		background: linear-gradient(
-			90deg,
-			var(--color-primary, #cba6f7),
-			var(--color-accent, #b4befe)
-		);
+		background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
 		border-radius: 4px;
 		transform-origin: left;
-		transition: background var(--transition-color);
+		transition: background 0.3s ease;
 	}
 
 	.expertise__skill-fill[data-level="5"] {
-		background: linear-gradient(
-			90deg,
-			var(--color-primary, #cba6f7),
-			var(--color-secondary, #f5c2e7)
-		);
+		background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
 	}
 
 	.expertise__skill-fill[data-level="4"] {
-		background: linear-gradient(
-			90deg,
-			var(--color-accent, #b4befe),
-			var(--color-primary, #cba6f7)
-		);
+		background: linear-gradient(90deg, var(--color-accent), var(--color-primary));
 	}
 
 	.expertise__skill-fill[data-level="3"] {
-		background: linear-gradient(
-			90deg,
-			var(--color-accent, #b4befe),
-			var(--color-text, #cdd6f4)
-		);
+		background: linear-gradient(90deg, var(--color-accent), var(--color-text));
 	}
 
 	.expertise__skill-tooltip {
@@ -270,16 +260,16 @@ const skillsByCategory = categories.map((category) => ({
 		top: 100%;
 		left: 0;
 		margin-top: 0.5rem;
-		background: var(--color-surface-raised, rgba(17, 17, 27, 0.95));
-		border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+		background: rgba(17, 17, 27, 0.98);
+		border: 1px solid rgba(203, 166, 247, 0.3);
 		border-radius: 8px;
 		padding: 0.75rem 1rem;
 		opacity: 0;
 		pointer-events: none;
-		transition: opacity var(--transition-color);
+		transition: opacity 0.3s ease;
 		z-index: 10;
 		min-width: 200px;
-		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
 	}
 
 	.expertise__skill:hover .expertise__skill-tooltip {
@@ -288,7 +278,7 @@ const skillsByCategory = categories.map((category) => ({
 
 	.expertise__skill-tooltip p {
 		font-size: 0.875rem;
-		color: var(--color-text, #cdd6f4);
+		color: var(--color-text);
 		margin-bottom: 0.25rem;
 	}
 
@@ -297,7 +287,7 @@ const skillsByCategory = categories.map((category) => ({
 	}
 
 	.expertise__skill-tooltip strong {
-		color: var(--color-primary, #cba6f7);
+		color: var(--color-primary);
 	}
 
 	/* Mobile layout */

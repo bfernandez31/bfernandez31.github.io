@@ -5,7 +5,7 @@
  * for performance budgets validation and debugging.
  */
 
-import type { PerformanceBudget } from "@/config/performance";
+import type { PerformanceBudget } from "../../config/performance";
 
 interface PerformanceMetrics {
 	// Core Web Vitals
@@ -285,38 +285,38 @@ class PerformanceMonitor {
 		const violations: BudgetViolation[] = [];
 
 		// Check Core Web Vitals
-		if (this.metrics.lcp !== null && this.metrics.lcp > budget.lcp.max) {
+		if (this.metrics.lcp !== null && this.metrics.lcp > budget.maxLCP) {
 			violations.push({
 				metric: "LCP",
 				value: Math.round(this.metrics.lcp),
-				threshold: budget.lcp.max,
+				threshold: budget.maxLCP,
 				timestamp: Date.now(),
 			});
 		}
 
-		if (this.metrics.fid !== null && this.metrics.fid > budget.fid.max) {
+		if (this.metrics.fid !== null && this.metrics.fid > budget.maxFID) {
 			violations.push({
 				metric: "FID",
 				value: Math.round(this.metrics.fid),
-				threshold: budget.fid.max,
+				threshold: budget.maxFID,
 				timestamp: Date.now(),
 			});
 		}
 
-		if (this.metrics.cls !== null && this.metrics.cls > budget.cls.max) {
+		if (this.metrics.cls !== null && this.metrics.cls > budget.maxCLS) {
 			violations.push({
 				metric: "CLS",
 				value: Math.round(this.metrics.cls * 1000) / 1000, // Round to 3 decimals
-				threshold: budget.cls.max,
+				threshold: budget.maxCLS,
 				timestamp: Date.now(),
 			});
 		}
 
-		if (this.metrics.fcp !== null && this.metrics.fcp > budget.fcp.max) {
+		if (this.metrics.fcp !== null && this.metrics.fcp > budget.maxFCP) {
 			violations.push({
 				metric: "FCP",
 				value: Math.round(this.metrics.fcp),
-				threshold: budget.fcp.max,
+				threshold: budget.maxFCP,
 				timestamp: Date.now(),
 			});
 		}

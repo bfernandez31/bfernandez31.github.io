@@ -1,4 +1,10 @@
 ---
+import PageLayout from '../layouts/PageLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import AboutIDE from '../components/sections/AboutIDE.astro';
+import ProjectsHexGrid from '../components/sections/ProjectsHexGrid.astro';
+import ExpertiseMatrix from '../components/sections/ExpertiseMatrix.astro';
+import ContactProtocol from '../components/sections/ContactProtocol.astro';
 import { pageMetadata } from "../data/pages";
 import type { JSONLDStructuredData } from "../types/seo";
 
@@ -75,9 +81,6 @@ const jsonLd: JSONLDStructuredData = {
 	<!-- JSON-LD Structured Data -->
 	<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} slot="head" />
 
-	<!-- Navigation Dots -->
-	<NavigationDots />
-
 	<!-- Hero Section -->
 	<section
 		id="hero"
@@ -146,9 +149,8 @@ const jsonLd: JSONLDStructuredData = {
 	import { initActiveNavigation } from "../scripts/active-navigation";
 	import { initNavigationLinks } from "../scripts/navigation-links";
 	import { initNavigationHistory } from "../scripts/navigation-history";
-	import { initNavigationDotsLazy } from "../scripts/navigation-dots";
 
-	// Progressive enhancement wrapper (T049) - ensure navigation always works
+	// Progressive enhancement wrapper - ensure navigation always works
 	try {
 		// Initialize global animations and utilities
 		initGSAP();
@@ -159,9 +161,6 @@ const jsonLd: JSONLDStructuredData = {
 		initActiveNavigation();
 		initNavigationLinks();
 		initNavigationHistory();
-
-		// T040: Lazy load navigation dots - loads when hero section exits viewport
-		initNavigationDotsLazy();
 	} catch (error) {
 		// Progressive enhancement: Navigation and content remain accessible if animations fail
 		console.error('[Index] Failed to initialize animations:', error);

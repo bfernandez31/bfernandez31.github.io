@@ -209,7 +209,7 @@ class LazyLoadQueueManager {
 	/**
 	 * Load all tasks of a specific priority
 	 */
-	async loadByPriority(priority: LazyLoadPriority): Promise<undefined[]> {
+	async loadByPriority(priority: LazyLoadPriority): Promise<void[]> {
 		const promises: Promise<void>[] = [];
 
 		for (const [id, task] of this.tasks) {

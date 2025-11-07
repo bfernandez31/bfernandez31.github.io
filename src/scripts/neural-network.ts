@@ -135,33 +135,17 @@ export class NeuralNetworkAnimation {
 			this.nodes.push({
 				x: Math.random() * width,
 				y: Math.random() * height,
-				vx: (Math.random() - 0.5) * 0.5,
-				vy: (Math.random() - 0.5) * 0.5,
-				opacity: 0,
+				vx: (Math.random() - 0.5) * 0.2, // Reduced velocity for calmer movement
+				vy: (Math.random() - 0.5) * 0.2,
+				opacity: 1, // Start fully visible - no fade animation
 				radius: NEURAL_NETWORK_DEFAULTS.NODE_RADIUS,
 			});
 		}
-
-		// Simplified GSAP intro animation (T017) - single fade-in instead of stagger
-		// Reduces animation overhead from 150+ simultaneous animations to 1 timeline
-		gsap.to(this.nodes, {
-			opacity: 1,
-			duration: 0.8, // Reduced from 1.5s for faster perceived load
-			ease: "power2.out",
-			// No stagger - all nodes fade in together
-		});
 	}
 
 	private setupScrollTrigger(): void {
-		this.scrollTrigger = ScrollTrigger.create({
-			trigger: this.canvas,
-			start: "top 80%",
-			end: "bottom 20%",
-			onEnter: () => this.start(),
-			onLeave: () => this.pause(),
-			onEnterBack: () => this.start(),
-			onLeaveBack: () => this.pause(),
-		});
+		// Start immediately, don't wait for scroll
+		this.start();
 	}
 
 	private updateNodes(): void {

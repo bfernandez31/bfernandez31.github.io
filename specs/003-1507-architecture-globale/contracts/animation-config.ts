@@ -349,7 +349,6 @@ export const getDeviceTier = ():
 	if (typeof window === "undefined") return "desktop";
 
 	const width = window.innerWidth;
-	const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 	const cores = navigator.hardwareConcurrency || 4;
 	const memory = (navigator as any).deviceMemory || 8; // GB
 

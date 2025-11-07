@@ -46,6 +46,34 @@ export const DEVICE_TIER_CONFIGS: Record<DeviceTierLevel, DeviceTierConfig> = {
 };
 
 /**
+ * Performance budget type
+ */
+export interface PerformanceBudget {
+	// Core Web Vitals
+	maxLCP: number;
+	maxFID: number;
+	maxCLS: number;
+
+	// Loading metrics
+	maxFCP: number;
+	maxTTI: number;
+	maxTBT: number;
+
+	// Animation performance
+	minFPS: number;
+	maxCPU: number;
+	maxMemory: number;
+
+	// Resource budgets
+	maxTotalSize: number;
+	maxCriticalSize: number;
+
+	// Lighthouse scores
+	minLighthouseMobile: number;
+	minLighthouseDesktop: number;
+}
+
+/**
  * Performance budgets from contracts/performance-budgets.md
  */
 export const PERFORMANCE_CONFIG = {
@@ -72,7 +100,7 @@ export const PERFORMANCE_CONFIG = {
 		// Lighthouse scores
 		minLighthouseMobile: 85,
 		minLighthouseDesktop: 95,
-	},
+	} as PerformanceBudget,
 
 	// Device tier thresholds (used by device-tier.ts)
 	deviceTierThresholds: {

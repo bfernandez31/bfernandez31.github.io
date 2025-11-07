@@ -110,16 +110,16 @@ export const DURATIONS = {
  * Default configuration for hero neural network animation
  */
 export const NEURAL_NETWORK_DEFAULTS = {
-	// Particle counts
-	NODE_COUNT_DESKTOP: 100,
-	NODE_COUNT_TABLET: 75,
-	NODE_COUNT_MOBILE: 50,
+	// Particle counts - HIGHLY OPTIMIZED for smoothness
+	NODE_COUNT_DESKTOP: 15,
+	NODE_COUNT_TABLET: 10,
+	NODE_COUNT_MOBILE: 8,
 
 	// Visual properties
 	NODE_RADIUS: 3, // pixels
 	EDGE_WIDTH: 1, // pixels
-	CONNECTION_DISTANCE: 150, // pixels
-	PULSE_SPEED: 0.02, // units per frame
+	CONNECTION_DISTANCE: 100, // pixels - reduced for fewer connections
+	PULSE_SPEED: 0.015, // units per frame - slower for calmer effect
 
 	// Colors (using CSS custom properties)
 	COLORS: {
