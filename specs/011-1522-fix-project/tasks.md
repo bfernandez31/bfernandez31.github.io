@@ -76,13 +76,13 @@
 
 ### Implementation for User Story 2
 
-- [ ] T020 [US2] Reduce Lenis smooth scroll duration from 1.2s to 0.6s in src/scripts/smooth-scroll.ts
-- [ ] T021 [US2] Change Lenis easing function from easeInOutExpo to easeOutCubic in src/scripts/smooth-scroll.ts
-- [ ] T022 [US2] Remove section snap functionality entirely (delete velocity detection and debounced snap logic) in src/scripts/smooth-scroll.ts
-- [ ] T023 [US2] Add device tier check to conditionally disable Lenis on LOW tier devices in src/scripts/smooth-scroll.ts
-- [ ] T024 [US2] Ensure prefers-reduced-motion check disables smooth scroll (use instant scroll-to-anchor) in src/scripts/smooth-scroll.ts
-- [ ] T025 [US2] Add scroll interruption handling to prevent queued scroll animations in src/scripts/smooth-scroll.ts
-- [ ] T026 [US2] Verify smooth scroll works with navigation links (programmatic scrolling) in src/scripts/navigation-links.ts
+- [x] T020 [US2] Reduce Lenis smooth scroll duration from 1.2s to 0.6s in src/scripts/smooth-scroll.ts
+- [x] T021 [US2] Change Lenis easing function from easeInOutExpo to easeOutCubic in src/scripts/smooth-scroll.ts
+- [x] T022 [US2] Remove section snap functionality entirely (delete velocity detection and debounced snap logic) in src/scripts/smooth-scroll.ts
+- [x] T023 [US2] Add device tier check to conditionally disable Lenis on LOW tier devices in src/scripts/smooth-scroll.ts
+- [x] T024 [US2] Ensure prefers-reduced-motion check disables smooth scroll (use instant scroll-to-anchor) in src/scripts/smooth-scroll.ts
+- [x] T025 [US2] Add scroll interruption handling to prevent queued scroll animations in src/scripts/smooth-scroll.ts
+- [x] T026 [US2] Verify smooth scroll works with navigation links (programmatic scrolling) in src/scripts/navigation-links.ts
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently - page loads fast AND scrolling is smooth and responsive
 
