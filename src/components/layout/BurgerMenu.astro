@@ -3,9 +3,7 @@ import { navigationLinks } from "../../data/navigation";
 
 // T013 - Use hash anchor links for single-page navigation
 // Sort links by order
-const sortedLinks = [...navigationLinks].sort(
-	(a, b) => a.order - b.order,
-);
+const sortedLinks = [...navigationLinks].sort((a, b) => a.order - b.order);
 ---
 
 <div class="burger-wrapper">

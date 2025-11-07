@@ -8,9 +8,9 @@ export default defineConfig({
 	output: "static",
 	compressHTML: true,
 	redirects: {
-		'/about': '/#about',
-		'/projects': '/#projects',
-		'/expertise': '/#expertise',
-		'/contact': '/#contact',
+		"/about": "/#about",
+		"/projects": "/#projects",
+		"/expertise": "/#expertise",
+		"/contact": "/#contact",
 	},
 });

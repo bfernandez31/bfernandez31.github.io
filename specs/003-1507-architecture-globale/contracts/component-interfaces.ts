@@ -15,31 +15,31 @@
  * Used by HeroNeuralNetwork island component
  */
 export interface NeuralNetworkConfig {
-  /** Canvas element or selector */
-  canvas: HTMLCanvasElement | string;
+	/** Canvas element or selector */
+	canvas: HTMLCanvasElement | string;
 
-  /** Number of nodes (neurons) in the network */
-  nodeCount?: number; // Default: 100 desktop, 50 mobile
+	/** Number of nodes (neurons) in the network */
+	nodeCount?: number; // Default: 100 desktop, 50 mobile
 
-  /** Maximum distance for connecting nodes */
-  connectionDistance?: number; // Default: 150px
+	/** Maximum distance for connecting nodes */
+	connectionDistance?: number; // Default: 150px
 
-  /** Animation frame rate target */
-  targetFPS?: number; // Default: 60 desktop, 30 mobile
+	/** Animation frame rate target */
+	targetFPS?: number; // Default: 60 desktop, 30 mobile
 
-  /** Color configuration using CSS custom properties */
-  colors: {
-    nodes: string;     // e.g., 'var(--color-primary)'
-    edges: string;     // e.g., 'var(--color-accent)'
-    pulses: string;    // e.g., 'var(--color-secondary)'
-  };
+	/** Color configuration using CSS custom properties */
+	colors: {
+		nodes: string; // e.g., 'var(--color-primary)'
+		edges: string; // e.g., 'var(--color-accent)'
+		pulses: string; // e.g., 'var(--color-secondary)'
+	};
 
-  /** Enable/disable specific features */
-  features?: {
-    enablePulses?: boolean;       // Animated pulses along edges
-    enableNodeMovement?: boolean; // Nodes drift slowly
-    enableMouseInteraction?: boolean; // Nodes react to cursor
-  };
+	/** Enable/disable specific features */
+	features?: {
+		enablePulses?: boolean; // Animated pulses along edges
+		enableNodeMovement?: boolean; // Nodes drift slowly
+		enableMouseInteraction?: boolean; // Nodes react to cursor
+	};
 }
 
 /**
@@ -47,20 +47,20 @@ export interface NeuralNetworkConfig {
  * Used by MagneticBurger island component
  */
 export interface MagneticMenuConfig {
-  /** Activation radius in pixels from element center */
-  threshold?: number; // Default: 100px
+	/** Activation radius in pixels from element center */
+	threshold?: number; // Default: 100px
 
-  /** Attraction strength (0-1, where 1 is strongest) */
-  strength?: number; // Default: 0.4
+	/** Attraction strength (0-1, where 1 is strongest) */
+	strength?: number; // Default: 0.4
 
-  /** Animation duration in seconds */
-  duration?: number; // Default: 0.25s
+	/** Animation duration in seconds */
+	duration?: number; // Default: 0.25s
 
-  /** GSAP easing function */
-  ease?: string; // Default: 'power2.out'
+	/** GSAP easing function */
+	ease?: string; // Default: 'power2.out'
 
-  /** Maximum displacement in pixels */
-  maxDisplacement?: number; // Default: 15px
+	/** Maximum displacement in pixels */
+	maxDisplacement?: number; // Default: 15px
 }
 
 /**
@@ -68,17 +68,17 @@ export interface MagneticMenuConfig {
  * Used by NeuralPathwayLinks island component
  */
 export interface NeuralPathwayConfig {
-  /** Number of nodes in the pathway animation */
-  nodeCount: number;
+	/** Number of nodes in the pathway animation */
+	nodeCount: number;
 
-  /** Color for the pathway (CSS custom property) */
-  color: string;
+	/** Color for the pathway (CSS custom property) */
+	color: string;
 
-  /** Animation duration in seconds */
-  animationDuration: number;
+	/** Animation duration in seconds */
+	animationDuration: number;
 
-  /** Link element to animate */
-  linkElement?: HTMLElement;
+	/** Link element to animate */
+	linkElement?: HTMLElement;
 }
 
 // ============================================================================
@@ -90,23 +90,23 @@ export interface NeuralPathwayConfig {
  * Used by BaseLayout.astro
  */
 export interface BaseLayoutProps {
-  /** Page title (appears in browser tab) */
-  title: string;
+	/** Page title (appears in browser tab) */
+	title: string;
 
-  /** Meta description for SEO */
-  description: string;
+	/** Meta description for SEO */
+	description: string;
 
-  /** Open Graph image URL (absolute path) */
-  ogImage?: string;
+	/** Open Graph image URL (absolute path) */
+	ogImage?: string;
 
-  /** Canonical URL for SEO */
-  canonicalUrl?: string;
+	/** Canonical URL for SEO */
+	canonicalUrl?: string;
 
-  /** Prevent search engine indexing */
-  noindex?: boolean;
+	/** Prevent search engine indexing */
+	noindex?: boolean;
 
-  /** Additional CSS classes for body element */
-  bodyClass?: string;
+	/** Additional CSS classes for body element */
+	bodyClass?: string;
 }
 
 /**
@@ -114,14 +114,14 @@ export interface BaseLayoutProps {
  * Used by PageLayout.astro (wraps page content with consistent header/footer)
  */
 export interface PageLayoutProps extends BaseLayoutProps {
-  /** Show/hide navigation menu */
-  showNav?: boolean; // Default: true
+	/** Show/hide navigation menu */
+	showNav?: boolean; // Default: true
 
-  /** Show/hide footer */
-  showFooter?: boolean; // Default: true
+	/** Show/hide footer */
+	showFooter?: boolean; // Default: true
 
-  /** Page-specific CSS class for styling */
-  pageClass?: string;
+	/** Page-specific CSS class for styling */
+	pageClass?: string;
 }
 
 // ============================================================================
@@ -133,24 +133,24 @@ export interface PageLayoutProps extends BaseLayoutProps {
  * Used by Hero.astro
  */
 export interface HeroProps {
-  /** Headline text */
-  headline: string;
+	/** Headline text */
+	headline: string;
 
-  /** Subheadline/tagline */
-  subheadline?: string;
+	/** Subheadline/tagline */
+	subheadline?: string;
 
-  /** Call-to-action button configuration */
-  cta?: {
-    text: string;
-    href: string;
-    ariaLabel?: string;
-  };
+	/** Call-to-action button configuration */
+	cta?: {
+		text: string;
+		href: string;
+		ariaLabel?: string;
+	};
 
-  /** Neural network animation configuration */
-  neuralNetworkConfig?: Partial<NeuralNetworkConfig>;
+	/** Neural network animation configuration */
+	neuralNetworkConfig?: Partial<NeuralNetworkConfig>;
 
-  /** Enable/disable scroll indicator */
-  showScrollIndicator?: boolean;
+	/** Enable/disable scroll indicator */
+	showScrollIndicator?: boolean;
 }
 
 /**
@@ -158,18 +158,18 @@ export interface HeroProps {
  * Used by ProjectsHexGrid.astro
  */
 export interface ProjectsHexGridProps {
-  /** Array of project data */
-  projects: ProjectCardData[];
+	/** Array of project data */
+	projects: ProjectCardData[];
 
-  /** Number of items to show initially (lazy load rest) */
-  initialCount?: number; // Default: 12
+	/** Number of items to show initially (lazy load rest) */
+	initialCount?: number; // Default: 12
 
-  /** Hexagon size configuration */
-  hexagonSize?: {
-    mobile: string;   // CSS clamp value, e.g., 'clamp(120px, 35vw, 200px)'
-    tablet: string;
-    desktop: string;
-  };
+	/** Hexagon size configuration */
+	hexagonSize?: {
+		mobile: string; // CSS clamp value, e.g., 'clamp(120px, 35vw, 200px)'
+		tablet: string;
+		desktop: string;
+	};
 }
 
 /**
@@ -177,29 +177,29 @@ export interface ProjectsHexGridProps {
  * Used in hexagonal grid tiles
  */
 export interface ProjectCardData {
-  /** Project slug (from Content Collection) */
-  slug: string;
+	/** Project slug (from Content Collection) */
+	slug: string;
 
-  /** Project title */
-  title: string;
+	/** Project title */
+	title: string;
 
-  /** Short description (shown on hover/tap) */
-  description: string;
+	/** Short description (shown on hover/tap) */
+	description: string;
 
-  /** Array of technologies */
-  technologies: string[];
+	/** Array of technologies */
+	technologies: string[];
 
-  /** Preview image path */
-  image: string;
+	/** Preview image path */
+	image: string;
 
-  /** Image alt text */
-  imageAlt: string;
+	/** Image alt text */
+	imageAlt: string;
 
-  /** Link to project detail page or external URL */
-  link: string;
+	/** Link to project detail page or external URL */
+	link: string;
 
-  /** Whether this is a featured project */
-  featured?: boolean;
+	/** Whether this is a featured project */
+	featured?: boolean;
 }
 
 /**
@@ -207,18 +207,18 @@ export interface ProjectCardData {
  * Used by ExpertiseMatrix.astro
  */
 export interface ExpertiseMatrixProps {
-  /** Skills organized by category */
-  skillsByCategory: {
-    categoryId: string;
-    categoryName: string;
-    skills: SkillData[];
-  }[];
+	/** Skills organized by category */
+	skillsByCategory: {
+		categoryId: string;
+		categoryName: string;
+		skills: SkillData[];
+	}[];
 
-  /** Show/hide proficiency level indicators */
-  showProficiency?: boolean; // Default: true
+	/** Show/hide proficiency level indicators */
+	showProficiency?: boolean; // Default: true
 
-  /** Show/hide years of experience */
-  showYears?: boolean; // Default: true
+	/** Show/hide years of experience */
+	showYears?: boolean; // Default: true
 }
 
 /**
@@ -226,12 +226,12 @@ export interface ExpertiseMatrixProps {
  * Used in expertise matrix
  */
 export interface SkillData {
-  id: string;
-  name: string;
-  proficiencyLevel: 1 | 2 | 3 | 4 | 5;
-  yearsExperience: number;
-  relatedProjects?: string[]; // Project slugs
-  icon?: string; // Icon identifier
+	id: string;
+	name: string;
+	proficiencyLevel: 1 | 2 | 3 | 4 | 5;
+	yearsExperience: number;
+	relatedProjects?: string[]; // Project slugs
+	icon?: string; // Icon identifier
 }
 
 /**
@@ -239,17 +239,17 @@ export interface SkillData {
  * Used by BlogCommits.astro
  */
 export interface BlogCommitsProps {
-  /** Array of blog post data */
-  posts: BlogPostCardData[];
+	/** Array of blog post data */
+	posts: BlogPostCardData[];
 
-  /** Number of posts to show per page */
-  postsPerPage?: number; // Default: 10
+	/** Number of posts to show per page */
+	postsPerPage?: number; // Default: 10
 
-  /** Enable/disable infinite scroll */
-  infiniteScroll?: boolean; // Default: true
+	/** Enable/disable infinite scroll */
+	infiniteScroll?: boolean; // Default: true
 
-  /** Show/hide featured posts section */
-  showFeatured?: boolean;
+	/** Show/hide featured posts section */
+	showFeatured?: boolean;
 }
 
 /**
@@ -257,29 +257,29 @@ export interface BlogCommitsProps {
  * Used in commit-style list
  */
 export interface BlogPostCardData {
-  /** Post slug (from Content Collection) */
-  slug: string;
+	/** Post slug (from Content Collection) */
+	slug: string;
 
-  /** Commit-style title */
-  title: string;
+	/** Commit-style title */
+	title: string;
 
-  /** 7-character commit hash */
-  commitHash: string;
+	/** 7-character commit hash */
+	commitHash: string;
 
-  /** Post description */
-  description: string;
+	/** Post description */
+	description: string;
 
-  /** Publication date */
-  publishDate: Date;
+	/** Publication date */
+	publishDate: Date;
 
-  /** Array of tags */
-  tags: string[];
+	/** Array of tags */
+	tags: string[];
 
-  /** Estimated reading time in minutes */
-  readingTime?: number;
+	/** Estimated reading time in minutes */
+	readingTime?: number;
 
-  /** Whether this is a featured post */
-  featured?: boolean;
+	/** Whether this is a featured post */
+	featured?: boolean;
 }
 
 /**
@@ -287,17 +287,17 @@ export interface BlogPostCardData {
  * Used by ContactProtocol.astro
  */
 export interface ContactProtocolProps {
-  /** Form submission endpoint (Formspree/Netlify) */
-  action: string;
+	/** Form submission endpoint (Formspree/Netlify) */
+	action: string;
 
-  /** Success message to display (terminal-style) */
-  successMessage?: string;
+	/** Success message to display (terminal-style) */
+	successMessage?: string;
 
-  /** Error message to display (terminal-style) */
-  errorMessage?: string;
+	/** Error message to display (terminal-style) */
+	errorMessage?: string;
 
-  /** Alternative contact methods */
-  contactMethods?: ContactMethod[];
+	/** Alternative contact methods */
+	contactMethods?: ContactMethod[];
 }
 
 /**
@@ -305,10 +305,10 @@ export interface ContactProtocolProps {
  * Used for alternative contact links
  */
 export interface ContactMethod {
-  type: 'email' | 'github' | 'linkedin' | 'twitter' | 'other';
-  label: string;
-  value: string; // Email address or URL
-  icon?: string; // Icon identifier
+	type: "email" | "github" | "linkedin" | "twitter" | "other";
+	label: string;
+	value: string; // Email address or URL
+	icon?: string; // Icon identifier
 }
 
 // ============================================================================
@@ -320,26 +320,26 @@ export interface ContactMethod {
  * Used by Button.astro
  */
 export interface ButtonProps {
-  /** Button variant */
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+	/** Button variant */
+	variant?: "primary" | "secondary" | "outline" | "ghost";
 
-  /** Button size */
-  size?: 'sm' | 'md' | 'lg';
+	/** Button size */
+	size?: "sm" | "md" | "lg";
 
-  /** Button type attribute */
-  type?: 'button' | 'submit' | 'reset';
+	/** Button type attribute */
+	type?: "button" | "submit" | "reset";
 
-  /** Disabled state */
-  disabled?: boolean;
+	/** Disabled state */
+	disabled?: boolean;
 
-  /** Link behavior (renders as anchor tag) */
-  href?: string;
+	/** Link behavior (renders as anchor tag) */
+	href?: string;
 
-  /** Accessible label */
-  ariaLabel?: string;
+	/** Accessible label */
+	ariaLabel?: string;
 
-  /** Additional CSS classes */
-  class?: string;
+	/** Additional CSS classes */
+	class?: string;
 }
 
 /**
@@ -347,17 +347,17 @@ export interface ButtonProps {
  * Used by Card.astro
  */
 export interface CardProps {
-  /** Card variant */
-  variant?: 'default' | 'elevated' | 'outlined';
+	/** Card variant */
+	variant?: "default" | "elevated" | "outlined";
 
-  /** Enable/disable hover effect */
-  hoverable?: boolean;
+	/** Enable/disable hover effect */
+	hoverable?: boolean;
 
-  /** Link behavior (wraps content in anchor) */
-  href?: string;
+	/** Link behavior (wraps content in anchor) */
+	href?: string;
 
-  /** Additional CSS classes */
-  class?: string;
+	/** Additional CSS classes */
+	class?: string;
 }
 
 // ============================================================================
@@ -369,12 +369,12 @@ export interface CardProps {
  * Used by Header.astro and BurgerMenu.astro
  */
 export interface NavigationLinkData {
-  id: string;
-  text: string;
-  path: string;
-  ariaLabel?: string;
-  displayOrder: number;
-  neuralPathwayConfig?: NeuralPathwayConfig;
+	id: string;
+	text: string;
+	path: string;
+	ariaLabel?: string;
+	displayOrder: number;
+	neuralPathwayConfig?: NeuralPathwayConfig;
 }
 
 /**
@@ -382,17 +382,17 @@ export interface NavigationLinkData {
  * Used by BurgerMenu.astro
  */
 export interface BurgerMenuProps {
-  /** Navigation links */
-  links: NavigationLinkData[];
+	/** Navigation links */
+	links: NavigationLinkData[];
 
-  /** Enable/disable magnetic effect */
-  enableMagnetic?: boolean; // Default: true
+	/** Enable/disable magnetic effect */
+	enableMagnetic?: boolean; // Default: true
 
-  /** Magnetic effect configuration */
-  magneticConfig?: MagneticMenuConfig;
+	/** Magnetic effect configuration */
+	magneticConfig?: MagneticMenuConfig;
 
-  /** Enable/disable neural pathway animations */
-  enableNeuralPathways?: boolean; // Default: true
+	/** Enable/disable neural pathway animations */
+	enableNeuralPathways?: boolean; // Default: true
 }
 
 // ============================================================================
@@ -404,16 +404,16 @@ export interface BurgerMenuProps {
  * Shared type for scroll-based animations
  */
 export interface ScrollTriggerConfig {
-  trigger: string | HTMLElement;
-  start: string;
-  end: string;
-  scrub?: boolean | number;
-  pin?: boolean;
-  markers?: boolean; // Debug mode
-  onEnter?: () => void;
-  onLeave?: () => void;
-  onEnterBack?: () => void;
-  onLeaveBack?: () => void;
+	trigger: string | HTMLElement;
+	start: string;
+	end: string;
+	scrub?: boolean | number;
+	pin?: boolean;
+	markers?: boolean; // Debug mode
+	onEnter?: () => void;
+	onLeave?: () => void;
+	onEnterBack?: () => void;
+	onLeaveBack?: () => void;
 }
 
 /**
@@ -421,10 +421,10 @@ export interface ScrollTriggerConfig {
  * For monitoring animation performance
  */
 export interface AnimationMetrics {
-  averageFPS: number;
-  frameDrops: number;
-  cpuUsage: number; // Percentage
-  isThrottled: boolean;
+	averageFPS: number;
+	frameDrops: number;
+	cpuUsage: number; // Percentage
+	isThrottled: boolean;
 }
 
 // ============================================================================
@@ -436,19 +436,19 @@ export interface AnimationMetrics {
  * Client-side validation schema
  */
 export interface ContactFormData {
-  name: string;
-  email: string;
-  message: string;
-  honeypot?: string; // Bot detection
+	name: string;
+	email: string;
+	message: string;
+	honeypot?: string; // Bot detection
 }
 
 /**
  * Form Validation Result
  */
 export interface ValidationResult {
-  valid: boolean;
-  errors: {
-    field: string;
-    message: string;
-  }[];
+	valid: boolean;
+	errors: {
+		field: string;
+		message: string;
+	}[];
 }

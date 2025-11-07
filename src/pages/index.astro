@@ -23,50 +23,52 @@ const highlights = [
 	"Expert in TypeScript, React, and Node.js",
 	"Strong advocate for accessibility and performance",
 	"Contributed to open-source projects",
-	"Passionate about clean code and best practices"
+	"Passionate about clean code and best practices",
 ];
 
 // JSON-LD Structured Data for SEO
 const jsonLd: JSONLDStructuredData = {
-	'@context': 'https://schema.org',
-	'@type': 'WebSite',
-	name: 'Benoit Fernandez Portfolio',
-	url: 'https://b-fernandez.github.io/portfolio/',
+	"@context": "https://schema.org",
+	"@type": "WebSite",
+	name: "Benoit Fernandez Portfolio",
+	url: "https://b-fernandez.github.io/portfolio/",
 	description: metadata.description,
 	mainEntity: {
-		'@type': 'Person',
-		name: 'Benoit Fernandez',
-		url: 'https://b-fernandez.github.io/portfolio/',
-		description: 'Full Stack Developer & Creative Technologist specializing in modern web technologies',
-		image: 'https://b-fernandez.github.io/portfolio/images/profile.jpg',
-		jobTitle: 'Full Stack Developer',
-		email: 'contact@b-fernandez.com',
+		"@type": "Person",
+		name: "Benoit Fernandez",
+		url: "https://b-fernandez.github.io/portfolio/",
+		description:
+			"Full Stack Developer & Creative Technologist specializing in modern web technologies",
+		image: "https://b-fernandez.github.io/portfolio/images/profile.jpg",
+		jobTitle: "Full Stack Developer",
+		email: "contact@b-fernandez.com",
 		sameAs: [
-			'https://github.com/b-fernandez',
-			'https://linkedin.com/in/benoit-fernandez',
+			"https://github.com/b-fernandez",
+			"https://linkedin.com/in/benoit-fernandez",
 		],
 		knowsAbout: [
-			'TypeScript',
-			'React',
-			'Node.js',
-			'Astro',
-			'Web Performance',
-			'Accessibility (WCAG 2.1)',
-			'GSAP Animation',
+			"TypeScript",
+			"React",
+			"Node.js",
+			"Astro",
+			"Web Performance",
+			"Accessibility (WCAG 2.1)",
+			"GSAP Animation",
 		],
 		hasPart: [
 			{
-				'@type': 'CreativeWork',
-				name: 'Portfolio Projects',
-				description: 'Collection of web development projects showcasing modern technologies',
-				url: 'https://b-fernandez.github.io/portfolio/#projects',
+				"@type": "CreativeWork",
+				name: "Portfolio Projects",
+				description:
+					"Collection of web development projects showcasing modern technologies",
+				url: "https://b-fernandez.github.io/portfolio/#projects",
 			},
 		],
 	},
 	potentialAction: {
-		'@type': 'Action',
-		target: 'https://b-fernandez.github.io/portfolio/#contact',
-		name: 'Contact',
+		"@type": "Action",
+		target: "https://b-fernandez.github.io/portfolio/#contact",
+		name: "Contact",
 	},
 };
 ---
@@ -142,7 +144,7 @@ const jsonLd: JSONLDStructuredData = {
 
 <script>
 	import { initGSAP } from "../scripts/gsap-config";
-	import { initSmoothScroll } from "../scripts/scroll-animations";
+	import { initSmoothScroll } from "../scripts/smooth-scroll";
 	import { initKeyboardNavDetection } from "../scripts/accessibility";
 	import { initActiveNavigation } from "../scripts/active-navigation";
 	import { initNavigationLinks } from "../scripts/navigation-links";

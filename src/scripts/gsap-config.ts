@@ -95,12 +95,7 @@ export function staggerFadeIn(
 		y?: number;
 	} = {},
 ): void {
-	const {
-		start = "top 75%",
-		stagger = 0.1,
-		duration = 0.6,
-		y = 20,
-	} = options;
+	const { start = "top 75%", stagger = 0.1, duration = 0.6, y = 20 } = options;
 
 	gsap.from(elements, {
 		y,
