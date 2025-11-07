@@ -18,11 +18,13 @@ The homepage features an animated neural network visualization that serves as th
 - Automatically pauses when not visible to conserve resources
 
 **Adaptive Performance**:
-- Detects device capabilities and adjusts animation complexity accordingly
-- High-end devices: Full particle count (100 nodes) with all effects
-- Mid-tier devices: Reduced particle count (50-75 nodes)
-- Low-end devices: Minimal particles (30-50 nodes) with simplified effects
-- Monitors frame rate and automatically adjusts if performance drops
+- Device tier detection classifies devices as HIGH/MID/LOW based on CPU cores, memory, and connection speed
+- HIGH tier (8+ cores or 8GB+ RAM): 50 particles, 60fps target, all effects enabled
+- MID tier (4+ cores or 4GB+ RAM): 30 particles, 30fps target, cursor effects disabled
+- LOW tier (<4 cores and <4GB RAM): 20 particles, 30fps target, smooth scroll disabled, cursor effects disabled
+- Animation initializes asynchronously to avoid blocking page load
+- Pauses automatically when hero section not visible (Intersection Observer)
+- Simplified GSAP intro animation for faster initialization
 
 **Accessibility**:
 - Respects `prefers-reduced-motion` user preference
@@ -119,9 +121,10 @@ The single-page architecture includes an intelligent navigation system that trac
 
 **Navigation Behavior**:
 - Click navigation links or dots to smoothly scroll to target section
-- Smooth scroll powered by Lenis library with section snap functionality
-- Scrolling uses "easeInOutExpo" easing (1.2s duration) for natural momentum feel
-- Automatic snap to nearest section when scroll velocity drops below threshold
+- Smooth scroll powered by Lenis library (optimized configuration)
+- Scrolling uses "easeOutCubic" easing (0.6s duration) for responsive feel
+- Section snap disabled for more natural, free-flowing scrolling
+- Smooth scroll automatically disabled on LOW tier devices (native scroll fallback)
 - Smooth scroll respects `prefers-reduced-motion` (disabled when user prefers reduced motion)
 - Focus automatically moves to target section for keyboard users
 - URL hash updates to reflect current section
@@ -146,6 +149,7 @@ The single-page architecture includes an intelligent navigation system that trac
 - Hover reveals section label with smooth fade-in animation
 - Click dot to scroll to corresponding section
 - Synchronized with main navigation active state
+- Lazy loaded when user scrolls past hero section to reduce initial page load
 - Hidden on mobile/tablet devices (<1024px)
 - Fully keyboard accessible with visible focus indicators
 - Respects `prefers-reduced-motion` preference
@@ -157,6 +161,7 @@ The single-page architecture includes an intelligent navigation system that trac
 - 4px height (3px on high-DPI displays) for subtle visibility
 - Positioned above all other elements (z-index 9999)
 - Updates smoothly in sync with Lenis scroll animation
+- Lazy loaded on first scroll event to reduce initial page load
 - Accessible with ARIA progressbar role and live progress values
 - Respects `prefers-reduced-motion` preference (disables transition)
 - Does not interfere with user interaction (pointer-events: none)
@@ -184,13 +189,15 @@ The portfolio features a custom cursor that replaces the system cursor on deskto
 **Interactive Element Detection**:
 - Automatically grows when hovering over links, buttons, form fields
 - Supports custom interactive elements via `data-cursor="hover"` attribute
-- Dynamically tracks new elements added to the page (MutationObserver)
+- Uses static selectors with event delegation for performance
 - Maintains consistent hover state across all interactive UI
 
 **Device Support**:
 - Desktop only (hover: hover and pointer: fine media queries)
 - System cursor hidden on desktop devices
 - Automatically disabled on touch devices (tablets, phones)
+- Automatically disabled on MID and LOW tier devices for better performance
+- Lazy loaded after 2 seconds idle to reduce initial page load
 - Reverts to system cursor on touch-enabled screens
 
 **Accessibility**:
@@ -201,53 +208,19 @@ The portfolio features a custom cursor that replaces the system cursor on deskto
 - Interactive elements remain fully accessible without cursor
 
 **Performance**:
-- Uses GSAP `quickTo()` for ultra-smooth 60fps position updates
+- Uses GSAP `quickTo()` for ultra-smooth 60fps position updates (0.6s duration, power3.out easing)
 - GPU-accelerated transforms (translateX/Y) for optimal rendering
+- Simplified implementation with static selectors instead of MutationObserver
 - Minimal CPU overhead (~1-2KB JavaScript)
 - Automatic cleanup on page navigation
 
-### Cursor Trail Effect
+### Cursor Trail Effect (REMOVED)
 
-The custom cursor is enhanced with a luminous particle trail that creates a visual wake as the cursor moves across the page.
+**Status**: The cursor trail effect has been removed entirely in the performance optimization update for better performance.
 
-**Behavior**:
-- Spawns fading particles at cursor position that leave a glowing trail
-- Particles gradually fade out and shrink over time
-- Uses luminous violet color matching the site theme
-- Renders smoothly at 60fps using Canvas 2D and requestAnimationFrame
-- Maximum of 30 particles displayed at once to maintain performance
+**Reason**: High overhead (60fps canvas drawing with continuous particle spawning) with relatively low user experience value. The custom cursor remains functional without the trail effect.
 
-**Visual Design**:
-- Particles rendered as luminous circles with glow effect
-- Initial size: 6px diameter
-- Color: Violet (`hsl(267 84% 81%)`) matching `--color-primary`
-- Shadow blur effect for luminous appearance
-- Particles fade from opacity 1 to 0 over ~1 second
-- Size decreases as particles fade (decay rate: 0.95 per frame)
-
-**Canvas Implementation**:
-- Full-viewport canvas overlay positioned behind cursor
-- High-DPI (Retina) display support for crisp rendering
-- Transparent background, no pointer events interference
-- Positioned at z-index: 9999 (below cursor at 10000)
-
-**Device Support**:
-- Desktop only (disabled on touch devices)
-- Automatically disabled when custom cursor is disabled
-- Canvas element hidden on touch-enabled screens
-
-**Accessibility**:
-- Respects `prefers-reduced-motion` user preference (trail disabled)
-- Canvas marked as `aria-hidden="true"` (decorative only)
-- Does not interfere with keyboard navigation or screen readers
-- Trail effect is purely decorative, no functional purpose
-
-**Performance**:
-- Efficient particle management (array-based with FIFO removal)
-- Spawn rate: 2 particles per frame
-- Canvas cleared and redrawn each frame (requestAnimationFrame)
-- Automatic cleanup on page navigation
-- Minimal memory footprint (~2-3KB JavaScript)
+**Alternative**: The custom cursor still provides visual feedback through size scaling when hovering over interactive elements, which is sufficient for user experience while maintaining optimal performance.
 
 ## Animation System
 
@@ -278,17 +251,32 @@ The custom cursor is enhanced with a luminous particle trail that creates a visu
 
 ### Performance Monitoring
 
-**Device Detection** (`src/scripts/device-tier.ts`)
-- Detects device capabilities (CPU, GPU, memory)
-- Returns device tier (high/mid/low-end)
-- Provides target frame rates per tier
-- Adjusts animation complexity dynamically
+**Device Tier Detection** (`src/scripts/performance/device-tier.ts`)
+- Detects device capabilities using browser APIs (navigator.hardwareConcurrency, navigator.deviceMemory, navigator.connection)
+- Classifies devices as HIGH/MID/LOW/UNKNOWN
+- HIGH: 8+ CPU cores OR 8GB+ RAM OR (4+ cores AND 4GB+ RAM)
+- MID: 4+ CPU cores OR 4GB+ RAM (but not HIGH criteria)
+- LOW: <4 CPU cores AND <4GB RAM
+- Connection speed downgrades tier by one level if slow (2G/3G)
+- Returns configuration mapping for animation quality, particle counts, feature toggles
+- Exposed globally via `window.__DEVICE_TIER__` and CSS custom property `--device-tier`
 
-**Frame Rate Monitoring** (`src/scripts/performance.ts`)
-- Real-time FPS tracking
-- Performance degradation detection
-- Automatic quality adjustment
-- Debug information for development
+**Performance Monitor** (`src/scripts/performance/performance-monitor.ts`)
+- Real-time FPS tracking via requestAnimationFrame (rolling average over last 60 frames)
+- Core Web Vitals monitoring via PerformanceObserver (LCP, FID, CLS)
+- Memory usage tracking (Chrome-only via performance.memory)
+- Budget violation detection and logging
+- Development-only feature (not included in production bundle)
+- Console reporting every 30 seconds with current metrics
+- Automatic performance degradation warnings
+
+**Lazy Loader** (`src/scripts/performance/lazy-loader.ts`)
+- Priority-based component loading (IMMEDIATE/HIGH/MEDIUM/LOW)
+- Intersection Observer for viewport-based loading
+- Idle callback for background loading
+- Timeout-based fallback for unsupported browsers
+- Error handling with graceful degradation
+- Examples: scroll progress (first scroll), navigation dots (hero exit), custom cursor (2s idle)
 
 ## User Experience Patterns
 
@@ -312,17 +300,28 @@ The custom cursor is enhanced with a luminous particle trail that creates a visu
 
 ## Performance Targets
 
-### Achieved Metrics
-- Time to Interactive: <3 seconds on 4G connection
-- Hero animation: 60fps on desktop, 30fps on mobile
-- Lighthouse Performance: ≥90 (target: 95-100)
-- First Contentful Paint: <1.5s
+### Achieved Metrics (Post-Optimization)
+- Lighthouse Performance: ≥85 (mobile), ≥95 (desktop)
+- Core Web Vitals: LCP <2.5s, FCP <2s, FID <100ms, CLS <0.1, TTI <3.5s, TBT <300ms
+- Animation Performance: 30fps minimum, <40% CPU usage, <100MB memory
+- Time to Interactive: <3.5 seconds on Slow 3G
+- Hero animation: Adaptive (60fps HIGH tier, 30fps MID/LOW tier)
 
-### Bundle Sizes
-- Neural network animation: ~8KB minified
+### Bundle Sizes (Optimized)
+- Neural network animation: ~8KB minified (async loaded)
 - Magnetic menu effect: ~2KB minified
-- Total JavaScript (islands only): ~66KB of 200KB budget
+- Device tier detection: ~2KB minified
+- Performance monitor: ~3KB minified (dev only)
+- Lazy loader: ~1KB minified
+- Total page weight: <500KB uncompressed, <200KB critical assets
 - Astro core: 0KB (static HTML by default)
+
+### Performance Budget Enforcement
+- Lighthouse CI gates enforce performance thresholds on every PR
+- Budget violations block deployment
+- Configuration in `lighthouserc.json`
+- Runtime monitoring in development mode
+- Static performance budgets in `src/config/performance.ts`
 
 ## Content Management
 

@@ -81,100 +81,66 @@ ScrollTrigger.defaults({
 
 **Version**: 1.0.42+
 
-**Usage**: Smooth, momentum-based scrolling with section snap functionality
+**Usage**: Smooth, momentum-based scrolling (optimized for performance)
 
 **Configuration** (`src/scripts/smooth-scroll.ts`):
 ```typescript
 import Lenis from '@studio-freight/lenis';
+import { prefersReducedMotion } from '@/scripts/utils/accessibility';
+import { getDeviceConfig } from '@/config/performance';
 
-// Custom easeInOutExpo easing function
-function easeInOutExpo(t: number): number {
-  if (t === 0) return 0;
-  if (t === 1) return 1;
-  if (t < 0.5) {
-    return Math.pow(2, 20 * t - 10) / 2;
+export function initSmoothScroll(): Lenis | null {
+  // Check device tier and user preference
+  const tier = (window as any).__DEVICE_TIER__?.tier ?? 'mid';
+  const config = getDeviceConfig(tier);
+
+  if (!config.enableSmoothScroll || prefersReducedMotion()) {
+    console.log('Smooth scroll disabled');
+    return null;
   }
-  return (2 - Math.pow(2, -20 * t + 10)) / 2;
-}
 
-const lenis = new Lenis({
-  duration: 1.2,
-  easing: easeInOutExpo,
-  orientation: 'vertical',
-  gestureOrientation: 'vertical',
-  smoothWheel: true,
-  wheelMultiplier: 1.0,
-  touchMultiplier: 2.0,
-  infinite: false,
-  syncTouch: true,        // Enable momentum scrolling
-  syncTouchLerp: 0.1,
-});
+  // Custom easeOutCubic easing function (responsive feel)
+  function easeOutCubic(t: number): number {
+    return 1 - Math.pow(1 - t, 3);
+  }
 
-// Integrate with GSAP ScrollTrigger
-lenis.on('scroll', () => {
-  ScrollTrigger.update();
-});
-
-// Add to GSAP ticker for smooth updates
-gsap.ticker.add((time) => {
-  lenis?.raf(time * 1000); // Convert to milliseconds
-});
-
-// Disable GSAP's lag smoothing to prevent conflicts
-gsap.ticker.lagSmoothing(0);
-```
-
-**Section Snap Functionality**:
-```typescript
-// Setup snap to portfolio sections
-function setupSectionSnap(lenisInstance: Lenis): void {
-  const sections = document.querySelectorAll<HTMLElement>('[data-section]');
-  let snapTimeout: ReturnType<typeof setTimeout> | null = null;
-  let isSnapping = false;
-
-  lenisInstance.on('scroll', ({ velocity }: { velocity: number }) => {
-    // Snap when scroll velocity is low (user stopped scrolling)
-    if (Math.abs(velocity) < 0.1 && !isSnapping) {
-      if (snapTimeout) clearTimeout(snapTimeout);
-
-      snapTimeout = setTimeout(() => {
-        const scrollY = window.scrollY;
-        const viewportHeight = window.innerHeight;
-        let closestSection: HTMLElement | null = null;
-        let closestDistance = Number.POSITIVE_INFINITY;
-
-        // Find the closest section to snap to
-        sections.forEach((section) => {
-          const rect = section.getBoundingClientRect();
-          const sectionTop = scrollY + rect.top;
-          const distance = Math.abs(sectionTop - scrollY);
-
-          if (distance < viewportHeight && distance < closestDistance) {
-            closestDistance = distance;
-            closestSection = section;
-          }
-        });
-
-        // Snap to closest section
-        if (closestSection && closestDistance > 10) {
-          isSnapping = true;
-          lenisInstance.scrollTo(closestSection, {
-            duration: 1.2,
-            easing: easeInOutExpo,
-            onComplete: () => {
-              isSnapping = false;
-            },
-          });
-        }
-      }, 150); // Debounce snap trigger
-    }
+  const lenis = new Lenis({
+    duration: 0.6,  // Reduced from 1.2s for better responsiveness
+    easing: easeOutCubic,  // Changed from easeInOutExpo
+    orientation: 'vertical',
+    gestureOrientation: 'vertical',
+    smoothWheel: true,
+    wheelMultiplier: 1.0,
+    touchMultiplier: 2.0,
+    infinite: false,
+    syncTouch: true,
+    syncTouchLerp: 0.1,
   });
+
+  // Integrate with GSAP ScrollTrigger
+  lenis.on('scroll', () => {
+    ScrollTrigger.update();
+  });
+
+  // Add to GSAP ticker for smooth updates
+  gsap.ticker.add((time) => {
+    lenis?.raf(time * 1000);
+  });
+
+  // Disable GSAP's lag smoothing to prevent conflicts
+  gsap.ticker.lagSmoothing(0);
+
+  // Expose globally for navigation system
+  window.lenis = lenis;
+  return lenis;
 }
 ```
+
+**Section Snap Functionality**: REMOVED (disabled for performance and better UX)
 
 **Utility Functions**:
 ```typescript
-// Initialize smooth scroll with snap
+// Initialize smooth scroll (device tier aware)
 export function initSmoothScroll(): Lenis | null;
 
 // Scroll to element smoothly
@@ -225,13 +191,16 @@ interface NeuralNetworkConfig {
 - Mouse interaction (future enhancement)
 - Viewport-aware rendering (pauses when off-screen)
 
-**Performance**:
-- Device detection adjusts node count:
-  - High-end: 100 nodes
-  - Mid-tier: 50-75 nodes
-  - Low-end: 30-50 nodes
-- Frame rate monitoring reduces complexity if FPS drops
+**Performance** (Optimized):
+- Device tier detection adjusts node count:
+  - HIGH: 50 nodes, 60fps target
+  - MID: 30 nodes, 30fps target
+  - LOW: 20 nodes, 30fps target
+- Async initialization to avoid blocking page load
+- Intersection Observer pauses animation when hero not visible
+- Simplified GSAP intro animation (batch fade instead of staggered per-node)
 - Uses `requestAnimationFrame` for optimal timing
+- Progressive enhancement with CSS gradient fallback
 
 **Reduced Motion**:
 - Displays static network when `prefers-reduced-motion: reduce`
@@ -376,7 +345,7 @@ export function cleanupCustomCursor(): void;
 - Passive event listeners where possible
 - Minimal DOM queries (cached element references)
 
-**Interactive Element Detection**:
+**Interactive Element Detection** (Optimized):
 ```typescript
 // Selectors for automatic hover detection
 const interactiveSelectors = [
@@ -388,19 +357,14 @@ const interactiveSelectors = [
   'select:not([disabled])',
 ].join(', ');
 
-// MutationObserver for dynamically added elements
-const observer = new MutationObserver((mutations) => {
-  for (const mutation of mutations) {
-    for (const node of mutation.addedNodes) {
-      if (node instanceof Element) {
-        if (node.matches(interactiveSelectors)) {
-          addListenersToElement(node);
-        }
-        node.querySelectorAll(interactiveSelectors)
-          .forEach(addListenersToElement);
-      }
-    }
-  }
+// Static selector approach with event delegation (MutationObserver removed for performance)
+document.querySelectorAll(interactiveSelectors).forEach(element => {
+  element.addEventListener('mouseenter', () => {
+    cursor.classList.add('custom-cursor--hover');
+  });
+  element.addEventListener('mouseleave', () => {
+    cursor.classList.remove('custom-cursor--hover');
+  });
 });
 ```
 
@@ -422,6 +386,7 @@ const observer = new MutationObserver((mutations) => {
 - `pointer-events: none` - cursor doesn't interfere with interactions
 - Respects `prefers-reduced-motion` by using instant position updates
 - Disabled on touch devices (system cursor restored)
+- Disabled on MID/LOW tier devices for better performance
 - Keyboard navigation unaffected by custom cursor
 - Scale transition respects reduced motion preferences
 
@@ -502,8 +467,27 @@ export function destroyScrollProgress(): void;
 - Handles window resize events (recalculates scrollable height)
 - Passive event listeners for better scrolling performance
 
-**Lenis Integration**:
+**Lenis Integration** (with lazy loading):
 ```typescript
+// Lazy load scroll progress on first scroll event
+export function initScrollProgressLazy() {
+  let hasScrolled = false;
+
+  const onScroll = () => {
+    if (!hasScrolled) {
+      hasScrolled = true;
+      window.removeEventListener('scroll', onScroll);
+
+      // Dynamically import and initialize
+      import('./scroll-progress').then(module => {
+        module.initScrollProgress();
+      });
+    }
+  };
+
+  window.addEventListener('scroll', onScroll, { once: true, passive: true });
+}
+
 // Prefer Lenis scroll event for smoother updates
 if (window.lenis) {
   window.lenis.on('scroll', updateProgressBar);
@@ -526,233 +510,145 @@ if (window.lenis) {
 - Window resize during scroll (recalculates dynamically)
 - Lenis instance not available (falls back to native events)
 
-### Cursor Trail Animation
+### Cursor Trail Animation (REMOVED)
 
-**Location**: `src/scripts/cursor-trail.ts`
+**Status**: The cursor trail has been removed entirely in the performance optimization update.
 
-**Description**: Canvas-based particle trail system that follows the custom cursor with luminous fading particles
+**Reason**: High overhead (60fps canvas drawing with continuous particle spawning) with relatively low UX value. Performance profiling showed significant CPU usage for minimal visual benefit.
 
-**Functions**:
-```typescript
-// Initialize cursor trail effect
-export function initCursorTrail(): void;
+**Location**: `src/scripts/cursor-trail.ts` (DELETED)
 
-// Set up canvas dimensions for high-DPI displays
-function setupCanvasDimensions(): void;
-
-// Start the animation loop
-function startAnimation(): void;
-
-// Stop the animation loop
-function stopAnimation(): void;
-
-// Update particles (spawn new, update existing, remove faded)
-function updateParticles(): void;
-
-// Render all particles to canvas
-function renderParticles(): void;
-
-// Clean up cursor trail (remove listeners, stop animation)
-export function cleanupCursorTrail(): void;
-```
-
-**State Management**:
-```typescript
-interface Particle {
-  x: number;          // Particle X position
-  y: number;          // Particle Y position
-  alpha: number;      // Current opacity (1 to 0)
-  size: number;       // Current size in pixels
-}
-
-interface CursorTrailState {
-  canvas: HTMLCanvasElement | null;     // Canvas element reference
-  ctx: CanvasRenderingContext2D | null; // 2D rendering context
-  particles: Particle[];                // Active particles array
-  animationFrameId: number | null;      // RAF ID for cleanup
-  lastMouseX: number;                   // Last mouse X position
-  lastMouseY: number;                   // Last mouse Y position
-  cleanup: (() => void) | null;         // Cleanup function
-}
-```
-
-**Configuration Constants**:
-```typescript
-const MAX_PARTICLES = 30;              // Maximum particles on screen
-const PARTICLE_SPAWN_RATE = 2;         // Particles spawned per frame
-const PARTICLE_INITIAL_SIZE = 6;       // Initial particle diameter (px)
-const PARTICLE_FADE_SPEED = 0.05;      // Alpha reduction per frame
-const PARTICLE_SIZE_DECAY = 0.95;      // Size multiplier per frame
-const PARTICLE_COLOR = "hsl(267 84% 81%)"; // --color-primary (violet)
-```
-
-**Algorithm**:
-
-1. **Initialization**:
-   - Check device type (skip on touch devices)
-   - Check motion preference (skip if reduced motion)
-   - Get canvas element and 2D context
-   - Set up high-DPI canvas dimensions
-   - Add mousemove and resize event listeners
-   - Start animation loop with requestAnimationFrame
-
-2. **Particle Spawning** (per frame):
-   - Create 2 new particles at current cursor position
-   - If max particle count reached, remove oldest particle (FIFO)
-   - Initialize particles with full opacity and size
-
-3. **Particle Update** (per frame):
-   - Fade out: Reduce alpha by 0.05 per frame
-   - Shrink: Multiply size by 0.95 per frame
-   - Remove particles when alpha reaches 0
-
-4. **Rendering** (per frame):
-   - Clear entire canvas
-   - For each particle:
-     - Set fill color to violet with current alpha
-     - Draw circle using arc() method
-     - Apply shadow blur for luminous glow effect
-   - Request next animation frame
-
-5. **Cleanup**:
-   - Cancel animation frame
-   - Remove event listeners
-   - Clear particles array
-   - Reset state
-
-**Canvas Setup**:
-```typescript
-function setupCanvasDimensions(): void {
-  const dpr = window.devicePixelRatio || 1;
-  const rect = canvas.getBoundingClientRect();
-
-  // Set actual canvas size (accounting for device pixel ratio)
-  canvas.width = rect.width * dpr;
-  canvas.height = rect.height * dpr;
-
-  // Scale context to account for device pixel ratio
-  ctx.scale(dpr, dpr);
-
-  // Set display size via CSS
-  canvas.style.width = `${rect.width}px`;
-  canvas.style.height = `${rect.height}px`;
-}
-```
-
-**Particle Rendering**:
-```typescript
-function renderParticles(): void {
-  // Clear canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Draw each particle
-  for (const particle of particles) {
-    ctx.save();
-
-    // Set particle style with current alpha
-    ctx.fillStyle = PARTICLE_COLOR;
-    ctx.globalAlpha = particle.alpha;
-
-    // Draw circle
-    ctx.beginPath();
-    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Add glow effect
-    ctx.shadowBlur = 20;
-    ctx.shadowColor = PARTICLE_COLOR;
-
-    ctx.restore();
-  }
-}
-```
-
-**Performance**:
-- Uses requestAnimationFrame for 60fps rendering
-- FIFO particle management prevents array growth
-- Efficient canvas clearing and redrawing
-- High-DPI support for crisp visuals on Retina displays
-- Passive event listeners for better scroll performance
-- Minimal memory footprint (~2-3KB JavaScript)
-
-**Integration**:
-```typescript
-// Initialize on page load (in layout)
-initCursorTrail();
-
-// Clean up on page navigation (Astro)
-document.addEventListener('astro:before-swap', () => {
-  cleanupCursorTrail();
-});
-```
-
-**Device Detection**:
-- Uses `isTouchDevice()` utility to detect touch support
-- Skips initialization on tablets and phones
-- Canvas element uses CSS media queries for visibility
-
-**Accessibility**:
-- Respects `prefers-reduced-motion` preference (disabled completely)
-- Canvas marked as `aria-hidden="true"` (decorative only)
-- No pointer events (doesn't interfere with user interaction)
-- Purely visual enhancement, no functional purpose
-- Keyboard navigation unaffected by trail effect
+**Alternative**: The custom cursor still provides visual feedback through size scaling when hovering over interactive elements, which is sufficient for user experience while maintaining optimal performance.
 
 ## Performance Monitoring
 
 ### Device Tier Detection
 
-**Location**: `src/scripts/device-tier.ts`
+**Location**: `src/scripts/performance/device-tier.ts`
 
-**Purpose**: Detect device capabilities and return appropriate animation settings
+**Purpose**: Detect device capabilities and classify for adaptive performance
 
 **Functions**:
 ```typescript
-type DeviceTier = 'high' | 'mid' | 'low';
+enum DeviceTierLevel {
+  HIGH = 'high',
+  MID = 'mid',
+  LOW = 'low',
+  UNKNOWN = 'unknown'
+}
 
-export function getDeviceTier(): DeviceTier;
-export function getTargetFPS(tier: DeviceTier): number;
-export function getNeuralNodeCount(tier: DeviceTier): number;
+export function detectDeviceTier(): DeviceTierClassification;
+export function getDeviceConfig(tier: DeviceTierLevel): DeviceTierConfig;
 ```
 
-**Detection Criteria**:
-- CPU core count (navigator.hardwareConcurrency)
-- Device memory (navigator.deviceMemory)
-- Connection speed (navigator.connection)
-- GPU performance (via benchmark test)
+**Detection Criteria** (Priority Order):
+1. **CPU Core Count** (`navigator.hardwareConcurrency`):
+   - ≥8 cores → HIGH (if not downgraded by other factors)
+   - ≥4 cores → MID
+   - <4 cores → LOW
+2. **Device Memory** (`navigator.deviceMemory`):
+   - ≥8GB → HIGH
+   - ≥4GB → MID
+   - <4GB → LOW
+3. **Connection Speed** (`navigator.connection.effectiveType`):
+   - 'slow-2g', '2g', '3g' → Downgrade tier by one level
+   - '4g' → No adjustment
+4. **Fallback**: If APIs unavailable → UNKNOWN (defaults to MID tier)
 
-### Frame Rate Monitor
+**Configuration Mapping**:
+```typescript
+const DEVICE_TIER_CONFIGS = {
+  HIGH: { particles: 50, targetFPS: 60, enableCursorEffects: true, enableSmoothScroll: true },
+  MID: { particles: 30, targetFPS: 30, enableCursorEffects: false, enableSmoothScroll: true },
+  LOW: { particles: 20, targetFPS: 30, enableCursorEffects: false, enableSmoothScroll: false },
+  UNKNOWN: { particles: 30, targetFPS: 30, enableCursorEffects: false, enableSmoothScroll: true }
+};
+```
 
-**Location**: `src/scripts/performance.ts`
+**Global Exposure**:
+- Stored on `window.__DEVICE_TIER__` for access in all scripts
+- Set as CSS custom property `--device-tier` for conditional styling
+- Evaluated once on page load
 
-**Purpose**: Monitor animation performance and trigger quality adjustments
+### Performance Monitor
 
-**Class**: `FrameRateMonitor`
+**Location**: `src/scripts/performance/performance-monitor.ts`
+
+**Purpose**: Real-time monitoring of animation performance and Core Web Vitals (development only)
+
+**Class**: `PerformanceMonitor`
 
 **Usage**:
 ```typescript
-const monitor = new FrameRateMonitor({
-  targetFPS: 60,
-  sampleSize: 60, // Frames to average
-  onDrop: (currentFPS) => {
-    // Reduce animation quality
-    console.warn(`FPS dropped to ${currentFPS}`);
-  }
-});
+import { performanceMonitor } from '@/scripts/performance/performance-monitor';
 
-// In animation loop
-function animate() {
-  monitor.tick();
-  // ... render frame
-  requestAnimationFrame(animate);
+// Initialize in development mode only
+if (import.meta.env.DEV) {
+  performanceMonitor.startMonitoring();
 }
 ```
 
 **Features**:
-- Running average FPS calculation
-- Threshold-based performance warnings
-- Automatic quality reduction triggers
-- Debug overlay (development only)
+- Real-time FPS tracking via requestAnimationFrame (rolling average over last 60 frames)
+- Core Web Vitals monitoring via PerformanceObserver (LCP, FID, CLS)
+- Memory usage tracking (Chrome-only via performance.memory)
+- Budget violation detection and logging
+- Console reporting every 30 seconds with current metrics
+- Automatic performance degradation warnings
+
+### Lazy Loader
+
+**Location**: `src/scripts/performance/lazy-loader.ts`
+
+**Purpose**: Priority-based lazy loading of non-critical components
+
+**Functions**:
+```typescript
+enum LazyLoadPriority {
+  IMMEDIATE = 0,  // Load immediately (hero, main nav)
+  HIGH = 1,       // Load when user scrolls (scroll progress)
+  MEDIUM = 2,     // Load when user scrolls past hero (nav dots)
+  LOW = 3         // Load after idle timeout (cursor effects)
+}
+
+export function lazyLoad(
+  id: string,
+  loader: () => Promise<void>,
+  options: LazyLoadOptions
+): Promise<void>;
+```
+
+**Trigger Types**:
+- **intersection**: Use IntersectionObserver to load when element visible
+- **scroll**: Load on first scroll event
+- **idle**: Load during browser idle time (requestIdleCallback)
+- **timeout**: Load after specified delay
+
+**Usage Examples**:
+```typescript
+// Scroll progress - load on first scroll
+lazyLoad('scroll-progress',
+  () => import('@/scripts/scroll-progress').then(m => m.initScrollProgress()),
+  { trigger: 'scroll', priority: LazyLoadPriority.HIGH }
+);
+
+// Navigation dots - load when hero exits viewport
+lazyLoad('navigation-dots',
+  () => import('@/scripts/navigation-dots').then(m => m.initNavigationDots()),
+  { trigger: 'intersection', priority: LazyLoadPriority.MEDIUM, observerOptions: { threshold: 0.1 } }
+);
+
+// Custom cursor - load after 2s idle
+lazyLoad('custom-cursor',
+  () => import('@/scripts/custom-cursor').then(m => m.initCustomCursor()),
+  { trigger: 'idle', priority: LazyLoadPriority.LOW, timeout: 2000 }
+);
+```
+
+**Error Handling**:
+- Graceful degradation if loader Promise rejects
+- Component remains unloaded but site stays functional
+- Errors logged to console without throwing
 
 ## Animation Configuration
 

@@ -34,14 +34,17 @@ The portfolio adapts to all screen sizes and devices:
 - Accessible navigation patterns
 
 ### Smooth Animations
-The portfolio includes integrated animation capabilities:
-- Neural network hero animation with Canvas 2D rendering (60fps desktop, 30fps mobile)
+The portfolio includes integrated animation capabilities optimized for performance:
+- Neural network hero animation with Canvas 2D rendering (adaptive particle counts: 50/30/20 based on device tier)
 - Magnetic menu effect using GSAP quickTo() for smooth cursor interaction
 - GSAP for high-performance animations
 - ScrollTrigger for scroll-based effects
-- Lenis for smooth scrolling
+- Lenis for smooth scrolling (0.6s duration, easeOutCubic easing, no section snap)
 - GPU-accelerated transforms
-- Adaptive performance based on device capabilities
+- Device tier detection for adaptive performance (HIGH/MID/LOW classification based on CPU, memory, connection)
+- Lazy loading for non-critical animations (scroll progress, navigation dots, custom cursor)
+- Performance monitoring with FPS tracking and Core Web Vitals
+- Progressive enhancement with static fallbacks
 - Respects `prefers-reduced-motion` preferences
 
 ### Development Workflow
@@ -67,10 +70,14 @@ Users can navigate the portfolio through:
 - **URL Redirects**: Old page URLs automatically redirect to hash anchors
 
 ### Performance
-The portfolio delivers exceptional performance:
-- Lighthouse Performance score ≥95
-- Core Web Vitals compliance (LCP <2.5s, FID <100ms, CLS <0.1)
-- Optimized images and assets
+The portfolio delivers exceptional performance optimized for GitHub Pages hosting:
+- Lighthouse Performance score ≥85 (mobile), ≥95 (desktop)
+- Core Web Vitals compliance (LCP <2.5s, FCP <2s, FID <100ms, CLS <0.1, TTI <3.5s, TBT <300ms)
+- Device-based performance adaptation (HIGH/MID/LOW tier classification)
+- Lazy loading strategy for non-critical components
+- Optimized animations (30fps minimum, <40% CPU usage, <100MB memory)
+- Performance budgets enforced via Lighthouse CI
+- Total page weight <500KB, critical assets <200KB
 - Compressed HTML output
 
 ### Accessibility

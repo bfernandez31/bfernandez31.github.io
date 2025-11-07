@@ -351,6 +351,65 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
 - Contract: `specs/002-1506-palette-couleur/contracts/theme-tokens.css`
 - Quickstart: `specs/002-1506-palette-couleur/quickstart.md`
 
+## Performance Optimization Patterns
+
+### Device Tier Detection
+- Use `detectDeviceTier()` from `src/scripts/performance/device-tier.ts` to classify devices
+- Three tiers: HIGH (modern desktop), MID (mid-range laptop/mobile), LOW (old devices)
+- Classification based on: CPU cores, memory, connection speed, screen size
+- Access globally via `window.__DEVICE_TIER__` (set in PageLayout.astro)
+- CSS custom property `--device-tier` available for styling optimizations
+- Use tier to adapt: particle counts, FPS targets, feature availability (cursor, smooth scroll)
+- Configuration in `src/config/performance.ts` (DEVICE_TIER_CONFIG)
+
+### Performance Monitor (Development Only)
+- Use `performanceMonitor` from `src/scripts/performance/performance-monitor.ts`
+- Automatically enabled in dev mode (PageLayout.astro checks `import.meta.env.DEV`)
+- Tracks: FPS via requestAnimationFrame, Core Web Vitals (LCP, FID, CLS), memory usage
+- Budget violation detection: compares metrics against PERFORMANCE_CONFIG.budget
+- Console reports every 30s, budget checks every 5s
+- Access via `performanceMonitor.getReport()` for current metrics
+- Clean up: Call `performanceMonitor.stopMonitoring()` on unmount
+
+### Lazy Loading System
+- Use `lazyLoader` from `src/scripts/performance/lazy-loader.ts` for deferred initialization
+- Priority levels: IMMEDIATE (hero), HIGH (first scroll), MEDIUM (after 1s), LOW (after 2s idle)
+- Examples: scroll progress (first scroll), navigation dots (hero exit), custom cursor (2s idle)
+- Reduces initial bundle size by deferring non-critical components
+- Error handling: graceful fallback if lazy load fails (site remains functional)
+- Usage: `lazyLoader.load(callback, { priority: 'HIGH', timeout: 2000 })`
+
+### Progressive Enhancement Pattern
+```typescript
+// Wrap all animation initialization in try-catch
+try {
+  initSmoothScroll();
+  initNeuralNetwork();
+  initCustomCursor();
+} catch (error) {
+  console.error('Animation failed:', error);
+  // Site remains functional with native behavior
+}
+```
+
+### Performance Configuration
+- Central config in `src/config/performance.ts`
+- Defines: performance budgets, device tier mappings, FPS targets
+- Budget thresholds: Lighthouse scores, Core Web Vitals, bundle sizes
+- Device tier capabilities: particle counts, animation quality, feature flags
+- Used by: device tier detection, performance monitor, animation systems
+
+### Performance Best Practices
+- **Always** check device tier before initializing performance-intensive animations
+- **Always** use lazy loading for non-critical components (scroll progress, nav dots, cursor)
+- **Always** implement async initialization for heavy animations (neural network)
+- **Always** pause animations when not visible (Intersection Observer)
+- **Always** provide static fallbacks (CSS gradients, semantic HTML)
+- **Always** clean up resources on unmount (cancel rAF, remove listeners, clear state)
+- Target 30fps minimum on MID/LOW tier devices, 60fps on HIGH tier
+- Keep critical assets under 200KB, total page weight under 500KB
+- Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
+
 ## Recent Changes
 - 011-1522-fix-project: Major performance optimization overhaul (GitHub Pages deployment performance issues)
   - Added device tier detection system (HIGH/MID/LOW) in src/scripts/performance/device-tier.ts
