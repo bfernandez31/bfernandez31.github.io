@@ -316,6 +316,137 @@ export function initMagneticMenu(
    - Bottom line: rotate -45deg + translateY
    - All transitions: CSS with `var(--transition-color)` duration
 
+### Custom Cursor Animation
+
+**Location**: `src/components/ui/CustomCursor.astro` and `src/scripts/custom-cursor.ts`
+
+**Description**: High-performance cursor replacement with smooth mouse tracking and interactive element detection
+
+**Component**: `CustomCursor.astro`
+
+**Configuration Options**:
+```typescript
+interface Props {
+  class?: string;  // Additional CSS classes
+}
+```
+
+**Visual Design**:
+- Fixed position following mouse cursor (position: fixed, z-index: 10000)
+- 32px circular outline (2px border) in default state
+- `mix-blend-mode: difference` for adaptive contrast
+- Scales to 64px (3px border) when hovering interactive elements
+- Uses theme color tokens: `var(--color-text)` for border color
+- GPU-accelerated positioning with `will-change: transform`
+
+**Mouse Tracking** (`src/scripts/custom-cursor.ts`):
+
+**Functions**:
+```typescript
+// Initialize custom cursor with smooth tracking
+export function initCustomCursor(): void;
+
+// Set up smooth cursor following with GSAP quickTo
+function setupSmoothCursor(cursor: HTMLElement): void;
+
+// Set up instant cursor following (for reduced motion)
+function setupInstantCursor(cursor: HTMLElement): void;
+
+// Set up hover state detection for interactive elements
+function setupHoverDetection(cursor: HTMLElement): void;
+
+// Clean up custom cursor (remove event listeners, kill animations)
+export function cleanupCustomCursor(): void;
+```
+
+**Algorithm**:
+1. Check device capabilities (touch devices skip initialization)
+2. Check user motion preferences (`prefers-reduced-motion`)
+3. Create GSAP `quickTo()` functions for X and Y position (smooth mode)
+   - Or use instant `gsap.set()` for reduced motion mode
+4. Track `mousemove` events and update cursor position
+5. Monitor DOM for interactive elements (links, buttons, inputs, `[data-cursor="hover"]`)
+6. Add/remove `custom-cursor--hover` class on element hover
+7. Use MutationObserver to detect dynamically added interactive elements
+
+**Performance**:
+- GSAP `quickTo()` provides 60fps position updates without creating new tweens
+- Duration: 0.6s with `power3.out` easing for smooth, natural following
+- Instant updates for reduced motion (0 duration with `gsap.set()`)
+- Passive event listeners where possible
+- Minimal DOM queries (cached element references)
+
+**Interactive Element Detection**:
+```typescript
+// Selectors for automatic hover detection
+const interactiveSelectors = [
+  'a[href]',
+  'button:not([disabled])',
+  '[data-cursor="hover"]',
+  'input:not([disabled])',
+  'textarea:not([disabled])',
+  'select:not([disabled])',
+].join(', ');
+
+// MutationObserver for dynamically added elements
+const observer = new MutationObserver((mutations) => {
+  for (const mutation of mutations) {
+    for (const node of mutation.addedNodes) {
+      if (node instanceof Element) {
+        if (node.matches(interactiveSelectors)) {
+          addListenersToElement(node);
+        }
+        node.querySelectorAll(interactiveSelectors)
+          .forEach(addListenersToElement);
+      }
+    }
+  }
+});
+```
+
+**CSS Media Queries**:
+```css
+/* Hide system cursor on desktop */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
+}
+
+/* Hide custom cursor on touch devices */
+@media (hover: none) or (pointer: coarse) {
+  .custom-cursor { display: none; }
+}
+```
+
+**Accessibility**:
+- `aria-hidden="true"` - cursor is decorative only
+- `pointer-events: none` - cursor doesn't interfere with interactions
+- Respects `prefers-reduced-motion` by using instant position updates
+- Disabled on touch devices (system cursor restored)
+- Keyboard navigation unaffected by custom cursor
+- Scale transition respects reduced motion preferences
+
+**Lifecycle Management**:
+```typescript
+// Initialize on page load
+initCustomCursor();
+
+// Clean up on page navigation (Astro)
+document.addEventListener('astro:before-swap', () => {
+  cleanupCustomCursor();
+});
+```
+
+**State Management**:
+```typescript
+interface CursorState {
+  cursor: HTMLElement | null;           // Cursor element reference
+  quickX: ((value: number) => void) | null;  // GSAP quickTo X function
+  quickY: ((value: number) => void) | null;  // GSAP quickTo Y function
+  isHovering: boolean;                  // Current hover state
+  cleanup: (() => void) | null;         // Cleanup function
+}
+```
+
 ### Scroll Progress Animation
 
 **Location**: `src/components/ui/ScrollProgress.astro` and `src/scripts/scroll-progress.ts`

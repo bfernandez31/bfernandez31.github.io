@@ -204,6 +204,22 @@ bun test --watch         # Run tests in watch mode
 - Handle edge cases: no scrollable content, resize events
 - Clean up: Remove listeners and cancel animation frames on unmount
 
+### Custom Cursor
+- Use `CustomCursor.astro` component for branded cursor experience on desktop
+- Place in layout (typically in `PageLayout.astro` after other fixed elements)
+- Initialize with `initCustomCursor()` from `src/scripts/custom-cursor.ts`
+- Automatically disabled on touch devices via CSS media queries
+- Uses GSAP `quickTo()` for ultra-smooth 60fps cursor tracking (0.6s duration, power3.out easing)
+- Respects `prefers-reduced-motion` by using instant position updates (no smooth following)
+- Always set `aria-hidden="true"` and `pointer-events: none` (decorative only)
+- Use `mix-blend-mode: difference` for adaptive contrast on any background
+- Interactive element detection: automatically scales up on hover over links, buttons, inputs
+- Add `data-cursor="hover"` attribute to custom elements for hover detection
+- Uses MutationObserver to track dynamically added interactive elements
+- Default size: 32px circle (2px border), hover size: 64px circle (3px border)
+- Media queries: `@media (hover: hover) and (pointer: fine)` for desktop only
+- Clean up: Call `cleanupCustomCursor()` on page navigation (astro:before-swap)
+
 ### Reduced Motion Support
 ```typescript
 // Check preference before animating
@@ -283,6 +299,18 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
 - Quickstart: `specs/002-1506-palette-couleur/quickstart.md`
 
 ## Recent Changes
+- 009-title-custom-cursor: Added custom cursor with interactive element detection
+  - Created CustomCursor.astro component with circular design (32px default, 64px hover)
+  - Implemented custom-cursor.ts script with GSAP quickTo for 60fps position tracking
+  - Added mix-blend-mode: difference for adaptive contrast on any background
+  - Implemented automatic interactive element detection (links, buttons, inputs, custom via data-cursor)
+  - Created MutationObserver system to track dynamically added interactive elements
+  - Added smooth follow animation with power3.out easing (0.6s duration)
+  - Respects prefers-reduced-motion preference (instant position updates, no smooth following)
+  - Automatically disabled on touch devices via CSS media queries
+  - Maintains state management for cursor position, hover state, and cleanup
+  - Added to PageLayout.astro with proper z-index layering (z-index: 10000)
+  - Ensured full accessibility (aria-hidden, pointer-events: none, keyboard navigation unaffected)
 - 008-title-scroll-progress: Added scroll progress indicator
   - Created ScrollProgress.astro component with fixed positioning at viewport top
   - Implemented violet-to-rose gradient progress bar (4px height, 3px on high-DPI)

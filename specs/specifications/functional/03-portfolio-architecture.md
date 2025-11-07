@@ -168,6 +168,44 @@ The single-page architecture includes an intelligent navigation system that trac
 - Sections allow natural overflow on smaller screens
 - Scroll progress bar visible on all screen sizes
 
+## Visual Effects
+
+### Custom Cursor
+
+The portfolio features a custom cursor that replaces the system cursor on desktop devices, providing a refined, on-brand interaction experience.
+
+**Behavior**:
+- Circular cursor with border outline follows mouse movement smoothly
+- Uses mix-blend-mode: difference for adaptive contrast against any background
+- Scales up (2x size) when hovering over interactive elements
+- Smooth animation with natural easing for professional feel
+- Automatically detects and adapts to interactive elements (links, buttons, inputs)
+
+**Interactive Element Detection**:
+- Automatically grows when hovering over links, buttons, form fields
+- Supports custom interactive elements via `data-cursor="hover"` attribute
+- Dynamically tracks new elements added to the page (MutationObserver)
+- Maintains consistent hover state across all interactive UI
+
+**Device Support**:
+- Desktop only (hover: hover and pointer: fine media queries)
+- System cursor hidden on desktop devices
+- Automatically disabled on touch devices (tablets, phones)
+- Reverts to system cursor on touch-enabled screens
+
+**Accessibility**:
+- Respects `prefers-reduced-motion` user preference
+- When reduced motion is enabled, cursor uses instant position updates (no smooth following)
+- Cursor marked as `aria-hidden="true"` (decorative, not functional)
+- Does not interfere with keyboard navigation or screen readers
+- Interactive elements remain fully accessible without cursor
+
+**Performance**:
+- Uses GSAP `quickTo()` for ultra-smooth 60fps position updates
+- GPU-accelerated transforms (translateX/Y) for optimal rendering
+- Minimal CPU overhead (~1-2KB JavaScript)
+- Automatic cleanup on page navigation
+
 ## Animation System
 
 ### Core Animation Utilities
