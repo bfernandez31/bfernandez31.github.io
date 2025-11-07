@@ -7,7 +7,10 @@
  */
 
 import { gsap } from "gsap";
-import { MAGNETIC_MENU_DEFAULTS, prefersReducedMotion } from "./animation-config";
+import {
+	MAGNETIC_MENU_DEFAULTS,
+	prefersReducedMotion,
+} from "./animation-config";
 
 export interface MagneticOptions {
 	threshold?: number; // Activation radius (px)

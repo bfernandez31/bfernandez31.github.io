@@ -213,7 +213,11 @@ export const getSafeEasing = (normalEasing: string): string => {
 /**
  * Detect device capability tier
  */
-export const getDeviceTier = (): "desktop" | "tablet" | "mobile" | "low-end" => {
+export const getDeviceTier = ():
+	| "desktop"
+	| "tablet"
+	| "mobile"
+	| "low-end" => {
 	if (typeof window === "undefined") return "desktop";
 
 	const width = window.innerWidth;

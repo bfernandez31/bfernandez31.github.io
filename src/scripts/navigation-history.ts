@@ -7,12 +7,12 @@
  * @feature 005-1510-convert-multi
  */
 
+import type Lenis from "@studio-freight/lenis";
+
 // Extend Window interface for Lenis
 declare global {
 	interface Window {
-		lenis?: {
-			scrollTo: (target: string | HTMLElement) => void;
-		};
+		lenis?: Lenis;
 	}
 }
 
@@ -22,17 +22,19 @@ declare global {
  */
 export function initNavigationHistory(): void {
 	const lenis = window.lenis;
-	const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	const prefersReducedMotion = window.matchMedia(
+		"(prefers-reduced-motion: reduce)",
+	).matches;
 
 	// Handle initial page load with hash
 	handleInitialHash();
 
 	// Handle browser back/forward buttons
-	window.addEventListener('popstate', handlePopState);
+	window.addEventListener("popstate", handlePopState);
 
 	// Cleanup on page navigation (Astro specific)
-	document.addEventListener('astro:before-swap', () => {
-		window.removeEventListener('popstate', handlePopState);
+	document.addEventListener("astro:before-swap", () => {
+		window.removeEventListener("popstate", handlePopState);
 	});
 
 	/**
@@ -56,14 +58,14 @@ export function initNavigationHistory(): void {
 				lenis.scrollTo(`#${hash}`);
 			} else {
 				target.scrollIntoView({
-					behavior: prefersReducedMotion ? 'auto' : 'smooth',
-					block: 'start',
+					behavior: prefersReducedMotion ? "auto" : "smooth",
+					block: "start",
 				});
 			}
 
 			// Set focus on the target section
 			target.focus();
-			target.setAttribute('tabindex', '-1');
+			target.setAttribute("tabindex", "-1");
 		}, 100); // Small delay to ensure Lenis is initialized
 	}
 
@@ -76,9 +78,12 @@ export function initNavigationHistory(): void {
 		if (!hash) {
 			// If no hash, scroll to top
 			if (lenis && !prefersReducedMotion) {
-				lenis.scrollTo('#hero');
+				lenis.scrollTo("#hero");
 			} else {
-				window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+				window.scrollTo({
+					top: 0,
+					behavior: prefersReducedMotion ? "auto" : "smooth",
+				});
 			}
 			return;
 		}
@@ -94,13 +99,13 @@ export function initNavigationHistory(): void {
 			lenis.scrollTo(`#${hash}`);
 		} else {
 			target.scrollIntoView({
-				behavior: prefersReducedMotion ? 'auto' : 'smooth',
-				block: 'start',
+				behavior: prefersReducedMotion ? "auto" : "smooth",
+				block: "start",
 			});
 		}
 
 		// Set focus on the target section
 		target.focus();
-		target.setAttribute('tabindex', '-1');
+		target.setAttribute("tabindex", "-1");
 	}
 }

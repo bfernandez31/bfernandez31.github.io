@@ -1,5 +1,5 @@
 ---
-import { navigationLinks } from '../../data/navigation';
+import { navigationLinks } from "../../data/navigation";
 
 interface Props {
 	class?: string;
@@ -8,7 +8,7 @@ interface Props {
 const { class: className = "" } = Astro.props;
 
 // T012 - Use hash anchor links for single-page navigation
-const navItems = navigationLinks.map(link => ({
+const navItems = navigationLinks.map((link) => ({
 	href: link.href,
 	label: link.label,
 	ariaLabel: link.ariaLabel,

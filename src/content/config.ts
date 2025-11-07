@@ -24,7 +24,9 @@ const projectsCollection = defineCollection({
 		githubUrl: z.string().url().optional(),
 		featured: z.boolean().default(false),
 		displayOrder: z.number().int().positive(),
-		status: z.enum(["completed", "in-progress", "archived"]).default("completed"),
+		status: z
+			.enum(["completed", "in-progress", "archived"])
+			.default("completed"),
 		startDate: z.coerce.date(),
 		endDate: z.coerce.date().optional(),
 		tags: z.array(z.string()).optional(),

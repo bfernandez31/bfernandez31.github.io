@@ -8,35 +8,43 @@ The portfolio implements a sophisticated single-page navigation system that prov
 
 ### Core Components
 
-The navigation system consists of three primary JavaScript modules:
+The navigation system consists of four primary JavaScript modules:
 
-1. **Active Navigation Manager** (`src/scripts/active-navigation.ts`)
+1. **Smooth Scroll Manager** (`src/scripts/smooth-scroll.ts`)
+   - Initializes Lenis smooth scroll library
+   - Configures section snap functionality
+   - Provides utility functions for scrolling
+   - Respects user motion preferences
+
+2. **Active Navigation Manager** (`src/scripts/active-navigation.ts`)
    - Tracks which section is currently visible
    - Updates navigation link states
    - Uses IntersectionObserver API
 
-2. **Navigation Link Handler** (`src/scripts/navigation-links.ts`)
+3. **Navigation Link Handler** (`src/scripts/navigation-links.ts`)
    - Handles navigation link clicks
    - Triggers smooth scroll to target sections
    - Manages focus for keyboard users
 
-3. **Navigation History Manager** (`src/scripts/navigation-history.ts`)
+4. **Navigation History Manager** (`src/scripts/navigation-history.ts`)
    - Handles initial page load with hash
    - Manages browser back/forward navigation
    - Updates URL hash on section changes
 
 ### Implementation Pattern
 
-All three modules must be initialized in `index.astro`:
+All four modules must be initialized in `index.astro`:
 
 ```javascript
+import { initSmoothScroll } from '../scripts/smooth-scroll';
 import { initActiveNavigation } from '@/scripts/active-navigation';
 import { initNavigationLinks } from '@/scripts/navigation-links';
 import { initNavigationHistory } from '@/scripts/navigation-history';
 
-// Initialize on page load
+// Initialize on page load (order matters!)
+initSmoothScroll();        // Initialize Lenis first (exposes window.lenis)
 initActiveNavigation();    // Tracks active section
-initNavigationLinks();     // Handles link clicks
+initNavigationLinks();     // Handles link clicks (depends on window.lenis)
 initNavigationHistory();   // Handles deep linking + history
 ```
 
@@ -86,35 +94,71 @@ nav a[aria-current="page"] {
 
 ### Lenis Integration
 
-The navigation system uses Lenis for smooth, natural scrolling:
+The navigation system uses Lenis for smooth, natural scrolling with section snap functionality:
 
 ```typescript
-// src/scripts/navigation-links.ts
+// src/scripts/smooth-scroll.ts - Initialize Lenis with snap
 import Lenis from '@studio-freight/lenis';
 
-// Initialize Lenis (done in scroll-animations.ts)
+// Custom easeInOutExpo easing function
+function easeInOutExpo(t: number): number {
+  if (t === 0) return 0;
+  if (t === 1) return 1;
+  if (t < 0.5) {
+    return Math.pow(2, 20 * t - 10) / 2;
+  }
+  return (2 - Math.pow(2, -20 * t + 10)) / 2;
+}
+
 const lenis = new Lenis({
   duration: 1.2,
-  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  easing: easeInOutExpo,
+  orientation: 'vertical',
+  gestureOrientation: 'vertical',
   smoothWheel: true,
-  smoothTouch: false,  // Disabled on mobile for better UX
+  wheelMultiplier: 1.0,
+  touchMultiplier: 2.0,
+  infinite: false,
+  syncTouch: true,        // Enable momentum scrolling
+  syncTouchLerp: 0.1,
 });
 
-// Scroll to section
+// Expose on window for navigation-links.ts compatibility
+window.lenis = lenis;
+
+// src/scripts/navigation-links.ts - Use global Lenis instance
 function scrollToSection(sectionId: string) {
   const target = document.getElementById(sectionId);
   if (!target) return;
 
-  lenis.scrollTo(target, {
-    offset: 0,
-    immediate: false,
-    duration: 1.2,
-  });
+  const lenis = window.lenis;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Use Lenis for smooth scroll (if available and motion not reduced)
+  if (lenis && !prefersReducedMotion) {
+    lenis.scrollTo(`#${sectionId}`);
+  } else {
+    // Fallback to native smooth scroll
+    target.scrollIntoView({
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      block: 'start',
+    });
+  }
 
   // Focus target for keyboard users
-  target.focus({ preventScroll: true });
+  setTimeout(() => {
+    target.focus({ preventScroll: true });
+  }, 100);
 }
 ```
+
+**Section Snap Behavior**:
+- Monitors scroll velocity continuously
+- When velocity drops below 0.1 (user stopped scrolling), triggers snap check
+- Finds the closest section within viewport range
+- Smoothly snaps to section start using easeInOutExpo (1.2s duration)
+- 150ms debounce prevents snap triggering during active scroll
+- Minimum 10px distance threshold prevents micro-adjustments
 
 ### Reduced Motion Support
 
@@ -351,12 +395,13 @@ document.addEventListener('astro:before-swap', () => {
 
 | Module | Size (minified) |
 |--------|----------------|
+| smooth-scroll.ts | ~2.5 KB |
 | active-navigation.ts | ~1.5 KB |
 | navigation-links.ts | ~1.2 KB |
 | navigation-history.ts | ~0.8 KB |
-| **Total** | **~3.5 KB** |
+| **Total** | **~6.0 KB** |
 
-Lenis library: ~10 KB (already included for smooth scroll)
+Lenis library: ~10 KB (included for smooth scroll + snap functionality)
 
 ## Testing
 

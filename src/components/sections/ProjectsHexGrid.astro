@@ -1,27 +1,29 @@
 ---
-import { getCollection } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 
 export interface Props {
-  limit?: number;
-  featured?: boolean;
+	limit?: number;
+	featured?: boolean;
 }
 
 const { limit = 12, featured = false } = Astro.props;
 
 // Get all projects or filter by featured
-let projects = await getCollection('projects');
+let projects = await getCollection("projects");
 
 if (featured) {
-  projects = projects.filter(project => project.data.featured);
+	projects = projects.filter((project) => project.data.featured);
 }
 
 // Sort by displayOrder field, then by startDate
 projects.sort((a, b) => {
-  const orderA = a.data.displayOrder ?? 999;
-  const orderB = b.data.displayOrder ?? 999;
-  if (orderA !== orderB) return orderA - orderB;
-  return new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime();
+	const orderA = a.data.displayOrder ?? 999;
+	const orderB = b.data.displayOrder ?? 999;
+	if (orderA !== orderB) return orderA - orderB;
+	return (
+		new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime()
+	);
 });
 
 // Limit the number of projects
