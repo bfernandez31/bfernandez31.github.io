@@ -14,6 +14,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - N/A (CSS custom properties defined in global stylesheet, no data persistence) (002-1506-palette-couleur)
 - TypeScript 5.0+ (strict mode) with Bun ≥1.0.0 runtime (003-1507-architecture-globale)
 - Static content (Markdown files via Astro Content Collections for blog/projects, JSON for structured data like skills) (003-1507-architecture-globale)
+- TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro ≥5.15.3 (static site generator), GSAP ≥3.13.0 (animations), Lenis ≥1.0.42 (smooth scroll) (005-1510-convert-multi)
+- Static content (Markdown via Astro Content Collections, JSON data files) (005-1510-convert-multi)
 
 ## Project Structure
 ```
@@ -210,6 +212,7 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
 - Quickstart: `specs/002-1506-palette-couleur/quickstart.md`
 
 ## Recent Changes
+- 005-1510-convert-multi: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro ≥5.15.3 (static site generator), GSAP ≥3.13.0 (animations), Lenis ≥1.0.42 (smooth scroll)
 - 003-1507-architecture-globale: Implemented Awwwards-worthy portfolio architecture (MVP)
   - Created neural network hero animation with Canvas 2D (60fps desktop, 30fps mobile)
   - Implemented magnetic burger menu with cursor proximity effect
@@ -227,7 +230,6 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
   - Implemented interaction states (hover, focus, active, disabled)
   - Added reduced motion support via `--transition-color` variable
   - Ensured WCAG 2.1 AA contrast compliance across all combinations
-- 001-1505-initialise-le: Complete portfolio initialization with Bun + Astro
   - Added TypeScript 5.0+ with strict mode
   - Configured Biome for linting and formatting
   - Integrated GSAP and Lenis for animations
