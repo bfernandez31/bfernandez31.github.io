@@ -5,7 +5,10 @@
  * Used by BurgerMenu and other navigation components.
  */
 
-export interface NavigationLink {
+import type { NavigationLink as NavigationLinkType } from '../types/navigation';
+
+// Extended navigation link with animation config
+export interface ExtendedNavigationLink {
 	id: string;
 	text: string;
 	path: string;
@@ -18,7 +21,8 @@ export interface NavigationLink {
 	};
 }
 
-export const navigationLinks: NavigationLink[] = [
+// Legacy navigation links for backward compatibility
+export const extendedNavigationLinks: ExtendedNavigationLink[] = [
 	{
 		id: "home",
 		text: "Home",
@@ -89,5 +93,55 @@ export const navigationLinks: NavigationLink[] = [
 			color: "var(--color-primary)",
 			animationDuration: 0.8,
 		},
+	},
+];
+
+// Navigation links for single-page architecture (T010)
+// Used by active navigation, history management, and navigation link handlers
+export const navigationLinks: NavigationLinkType[] = [
+	{
+		href: '#hero',
+		targetSectionId: 'hero',
+		label: 'Home',
+		ariaLabel: 'Navigate to Home section',
+		ariaCurrent: null,
+		isActive: false,
+		order: 1,
+	},
+	{
+		href: '#about',
+		targetSectionId: 'about',
+		label: 'About',
+		ariaLabel: 'Navigate to About section',
+		ariaCurrent: null,
+		isActive: false,
+		order: 2,
+	},
+	{
+		href: '#projects',
+		targetSectionId: 'projects',
+		label: 'Projects',
+		ariaLabel: 'Navigate to Projects section',
+		ariaCurrent: null,
+		isActive: false,
+		order: 3,
+	},
+	{
+		href: '#expertise',
+		targetSectionId: 'expertise',
+		label: 'Expertise',
+		ariaLabel: 'Navigate to Expertise section',
+		ariaCurrent: null,
+		isActive: false,
+		order: 4,
+	},
+	{
+		href: '#contact',
+		targetSectionId: 'contact',
+		label: 'Contact',
+		ariaLabel: 'Navigate to Contact section',
+		ariaCurrent: null,
+		isActive: false,
+		order: 5,
 	},
 ];

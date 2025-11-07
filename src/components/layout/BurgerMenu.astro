@@ -1,9 +1,10 @@
 ---
 import { navigationLinks } from "../../data/navigation";
 
-// Sort links by display order
+// T013 - Use hash anchor links for single-page navigation
+// Sort links by order
 const sortedLinks = [...navigationLinks].sort(
-	(a, b) => a.displayOrder - b.displayOrder,
+	(a, b) => a.order - b.order,
 );
 ---
 
@@ -25,11 +26,11 @@ const sortedLinks = [...navigationLinks].sort(
 				sortedLinks.map((link) => (
 					<li class="nav-menu__item">
 						<a
-							href={link.path}
+							href={link.href}
 							class="nav-menu__link"
-							aria-label={link.ariaLabel || link.text}
+							aria-label={link.ariaLabel}
 						>
-							{link.text}
+							{link.label}
 						</a>
 					</li>
 				))

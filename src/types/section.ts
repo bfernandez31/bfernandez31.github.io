@@ -42,6 +42,18 @@ export interface SectionProps {
   headingLevel: SectionHeadingLevel;
 
   /**
+   * Minimum height CSS value
+   * Typically '100vh' or '100dvh'
+   */
+  minHeight: string;
+
+  /**
+   * Display order (1-5)
+   * Determines the visual order of sections on the page
+   */
+  order: number;
+
+  /**
    * Additional CSS classes for styling
    */
   className?: string;

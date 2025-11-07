@@ -1,14 +1,18 @@
 ---
+import { navigationLinks } from '../../data/navigation';
+
 interface Props {
 	class?: string;
 }
 
 const { class: className = "" } = Astro.props;
 
-const navItems = [
-	{ href: "/", label: "Home" },
-	{ href: "/about/", label: "About" },
-];
+// T012 - Use hash anchor links for single-page navigation
+const navItems = navigationLinks.map(link => ({
+	href: link.href,
+	label: link.label,
+	ariaLabel: link.ariaLabel,
+}));
 ---
 
 <header class:list={['header', className]}>
@@ -21,7 +25,11 @@ const navItems = [
       <ul class="header__nav-list">
         {navItems.map((item) => (
           <li class="header__nav-item">
-            <a href={item.href} class="header__nav-link">
+            <a
+              href={item.href}
+              class="header__nav-link"
+              aria-label={item.ariaLabel}
+            >
               {item.label}
             </a>
           </li>
