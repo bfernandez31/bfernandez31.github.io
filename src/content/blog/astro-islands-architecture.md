@@ -2,7 +2,7 @@
 title: "docs: Explain Astro Islands architecture benefits"
 commitHash: "d4e5a6f"
 description: "Understanding Astro's Islands architecture and how it achieves zero JavaScript by default."
-author: "Your Name"
+author: "Benoit Fernandez"
 publishDate: 2024-07-05
 tags: ["Astro", "Architecture", "Performance"]
 draft: false

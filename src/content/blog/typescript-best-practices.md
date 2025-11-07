@@ -2,7 +2,7 @@
 title: "refactor: Apply TypeScript strict mode across codebase"
 commitHash: "c9d2f3e"
 description: "Lessons learned from migrating a large codebase to TypeScript strict mode and improving type safety."
-author: "Your Name"
+author: "Benoit Fernandez"
 publishDate: 2024-08-10
 tags: ["TypeScript", "Best Practices", "Type Safety"]
 draft: false

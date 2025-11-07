@@ -37,7 +37,7 @@ const blogCollection = defineCollection({
 		title: z.string(),
 		commitHash: z.string().regex(/^[a-f0-9]{7}$/),
 		description: z.string(),
-		author: z.string().default("Your Name"),
+		author: z.string().default("Benoit Fernandez"),
 		publishDate: z.coerce.date(),
 		updatedDate: z.coerce.date().optional(),
 		tags: z.array(z.string()),

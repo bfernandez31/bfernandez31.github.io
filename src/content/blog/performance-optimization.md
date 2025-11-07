@@ -2,7 +2,7 @@
 title: "perf: Optimize bundle size and achieve 100 Lighthouse score"
 commitHash: "b8e4c1d"
 description: "Techniques for reducing bundle size, improving Core Web Vitals, and achieving perfect Lighthouse scores."
-author: "Your Name"
+author: "Benoit Fernandez"
 publishDate: 2024-09-20
 tags: ["Performance", "Optimization", "Web Vitals"]
 draft: false
