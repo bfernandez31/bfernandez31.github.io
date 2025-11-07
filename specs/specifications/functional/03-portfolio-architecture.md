@@ -79,28 +79,68 @@ The portfolio uses an innovative magnetic burger menu that responds to cursor pr
 
 ## Page Structure
 
-### Current Pages
+### Single-Page Architecture
 
-**Home** (`/`)
-- Features neural network hero section
-- Headline, subheadline, and call-to-action button
-- Full viewport height with centered content
-- Responsive typography using clamp()
+The portfolio uses a single-page layout with five full-viewport sections, providing a modern, cohesive browsing experience without page reloads.
 
-**About** (`/about`)
-- Currently a placeholder page
-- Will feature IDE-style visual theme (planned)
+**Main Page** (`/`)
+- Contains all five sections in a single scrollable page
+- Each section occupies full viewport height (100vh on desktop)
+- Sections identified by hash anchors: `#hero`, `#about`, `#projects`, `#expertise`, `#contact`
+- Smooth scroll navigation between sections
+- Content from previously separate pages now consolidated
 
-### Planned Pages
+**Section Overview**:
+1. **Hero** (`#hero`) - Neural network animation with introduction
+2. **About** (`#about`) - Professional background and skills
+3. **Projects** (`#projects`) - Portfolio showcase
+4. **Expertise** (`#expertise`) - Technical skills and competencies
+5. **Contact** (`#contact`) - Contact information and form
 
-The architecture supports seven core pages as specified:
-- Home (implemented with neural network hero)
-- About (IDE-style theme) - planned
-- Projects (hexagonal grid layout) - planned
-- Expertise (skills matrix) - planned
-- Blog (Git commit-style list) - planned
-- Contact (terminal/protocol theme) - planned
-- 404 (creative error page) - planned
+**URL Structure**:
+- Deep linking supported via hash fragments (e.g., `/#about`, `/#projects`)
+- Browser history tracks section navigation
+- Back/forward buttons navigate between sections
+- Old page URLs redirect to hash anchors (`/about` → `/#about`)
+
+**Separate Pages**:
+- **Blog** (`/blog`) - Multi-page blog section (separate from single-page layout)
+- **404** (`/404`) - Error page for invalid routes
+
+### Section Navigation System
+
+The single-page architecture includes an intelligent navigation system that tracks user position and provides smooth transitions between sections.
+
+**Active Section Detection**:
+- Uses IntersectionObserver API to track visible section
+- 30% visibility threshold determines active section
+- Active navigation link updates automatically while scrolling
+- `aria-current="page"` attribute updates for accessibility
+
+**Navigation Behavior**:
+- Click navigation links to smoothly scroll to target section
+- Smooth scroll powered by Lenis library (respects `prefers-reduced-motion`)
+- Focus automatically moves to target section for keyboard users
+- URL hash updates to reflect current section
+- Browser history tracks section changes (back/forward buttons work)
+
+**Deep Linking**:
+- Direct navigation to sections via URL hash (e.g., `/#contact`)
+- Initial page load scrolls to hash target if present
+- Shared URLs preserve section context
+- Fallback to hero section if hash invalid
+
+**Semantic HTML Structure**:
+- Each section uses `<section>` element with unique `id` and `data-section` attributes
+- Hero section uses `role="main"` landmark
+- Other sections use `role="region"` with descriptive `aria-label`
+- Proper heading hierarchy (h1 in Hero, h2 in other sections)
+
+**Responsive Behavior**:
+- Desktop (≥1024px): Sections fixed at 100vh height
+- Tablet/Mobile (<1024px): Sections use `min-height: 100vh` to prevent content cutoff
+- Dynamic viewport units (100dvh) account for mobile browser UI
+- Sections allow natural overflow on smaller screens
 
 ## Animation System
 

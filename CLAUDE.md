@@ -14,6 +14,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - N/A (CSS custom properties defined in global stylesheet, no data persistence) (002-1506-palette-couleur)
 - TypeScript 5.0+ (strict mode) with Bun ≥1.0.0 runtime (003-1507-architecture-globale)
 - Static content (Markdown files via Astro Content Collections for blog/projects, JSON for structured data like skills) (003-1507-architecture-globale)
+- TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro ≥5.15.3 (static site generator), GSAP ≥3.13.0 (animations), Lenis ≥1.0.42 (smooth scroll) (005-1510-convert-multi)
+- Static content (Markdown via Astro Content Collections, JSON data files) (005-1510-convert-multi)
 
 ## Project Structure
 ```
@@ -37,6 +39,50 @@ portfolio/
 ├── specs/                # Feature specifications
 └── .github/workflows/    # CI/CD automation
 ```
+
+## Single-Page Architecture
+
+The portfolio uses a single-page architecture with 5 full-viewport sections:
+
+### Navigation Pattern
+- **Main sections**: `#hero`, `#about`, `#projects`, `#expertise`, `#contact`
+- **URL structure**: All main content accessible via hash anchors (e.g., `/#about`)
+- **Blog**: Separate multi-page section at `/blog` (not included in single-page layout)
+
+### Implementation Details
+- **IntersectionObserver**: Tracks active section (30% threshold)
+- **Smooth scroll**: Powered by Lenis + GSAP ScrollTrigger
+- **Focus management**: Automatic focus on section navigation
+- **Deep linking**: Initial page load with hash scrolls to target section
+- **History management**: Browser back/forward buttons work correctly
+
+### Navigation Scripts
+```javascript
+// All three must be initialized in index.astro
+initActiveNavigation();    // Updates active link state
+initNavigationLinks();     // Handles link clicks + smooth scroll
+initNavigationHistory();   // Handles deep linking + back/forward
+```
+
+### Section Structure
+```astro
+<section
+  id="hero"
+  data-section="hero"
+  class="portfolio-section portfolio-section--hero"
+  role="main"
+  aria-label="Hero section with introduction"
+>
+  <!-- Content -->
+</section>
+```
+
+### Redirects
+Old page URLs automatically redirect to hash anchors:
+- `/about` → `/#about`
+- `/projects` → `/#projects`
+- `/expertise` → `/#expertise`
+- `/contact` → `/#contact`
 
 ## Commands
 ```bash
@@ -210,6 +256,17 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
 - Quickstart: `specs/002-1506-palette-couleur/quickstart.md`
 
 ## Recent Changes
+- 005-1510-convert-multi: Converted to single-page architecture with sectioned layout
+  - Consolidated all main content into index.astro with 5 full-viewport sections
+  - Implemented hash-based navigation (#hero, #about, #projects, #expertise, #contact)
+  - Created active section tracking with IntersectionObserver (30% threshold)
+  - Added smooth scroll navigation with Lenis integration
+  - Implemented browser history management and deep linking support
+  - Added URL redirects from old page paths to hash anchors
+  - Created navigation scripts: active-navigation.ts, navigation-links.ts, navigation-history.ts
+  - Implemented sections.css with 100vh/100dvh responsive patterns
+  - Ensured full accessibility with ARIA landmarks and keyboard navigation
+  - Maintained WCAG 2.1 AA compliance and reduced motion support
 - 003-1507-architecture-globale: Implemented Awwwards-worthy portfolio architecture (MVP)
   - Created neural network hero animation with Canvas 2D (60fps desktop, 30fps mobile)
   - Implemented magnetic burger menu with cursor proximity effect
@@ -227,7 +284,6 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
   - Implemented interaction states (hover, focus, active, disabled)
   - Added reduced motion support via `--transition-color` variable
   - Ensured WCAG 2.1 AA contrast compliance across all combinations
-- 001-1505-initialise-le: Complete portfolio initialization with Bun + Astro
   - Added TypeScript 5.0+ with strict mode
   - Configured Biome for linting and formatting
   - Integrated GSAP and Lenis for animations

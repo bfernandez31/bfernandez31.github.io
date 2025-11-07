@@ -1,0 +1,134 @@
+/**
+ * Section Layout Styles
+ *
+ * Full-viewport section layout for single-page portfolio architecture
+ * @feature 005-1510-convert-multi
+ */
+
+/* Base Section Styles */
+.portfolio-section {
+	/* Full viewport height with modern fallback */
+	height: 100vh;
+	min-height: 100vh;
+
+	/* Modern browsers: dynamic viewport height (handles mobile address bars) */
+	@supports (height: 100dvh) {
+		height: 100dvh;
+		min-height: 100dvh;
+	}
+
+	/* Flexbox layout */
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	/* Overflow handling */
+	overflow-x: hidden;
+	overflow-y: auto;
+
+	/* Responsive padding */
+	padding: clamp(1rem, 5vh, 3rem) clamp(1rem, 5vw, 2rem);
+
+	/* Smooth scrolling touch (iOS) */
+	-webkit-overflow-scrolling: touch;
+}
+
+/* Handle short viewports (landscape mobile, short monitors) */
+@media (max-height: 700px) {
+	.portfolio-section {
+		height: auto;
+		min-height: 100vh;
+
+		@supports (height: 100dvh) {
+			min-height: 100dvh;
+		}
+	}
+}
+
+/* Very short viewports (extreme landscape) */
+@media (max-height: 500px) {
+	.portfolio-section {
+		padding: 2rem 0;
+	}
+}
+
+/* Section-Specific Variants */
+
+/* Hero Section - Always full height */
+.portfolio-section--hero {
+	min-height: 100vh;
+
+	@supports (height: 100dvh) {
+		min-height: 100dvh;
+	}
+}
+
+/* About, Projects, Expertise, Contact - Allow overflow for content-heavy sections */
+.portfolio-section--about,
+.portfolio-section--projects,
+.portfolio-section--expertise,
+.portfolio-section--contact {
+	min-height: 100vh;
+	height: auto;
+
+	@supports (height: 100dvh) {
+		min-height: 100dvh;
+	}
+}
+
+/* Section States (managed by IntersectionObserver) */
+
+.portfolio-section--visible {
+	/* Section is visible in viewport */
+	/* Future: Add subtle entrance animations here */
+}
+
+.portfolio-section--active {
+	/* Section is currently active (≥30% visible) */
+	/* Future: Add active state styles here */
+}
+
+.portfolio-section--hidden {
+	/* Section is scrolled out of viewport */
+	/* Future: Add exit animations here */
+}
+
+/* Section Headings */
+
+.section-heading {
+	font-size: clamp(2rem, 5vw, 3.5rem);
+	font-weight: 700;
+	margin-bottom: 2rem;
+	color: var(--color-text);
+}
+
+/* Prevent Horizontal Overflow */
+
+html,
+body {
+	overflow-x: hidden;
+	width: 100%;
+}
+
+/* Smooth Scroll Behavior (progressive enhancement) */
+
+html {
+	scroll-behavior: smooth;
+	scroll-padding-top: 4rem; /* Account for sticky header if any */
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	/* Disable all section transitions/animations */
+	.portfolio-section,
+	.portfolio-section * {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}

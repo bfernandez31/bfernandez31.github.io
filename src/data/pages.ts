@@ -14,12 +14,14 @@ export interface PageMetadata {
 }
 
 export const pageMetadata: Record<string, PageMetadata> = {
+	// Single-page portfolio metadata (T011 - updated for single-page structure)
 	home: {
 		path: "/",
-		title: "Benoit Fernandez - Full Stack Developer",
+		title: "Benoit Fernandez - Full Stack Developer & Creative Technologist",
 		description:
-			"Award-winning full stack developer specializing in modern web technologies, performance optimization, and accessible design.",
+			"Award-winning full stack developer specializing in modern web technologies, performance optimization, and accessible design. Explore projects, expertise, and contact information in this single-page portfolio.",
 		ogImage: "/images/og-images/home.webp",
+		canonicalUrl: "https://b-fernandez.github.io/portfolio/",
 	},
 	about: {
 		path: "/about",

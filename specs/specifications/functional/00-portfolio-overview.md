@@ -56,13 +56,15 @@ The portfolio provides a streamlined development experience:
 
 ### Navigation
 Users can navigate the portfolio through:
-- Magnetic burger menu with animated neural pathway links
-- Interactive menu that responds to cursor proximity with magnetic pull effect
-- Full-screen overlay navigation with smooth animations
-- File-based routing (URLs match page structure)
-- Fast client-side transitions
-- Keyboard and screen reader accessible navigation
-- Clear visual hierarchy
+- **Single-Page Architecture**: All main content organized into 5 full-viewport sections
+- **Section Navigation**: Smooth scrolling between sections via hash anchors (#hero, #about, #projects, #expertise, #contact)
+- **Active Section Tracking**: IntersectionObserver automatically highlights current section in navigation
+- **Deep Linking**: Direct access to specific sections via URL hash fragments
+- **Magnetic Burger Menu**: Interactive menu with cursor proximity magnetic pull effect
+- **Full-Screen Overlay**: Smooth animated menu overlay for mobile/tablet
+- **Keyboard and Screen Reader Accessible**: Full ARIA support and keyboard navigation
+- **Browser History Integration**: Back/forward buttons navigate between sections
+- **URL Redirects**: Old page URLs automatically redirect to hash anchors
 
 ### Performance
 The portfolio delivers exceptional performance:
