@@ -1,0 +1,161 @@
+---
+/**
+ * NavigationDots Component
+ *
+ * Vertical navigation with dots positioned on the right side of the viewport.
+ * Displays one dot per main section with active state tracking.
+ * Supports smooth scrolling via Lenis integration.
+ *
+ * @feature 007-title-vertical-navigation
+ */
+
+import { navigationLinks } from "../../data/navigation";
+
+interface Props {
+	className?: string;
+}
+
+const { className = "" } = Astro.props;
+
+// Filter out blog link (it's not a section on the single-page layout)
+const sectionLinks = navigationLinks.filter(
+	(link) => !link.href.includes("blog"),
+);
+---
+
+<nav
+	class={`navigation-dots ${className}`}
+	aria-label="Section navigation"
+	data-navigation-dots
+>
+	<ul class="navigation-dots__list" role="list">
+		{
+			sectionLinks.map((link) => (
+				<li class="navigation-dots__item">
+					<a
+						href={link.href}
+						class="navigation-dots__link"
+						data-section-id={link.targetSectionId}
+						aria-label={link.ariaLabel}
+					>
+						<span class="navigation-dots__dot" aria-hidden="true" />
+						<span class="navigation-dots__label">{link.label}</span>
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</nav>
+
+<style>
+	.navigation-dots {
+		position: fixed;
+		right: 2rem;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 100;
+		pointer-events: none;
+	}
+
+	.navigation-dots__list {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.navigation-dots__item {
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	.navigation-dots__link {
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		text-decoration: none;
+		pointer-events: auto;
+		cursor: pointer;
+		transition: transform var(--transition-color);
+	}
+
+	.navigation-dots__link:hover .navigation-dots__dot,
+	.navigation-dots__link:focus-visible .navigation-dots__dot {
+		transform: scale(1.4);
+		background-color: var(--color-primary);
+	}
+
+	.navigation-dots__link:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 4px;
+		border-radius: 2rem;
+	}
+
+	/* Active state (managed by JavaScript) */
+	.navigation-dots__link.active .navigation-dots__dot {
+		transform: scale(1.6);
+		background-color: var(--color-primary);
+	}
+
+	.navigation-dots__link.active .navigation-dots__label {
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+	.navigation-dots__dot {
+		width: 0.75rem;
+		height: 0.75rem;
+		border-radius: 50%;
+		background-color: var(--color-surface-1);
+		border: 2px solid var(--color-text-muted);
+		transition:
+			transform var(--transition-color),
+			background-color var(--transition-color),
+			border-color var(--transition-color);
+		will-change: transform;
+	}
+
+	.navigation-dots__label {
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: var(--color-text);
+		white-space: nowrap;
+		opacity: 0;
+		transform: translateX(0.5rem);
+		transition:
+			opacity var(--transition-color),
+			transform var(--transition-color);
+		pointer-events: none;
+	}
+
+	.navigation-dots__link:hover .navigation-dots__label,
+	.navigation-dots__link:focus-visible .navigation-dots__label {
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+	/* Responsive: Hide on mobile and tablet */
+	@media (max-width: 1024px) {
+		.navigation-dots {
+			display: none;
+		}
+	}
+
+	/* Respect reduced motion preference */
+	@media (prefers-reduced-motion: reduce) {
+		.navigation-dots__link,
+		.navigation-dots__dot,
+		.navigation-dots__label {
+			transition-duration: 0.01ms !important;
+		}
+
+		.navigation-dots__link:hover .navigation-dots__dot,
+		.navigation-dots__link:focus-visible .navigation-dots__dot,
+		.navigation-dots__link.active .navigation-dots__dot {
+			transform: scale(1.2);
+		}
+	}
+</style>
