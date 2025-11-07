@@ -345,6 +345,7 @@
  */
 :root {
 	--transition-color: 0.2s ease-in-out;
+	--transition-fast: 0.15s ease-out;
 }
 
 /**
@@ -354,6 +355,7 @@
 @media (prefers-reduced-motion: reduce) {
 	:root {
 		--transition-color: 0.01s;
+		--transition-fast: 0.01s;
 	}
 }
 
