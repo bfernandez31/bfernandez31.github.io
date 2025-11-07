@@ -299,6 +299,20 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
 - Quickstart: `specs/002-1506-palette-couleur/quickstart.md`
 
 ## Recent Changes
+- 010-title-cursor-trail: Added luminous particle trail to custom cursor
+  - Created cursor-trail.ts script with Canvas 2D particle system
+  - Implemented fading particle trail with violet glow effect (60fps)
+  - Spawns 2 particles per frame at cursor position (max 30 particles)
+  - Particles fade from opacity 1 to 0 with size decay (6px to 0)
+  - Added shadow blur effect for luminous appearance matching theme
+  - High-DPI (Retina) canvas support for crisp rendering
+  - Efficient FIFO particle management prevents array growth
+  - Respects prefers-reduced-motion preference (trail disabled completely)
+  - Automatically disabled on touch devices
+  - Full-viewport canvas overlay positioned at z-index: 9999 (below cursor)
+  - Integrated with PageLayout.astro with proper initialization and cleanup
+  - Uses requestAnimationFrame for smooth 60fps animation loop
+  - Minimal memory footprint (~2-3KB JavaScript)
 - 009-title-custom-cursor: Added custom cursor with interactive element detection
   - Created CustomCursor.astro component with circular design (32px default, 64px hover)
   - Implemented custom-cursor.ts script with GSAP quickTo for 60fps position tracking
