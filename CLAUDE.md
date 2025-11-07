@@ -16,6 +16,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - Static content (Markdown files via Astro Content Collections for blog/projects, JSON for structured data like skills) (003-1507-architecture-globale)
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro ≥5.15.3 (static site generator), GSAP ≥3.13.0 (animations), Lenis ≥1.0.42 (smooth scroll) (005-1510-convert-multi)
 - Static content (Markdown via Astro Content Collections, JSON data files) (005-1510-convert-multi)
+- TypeScript 5.9+ (strict mode) with Bun ≥1.0.0 runtime + Astro 5.15.3 (static site generator), GSAP 3.13.0 (animations), Lenis 1.0.42 (smooth scroll), Biome 2.0.0+ (linting) (011-1522-fix-project)
+- Static content (Markdown via Astro Content Collections, JSON data files) - no database (011-1522-fix-project)
 
 ## Project Structure
 ```
@@ -299,6 +301,7 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
 - Quickstart: `specs/002-1506-palette-couleur/quickstart.md`
 
 ## Recent Changes
+- 011-1522-fix-project: Added TypeScript 5.9+ (strict mode) with Bun ≥1.0.0 runtime + Astro 5.15.3 (static site generator), GSAP 3.13.0 (animations), Lenis 1.0.42 (smooth scroll), Biome 2.0.0+ (linting)
 - 010-title-cursor-trail: Added luminous particle trail to custom cursor
   - Created cursor-trail.ts script with Canvas 2D particle system
   - Implemented fading particle trail with violet glow effect (60fps)
@@ -325,7 +328,6 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
   - Maintains state management for cursor position, hover state, and cleanup
   - Added to PageLayout.astro with proper z-index layering (z-index: 10000)
   - Ensured full accessibility (aria-hidden, pointer-events: none, keyboard navigation unaffected)
-- 008-title-scroll-progress: Added scroll progress indicator
   - Created ScrollProgress.astro component with fixed positioning at viewport top
   - Implemented violet-to-rose gradient progress bar (4px height, 3px on high-DPI)
   - Created scroll-progress.ts script for progress tracking and bar updates
@@ -337,7 +339,6 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
   - Handles edge cases: no scrollable content, resize events, scroll at top/bottom
   - Positioned above all elements (z-index 9999) with pointer-events: none
   - Added to PageLayout.astro before BurgerMenu for proper layering
-- 007-title-vertical-navigation: Added vertical navigation dots component
   - Created NavigationDots.astro component with fixed positioning (right: 2rem)
   - Implemented active state synchronization with main navigation via MutationObserver
   - Added smooth scroll integration with Lenis library
@@ -348,7 +349,6 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
   - Implemented reduced motion support with subtle scale transforms
   - Added visual feedback with scale animation (1.6x active, 1.4x hover)
   - Integrated with existing navigation system (5 navigation scripts total)
-- 006-title-lenis-smooth: Enhanced Lenis smooth scroll with section snap
   - Configured easeInOutExpo easing for natural momentum feel (1.2s duration)
   - Implemented automatic section snap when scroll velocity drops below threshold
   - Created smooth-scroll.ts utility module with snap functionality
@@ -358,7 +358,6 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
   - Added utility functions: scrollToElement, scrollToTop, stop/startSmoothScroll
   - Integrated with GSAP ticker for smooth updates (lagSmoothing disabled)
   - Respects prefers-reduced-motion (disables smooth scroll when user prefers reduced motion)
-- 005-1510-convert-multi: Converted to single-page architecture with sectioned layout
   - Consolidated all main content into index.astro with 5 full-viewport sections
   - Implemented hash-based navigation (#hero, #about, #projects, #expertise, #contact)
   - Created active section tracking with IntersectionObserver (30% threshold)
@@ -369,7 +368,6 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
   - Implemented sections.css with 100vh/100dvh responsive patterns
   - Ensured full accessibility with ARIA landmarks and keyboard navigation
   - Maintained WCAG 2.1 AA compliance and reduced motion support
-- 003-1507-architecture-globale: Implemented Awwwards-worthy portfolio architecture (MVP)
   - Created neural network hero animation with Canvas 2D (60fps desktop, 30fps mobile)
   - Implemented magnetic burger menu with cursor proximity effect
   - Added adaptive performance system with device tier detection
@@ -380,7 +378,6 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
   - Ensured full accessibility with reduced motion support and ARIA attributes
   - Established component organization: layout/, sections/, ui/, islands/
   - Created data-driven navigation system
-- 002-1506-palette-couleur: Implemented site-wide color palette
   - Created comprehensive Catppuccin Mocha color token system
   - Updated all components to use semantic color tokens
   - Implemented interaction states (hover, focus, active, disabled)
