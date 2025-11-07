@@ -32,6 +32,22 @@ const { title, description, ogImage, noindex, canonicalUrl } = Astro.props;
 	<Footer />
 </BaseLayout>
 
+<script>
+	import { detectDeviceTier } from '../scripts/performance/device-tier';
+
+	// Detect device tier on page load (before other scripts)
+	const deviceTierResult = detectDeviceTier();
+	console.log('Device Tier:', deviceTierResult.tier);
+	console.log('Reasons:', deviceTierResult.reasons);
+	console.log('Capabilities:', deviceTierResult.capabilities);
+
+	// Store globally for other scripts to access
+	(window as any).__DEVICE_TIER__ = deviceTierResult;
+
+	// Expose as CSS custom property for styling-based optimizations
+	document.documentElement.style.setProperty('--device-tier', deviceTierResult.tier.toLowerCase());
+</script>
+
 <style>
 	main {
 		min-height: 100vh;

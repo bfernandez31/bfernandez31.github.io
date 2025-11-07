@@ -1,0 +1,95 @@
+/**
+ * Performance Configuration
+ *
+ * Central configuration for performance budgets, device tier mappings,
+ * and optimization thresholds.
+ */
+
+export type DeviceTierLevel = 'HIGH' | 'MID' | 'LOW' | 'UNKNOWN';
+
+export interface DeviceTierConfig {
+  particles: number;
+  targetFPS: number;
+  enableCursorEffects: boolean;
+  enableSmoothScroll: boolean;
+}
+
+/**
+ * Device tier configuration mappings
+ * Defines animation and feature settings based on device capabilities
+ */
+export const DEVICE_TIER_CONFIGS: Record<DeviceTierLevel, DeviceTierConfig> = {
+  HIGH: {
+    particles: 50,
+    targetFPS: 60,
+    enableCursorEffects: true,
+    enableSmoothScroll: true,
+  },
+  MID: {
+    particles: 30,
+    targetFPS: 30,
+    enableCursorEffects: false,
+    enableSmoothScroll: true,
+  },
+  LOW: {
+    particles: 20,
+    targetFPS: 30,
+    enableCursorEffects: false,
+    enableSmoothScroll: false,
+  },
+  UNKNOWN: {
+    particles: 30, // Default to mid-tier
+    targetFPS: 30,
+    enableCursorEffects: false,
+    enableSmoothScroll: true,
+  },
+};
+
+/**
+ * Performance budgets from contracts/performance-budgets.md
+ */
+export const PERFORMANCE_CONFIG = {
+  budget: {
+    // Core Web Vitals
+    maxLCP: 2500, // ms
+    maxFID: 100, // ms
+    maxCLS: 0.1,
+
+    // Loading metrics
+    maxFCP: 2000, // ms
+    maxTTI: 3500, // ms
+    maxTBT: 300, // ms
+
+    // Animation performance
+    minFPS: 30,
+    maxCPU: 40, // percentage
+    maxMemory: 100, // MB
+
+    // Resource budgets
+    maxTotalSize: 500, // KB
+    maxCriticalSize: 200, // KB
+
+    // Lighthouse scores
+    minLighthouseMobile: 85,
+    minLighthouseDesktop: 95,
+  },
+
+  // Device tier thresholds (used by device-tier.ts)
+  deviceTierThresholds: {
+    highEnd: {
+      minCores: 8,
+      minMemoryGB: 8,
+    },
+    midRange: {
+      minCores: 4,
+      minMemoryGB: 4,
+    },
+  },
+};
+
+/**
+ * Get device configuration for a specific tier
+ */
+export function getDeviceConfig(tier: DeviceTierLevel): DeviceTierConfig {
+  return DEVICE_TIER_CONFIGS[tier];
+}

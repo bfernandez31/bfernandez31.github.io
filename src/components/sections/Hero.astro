@@ -28,24 +28,32 @@ const { headline, subheadline, ctaText, ctaLink } = Astro.props;
 	import { NeuralNetworkAnimation } from "../../scripts/neural-network";
 	import { NEURAL_NETWORK_DEFAULTS } from "../../scripts/animation-config";
 
+	// Asynchronous, non-blocking initialization (T014)
+	// Error boundary with static fallback (T018)
 	const canvas = document.getElementById("hero-canvas") as HTMLCanvasElement;
 	if (canvas) {
-		try {
-			const animation = new NeuralNetworkAnimation(canvas, {
-				colors: {
-					nodes: NEURAL_NETWORK_DEFAULTS.COLORS.NODES,
-					edges: NEURAL_NETWORK_DEFAULTS.COLORS.EDGES,
-					pulses: NEURAL_NETWORK_DEFAULTS.COLORS.PULSES,
-				},
-			});
+		// Use requestAnimationFrame to defer initialization (non-blocking)
+		requestAnimationFrame(() => {
+			try {
+				const animation = new NeuralNetworkAnimation(canvas, {
+					colors: {
+						nodes: NEURAL_NETWORK_DEFAULTS.COLORS.NODES,
+						edges: NEURAL_NETWORK_DEFAULTS.COLORS.EDGES,
+						pulses: NEURAL_NETWORK_DEFAULTS.COLORS.PULSES,
+					},
+				});
 
-			// Cleanup on page navigation
-			document.addEventListener("astro:before-swap", () => {
-				animation.destroy();
-			});
-		} catch (error) {
-			console.error("[Hero] Failed to initialize neural network:", error);
-		}
+				// Cleanup on page navigation
+				document.addEventListener("astro:before-swap", () => {
+					animation.destroy();
+				});
+			} catch (error) {
+				// Error boundary: If neural network fails, static gradient fallback is visible
+				console.error("[Hero] Failed to initialize neural network:", error);
+				console.log("[Hero] Using CSS gradient fallback (static background visible)");
+				// Canvas element will remain empty, CSS gradient background shows through
+			}
+		});
 	}
 </script>
 
@@ -58,6 +66,12 @@ const { headline, subheadline, ctaText, ctaLink } = Astro.props;
 		justify-content: center;
 		overflow: hidden;
 		padding: 2rem;
+		/* CSS gradient fallback (T011) - visible while JS loads */
+		background: linear-gradient(
+			135deg,
+			var(--color-primary) 0%,
+			var(--color-secondary) 100%
+		);
 	}
 
 	.hero__canvas {

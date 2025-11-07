@@ -22,9 +22,9 @@
 
 **Purpose**: Project initialization and performance configuration structure
 
-- [ ] T001 Create performance monitoring directory structure: src/scripts/performance/ with subdirectories for utilities
-- [ ] T002 Create performance configuration file at src/config/performance.ts with budget and device tier mappings
-- [ ] T003 [P] Verify existing GSAP and Lenis dependencies are at correct versions (GSAP 3.13.0, Lenis 1.0.42) in package.json
+- [x] T001 Create performance monitoring directory structure: src/scripts/performance/ with subdirectories for utilities
+- [x] T002 Create performance configuration file at src/config/performance.ts with budget and device tier mappings
+- [x] T003 [P] Verify existing GSAP and Lenis dependencies are at correct versions (GSAP 3.13.0, Lenis 1.0.42) in package.json
 
 ---
 
@@ -34,13 +34,13 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 Implement device tier detection system in src/scripts/performance/device-tier.ts with classification algorithm from contracts/device-tiers.md
-- [ ] T005 [P] Create device tier configuration mappings in src/config/performance.ts with particle counts, FPS targets, and feature flags
-- [ ] T006 [P] Export device tier type definitions (DeviceTierLevel enum, DeviceTierResult interface) in src/scripts/performance/device-tier.ts
-- [ ] T007 Integrate device tier detection into src/layouts/PageLayout.astro with global variable exposure (window.__DEVICE_TIER__)
-- [ ] T008 Add CSS custom property --device-tier to document root for styling-based optimizations in src/layouts/PageLayout.astro
-- [ ] T009 Remove cursor trail entirely: delete src/scripts/cursor-trail.ts file
-- [ ] T010 Remove cursor trail component initialization from src/layouts/PageLayout.astro
+- [x] T004 Implement device tier detection system in src/scripts/performance/device-tier.ts with classification algorithm from contracts/device-tiers.md
+- [x] T005 [P] Create device tier configuration mappings in src/config/performance.ts with particle counts, FPS targets, and feature flags
+- [x] T006 [P] Export device tier type definitions (DeviceTierLevel enum, DeviceTierResult interface) in src/scripts/performance/device-tier.ts
+- [x] T007 Integrate device tier detection into src/layouts/PageLayout.astro with global variable exposure (window.__DEVICE_TIER__)
+- [x] T008 Add CSS custom property --device-tier to document root for styling-based optimizations in src/layouts/PageLayout.astro
+- [x] T009 Remove cursor trail entirely: delete src/scripts/cursor-trail.ts file
+- [x] T010 Remove cursor trail component initialization from src/layouts/PageLayout.astro
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -54,15 +54,15 @@
 
 ### Implementation for User Story 1
 
-- [ ] T011 [P] [US1] Add CSS gradient fallback background to hero section in src/pages/index.astro using var(--color-primary) to var(--color-secondary)
-- [ ] T012 [P] [US1] Add preload hints for critical assets (fonts, main CSS) in <head> of src/pages/index.astro
-- [ ] T013 [P] [US1] Ensure hero text content (headline, subheadline, CTA) is in static HTML (not JS-rendered) in src/pages/index.astro
-- [ ] T014 [US1] Modify neural network initialization to be asynchronous (non-blocking) in src/scripts/neural-network.ts
-- [ ] T015 [US1] Implement device tier-based particle count configuration in src/scripts/neural-network.ts (50 HIGH, 30 MID, 20 LOW)
-- [ ] T016 [US1] Add Intersection Observer to pause neural network animation when hero section not visible in src/scripts/neural-network.ts
-- [ ] T017 [US1] Simplify GSAP intro animation to single fade-in timeline (replace complex stagger) in src/scripts/neural-network.ts
-- [ ] T018 [US1] Add error boundary with static fallback if neural network fails to initialize in src/scripts/neural-network.ts
-- [ ] T019 [US1] Update neural network canvas positioning to overlay on top of CSS gradient background in src/pages/index.astro styles
+- [x] T011 [P] [US1] Add CSS gradient fallback background to hero section in src/pages/index.astro using var(--color-primary) to var(--color-secondary)
+- [x] T012 [P] [US1] Add preload hints for critical assets (fonts, main CSS) in <head> of src/pages/index.astro
+- [x] T013 [P] [US1] Ensure hero text content (headline, subheadline, CTA) is in static HTML (not JS-rendered) in src/pages/index.astro
+- [x] T014 [US1] Modify neural network initialization to be asynchronous (non-blocking) in src/scripts/neural-network.ts
+- [x] T015 [US1] Implement device tier-based particle count configuration in src/scripts/neural-network.ts (50 HIGH, 30 MID, 20 LOW)
+- [x] T016 [US1] Add Intersection Observer to pause neural network animation when hero section not visible in src/scripts/neural-network.ts
+- [x] T017 [US1] Simplify GSAP intro animation to single fade-in timeline (replace complex stagger) in src/scripts/neural-network.ts
+- [x] T018 [US1] Add error boundary with static fallback if neural network fails to initialize in src/scripts/neural-network.ts
+- [x] T019 [US1] Update neural network canvas positioning to overlay on top of CSS gradient background in src/pages/index.astro styles
 
 **Checkpoint**: At this point, User Story 1 should be fully functional - hero loads fast with static content visible immediately, neural network animates after without blocking
 

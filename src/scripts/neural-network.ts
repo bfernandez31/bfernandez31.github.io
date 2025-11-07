@@ -142,12 +142,13 @@ export class NeuralNetworkAnimation {
 			});
 		}
 
-		// GSAP intro animation
+		// Simplified GSAP intro animation (T017) - single fade-in instead of stagger
+		// Reduces animation overhead from 150+ simultaneous animations to 1 timeline
 		gsap.to(this.nodes, {
 			opacity: 1,
-			duration: NEURAL_NETWORK_DEFAULTS.INTRO_DURATION,
-			stagger: NEURAL_NETWORK_DEFAULTS.INTRO_STAGGER,
+			duration: 0.8, // Reduced from 1.5s for faster perceived load
 			ease: "power2.out",
+			// No stagger - all nodes fade in together
 		});
 	}
 

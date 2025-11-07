@@ -235,22 +235,44 @@ export const getDeviceTier = ():
 
 /**
  * Get FPS target based on device tier
+ * Updated to use new device tier system from performance config
  */
 export const getTargetFPS = (): number => {
+	// Check for global device tier detection (from device-tier.ts)
+	const globalTier = typeof window !== 'undefined' ? (window as any).__DEVICE_TIER__ : null;
+
+	if (globalTier) {
+		const { getDeviceConfig } = require('../config/performance');
+		const config = getDeviceConfig(globalTier.tier);
+		return config.targetFPS;
+	}
+
+	// Fallback to old detection
 	const tier = getDeviceTier();
 	return FPS_TARGETS[tier.toUpperCase() as keyof typeof FPS_TARGETS];
 };
 
 /**
  * Get node count for neural network based on device
+ * Updated to use new device tier system from performance config
  */
 export const getNeuralNodeCount = (): number => {
-	const tier = getDeviceTier();
-
 	if (prefersReducedMotion()) {
 		return NEURAL_NETWORK_DEFAULTS.REDUCED_MOTION_NODE_COUNT;
 	}
 
+	// Check for global device tier detection (from device-tier.ts)
+	const globalTier = typeof window !== 'undefined' ? (window as any).__DEVICE_TIER__ : null;
+
+	if (globalTier) {
+		// Use device tier from performance config
+		const { getDeviceConfig } = require('../config/performance');
+		const config = getDeviceConfig(globalTier.tier);
+		return config.particles;
+	}
+
+	// Fallback to old detection if device tier not yet initialized
+	const tier = getDeviceTier();
 	switch (tier) {
 		case "desktop":
 			return NEURAL_NETWORK_DEFAULTS.NODE_COUNT_DESKTOP;
