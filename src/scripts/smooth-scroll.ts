@@ -38,69 +38,82 @@ function easeOutCubic(t: number): number {
  * - Removed section snap (interferes with free scrolling)
  * - Device tier detection (disabled on LOW tier devices)
  * - Scroll interruption handling (prevents queued animations)
+ *
+ * Progressive enhancement (T047):
+ * - Error boundary for library load failures
+ * - Falls back to native scroll if initialization fails
  */
 export function initSmoothScroll(): Lenis | null {
-	// Respect user's motion preferences (T024)
-	if (prefersReducedMotion()) {
+	// Error boundary wrapper (T047)
+	try {
+		// Respect user's motion preferences (T024)
+		if (prefersReducedMotion()) {
+			console.log(
+				"[SmoothScroll] Reduced motion detected - smooth scroll disabled",
+			);
+			return null;
+		}
+
+		// Check device tier - disable on LOW tier devices (T023)
+		const deviceTier =
+			typeof window !== "undefined" ? (window as any).__DEVICE_TIER__ : null;
+		if (deviceTier?.tier === "LOW") {
+			console.log(
+				"[SmoothScroll] LOW tier device detected - smooth scroll disabled for performance",
+			);
+			return null;
+		}
+
+		// Initialize Lenis with optimized settings (T020, T021)
+		lenis = new Lenis({
+			duration: 0.6, // Reduced from 1.2s for better responsiveness (T020)
+			easing: easeOutCubic, // Changed from easeInOutExpo (T021)
+			orientation: "vertical",
+			gestureOrientation: "vertical",
+			smoothWheel: true,
+			wheelMultiplier: 1.0,
+			touchMultiplier: 2.0,
+			infinite: false,
+			// Enable momentum scrolling
+			syncTouch: true,
+			syncTouchLerp: 0.1,
+			// Scroll interruption handling (T025)
+			prevent: (_node) => {
+				// Allow natural scroll interruption
+				return false;
+			},
+		});
+
+		// Integrate Lenis with GSAP ScrollTrigger
+		lenis.on("scroll", () => {
+			ScrollTrigger.update();
+		});
+
+		// Add Lenis to GSAP ticker for smooth updates
+		gsap.ticker.add((time) => {
+			lenis?.raf(time * 1000); // Convert to milliseconds
+		});
+
+		// Disable GSAP's lag smoothing to prevent conflicts
+		gsap.ticker.lagSmoothing(0);
+
+		// Section snap removed entirely (T022) - interferes with free scrolling
+
+		// Expose Lenis instance on window for navigation-links.ts compatibility
+		window.lenis = lenis;
+
 		console.log(
-			"[SmoothScroll] Reduced motion detected - smooth scroll disabled",
+			"[SmoothScroll] Initialized successfully (optimized: 0.6s duration, easeOutCubic, no snap)",
 		);
+
+		return lenis;
+	} catch (error) {
+		// Progressive enhancement fallback (T047)
+		console.error("[SmoothScroll] Failed to initialize:", error);
+		console.log("[SmoothScroll] Falling back to native scroll behavior");
+		// Site remains functional with native browser scroll
 		return null;
 	}
-
-	// Check device tier - disable on LOW tier devices (T023)
-	const deviceTier =
-		typeof window !== "undefined" ? (window as any).__DEVICE_TIER__ : null;
-	if (deviceTier?.tier === "LOW") {
-		console.log(
-			"[SmoothScroll] LOW tier device detected - smooth scroll disabled for performance",
-		);
-		return null;
-	}
-
-	// Initialize Lenis with optimized settings (T020, T021)
-	lenis = new Lenis({
-		duration: 0.6, // Reduced from 1.2s for better responsiveness (T020)
-		easing: easeOutCubic, // Changed from easeInOutExpo (T021)
-		orientation: "vertical",
-		gestureOrientation: "vertical",
-		smoothWheel: true,
-		wheelMultiplier: 1.0,
-		touchMultiplier: 2.0,
-		infinite: false,
-		// Enable momentum scrolling
-		syncTouch: true,
-		syncTouchLerp: 0.1,
-		// Scroll interruption handling (T025)
-		prevent: (_node) => {
-			// Allow natural scroll interruption
-			return false;
-		},
-	});
-
-	// Integrate Lenis with GSAP ScrollTrigger
-	lenis.on("scroll", () => {
-		ScrollTrigger.update();
-	});
-
-	// Add Lenis to GSAP ticker for smooth updates
-	gsap.ticker.add((time) => {
-		lenis?.raf(time * 1000); // Convert to milliseconds
-	});
-
-	// Disable GSAP's lag smoothing to prevent conflicts
-	gsap.ticker.lagSmoothing(0);
-
-	// Section snap removed entirely (T022) - interferes with free scrolling
-
-	// Expose Lenis instance on window for navigation-links.ts compatibility
-	window.lenis = lenis;
-
-	console.log(
-		"[SmoothScroll] Initialized successfully (optimized: 0.6s duration, easeOutCubic, no snap)",
-	);
-
-	return lenis;
 }
 
 /**

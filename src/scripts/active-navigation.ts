@@ -42,7 +42,9 @@ export function initActiveNavigation(): void {
 	);
 
 	// Start observing all sections
-	sections.forEach((section) => observer.observe(section));
+	sections.forEach((section) => {
+		observer.observe(section);
+	});
 
 	/**
 	 * Update active navigation link

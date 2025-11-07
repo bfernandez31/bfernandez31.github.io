@@ -204,7 +204,10 @@ export function initCustomCursorLazy(): void {
 	};
 
 	// Initialize on first mousemove
-	document.addEventListener("mousemove", initialize, { once: true, passive: true });
+	document.addEventListener("mousemove", initialize, {
+		once: true,
+		passive: true,
+	});
 
 	// Or initialize after 2s idle
 	if ("requestIdleCallback" in window) {

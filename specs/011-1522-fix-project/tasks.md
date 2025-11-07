@@ -140,13 +140,13 @@
 
 ### Implementation for User Story 5
 
-- [ ] T045 [US5] Verify hero section renders without JavaScript (static HTML + CSS gradient) in src/pages/index.astro
-- [ ] T046 [US5] Verify hash-based navigation works without JavaScript (native browser scroll-to-anchor) in src/pages/index.astro
-- [ ] T047 [US5] Add error boundary to catch GSAP or Lenis library load failures in src/scripts/smooth-scroll.ts
-- [ ] T048 [US5] Add error boundary to catch neural network animation failures in src/scripts/neural-network.ts
-- [ ] T049 [US5] Ensure all animation initialization is wrapped in try-catch with console error logging in src/layouts/PageLayout.astro
-- [ ] T050 [US5] Add optional <noscript> tag with "Best experienced with JavaScript enabled" message in src/layouts/PageLayout.astro
-- [ ] T051 [US5] Verify CTA button and navigation links are functional HTML anchor tags (no JS required) in src/pages/index.astro
+- [x] T045 [US5] Verify hero section renders without JavaScript (static HTML + CSS gradient) in src/pages/index.astro
+- [x] T046 [US5] Verify hash-based navigation works without JavaScript (native browser scroll-to-anchor) in src/pages/index.astro
+- [x] T047 [US5] Add error boundary to catch GSAP or Lenis library load failures in src/scripts/smooth-scroll.ts
+- [x] T048 [US5] Add error boundary to catch neural network animation failures in src/scripts/neural-network.ts
+- [x] T049 [US5] Ensure all animation initialization is wrapped in try-catch with console error logging in src/layouts/PageLayout.astro
+- [x] T050 [US5] Add optional <noscript> tag with "Best experienced with JavaScript enabled" message in src/layouts/PageLayout.astro
+- [x] T051 [US5] Verify CTA button and navigation links are functional HTML anchor tags (no JS required) in src/pages/index.astro
 
 **Checkpoint**: All user stories complete - site is performant, accessible, and progressively enhanced for all scenarios
 
@@ -156,16 +156,16 @@
 
 **Purpose**: Improvements that affect multiple user stories and final validation
 
-- [ ] T052 [P] Update CLAUDE.md with new performance utilities and animation patterns
-- [ ] T053 [P] Create Lighthouse CI configuration file lighthouserc.json with performance budgets from contracts/performance-budgets.md
-- [ ] T054 [P] Add GitHub Actions workflow .github/workflows/lighthouse-ci.yml for automated performance audits
+- [x] T052 [P] Update CLAUDE.md with new performance utilities and animation patterns
+- [x] T053 [P] Create Lighthouse CI configuration file lighthouserc.json with performance budgets from contracts/performance-budgets.md
+- [x] T054 [P] Add GitHub Actions workflow .github/workflows/lighthouse-ci.yml for automated performance audits
 - [ ] T055 Run baseline performance audit and record metrics in specs/011-1522-fix-project/contracts/baseline-metrics.json
 - [ ] T056 Run post-optimization Lighthouse audit and compare against baseline (target: 85+ mobile, 95+ desktop)
 - [ ] T057 Test device tier detection on multiple devices (high-end desktop, mid-range laptop, mobile emulation)
 - [ ] T058 Verify all animations maintain target FPS on mid-range device (30fps minimum over 5 minutes)
 - [ ] T059 Verify total page weight meets budget (≤500KB total, ≤200KB critical assets) in production build
 - [ ] T060 Verify CSS gradient fallback displays correctly when JavaScript disabled or loading
-- [ ] T061 [P] Run Biome linting and fix any violations (bun run lint && bun run format)
+- [x] T061 [P] Run Biome linting and fix any violations (bun run lint && bun run format)
 - [ ] T062 Validate all acceptance scenarios from spec.md user stories
 - [ ] T063 Run quickstart.md validation (follow step-by-step guide, ensure accuracy)
 

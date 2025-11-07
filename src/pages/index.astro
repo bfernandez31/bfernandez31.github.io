@@ -148,16 +148,24 @@ const jsonLd: JSONLDStructuredData = {
 	import { initNavigationHistory } from "../scripts/navigation-history";
 	import { initNavigationDotsLazy } from "../scripts/navigation-dots";
 
-	// Initialize global animations and utilities
-	initGSAP();
-	initSmoothScroll();
-	initKeyboardNavDetection();
+	// Progressive enhancement wrapper (T049) - ensure navigation always works
+	try {
+		// Initialize global animations and utilities
+		initGSAP();
+		initSmoothScroll();
+		initKeyboardNavDetection();
 
-	// Initialize single-page navigation
-	initActiveNavigation();
-	initNavigationLinks();
-	initNavigationHistory();
+		// Initialize single-page navigation
+		initActiveNavigation();
+		initNavigationLinks();
+		initNavigationHistory();
 
-	// T040: Lazy load navigation dots - loads when hero section exits viewport
-	initNavigationDotsLazy();
+		// T040: Lazy load navigation dots - loads when hero section exits viewport
+		initNavigationDotsLazy();
+	} catch (error) {
+		// Progressive enhancement: Navigation and content remain accessible if animations fail
+		console.error('[Index] Failed to initialize animations:', error);
+		console.log('[Index] Site will use native scroll and navigation (no smooth scroll)');
+		// Hash-based navigation still works via native browser behavior
+	}
 </script>

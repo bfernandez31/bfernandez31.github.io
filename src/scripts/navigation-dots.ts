@@ -124,9 +124,7 @@ export function initNavigationDots(): void {
 export function initNavigationDotsLazy(): void {
 	const heroSection = document.querySelector("#hero");
 	if (!heroSection) {
-		console.warn(
-			"[NavigationDots] Hero section not found - cannot lazy load",
-		);
+		console.warn("[NavigationDots] Hero section not found - cannot lazy load");
 		return;
 	}
 

@@ -183,11 +183,13 @@ bun test --watch         # Run tests in watch mode
 
 ### Lenis Smooth Scroll
 - Initialize with `initSmoothScroll()` from `src/scripts/smooth-scroll.ts` (call before navigation scripts)
-- Configured with easeInOutExpo easing (1.2s duration) for natural momentum feel
-- Section snap enabled: automatically snaps to nearest section when scroll velocity drops
+- Configured with easeOutCubic easing (0.6s duration) for responsive feel (optimized from 1.2s in 011-1522)
+- Section snap removed for more natural free scrolling (optimized in 011-1522)
+- Device tier aware: automatically disabled on LOW tier devices for better performance
 - Integrates with GSAP ScrollTrigger via `gsap.ticker`
 - Exposed on `window.lenis` for navigation system compatibility
 - **Always** check `prefersReducedMotion()` before initialization - returns null if user prefers reduced motion
+- Progressive enhancement: Falls back to native scroll if initialization fails
 - Use `scrollToElement(target, options)` for programmatic smooth scrolling
 - Use `stopSmoothScroll()` / `startSmoothScroll()` to pause/resume (e.g., during modal open)
 - Clean up: Call `destroySmoothScroll()` on page navigation
@@ -211,13 +213,14 @@ bun test --watch         # Run tests in watch mode
 - Place in layout (typically in `PageLayout.astro` after other fixed elements)
 - Initialize with `initCustomCursor()` from `src/scripts/custom-cursor.ts`
 - Automatically disabled on touch devices via CSS media queries
+- Device tier aware: automatically disabled on MID and LOW tier devices for performance (optimized in 011-1522)
 - Uses GSAP `quickTo()` for ultra-smooth 60fps cursor tracking (0.6s duration, power3.out easing)
+- Simplified MutationObserver removed in favor of static selectors + event delegation (optimized in 011-1522)
 - Respects `prefers-reduced-motion` by using instant position updates (no smooth following)
 - Always set `aria-hidden="true"` and `pointer-events: none` (decorative only)
 - Use `mix-blend-mode: difference` for adaptive contrast on any background
 - Interactive element detection: automatically scales up on hover over links, buttons, inputs
 - Add `data-cursor="hover"` attribute to custom elements for hover detection
-- Uses MutationObserver to track dynamically added interactive elements
 - Default size: 32px circle (2px border), hover size: 64px circle (3px border)
 - Media queries: `@media (hover: hover) and (pointer: fine)` for desktop only
 - Clean up: Call `cleanupCustomCursor()` on page navigation (astro:before-swap)
@@ -257,6 +260,54 @@ const cleanup = trapFocus(menuElement);
   });
 </script>
 ```
+
+## Performance Utilities (Feature: 011-1522)
+
+### Device Tier Detection
+- Use `detectDeviceTier()` from `src/scripts/performance/device-tier.ts` to classify devices
+- Three tiers: HIGH (modern desktop), MID (mid-range laptop/mobile), LOW (old devices)
+- Classification based on: CPU cores, memory, connection speed, screen size
+- Access globally via `window.__DEVICE_TIER__` (set in PageLayout.astro)
+- CSS custom property `--device-tier` available for styling optimizations
+- Use tier to adapt: particle counts, FPS targets, feature availability (cursor, smooth scroll)
+- Configuration in `src/config/performance.ts` (DEVICE_TIER_CONFIG)
+
+### Performance Monitor (Development Only)
+- Use `performanceMonitor` from `src/scripts/performance/performance-monitor.ts`
+- Automatically enabled in dev mode (PageLayout.astro checks `import.meta.env.DEV`)
+- Tracks: FPS via requestAnimationFrame, Core Web Vitals (LCP, FID, CLS), memory usage
+- Budget violation detection: compares metrics against PERFORMANCE_CONFIG.budget
+- Console reports every 30s, budget checks every 5s
+- Access via `performanceMonitor.getReport()` for current metrics
+- Clean up: Call `performanceMonitor.stopMonitoring()` on unmount
+
+### Lazy Loading System
+- Use `lazyLoader` from `src/scripts/performance/lazy-loader.ts` for deferred initialization
+- Priority levels: IMMEDIATE (hero), HIGH (first scroll), MEDIUM (after 1s), LOW (after 2s idle)
+- Examples: scroll progress (first scroll), navigation dots (hero exit), custom cursor (2s idle)
+- Reduces initial bundle size by deferring non-critical components
+- Error handling: graceful fallback if lazy load fails (site remains functional)
+- Usage: `lazyLoader.load(callback, { priority: 'HIGH', timeout: 2000 })`
+
+### Progressive Enhancement Pattern
+```typescript
+// Wrap all animation initialization in try-catch
+try {
+  initSmoothScroll();
+  initNeuralNetwork();
+  initCustomCursor();
+} catch (error) {
+  console.error('Animation failed:', error);
+  // Site remains functional with native behavior
+}
+```
+
+### Performance Configuration
+- Central config in `src/config/performance.ts`
+- Defines: performance budgets, device tier mappings, FPS targets
+- Budget thresholds: Lighthouse scores, Core Web Vitals, bundle sizes
+- Device tier capabilities: particle counts, animation quality, feature flags
+- Used by: device tier detection, performance monitor, animation systems
 
 ## Testing Patterns
 - Unit tests in `tests/unit/` for components and utilities
@@ -301,7 +352,18 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
 - Quickstart: `specs/002-1506-palette-couleur/quickstart.md`
 
 ## Recent Changes
-- 011-1522-fix-project: Added TypeScript 5.9+ (strict mode) with Bun ≥1.0.0 runtime + Astro 5.15.3 (static site generator), GSAP 3.13.0 (animations), Lenis 1.0.42 (smooth scroll), Biome 2.0.0+ (linting)
+- 011-1522-fix-project: Major performance optimization overhaul (GitHub Pages deployment performance issues)
+  - Added device tier detection system (HIGH/MID/LOW) in src/scripts/performance/device-tier.ts
+  - Created performance monitor (development only) tracking FPS, Core Web Vitals, memory in src/scripts/performance/performance-monitor.ts
+  - Implemented lazy loading system with priority levels in src/scripts/performance/lazy-loader.ts
+  - Removed cursor trail entirely for better performance (deleted src/scripts/cursor-trail.ts)
+  - Optimized smooth scroll: reduced duration 1.2s→0.6s, changed easing to easeOutCubic, removed section snap
+  - Optimized custom cursor: disabled on MID/LOW tier devices, simplified MutationObserver to static selectors
+  - Optimized neural network: device-based particle counts (50/30/20), async initialization, Intersection Observer pause
+  - Lazy loaded non-critical components: scroll progress (first scroll), navigation dots (hero exit), custom cursor (2s idle)
+  - Added progressive enhancement: error boundaries, noscript tag, static CSS gradient fallback
+  - Created centralized performance config in src/config/performance.ts
+  - Target performance: Lighthouse ≥85 mobile/≥95 desktop, LCP <2.5s, FCP <2s, 30fps animations
 - 010-title-cursor-trail: Added luminous particle trail to custom cursor
   - Created cursor-trail.ts script with Canvas 2D particle system
   - Implemented fading particle trail with violet glow effect (60fps)

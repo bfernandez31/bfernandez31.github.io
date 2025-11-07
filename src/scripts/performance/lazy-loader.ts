@@ -80,14 +80,14 @@ class LazyLoadQueueManager {
 		switch (trigger) {
 			case "intersection": {
 				if (!target) {
-					console.error(`[LazyLoader] No target specified for intersection trigger (task: ${task.id})`);
+					console.error(
+						`[LazyLoader] No target specified for intersection trigger (task: ${task.id})`,
+					);
 					return;
 				}
 
 				const targetElement =
-					typeof target === "string"
-						? document.querySelector(target)
-						: target;
+					typeof target === "string" ? document.querySelector(target) : target;
 
 				if (!targetElement) {
 					console.warn(
@@ -116,14 +116,20 @@ class LazyLoadQueueManager {
 					this.scrollHandler = () => {
 						// Load all scroll-triggered tasks on first scroll
 						for (const [id, t] of this.tasks) {
-							if (t.options.trigger === "scroll" && !t.isLoaded && !t.isLoading) {
+							if (
+								t.options.trigger === "scroll" &&
+								!t.isLoaded &&
+								!t.isLoading
+							) {
 								this.load(id);
 							}
 						}
 
 						// Remove scroll listener after first scroll
-						window.removeEventListener("scroll", this.scrollHandler!);
-						this.scrollHandler = null;
+						if (this.scrollHandler) {
+							window.removeEventListener("scroll", this.scrollHandler);
+							this.scrollHandler = null;
+						}
 					};
 
 					window.addEventListener("scroll", this.scrollHandler, {
@@ -203,7 +209,7 @@ class LazyLoadQueueManager {
 	/**
 	 * Load all tasks of a specific priority
 	 */
-	async loadByPriority(priority: LazyLoadPriority): Promise<void[]> {
+	async loadByPriority(priority: LazyLoadPriority): Promise<undefined[]> {
 		const promises: Promise<void>[] = [];
 
 		for (const [id, task] of this.tasks) {

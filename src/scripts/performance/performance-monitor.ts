@@ -368,9 +368,9 @@ class PerformanceMonitor {
 	}
 
 	/**
-	 * Log all violations to console
+	 * Log all budget violations to console
 	 */
-	logViolations(): void {
+	logAllViolations(): void {
 		if (this.metrics.budgetViolations.length === 0) {
 			console.log("[Performance Monitor] No budget violations");
 			return;
