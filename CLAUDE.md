@@ -190,6 +190,20 @@ bun test --watch         # Run tests in watch mode
 - Use `stopSmoothScroll()` / `startSmoothScroll()` to pause/resume (e.g., during modal open)
 - Clean up: Call `destroySmoothScroll()` on page navigation
 
+### Scroll Progress Indicators
+- Use `ScrollProgress.astro` component for visual scroll tracking
+- Place in layout before other fixed elements for proper z-index layering
+- Initialize with `initScrollProgress()` from `src/scripts/scroll-progress.ts`
+- Automatically integrates with Lenis smooth scroll for synchronized updates
+- Falls back to native scroll events if Lenis unavailable
+- Uses `requestAnimationFrame` throttling for performance
+- Always include ARIA progressbar role and attributes for accessibility
+- Set `pointer-events: none` to prevent interaction interference
+- Respects `prefers-reduced-motion` by disabling transitions
+- Use CSS `width` property (not transform) for visual clarity
+- Handle edge cases: no scrollable content, resize events
+- Clean up: Remove listeners and cancel animation frames on unmount
+
 ### Reduced Motion Support
 ```typescript
 // Check preference before animating
@@ -269,6 +283,18 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
 - Quickstart: `specs/002-1506-palette-couleur/quickstart.md`
 
 ## Recent Changes
+- 008-title-scroll-progress: Added scroll progress indicator
+  - Created ScrollProgress.astro component with fixed positioning at viewport top
+  - Implemented violet-to-rose gradient progress bar (4px height, 3px on high-DPI)
+  - Created scroll-progress.ts script for progress tracking and bar updates
+  - Integrated with Lenis smooth scroll for synchronized updates
+  - Added fallback to native scroll events if Lenis unavailable
+  - Implemented requestAnimationFrame throttling for optimal performance
+  - Added ARIA progressbar role with live progress values for accessibility
+  - Respects prefers-reduced-motion preference (disables transitions)
+  - Handles edge cases: no scrollable content, resize events, scroll at top/bottom
+  - Positioned above all elements (z-index 9999) with pointer-events: none
+  - Added to PageLayout.astro before BurgerMenu for proper layering
 - 007-title-vertical-navigation: Added vertical navigation dots component
   - Created NavigationDots.astro component with fixed positioning (right: 2rem)
   - Implemented active state synchronization with main navigation via MutationObserver

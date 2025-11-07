@@ -150,11 +150,23 @@ The single-page architecture includes an intelligent navigation system that trac
 - Fully keyboard accessible with visible focus indicators
 - Respects `prefers-reduced-motion` preference
 
+**Scroll Progress Indicator**:
+- Fixed-position progress bar at top of viewport
+- Displays visual indicator of scroll progress from 0% to 100%
+- Violet-to-rose gradient fills left-to-right as user scrolls down
+- 4px height (3px on high-DPI displays) for subtle visibility
+- Positioned above all other elements (z-index 9999)
+- Updates smoothly in sync with Lenis scroll animation
+- Accessible with ARIA progressbar role and live progress values
+- Respects `prefers-reduced-motion` preference (disables transition)
+- Does not interfere with user interaction (pointer-events: none)
+
 **Responsive Behavior**:
 - Desktop (≥1024px): Sections fixed at 100vh height, navigation dots visible
 - Tablet/Mobile (<1024px): Sections use `min-height: 100vh`, navigation dots hidden
 - Dynamic viewport units (100dvh) account for mobile browser UI
 - Sections allow natural overflow on smaller screens
+- Scroll progress bar visible on all screen sizes
 
 ## Animation System
 

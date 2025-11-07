@@ -59,6 +59,7 @@ portfolio/
 - `ui/` - Generic UI elements
   - Buttons, Cards, Modals
   - Forms, Inputs, Dropdowns
+  - ScrollProgress (scroll progress indicator)
 - `islands/` - Interactive components with client-side JavaScript
   - Framework-specific components (React, Vue, Svelte)
   - Hydrated with Astro's `client:*` directives
@@ -298,6 +299,8 @@ body {
 - `active-navigation.ts` - Active section tracking with IntersectionObserver
 - `navigation-links.ts` - Navigation link click handler with smooth scroll
 - `navigation-history.ts` - Browser history and deep linking management
+- `navigation-dots.ts` - Vertical navigation dots synchronization
+- `scroll-progress.ts` - Scroll progress tracking and bar updates
 
 **Conventions**:
 - Export named functions and classes
