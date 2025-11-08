@@ -26,8 +26,8 @@ description: "Task list for Text Split Animation feature implementation"
 
 **Purpose**: Create text animation utility file and ensure GSAP is available
 
-- [ ] T001 Verify GSAP 3.13.0+ is installed and accessible in package.json
-- [ ] T002 Create src/scripts/text-animations.ts file with module structure and TypeScript interfaces from contracts/text-animation-api.ts
+- [X] T001 Verify GSAP 3.13.0+ is installed and accessible in package.json
+- [X] T002 Create src/scripts/text-animations.ts file with module structure and TypeScript interfaces from contracts/text-animation-api.ts
 
 ---
 
@@ -37,13 +37,13 @@ description: "Task list for Text Split Animation feature implementation"
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T003 [P] Implement prefersReducedMotion() helper function in src/scripts/text-animations.ts
-- [ ] T004 [P] Implement parseConfig() function to extract and validate AnimationConfig from data attributes in src/scripts/text-animations.ts
-- [ ] T005 [P] Implement createSplitFragment() helper to create individual span elements with display: inline-block in src/scripts/text-animations.ts
-- [ ] T006 Implement createObserver() function to create IntersectionObserver with 50% threshold in src/scripts/text-animations.ts
-- [ ] T007 Implement global state management (animatedElements array, globalObserver, prefersReducedMotion flag) in src/scripts/text-animations.ts
-- [ ] T008 Implement cleanupTextAnimations() function with timeline cleanup and observer disconnection in src/scripts/text-animations.ts
-- [ ] T009 Add astro:before-swap event listener for automatic cleanup in src/scripts/text-animations.ts
+- [X] T003 [P] Implement prefersReducedMotion() helper function in src/scripts/text-animations.ts
+- [X] T004 [P] Implement parseConfig() function to extract and validate AnimationConfig from data attributes in src/scripts/text-animations.ts
+- [X] T005 [P] Implement createSplitFragment() helper to create individual span elements with display: inline-block in src/scripts/text-animations.ts
+- [X] T006 Implement createObserver() function to create IntersectionObserver with 50% threshold in src/scripts/text-animations.ts
+- [X] T007 Implement global state management (animatedElements array, globalObserver, prefersReducedMotion flag) in src/scripts/text-animations.ts
+- [X] T008 Implement cleanupTextAnimations() function with timeline cleanup and observer disconnection in src/scripts/text-animations.ts
+- [X] T009 Add astro:before-swap event listener for automatic cleanup in src/scripts/text-animations.ts
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -57,15 +57,15 @@ description: "Task list for Text Split Animation feature implementation"
 
 ### Implementation for User Story 1
 
-- [ ] T010 [US1] Implement splitText() function with character splitting logic using Array.from() for Unicode support in src/scripts/text-animations.ts
-- [ ] T011 [US1] Add accessibility pattern: create visually-hidden span with original text and aria-hidden wrapper for split fragments in splitText() function in src/scripts/text-animations.ts
-- [ ] T012 [US1] Implement createTimeline() function with GSAP fromTo animation (opacity 0→1, y: 20→0) and stagger configuration in src/scripts/text-animations.ts
-- [ ] T013 [US1] Implement reduced motion handling in createTimeline() to use gsap.set() instead of animation when user prefers reduced motion in src/scripts/text-animations.ts
-- [ ] T014 [US1] Implement animateElement() function that orchestrates splitText() and createTimeline() for a single element in src/scripts/text-animations.ts
-- [ ] T015 [US1] Implement initTextAnimations() function to query all [data-split-text] elements and initialize observers in src/scripts/text-animations.ts
-- [ ] T016 [US1] Add error handling for empty text content, invalid split types, and fragment count limits (500 warn, 1000 error) in src/scripts/text-animations.ts
-- [ ] T017 [US1] Add sr-only CSS class for visually-hidden text in src/styles/global.css (position: absolute, width: 1px, height: 1px, overflow: hidden)
-- [ ] T018 [US1] Test character animation on hero h1 element in src/pages/index.astro with data-split-text="char" attribute
+- [X] T010 [US1] Implement splitText() function with character splitting logic using Array.from() for Unicode support in src/scripts/text-animations.ts
+- [X] T011 [US1] Add accessibility pattern: create visually-hidden span with original text and aria-hidden wrapper for split fragments in splitText() function in src/scripts/text-animations.ts
+- [X] T012 [US1] Implement createTimeline() function with GSAP fromTo animation (opacity 0→1, y: 20→0) and stagger configuration in src/scripts/text-animations.ts
+- [X] T013 [US1] Implement reduced motion handling in createTimeline() to use gsap.set() instead of animation when user prefers reduced motion in src/scripts/text-animations.ts
+- [X] T014 [US1] Implement animateElement() function that orchestrates splitText() and createTimeline() for a single element in src/scripts/text-animations.ts
+- [X] T015 [US1] Implement initTextAnimations() function to query all [data-split-text] elements and initialize observers in src/scripts/text-animations.ts
+- [X] T016 [US1] Add error handling for empty text content, invalid split types, and fragment count limits (500 warn, 1000 error) in src/scripts/text-animations.ts
+- [X] T017 [US1] Add sr-only CSS class for visually-hidden text in src/styles/global.css (position: absolute, width: 1px, height: 1px, overflow: hidden)
+- [X] T018 [US1] Test character animation on hero h1 element in src/pages/index.astro with data-split-text="char" attribute
 
 **Checkpoint**: At this point, character-level text animation should work on hero headlines and can be independently tested
 
@@ -79,9 +79,9 @@ description: "Task list for Text Split Animation feature implementation"
 
 ### Implementation for User Story 2
 
-- [ ] T019 [US2] Add word splitting logic to splitText() function using regex /\s+/ split with whitespace preservation in src/scripts/text-animations.ts
-- [ ] T020 [US2] Test word-level animation on section headings (h2/h3) in src/pages/index.astro with data-split-text="word" attribute
-- [ ] T021 [US2] Verify word animations work with custom duration and delay attributes (data-split-duration, data-split-delay) in src/pages/index.astro
+- [X] T019 [US2] Add word splitting logic to splitText() function using regex /\s+/ split with whitespace preservation in src/scripts/text-animations.ts
+- [X] T020 [US2] Test word-level animation on section headings (h2/h3) in src/pages/index.astro with data-split-text="word" attribute
+- [X] T021 [US2] Verify word animations work with custom duration and delay attributes (data-split-duration, data-split-delay) in src/pages/index.astro
 
 **Checkpoint**: At this point, both character and word-level animations should work independently
 
@@ -95,11 +95,11 @@ description: "Task list for Text Split Animation feature implementation"
 
 ### Implementation for User Story 3
 
-- [ ] T022 [US3] Add line splitting logic to splitText() function using Range.getClientRects() to detect visual line breaks in src/scripts/text-animations.ts
-- [ ] T023 [US3] Implement line break detection algorithm that preserves text order and handles multi-line content in splitText() function in src/scripts/text-animations.ts
-- [ ] T024 [US3] Update default stagger delay logic in parseConfig() to use 0.1s for line splits vs 0.05s for char/word in src/scripts/text-animations.ts
-- [ ] T025 [US3] Test line-level animation on paragraph elements in src/pages/index.astro with data-split-text="line" attribute
-- [ ] T026 [US3] Verify line animations handle viewport resize correctly (acceptable limitation: lines calculated at init, not recalculated on resize) in src/pages/index.astro
+- [X] T022 [US3] Add line splitting logic to splitText() function using Range.getClientRects() to detect visual line breaks in src/scripts/text-animations.ts
+- [X] T023 [US3] Implement line break detection algorithm that preserves text order and handles multi-line content in splitText() function in src/scripts/text-animations.ts
+- [X] T024 [US3] Update default stagger delay logic in parseConfig() to use 0.1s for line splits vs 0.05s for char/word in src/scripts/text-animations.ts
+- [X] T025 [US3] Test line-level animation on paragraph elements in src/pages/index.astro with data-split-text="line" attribute
+- [X] T026 [US3] Verify line animations handle viewport resize correctly (acceptable limitation: lines calculated at init, not recalculated on resize) in src/pages/index.astro
 
 **Checkpoint**: All three splitting modes (char, word, line) should now be independently functional
 
@@ -109,17 +109,17 @@ description: "Task list for Text Split Animation feature implementation"
 
 **Purpose**: Improvements that affect multiple user stories and finalize implementation
 
-- [ ] T027 [P] Add TypeScript type exports for AnimationConfig, SplitFragment, AnimatedTextElement in src/scripts/text-animations.ts
-- [ ] T028 [P] Add console warnings for performance issues (>500 characters, invalid config values) in src/scripts/text-animations.ts
-- [ ] T029 [P] Verify GSAP performance: GPU-accelerated properties only (opacity, transform), 60fps target on HIGH tier devices
-- [ ] T030 Test reduced motion support: enable prefers-reduced-motion in OS settings and verify instant text reveal with no animation frames in browser
-- [ ] T031 Test screen reader compatibility: verify NVDA/VoiceOver announce complete text naturally without reading split spans in browser
-- [ ] T032 Test special characters and emojis: verify Unicode handling with Array.from() correctly splits multi-byte characters in src/pages/index.astro
-- [ ] T033 Test nested HTML elements: document limitation that nested tags (strong, em) are stripped by textContent in specs/012-1516-text-split/quickstart.md
-- [ ] T034 Test edge cases: empty text, whitespace-only text, very long text (>500 characters warning, >1000 characters error) in src/pages/index.astro
-- [ ] T035 Verify cleanup on Astro page navigation: test astro:before-swap listener kills timelines and disconnects observers in browser DevTools
-- [ ] T036 Update CLAUDE.md to include text animation utility in Animation Patterns section with usage examples
-- [ ] T037 Run quickstart.md validation: test all examples from specs/012-1516-text-split/quickstart.md in src/pages/index.astro
+- [X] T027 [P] Add TypeScript type exports for AnimationConfig, SplitFragment, AnimatedTextElement in src/scripts/text-animations.ts
+- [X] T028 [P] Add console warnings for performance issues (>500 characters, invalid config values) in src/scripts/text-animations.ts
+- [X] T029 [P] Verify GSAP performance: GPU-accelerated properties only (opacity, transform), 60fps target on HIGH tier devices
+- [X] T030 Test reduced motion support: enable prefers-reduced-motion in OS settings and verify instant text reveal with no animation frames in browser
+- [X] T031 Test screen reader compatibility: verify NVDA/VoiceOver announce complete text naturally without reading split spans in browser
+- [X] T032 Test special characters and emojis: verify Unicode handling with Array.from() correctly splits multi-byte characters in src/pages/index.astro
+- [X] T033 Test nested HTML elements: document limitation that nested tags (strong, em) are stripped by textContent in specs/012-1516-text-split/quickstart.md
+- [X] T034 Test edge cases: empty text, whitespace-only text, very long text (>500 characters warning, >1000 characters error) in src/pages/index.astro
+- [X] T035 Verify cleanup on Astro page navigation: test astro:before-swap listener kills timelines and disconnects observers in browser DevTools
+- [X] T036 Update CLAUDE.md to include text animation utility in Animation Patterns section with usage examples
+- [X] T037 Run quickstart.md validation: test all examples from specs/012-1516-text-split/quickstart.md in src/pages/index.astro
 
 ---
 

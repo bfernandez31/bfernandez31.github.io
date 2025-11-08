@@ -227,6 +227,42 @@ bun test --watch         # Run tests in watch mode
 - Media queries: `@media (hover: hover) and (pointer: fine)` for desktop only
 - Clean up: Call `cleanupCustomCursor()` on page navigation (astro:before-swap)
 
+### Text Split Animations (Feature: 012-1516-text-split)
+- Use declarative HTML API via `data-split-text` attribute for text reveal animations
+- Initialize with `initTextAnimations()` from `src/scripts/text-animations.ts`
+- Three splitting modes:
+  - `data-split-text="char"` - Character-by-character reveal (headlines, short text <100 chars)
+  - `data-split-text="word"` - Word-by-word reveal (section titles, medium text 100-300 chars)
+  - `data-split-text="line"` - Line-by-line reveal (paragraphs, long text >300 chars)
+- Automatic viewport-based triggering via IntersectionObserver (50% threshold, trigger once only)
+- Full accessibility support:
+  - Original text preserved in visually-hidden span (`.sr-only` class) for screen readers
+  - Split fragments wrapped in `aria-hidden="true"` container
+  - Respects `prefers-reduced-motion` preference (instant reveal with no animation)
+- Customization via data attributes:
+  - `data-split-duration="0.8"` - Animation duration per fragment (default: 0.6s)
+  - `data-split-delay="0.1"` - Stagger delay between fragments (default: 0.05s for char/word, 0.1s for line)
+  - `data-split-easing="power2.out"` - GSAP easing function (default: power3.out)
+- Performance limits:
+  - Warning at 500 fragments (console.warn)
+  - Hard limit at 1000 fragments (skip animation with console.error)
+  - GPU-accelerated properties only (opacity, transform translateY)
+- Usage example:
+  ```astro
+  <h1 data-split-text="char">Animated Headline</h1>
+  <h2 data-split-text="word" data-split-delay="0.08">Section Title</h2>
+  <p data-split-text="line" data-split-duration="0.4">Paragraph reveal</p>
+
+  <script>
+    import { initTextAnimations } from '@/scripts/text-animations';
+    initTextAnimations();
+  </script>
+  ```
+- Automatic cleanup on page navigation via `astro:before-swap` event listener
+- Line splitting uses `Range.getClientRects()` for visual line break detection (calculated at init, not recalculated on resize)
+- Known limitation: Nested HTML tags (strong, em) are stripped by `textContent` - use plain text only
+- Zero new dependencies (uses existing GSAP 3.13.0+)
+
 ### Reduced Motion Support
 ```typescript
 // Check preference before animating

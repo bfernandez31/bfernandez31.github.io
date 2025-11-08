@@ -12,8 +12,8 @@ const { headline, subheadline, ctaText, ctaLink } = Astro.props;
 <section class="hero">
 	<canvas id="hero-canvas" class="hero__canvas"></canvas>
 	<div class="hero__content">
-		<h1 class="hero__headline">{headline}</h1>
-		{subheadline && <p class="hero__subheadline">{subheadline}</p>}
+		<h1 class="hero__headline" data-split-text="char">{headline}</h1>
+		{subheadline && <p class="hero__subheadline" data-split-text="word">{subheadline}</p>}
 		{
 			ctaText && ctaLink && (
 				<a href={ctaLink} class="hero__cta">
@@ -27,8 +27,12 @@ const { headline, subheadline, ctaText, ctaLink } = Astro.props;
 <script>
 	import { NeuralNetworkAnimation } from "../../scripts/neural-network";
 	import { NEURAL_NETWORK_DEFAULTS } from "../../scripts/animation-config";
+	import { initTextAnimations } from "../../scripts/text-animations";
 
-	// Asynchronous, non-blocking initialization
+	// Initialize text animations
+	initTextAnimations();
+
+	// Asynchronous, non-blocking initialization for neural network
 	const canvas = document.getElementById("hero-canvas") as HTMLCanvasElement;
 	if (canvas) {
 		// Use requestAnimationFrame to defer initialization (non-blocking)
