@@ -1,11 +1,10 @@
 ---
-import PageLayout from "../layouts/PageLayout.astro";
-import Hero from "../components/sections/Hero.astro";
-import AboutIDE from "../components/sections/AboutIDE.astro";
-import ProjectsHexGrid from "../components/sections/ProjectsHexGrid.astro";
-import ExpertiseMatrix from "../components/sections/ExpertiseMatrix.astro";
-import ContactProtocol from "../components/sections/ContactProtocol.astro";
-import NavigationDots from "../components/ui/NavigationDots.astro";
+import PageLayout from '../layouts/PageLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import AboutIDE from '../components/sections/AboutIDE.astro';
+import ProjectsHexGrid from '../components/sections/ProjectsHexGrid.astro';
+import ExpertiseMatrix from '../components/sections/ExpertiseMatrix.astro';
+import ContactProtocol from '../components/sections/ContactProtocol.astro';
 import { pageMetadata } from "../data/pages";
 import type { JSONLDStructuredData } from "../types/seo";
 
@@ -82,9 +81,6 @@ const jsonLd: JSONLDStructuredData = {
 	<!-- JSON-LD Structured Data -->
 	<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} slot="head" />
 
-	<!-- Navigation Dots -->
-	<NavigationDots />
-
 	<!-- Hero Section -->
 	<section
 		id="hero"
@@ -153,16 +149,22 @@ const jsonLd: JSONLDStructuredData = {
 	import { initActiveNavigation } from "../scripts/active-navigation";
 	import { initNavigationLinks } from "../scripts/navigation-links";
 	import { initNavigationHistory } from "../scripts/navigation-history";
-	import { initNavigationDots } from "../scripts/navigation-dots";
 
-	// Initialize global animations and utilities
-	initGSAP();
-	initSmoothScroll();
-	initKeyboardNavDetection();
+	// Progressive enhancement wrapper - ensure navigation always works
+	try {
+		// Initialize global animations and utilities
+		initGSAP();
+		initSmoothScroll();
+		initKeyboardNavDetection();
 
-	// Initialize single-page navigation
-	initActiveNavigation();
-	initNavigationLinks();
-	initNavigationHistory();
-	initNavigationDots();
+		// Initialize single-page navigation
+		initActiveNavigation();
+		initNavigationLinks();
+		initNavigationHistory();
+	} catch (error) {
+		// Progressive enhancement: Navigation and content remain accessible if animations fail
+		console.error('[Index] Failed to initialize animations:', error);
+		console.log('[Index] Site will use native scroll and navigation (no smooth scroll)');
+		// Hash-based navigation still works via native browser behavior
+	}
 </script>

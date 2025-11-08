@@ -54,6 +54,12 @@ const fullOgImage = new URL(ogImage, baseUrl).href;
 		{noindex && <meta name="robots" content="noindex, nofollow" />}
 	</head>
 	<body>
+		<!-- Progressive Enhancement (T050) - Inform users when JavaScript is disabled -->
+		<noscript>
+			<div style="position: fixed; top: 0; left: 0; right: 0; background: var(--color-primary, #cba6f7); color: var(--color-background, #1e1e2e); padding: 1rem; text-align: center; z-index: 10000; font-size: 0.875rem;">
+				This portfolio is best experienced with JavaScript enabled. Core content remains accessible.
+			</div>
+		</noscript>
 		<slot />
 	</body>
 </html>

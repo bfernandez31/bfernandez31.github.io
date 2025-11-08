@@ -110,16 +110,16 @@ export const DURATIONS = {
  * Default configuration for hero neural network animation
  */
 export const NEURAL_NETWORK_DEFAULTS = {
-	// Particle counts
-	NODE_COUNT_DESKTOP: 100,
-	NODE_COUNT_TABLET: 75,
-	NODE_COUNT_MOBILE: 50,
+	// Particle counts - Balanced for visibility and performance
+	NODE_COUNT_DESKTOP: 30,
+	NODE_COUNT_TABLET: 20,
+	NODE_COUNT_MOBILE: 15,
 
 	// Visual properties
 	NODE_RADIUS: 3, // pixels
-	EDGE_WIDTH: 1, // pixels
-	CONNECTION_DISTANCE: 150, // pixels
-	PULSE_SPEED: 0.02, // units per frame
+	EDGE_WIDTH: 1.5, // pixels - slightly thicker for visibility
+	CONNECTION_DISTANCE: 120, // pixels - moderate distance
+	PULSE_SPEED: 0.02, // units per frame - smooth animation
 
 	// Colors (using CSS custom properties)
 	COLORS: {
@@ -235,22 +235,60 @@ export const getDeviceTier = ():
 
 /**
  * Get FPS target based on device tier
+ * Uses simple device tier detection without requiring performance config
  */
 export const getTargetFPS = (): number => {
+	// Check for global device tier detection (from device-tier.ts)
+	const globalTier =
+		typeof window !== "undefined" ? (window as any).__DEVICE_TIER__ : null;
+
+	if (globalTier) {
+		// Use device tier FPS targets directly
+		switch (globalTier.tier) {
+			case "HIGH":
+				return 60; // Modern desktop
+			case "MID":
+			case "LOW":
+				return 30; // Mid-range and old devices
+			default:
+				return 30; // Default to balanced
+		}
+	}
+
+	// Fallback to old detection
 	const tier = getDeviceTier();
 	return FPS_TARGETS[tier.toUpperCase() as keyof typeof FPS_TARGETS];
 };
 
 /**
  * Get node count for neural network based on device
+ * Uses simple device tier detection without requiring performance config
  */
 export const getNeuralNodeCount = (): number => {
-	const tier = getDeviceTier();
-
 	if (prefersReducedMotion()) {
 		return NEURAL_NETWORK_DEFAULTS.REDUCED_MOTION_NODE_COUNT;
 	}
 
+	// Check for global device tier detection (from device-tier.ts)
+	const globalTier =
+		typeof window !== "undefined" ? (window as any).__DEVICE_TIER__ : null;
+
+	if (globalTier) {
+		// Use device tier particle counts directly
+		switch (globalTier.tier) {
+			case "HIGH":
+				return 30; // Modern desktop
+			case "MID":
+				return 20; // Mid-range
+			case "LOW":
+				return 15; // Old devices
+			default:
+				return 20; // Default to balanced
+		}
+	}
+
+	// Fallback to old detection if device tier not yet initialized
+	const tier = getDeviceTier();
 	switch (tier) {
 		case "desktop":
 			return NEURAL_NETWORK_DEFAULTS.NODE_COUNT_DESKTOP;

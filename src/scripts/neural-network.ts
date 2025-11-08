@@ -9,11 +9,11 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
-	NEURAL_NETWORK_DEFAULTS,
+	FrameRateMonitor,
 	getNeuralNodeCount,
 	getTargetFPS,
+	NEURAL_NETWORK_DEFAULTS,
 	prefersReducedMotion,
-	FrameRateMonitor,
 } from "./animation-config";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -135,32 +135,17 @@ export class NeuralNetworkAnimation {
 			this.nodes.push({
 				x: Math.random() * width,
 				y: Math.random() * height,
-				vx: (Math.random() - 0.5) * 0.5,
-				vy: (Math.random() - 0.5) * 0.5,
-				opacity: 0,
+				vx: (Math.random() - 0.5) * 0.2, // Reduced velocity for calmer movement
+				vy: (Math.random() - 0.5) * 0.2,
+				opacity: 1, // Start fully visible - no fade animation
 				radius: NEURAL_NETWORK_DEFAULTS.NODE_RADIUS,
 			});
 		}
-
-		// GSAP intro animation
-		gsap.to(this.nodes, {
-			opacity: 1,
-			duration: NEURAL_NETWORK_DEFAULTS.INTRO_DURATION,
-			stagger: NEURAL_NETWORK_DEFAULTS.INTRO_STAGGER,
-			ease: "power2.out",
-		});
 	}
 
 	private setupScrollTrigger(): void {
-		this.scrollTrigger = ScrollTrigger.create({
-			trigger: this.canvas,
-			start: "top 80%",
-			end: "bottom 20%",
-			onEnter: () => this.start(),
-			onLeave: () => this.pause(),
-			onEnterBack: () => this.start(),
-			onLeaveBack: () => this.pause(),
-		});
+		// Start immediately, don't wait for scroll
+		this.start();
 	}
 
 	private updateNodes(): void {

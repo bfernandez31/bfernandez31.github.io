@@ -17,13 +17,6 @@ interface Props {
 const { class: className = "" } = Astro.props;
 ---
 
-<!-- Canvas for cursor trail -->
-<canvas
-	id="cursor-trail-canvas"
-	class="cursor-trail-canvas"
-	aria-hidden="true"
-></canvas>
-
 <div
 	id="custom-cursor"
 	class:list={['custom-cursor', className]}
@@ -33,41 +26,21 @@ const { class: className = "" } = Astro.props;
 </div>
 
 <script>
-	import { initCustomCursor, cleanupCustomCursor } from "../../scripts/custom-cursor";
-	import { initCursorTrail, cleanupCursorTrail } from "../../scripts/cursor-trail";
+	import {
+		initCustomCursorLazy,
+		cleanupCustomCursor,
+	} from "../../scripts/custom-cursor";
 
-	// Initialize custom cursor
-	initCustomCursor();
-
-	// Initialize cursor trail
-	initCursorTrail();
+	// T041: Lazy load custom cursor - loads on first mousemove or after 2s idle
+	initCustomCursorLazy();
 
 	// Clean up on page navigation
 	document.addEventListener("astro:before-swap", () => {
 		cleanupCustomCursor();
-		cleanupCursorTrail();
 	});
 </script>
 
 <style>
-	/* Canvas for cursor trail */
-	.cursor-trail-canvas {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100vw;
-		height: 100vh;
-		z-index: 9999; /* Below cursor but above everything else */
-		pointer-events: none;
-	}
-
-	/* Hide on touch devices */
-	@media (hover: none) or (pointer: coarse) {
-		.cursor-trail-canvas {
-			display: none;
-		}
-	}
-
 	.custom-cursor {
 		position: fixed;
 		top: 0;

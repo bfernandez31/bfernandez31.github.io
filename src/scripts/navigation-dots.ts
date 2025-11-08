@@ -116,3 +116,34 @@ export function initNavigationDots(): void {
 		observer.disconnect();
 	});
 }
+
+/**
+ * Lazy-loaded initialization (T040)
+ * Triggers when hero section exits viewport to reduce initial bundle size
+ */
+export function initNavigationDotsLazy(): void {
+	const heroSection = document.querySelector("#hero");
+	if (!heroSection) {
+		console.warn("[NavigationDots] Hero section not found - cannot lazy load");
+		return;
+	}
+
+	const observer = new IntersectionObserver(
+		(entries) => {
+			for (const entry of entries) {
+				// Initialize when hero section is no longer visible
+				if (!entry.isIntersecting) {
+					initNavigationDots();
+					observer.disconnect();
+				}
+			}
+		},
+		{ threshold: 0.1 },
+	);
+
+	observer.observe(heroSection);
+
+	console.log(
+		"[NavigationDots] Lazy initialization registered (will load when hero exits viewport)",
+	);
+}

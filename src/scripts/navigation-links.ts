@@ -80,7 +80,7 @@ export function initNavigationLinks(): void {
  * Announce navigation to screen readers
  * Creates a temporary live region announcement
  */
-function announceNavigation(sectionId: string, sectionLabel: string): void {
+function announceNavigation(_sectionId: string, sectionLabel: string): void {
 	const announcement = document.createElement("div");
 	announcement.setAttribute("role", "status");
 	announcement.setAttribute("aria-live", "polite");

@@ -44,7 +44,9 @@ export function initGSAP(): void {
  * Useful for cleanup or route changes
  */
 export function cleanupGSAP(): void {
-	ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+	ScrollTrigger.getAll().forEach((trigger) => {
+		trigger.kill();
+	});
 	gsap.killTweensOf("*");
 }
 

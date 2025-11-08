@@ -28,24 +28,29 @@ const { headline, subheadline, ctaText, ctaLink } = Astro.props;
 	import { NeuralNetworkAnimation } from "../../scripts/neural-network";
 	import { NEURAL_NETWORK_DEFAULTS } from "../../scripts/animation-config";
 
+	// Asynchronous, non-blocking initialization
 	const canvas = document.getElementById("hero-canvas") as HTMLCanvasElement;
 	if (canvas) {
-		try {
-			const animation = new NeuralNetworkAnimation(canvas, {
-				colors: {
-					nodes: NEURAL_NETWORK_DEFAULTS.COLORS.NODES,
-					edges: NEURAL_NETWORK_DEFAULTS.COLORS.EDGES,
-					pulses: NEURAL_NETWORK_DEFAULTS.COLORS.PULSES,
-				},
-			});
+		// Use requestAnimationFrame to defer initialization (non-blocking)
+		requestAnimationFrame(() => {
+			try {
+				const animation = new NeuralNetworkAnimation(canvas, {
+					colors: {
+						nodes: NEURAL_NETWORK_DEFAULTS.COLORS.NODES,
+						edges: NEURAL_NETWORK_DEFAULTS.COLORS.EDGES,
+						pulses: NEURAL_NETWORK_DEFAULTS.COLORS.PULSES,
+					},
+				});
 
-			// Cleanup on page navigation
-			document.addEventListener("astro:before-swap", () => {
-				animation.destroy();
-			});
-		} catch (error) {
-			console.error("[Hero] Failed to initialize neural network:", error);
-		}
+				// Cleanup on page navigation
+				document.addEventListener("astro:before-swap", () => {
+					animation.destroy();
+				});
+			} catch (error) {
+				// Error boundary: If neural network fails, dark background is visible
+				console.error("[Hero] Failed to initialize neural network:", error);
+			}
+		});
 	}
 </script>
 
@@ -58,6 +63,11 @@ const { headline, subheadline, ctaText, ctaLink } = Astro.props;
 		justify-content: center;
 		overflow: hidden;
 		padding: 2rem;
+		/* Dark background - neural network renders on top */
+		background: var(--color-background);
+		/* Remove any default borders/outlines */
+		border: none;
+		outline: none;
 	}
 
 	.hero__canvas {
@@ -79,17 +89,19 @@ const { headline, subheadline, ctaText, ctaLink } = Astro.props;
 	.hero__headline {
 		font-size: clamp(2rem, 5vw, 4rem);
 		font-weight: 700;
-		color: var(--color-text);
+		color: #ffffff;
 		margin-bottom: 1rem;
 		line-height: 1.2;
+		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 	}
 
 	.hero__subheadline {
 		font-size: clamp(1rem, 2.5vw, 1.5rem);
-		color: var(--color-text);
-		opacity: 0.8;
+		color: #ffffff;
+		opacity: 0.9;
 		margin-bottom: 2rem;
 		line-height: 1.5;
+		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 	}
 
 	.hero__cta {
@@ -97,14 +109,15 @@ const { headline, subheadline, ctaText, ctaLink } = Astro.props;
 		padding: 1rem 2rem;
 		font-size: 1.125rem;
 		font-weight: 600;
-		color: var(--color-background);
+		color: #1e1e2e;
 		background: var(--color-primary);
 		border-radius: 8px;
 		text-decoration: none;
 		transition:
-			background-color var(--transition-color),
-			transform var(--transition-color);
+			background-color 0.3s ease,
+			transform 0.3s ease;
 		will-change: transform;
+		box-shadow: 0 4px 12px rgba(203, 166, 247, 0.3);
 	}
 
 	@media (hover: hover) {

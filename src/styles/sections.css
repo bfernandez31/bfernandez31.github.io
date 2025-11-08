@@ -58,6 +58,9 @@
 /* Hero Section - Always full height */
 .portfolio-section--hero {
 	min-height: 100vh;
+	/* Remove any default borders/outlines */
+	border: none;
+	outline: none;
 
 	@supports (height: 100dvh) {
 		min-height: 100dvh;
@@ -127,8 +130,8 @@ html {
 	/* Disable all section transitions/animations */
 	.portfolio-section,
 	.portfolio-section * {
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms;
+		animation-iteration-count: 1;
+		transition-duration: 0.01ms;
 	}
 }
