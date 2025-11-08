@@ -298,9 +298,6 @@ export function initTextAnimations(): void {
 			continue;
 		}
 
-		// Parse configuration
-		const config = parseConfig(element);
-
 		// Skip if no text content
 		const originalText = element.textContent?.trim();
 		if (!originalText) {
