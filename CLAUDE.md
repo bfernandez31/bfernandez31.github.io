@@ -18,6 +18,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - Static content (Markdown via Astro Content Collections, JSON data files) (005-1510-convert-multi)
 - TypeScript 5.9+ (strict mode) with Bun ≥1.0.0 runtime + Astro 5.15.3 (static site generator), GSAP 3.13.0 (animations), Lenis 1.0.42 (smooth scroll), Biome 2.0.0+ (linting) (011-1522-fix-project)
 - Static content (Markdown via Astro Content Collections, JSON data files) - no database (011-1522-fix-project)
+- TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + GSAP 3.13.0+ (animation engine), IntersectionObserver API (viewport detection) (012-1516-text-split)
+- N/A (client-side animations only, no data persistence) (012-1516-text-split)
 
 ## Project Structure
 ```
@@ -411,6 +413,7 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
+- 012-1516-text-split: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + GSAP 3.13.0+ (animation engine), IntersectionObserver API (viewport detection)
 - 011-1522-fix-project: Major performance optimization overhaul (GitHub Pages deployment performance issues)
   - Added device tier detection system (HIGH/MID/LOW) in src/scripts/performance/device-tier.ts
   - Created performance monitor (development only) tracking FPS, Core Web Vitals, memory in src/scripts/performance/performance-monitor.ts
@@ -437,7 +440,6 @@ try {
   - Integrated with PageLayout.astro with proper initialization and cleanup
   - Uses requestAnimationFrame for smooth 60fps animation loop
   - Minimal memory footprint (~2-3KB JavaScript)
-- 009-title-custom-cursor: Added custom cursor with interactive element detection
   - Created CustomCursor.astro component with circular design (32px default, 64px hover)
   - Implemented custom-cursor.ts script with GSAP quickTo for 60fps position tracking
   - Added mix-blend-mode: difference for adaptive contrast on any background
