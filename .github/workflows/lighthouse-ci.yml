@@ -29,7 +29,7 @@ jobs:
       - name: Run Lighthouse CI
         run: |
           bun add -D @lhci/cli@0.13.x
-          bun dlx @lhci/cli autorun
+          bunx @lhci/cli autorun
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
