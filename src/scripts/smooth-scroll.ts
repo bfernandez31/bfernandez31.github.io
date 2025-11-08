@@ -6,10 +6,7 @@
  * Integrates with GSAP ScrollTrigger for synchronized animations.
  */
 
-import Lenis from "@studio-freight/lenis";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { prefersReducedMotion } from "./animation-config";
+import type Lenis from "@studio-freight/lenis";
 
 // Extend Window interface for Lenis
 declare global {
@@ -19,14 +16,6 @@ declare global {
 }
 
 let lenis: Lenis | null = null;
-
-/**
- * EaseOutCubic easing function (T021)
- * More responsive than easeInOutExpo for user-initiated scrolling
- */
-function easeOutCubic(t: number): number {
-	return 1 - (1 - t) ** 3;
-}
 
 /**
  * Initialize Lenis smooth scrolling with performance optimizations
