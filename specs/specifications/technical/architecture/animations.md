@@ -520,6 +520,188 @@ if (window.lenis) {
 
 **Alternative**: The custom cursor still provides visual feedback through size scaling when hovering over interactive elements, which is sufficient for user experience while maintaining optimal performance.
 
+### Text Split Animations
+
+**Location**: `src/scripts/text-animations.ts`
+
+**Description**: Declarative text reveal animation utility that splits text into characters, words, or lines and animates with GSAP stagger effects
+
+**Functions**:
+```typescript
+// Initialize text animations for all [data-split-text] elements
+export function initTextAnimations(): void;
+
+// Clean up all text animations on page navigation
+export function cleanupTextAnimations(): void;
+
+// Split element's text content into fragments
+function splitText(element: HTMLElement, type: SplitType): SplitFragment[];
+
+// Create GSAP animation timeline for fragments
+function createTimeline(fragments: SplitFragment[], config: AnimationConfig): gsap.core.Timeline;
+
+// Animate a single element (called by IntersectionObserver)
+function animateElement(element: HTMLElement): void;
+```
+
+**Types**:
+```typescript
+export type SplitType = 'char' | 'word' | 'line';
+
+export interface AnimationConfig {
+  type: SplitType;
+  duration: number;  // Animation duration per fragment (seconds)
+  delay: number;     // Stagger delay between fragments (seconds)
+  easing: EasingFunction;  // GSAP easing function name
+}
+
+export interface SplitFragment {
+  element: HTMLSpanElement;  // DOM span wrapping this fragment
+  originalText: string;      // Original text content
+  index: number;             // Zero-indexed position
+}
+
+export interface AnimatedTextElement {
+  element: HTMLElement;      // Original element with data-split-text
+  config: AnimationConfig;   // Parsed animation configuration
+  fragments: SplitFragment[]; // Array of split text fragments
+  timeline: gsap.core.Timeline | null;  // GSAP timeline
+  observer: IntersectionObserver | null; // Observer instance
+  animated: boolean;         // Has animation been triggered?
+}
+```
+
+**Configuration Options**:
+```typescript
+// Default animation values
+const DEFAULT_CONFIG = {
+  type: 'char',
+  duration: 0.6,
+  delay: 0.05,
+  easing: 'power3.out',
+};
+
+// Validation constraints
+const CONFIG_CONSTRAINTS = {
+  duration: { min: 0.1, max: 5.0 },
+  delay: { min: 0.01, max: 1.0 },
+  maxFragments: 1000,  // Performance limit (error)
+  warnFragments: 500,  // Warning threshold
+};
+```
+
+**Splitting Algorithms**:
+
+1. **Character Splitting**:
+   - Uses `Array.from()` for Unicode support (handles multi-byte characters, emojis)
+   - Each character wrapped in `<span style="display: inline-block">`
+   - Best for headlines and short text (<100 characters)
+
+2. **Word Splitting**:
+   - Uses regex `/(\s+)/` to split while preserving whitespace
+   - Each word wrapped in `<span style="display: inline-block">`
+   - Best for section titles and medium text (100-300 characters)
+
+3. **Line Splitting**:
+   - Uses `Range.getClientRects()` to detect visual line breaks
+   - Detects line breaks by comparing `rect.top` values character by character
+   - Each line wrapped in `<span style="display: inline-block">`
+   - Best for paragraphs and long text (>300 characters)
+   - Known limitation: line breaks calculated at initialization, not recalculated on resize
+
+**Animation Pattern**:
+```typescript
+// Animation effect: fade + slide up
+gsap.fromTo(fragments.map(f => f.element),
+  {
+    opacity: 0,
+    y: 20,  // Start 20px below final position
+  },
+  {
+    opacity: 1,
+    y: 0,
+    duration: config.duration,
+    ease: config.easing,
+    stagger: {
+      amount: config.delay * fragments.length,
+      from: 'start',
+    },
+  }
+);
+```
+
+**Accessibility Structure**:
+```html
+<!-- Before splitting -->
+<h1 data-split-text="char">Hello World</h1>
+
+<!-- After splitting (simplified) -->
+<h1>
+  <span class="sr-only">Hello World</span> <!-- Screen readers read this -->
+  <span aria-hidden="true">
+    <span>H</span><span>e</span><span>l</span><span>l</span><span>o</span>
+    <span> </span>
+    <span>W</span><span>o</span><span>r</span><span>l</span><span>d</span>
+  </span>
+</h1>
+```
+
+**Performance**:
+- IntersectionObserver with 50% threshold for viewport-based triggering
+- Global observer shared across all elements (efficient resource usage)
+- Trigger once only (unobserve after animation)
+- GPU-accelerated properties only (opacity, transform translateY)
+- Warning at 500 fragments, error at 1000 fragments
+- Initialization target: <100ms for 100-character text
+- 60fps on HIGH tier devices, 30fps minimum on MID tier
+
+**Accessibility**:
+- `prefers-reduced-motion` support: instant reveal with `gsap.set()` instead of animation
+- Screen reader compatibility: original text in `.sr-only` span, split text in `aria-hidden="true"` wrapper
+- Semantic HTML preserved for assistive technologies
+
+**Lifecycle Management**:
+```typescript
+// Initialize on page load
+initTextAnimations();
+
+// Cleanup on page navigation (Astro)
+document.addEventListener('astro:before-swap', cleanupTextAnimations);
+```
+
+**Usage Examples**:
+```astro
+<!-- Character animation for hero headline -->
+<h1 data-split-text="char">Welcome</h1>
+
+<!-- Word animation for section title -->
+<h2 data-split-text="word" data-split-delay="0.08">About Me</h2>
+
+<!-- Line animation for paragraph -->
+<p data-split-text="line" data-split-duration="0.4">
+  Long paragraph that reveals line by line...
+</p>
+
+<script>
+  import { initTextAnimations } from '@/scripts/text-animations';
+  initTextAnimations();
+</script>
+```
+
+**Error Handling**:
+- Empty text content: skipped with console warning
+- Invalid split type: falls back to defaults with error
+- Invalid config values: falls back to defaults with warning
+- Too many fragments (>1000): skipped with error
+- GSAP not found: error logged (graceful degradation)
+- IntersectionObserver not supported: error logged (graceful degradation)
+
+**Known Limitations**:
+- Nested HTML tags (strong, em, etc.) are stripped by `textContent` extraction
+- Line breaks not recalculated on viewport resize (calculated once at init)
+- No manual trigger API (viewport-based only in v1)
+- No animation repeat support (trigger once only in v1)
+
 ## Performance Monitoring
 
 ### Device Tier Detection

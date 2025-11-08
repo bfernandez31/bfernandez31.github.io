@@ -37,6 +37,7 @@ The portfolio adapts to all screen sizes and devices:
 The portfolio includes integrated animation capabilities optimized for performance:
 - Neural network hero animation with Canvas 2D rendering (adaptive particle counts: 50/30/20 based on device tier)
 - Magnetic menu effect using GSAP quickTo() for smooth cursor interaction
+- Text split animations for character/word/line reveals with declarative HTML API
 - GSAP for high-performance animations
 - ScrollTrigger for scroll-based effects
 - Lenis for smooth scrolling (0.6s duration, easeOutCubic easing, no section snap)

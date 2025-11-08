@@ -222,6 +222,63 @@ The portfolio features a custom cursor that replaces the system cursor on deskto
 
 **Alternative**: The custom cursor still provides visual feedback through size scaling when hovering over interactive elements, which is sufficient for user experience while maintaining optimal performance.
 
+### Text Split Animations
+
+The portfolio provides declarative text reveal animations that split text content into individual fragments and animate them with smooth stagger effects.
+
+**Behavior**:
+- Text splits into characters, words, or lines based on specified granularity
+- Each fragment animates with fade-in and slide-up effect (opacity 0→1, translateY 20→0)
+- Stagger delay creates sequential reveal (default: 50ms for char/word, 100ms for line)
+- Animations trigger automatically when element enters viewport (50% threshold)
+- Uses IntersectionObserver for efficient viewport detection
+- Trigger once only (no repeat on scroll)
+
+**Splitting Modes**:
+- **Character**: Best for headlines and short text (<100 characters)
+- **Word**: Best for section titles and medium text (100-300 characters)
+- **Line**: Best for paragraphs and long text (>300 characters)
+
+**Usage**:
+```astro
+<!-- Character-by-character reveal -->
+<h1 data-split-text="char">Portfolio Headline</h1>
+
+<!-- Word-by-word reveal with custom timing -->
+<h2 data-split-text="word" data-split-duration="0.8" data-split-delay="0.1">
+  Section Title
+</h2>
+
+<!-- Line-by-line reveal -->
+<p data-split-text="line">
+  Paragraph content that reveals line by line as user scrolls.
+</p>
+
+<script>
+  import { initTextAnimations } from '@/scripts/text-animations';
+  initTextAnimations();
+</script>
+```
+
+**Accessibility**:
+- Respects `prefers-reduced-motion` user preference (instant reveal with no animation)
+- Screen reader compatible: original text preserved in visually-hidden span
+- Split fragments wrapped in `aria-hidden="true"` wrapper
+- Screen readers announce complete text naturally without fragmentation
+
+**Performance**:
+- GPU-accelerated properties only (opacity, transform)
+- 60fps target on HIGH tier devices, 30fps minimum on MID tier
+- Performance limits: warns at 500 fragments, hard limit at 1000 fragments
+- Initialization under 100ms for 100-character text
+- Automatic cleanup on page navigation (astro:before-swap)
+
+**Customization**:
+- `data-split-text`: Splitting mode (char, word, line) - required
+- `data-split-duration`: Animation duration per fragment (0.1-5.0s, default: 0.6s)
+- `data-split-delay`: Stagger delay between fragments (0.01-1.0s, default: 0.05s char/word, 0.1s line)
+- `data-split-easing`: GSAP easing function (default: power3.out)
+
 ## Animation System
 
 ### Core Animation Utilities
