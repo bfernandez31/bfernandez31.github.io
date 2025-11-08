@@ -18,6 +18,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - Static content (Markdown via Astro Content Collections, JSON data files) (005-1510-convert-multi)
 - TypeScript 5.9+ (strict mode) with Bun ≥1.0.0 runtime + Astro 5.15.3 (static site generator), GSAP 3.13.0 (animations), Lenis 1.0.42 (smooth scroll), Biome 2.0.0+ (linting) (011-1522-fix-project)
 - Static content (Markdown via Astro Content Collections, JSON data files) - no database (011-1522-fix-project)
+- TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + GSAP 3.13.0+ (animation engine), IntersectionObserver API (viewport detection) (012-1516-text-split)
+- N/A (client-side animations only, no data persistence) (012-1516-text-split)
 
 ## Project Structure
 ```
@@ -225,6 +227,42 @@ bun test --watch         # Run tests in watch mode
 - Media queries: `@media (hover: hover) and (pointer: fine)` for desktop only
 - Clean up: Call `cleanupCustomCursor()` on page navigation (astro:before-swap)
 
+### Text Split Animations (Feature: 012-1516-text-split)
+- Use declarative HTML API via `data-split-text` attribute for text reveal animations
+- Initialize with `initTextAnimations()` from `src/scripts/text-animations.ts`
+- Three splitting modes:
+  - `data-split-text="char"` - Character-by-character reveal (headlines, short text <100 chars)
+  - `data-split-text="word"` - Word-by-word reveal (section titles, medium text 100-300 chars)
+  - `data-split-text="line"` - Line-by-line reveal (paragraphs, long text >300 chars)
+- Automatic viewport-based triggering via IntersectionObserver (50% threshold, trigger once only)
+- Full accessibility support:
+  - Original text preserved in visually-hidden span (`.sr-only` class) for screen readers
+  - Split fragments wrapped in `aria-hidden="true"` container
+  - Respects `prefers-reduced-motion` preference (instant reveal with no animation)
+- Customization via data attributes:
+  - `data-split-duration="0.8"` - Animation duration per fragment (default: 0.6s)
+  - `data-split-delay="0.1"` - Stagger delay between fragments (default: 0.05s for char/word, 0.1s for line)
+  - `data-split-easing="power2.out"` - GSAP easing function (default: power3.out)
+- Performance limits:
+  - Warning at 500 fragments (console.warn)
+  - Hard limit at 1000 fragments (skip animation with console.error)
+  - GPU-accelerated properties only (opacity, transform translateY)
+- Usage example:
+  ```astro
+  <h1 data-split-text="char">Animated Headline</h1>
+  <h2 data-split-text="word" data-split-delay="0.08">Section Title</h2>
+  <p data-split-text="line" data-split-duration="0.4">Paragraph reveal</p>
+
+  <script>
+    import { initTextAnimations } from '@/scripts/text-animations';
+    initTextAnimations();
+  </script>
+  ```
+- Automatic cleanup on page navigation via `astro:before-swap` event listener
+- Line splitting uses `Range.getClientRects()` for visual line break detection (calculated at init, not recalculated on resize)
+- Known limitation: Nested HTML tags (strong, em) are stripped by `textContent` - use plain text only
+- Zero new dependencies (uses existing GSAP 3.13.0+)
+
 ### Reduced Motion Support
 ```typescript
 // Check preference before animating
@@ -411,6 +449,7 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
+- 012-1516-text-split: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + GSAP 3.13.0+ (animation engine), IntersectionObserver API (viewport detection)
 - 011-1522-fix-project: Major performance optimization overhaul (GitHub Pages deployment performance issues)
   - Added device tier detection system (HIGH/MID/LOW) in src/scripts/performance/device-tier.ts
   - Created performance monitor (development only) tracking FPS, Core Web Vitals, memory in src/scripts/performance/performance-monitor.ts
@@ -437,7 +476,6 @@ try {
   - Integrated with PageLayout.astro with proper initialization and cleanup
   - Uses requestAnimationFrame for smooth 60fps animation loop
   - Minimal memory footprint (~2-3KB JavaScript)
-- 009-title-custom-cursor: Added custom cursor with interactive element detection
   - Created CustomCursor.astro component with circular design (32px default, 64px hover)
   - Implemented custom-cursor.ts script with GSAP quickTo for 60fps position tracking
   - Added mix-blend-mode: difference for adaptive contrast on any background
