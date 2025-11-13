@@ -520,6 +520,115 @@ if (window.lenis) {
 
 **Alternative**: The custom cursor still provides visual feedback through size scaling when hovering over interactive elements, which is sufficient for user experience while maintaining optimal performance.
 
+### Glitch Effect (CSS-only)
+
+**Location**: `src/styles/effects/glitch.css`
+
+**Description**: Pure CSS cyberpunk-style RGB channel separation effect with hover-triggered animation
+
+**CSS Class**: `.glitch-effect`
+
+**Visual Effect**:
+- RGB channel separation using layered `text-shadow` offsets
+- Red, green, and blue color channels shift in opposite directions
+- Creates chromatic aberration effect mimicking analog video glitches
+- 0.3s animation duration with cubic-bezier easing (0.25, 0.46, 0.45, 0.94)
+- Two animation variants: `glitch` and `glitch-2` for visual variety
+
+**Keyframe Animation**:
+```css
+@keyframes glitch {
+  0% {
+    text-shadow:
+      0.05em 0 0 rgba(255, 0, 0, 0.75),
+      -0.05em -0.025em 0 rgba(0, 255, 0, 0.75),
+      -0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  /* ... intermediate keyframes with varying offsets ... */
+  100% {
+    text-shadow:
+      -0.025em 0 0 rgba(255, 0, 0, 0.75),
+      -0.025em -0.025em 0 rgba(0, 255, 0, 0.75),
+      -0.025em -0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+}
+```
+
+**Trigger Behavior**:
+- **Desktop (hover-enabled devices)**: Animation triggers on `:hover` state
+- **Touch devices**: Static RGB offset appears on `:active` state (no animation for performance)
+- **Reduced motion**: Disables animation, applies subtle static RGB offset instead
+
+**Usage**:
+```html
+<!-- Basic glitch effect -->
+<h1 class="glitch-effect">Glitchy Text</h1>
+
+<!-- Alternative animation variant -->
+<h1 class="glitch-effect glitch-effect--alt">Alternate Glitch</h1>
+```
+
+**Integration Example** (Hero component):
+```astro
+<!-- src/components/sections/Hero.astro -->
+<h1 class="hero__headline glitch-effect" data-split-text="char">
+  {headline}
+</h1>
+```
+
+**Performance Characteristics**:
+- Zero JavaScript required (pure CSS)
+- GPU-accelerated `text-shadow` property
+- ~2KB CSS footprint (including both animation variants)
+- No runtime overhead (browser-native CSS animation)
+- Automatically disabled on touch devices via `@media (hover: none)`
+
+**Accessibility**:
+- Respects `prefers-reduced-motion` preference (disables animation)
+- Provides static fallback: subtle RGB offset without movement
+- No screen reader impact (purely visual decoration)
+- Does not interfere with text selection or readability
+
+**Media Query Strategy**:
+```css
+/* Desktop only: hover-triggered animation */
+@media (hover: hover) and (pointer: fine) {
+  .glitch-effect:hover {
+    animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
+
+/* Touch devices: static effect on tap */
+@media (hover: none) {
+  .glitch-effect:active {
+    text-shadow: 0.02em 0 0 rgba(255, 0, 0, 0.5),
+                 -0.02em 0 0 rgba(0, 0, 255, 0.5);
+  }
+}
+
+/* Reduced motion: disable animation */
+@media (prefers-reduced-motion: reduce) {
+  .glitch-effect:hover {
+    animation: none;
+    text-shadow: 0.02em 0 0 rgba(255, 0, 0, 0.5),
+                 -0.02em 0 0 rgba(0, 0, 255, 0.5);
+  }
+}
+```
+
+**Design Rationale**:
+- Pure CSS approach eliminates JavaScript overhead
+- Hover trigger provides interactive feedback without being distracting
+- RGB offset values scaled in `em` units for responsive sizing
+- Opacity (0.75) prevents over-saturation while maintaining visibility
+- Cubic-bezier easing creates snappy, mechanical feel matching cyberpunk aesthetic
+- Two variants prevent visual monotony when multiple elements use effect
+
+**Browser Compatibility**:
+- Modern browsers (Chrome 90+, Firefox 88+, Safari 14+, Edge 90+)
+- Graceful degradation: no effect on older browsers (text remains readable)
+- No polyfills required
+
 ### Text Split Animations
 
 **Location**: `src/scripts/text-animations.ts`

@@ -36,6 +36,7 @@ The portfolio adapts to all screen sizes and devices:
 ### Smooth Animations
 The portfolio includes integrated animation capabilities optimized for performance:
 - Neural network hero animation with Canvas 2D rendering (adaptive particle counts: 50/30/20 based on device tier)
+- Glitch effect on hero title with hover-triggered RGB channel separation animation
 - Magnetic menu effect using GSAP quickTo() for smooth cursor interaction
 - Text split animations for character/word/line reveals with declarative HTML API
 - GSAP for high-performance animations
