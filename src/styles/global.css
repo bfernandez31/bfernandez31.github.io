@@ -4,6 +4,9 @@
 /* Import section layout styles */
 @import "./sections.css";
 
+/* Import effects */
+@import "./effects/glitch.css";
+
 /* Reset and base styles */
 *,
 *::before,

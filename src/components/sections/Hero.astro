@@ -12,7 +12,8 @@ const { headline, subheadline, ctaText, ctaLink } = Astro.props;
 <section class="hero">
 	<canvas id="hero-canvas" class="hero__canvas"></canvas>
 	<div class="hero__content">
-		<h1 class="hero__headline" data-split-text="char">{headline}</h1>
+		<!-- Headline with glitch effect (hover-triggered RGB offset animation, ~0.3s) -->
+		<h1 class="hero__headline glitch-effect" data-split-text="char">{headline}</h1>
 		{subheadline && <p class="hero__subheadline" data-split-text="word">{subheadline}</p>}
 		{
 			ctaText && ctaLink && (

@@ -227,6 +227,31 @@ bun test --watch         # Run tests in watch mode
 - Media queries: `@media (hover: hover) and (pointer: fine)` for desktop only
 - Clean up: Call `cleanupCustomCursor()` on page navigation (astro:before-swap)
 
+### Glitch Effect (Feature: 013-title-hero-glitch)
+- Use `.glitch-effect` CSS class for cyberpunk-style RGB channel separation animation
+- Location: `src/styles/effects/glitch.css` (automatically imported via `global.css`)
+- Pure CSS implementation (zero JavaScript overhead)
+- Hover-triggered on desktop devices (`:hover` state)
+- GPU-accelerated `text-shadow` property with 0.3s animation
+- Two animation variants:
+  - `.glitch-effect` - Default RGB offset animation
+  - `.glitch-effect.glitch-effect--alt` - Alternative variant for variety
+- Full accessibility support:
+  - Respects `prefers-reduced-motion` (disables animation, shows static RGB offset)
+  - Desktop only: `@media (hover: hover) and (pointer: fine)`
+  - Touch devices: Static effect on `:active` (no animation for performance)
+- Usage example:
+  ```astro
+  <!-- Basic glitch effect -->
+  <h1 class="glitch-effect">Hero Title</h1>
+
+  <!-- With alternative animation -->
+  <h1 class="glitch-effect glitch-effect--alt">Alternative</h1>
+  ```
+- ~2KB CSS footprint, no runtime overhead
+- Browser-native CSS animation (Chrome 90+, Firefox 88+, Safari 14+)
+- Graceful degradation on older browsers (text remains readable)
+
 ### Text Split Animations (Feature: 012-1516-text-split)
 - Use declarative HTML API via `data-split-text` attribute for text reveal animations
 - Initialize with `initTextAnimations()` from `src/scripts/text-animations.ts`
@@ -449,6 +474,17 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
+- 013-title-hero-glitch: Added pure CSS glitch effect for hero title
+  - Created src/styles/effects/glitch.css with RGB channel separation animation
+  - Hover-triggered cyberpunk-style text effect using keyframe animations
+  - Two animation variants (glitch and glitch-2) for visual variety
+  - 0.3s animation duration with cubic-bezier easing for snappy feel
+  - Uses GPU-accelerated text-shadow property (zero JavaScript)
+  - Full accessibility: respects prefers-reduced-motion (static fallback), desktop only (hover: hover media query)
+  - Touch devices: static RGB offset on :active (no animation for performance)
+  - ~2KB CSS footprint, graceful degradation on older browsers
+  - Integrated into Hero component headline with .glitch-effect class
+  - Added @import "./effects/glitch.css" to global.css
 - 012-1516-text-split: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + GSAP 3.13.0+ (animation engine), IntersectionObserver API (viewport detection)
 - 011-1522-fix-project: Major performance optimization overhaul (GitHub Pages deployment performance issues)
   - Added device tier detection system (HIGH/MID/LOW) in src/scripts/performance/device-tier.ts
