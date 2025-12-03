@@ -103,56 +103,6 @@ export const DURATIONS = {
 } as const;
 
 // ============================================================================
-// NEURAL NETWORK ANIMATION CONFIG
-// ============================================================================
-
-/**
- * Default configuration for hero neural network animation
- */
-export const NEURAL_NETWORK_DEFAULTS = {
-	// Particle counts - Balanced for visibility and performance
-	NODE_COUNT_DESKTOP: 30,
-	NODE_COUNT_TABLET: 20,
-	NODE_COUNT_MOBILE: 15,
-
-	// Visual properties
-	NODE_RADIUS: 3, // pixels
-	EDGE_WIDTH: 1.5, // pixels - slightly thicker for visibility
-	CONNECTION_DISTANCE: 120, // pixels - moderate distance
-	PULSE_SPEED: 0.02, // units per frame - smooth animation
-
-	// Colors (using CSS custom properties)
-	COLORS: {
-		NODES: "var(--color-primary)", // Violet
-		EDGES: "var(--color-accent)", // Lavender
-		PULSES: "var(--color-secondary)", // Rose/Pink
-		GLOW: "var(--color-primary)", // Violet glow
-	},
-
-	// Animation timings
-	INTRO_DURATION: 1.5, // seconds
-	INTRO_STAGGER: 0.02, // seconds between nodes
-	FADE_IN_DURATION: 0.8, // seconds
-	IDLE_ANIMATION_SPEED: 0.5, // multiplier
-
-	// Performance
-	TARGET_FPS_DESKTOP: 60,
-	TARGET_FPS_MOBILE: 30,
-	ENABLE_OFFSCREEN_CACHING: true,
-	ENABLE_SPATIAL_PARTITIONING: true, // Quadtree for >100 nodes
-
-	// Scroll behavior
-	SCROLL_FADE_START: "top center",
-	SCROLL_FADE_END: "bottom top",
-	SCROLL_OPACITY_MIN: 0.3,
-	SCROLL_SCALE_MAX: 1.2,
-
-	// Reduced motion fallback
-	REDUCED_MOTION_NODE_COUNT: 20,
-	REDUCED_MOTION_ANIMATION: "opacity-pulse-only", // No movement
-} as const;
-
-// ============================================================================
 // MAGNETIC MENU CONFIG
 // ============================================================================
 
@@ -260,46 +210,6 @@ export const getTargetFPS = (): number => {
 	return FPS_TARGETS[tier.toUpperCase() as keyof typeof FPS_TARGETS];
 };
 
-/**
- * Get node count for neural network based on device
- * Uses simple device tier detection without requiring performance config
- */
-export const getNeuralNodeCount = (): number => {
-	if (prefersReducedMotion()) {
-		return NEURAL_NETWORK_DEFAULTS.REDUCED_MOTION_NODE_COUNT;
-	}
-
-	// Check for global device tier detection (from device-tier.ts)
-	const globalTier =
-		typeof window !== "undefined" ? (window as any).__DEVICE_TIER__ : null;
-
-	if (globalTier) {
-		// Use device tier particle counts directly
-		switch (globalTier.tier) {
-			case "HIGH":
-				return 30; // Modern desktop
-			case "MID":
-				return 20; // Mid-range
-			case "LOW":
-				return 15; // Old devices
-			default:
-				return 20; // Default to balanced
-		}
-	}
-
-	// Fallback to old detection if device tier not yet initialized
-	const tier = getDeviceTier();
-	switch (tier) {
-		case "desktop":
-			return NEURAL_NETWORK_DEFAULTS.NODE_COUNT_DESKTOP;
-		case "tablet":
-			return NEURAL_NETWORK_DEFAULTS.NODE_COUNT_TABLET;
-		case "mobile":
-		case "low-end":
-			return NEURAL_NETWORK_DEFAULTS.NODE_COUNT_MOBILE;
-	}
-};
-
 // ============================================================================
 // PERFORMANCE MONITORING
 // ============================================================================
@@ -352,6 +262,5 @@ export const ANIMATION_CONFIG = {
 	ANIMATION_BUNDLE_BUDGET,
 	EASINGS,
 	DURATIONS,
-	NEURAL_NETWORK_DEFAULTS,
 	MAGNETIC_MENU_DEFAULTS,
 } as const;

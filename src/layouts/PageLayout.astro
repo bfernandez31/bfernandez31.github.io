@@ -1,6 +1,5 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import CustomCursor from '../components/ui/CustomCursor.astro';
 import ScrollProgress from '../components/ui/ScrollProgress.astro';
 import BurgerMenu from '../components/layout/BurgerMenu.astro';
 import Footer from '../components/layout/Footer.astro';
@@ -23,7 +22,6 @@ const { title, description, ogImage, noindex, canonicalUrl } = Astro.props;
 	noindex={noindex}
 	canonicalUrl={canonicalUrl}
 >
-	<CustomCursor />
 	<ScrollProgress />
 	<BurgerMenu />
 	<main>

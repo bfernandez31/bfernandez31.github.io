@@ -7,7 +7,7 @@
  */
 
 import { prefersReducedMotion } from "./accessibility";
-import { FPS_TARGETS, NEURAL_NETWORK_DEFAULTS } from "./animation-config";
+import { FPS_TARGETS } from "./animation-config";
 
 /**
  * Device tier categories
@@ -71,30 +71,6 @@ export const getTargetFPS = (): number => {
 };
 
 /**
- * Get neural network node count based on device capability
- */
-export const getNeuralNodeCount = (): number => {
-	// Respect reduced motion preference
-	if (prefersReducedMotion()) {
-		return NEURAL_NETWORK_DEFAULTS.REDUCED_MOTION_NODE_COUNT;
-	}
-
-	const tier = getDeviceTier();
-
-	switch (tier) {
-		case "desktop":
-			return NEURAL_NETWORK_DEFAULTS.NODE_COUNT_DESKTOP;
-		case "tablet":
-			return NEURAL_NETWORK_DEFAULTS.NODE_COUNT_TABLET;
-		case "mobile":
-		case "low-end":
-			return NEURAL_NETWORK_DEFAULTS.NODE_COUNT_MOBILE;
-		default:
-			return NEURAL_NETWORK_DEFAULTS.NODE_COUNT_MOBILE;
-	}
-};
-
-/**
  * Get animation quality preset based on device
  */
 export const getAnimationQuality = ():
@@ -140,7 +116,6 @@ export const getPerformanceConfig = () => {
 	return {
 		tier,
 		targetFPS: getTargetFPS(),
-		neuralNodes: getNeuralNodeCount(),
 		quality,
 		enableParticles: tier === "desktop" || tier === "tablet",
 		enableBlur: tier === "desktop",

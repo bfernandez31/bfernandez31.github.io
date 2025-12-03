@@ -266,6 +266,31 @@
 }
 
 /* ============================================================================
+   TEXT SPLIT ANIMATION INITIAL STATE
+   ============================================================================ */
+
+/**
+ * Hide text-split elements until animation triggers
+ * Prevents content flicker on page load
+ * Feature: PBF-18-fix-the-site
+ */
+[data-split-text] {
+	opacity: 0;
+	transform: translateY(20px);
+}
+
+/**
+ * Respect reduced motion - show content instantly
+ * WCAG 2.1 AA compliance
+ */
+@media (prefers-reduced-motion: reduce) {
+	[data-split-text] {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/* ============================================================================
    SCROLL REVEAL UTILITIES
    ============================================================================ */
 
