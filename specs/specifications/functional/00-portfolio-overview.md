@@ -12,6 +12,23 @@ The portfolio supports rapid project setup with a complete development environme
 ### Content Management
 The portfolio uses Astro's content collections system for type-safe content management. Content is organized into collections (blog posts, projects, case studies) with validated schemas ensuring data consistency.
 
+### Skills & Expertise Showcase
+The portfolio includes a comprehensive skills matrix with 74 technical and professional skills organized into 8 categories:
+- **Frontend Development** (14 skills): Modern frameworks and libraries including Angular, React, TypeScript, JavaScript
+- **Backend Development** (21 skills): Server-side technologies including Java, Spring Boot, Node.js, Python
+- **DevOps & Infrastructure** (9 skills): CI/CD, containerization, cloud platforms
+- **Database & Storage** (4 skills): Relational and NoSQL database systems
+- **Testing & Quality** (2 skills): Testing frameworks and quality assurance tools
+- **Design & Architecture** (11 skills): Design patterns, architectural approaches, UI/UX tools
+- **Tools & Workflow** (7 skills): Version control, IDEs, project management
+- **Soft Skills & Management** (6 skills): Communication, leadership, problem-solving
+
+Each skill includes:
+- Proficiency level (1-5 scale)
+- Years of experience
+- Related projects (linkable to portfolio projects)
+- Icon identifier for visual representation
+
 ### Static Site Generation
 The portfolio generates static HTML pages at build time, resulting in:
 - Zero JavaScript by default (Astro Islands architecture)
