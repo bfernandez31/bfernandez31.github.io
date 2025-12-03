@@ -77,135 +77,52 @@ ScrollTrigger.defaults({
 - Automatic pause when canvas not visible
 - Reduced particle count on low-end devices
 
-### Lenis Smooth Scroll
+### Native Scroll
 
-**Version**: 1.0.42+
+**Usage**: Standard browser scroll behavior for reliable, performant navigation
 
-**Usage**: Smooth, momentum-based scrolling (optimized for performance)
+**Implementation**:
+- No smooth scroll library required
+- Native browser scroll behavior across all devices
+- Instant response to user input
+- Zero JavaScript overhead for scroll management
+- Compatible with all browsers and devices
 
-**Configuration** (`src/scripts/smooth-scroll.ts`):
-```typescript
-import Lenis from '@studio-freight/lenis';
-import { prefersReducedMotion } from '@/scripts/utils/accessibility';
-import { getDeviceConfig } from '@/config/performance';
+**Design Decision**:
+- Smooth scroll (Lenis) disabled for better performance and native feel
+- Native scroll provides immediate, predictable response
+- Reduces complexity and eliminates potential scroll conflicts
+- Better compatibility with browser features (back/forward, accessibility tools)
 
-export function initSmoothScroll(): Lenis | null {
-  // Check device tier and user preference
-  const tier = (window as any).__DEVICE_TIER__?.tier ?? 'mid';
-  const config = getDeviceConfig(tier);
-
-  if (!config.enableSmoothScroll || prefersReducedMotion()) {
-    console.log('Smooth scroll disabled');
-    return null;
-  }
-
-  // Custom easeOutCubic easing function (responsive feel)
-  function easeOutCubic(t: number): number {
-    return 1 - Math.pow(1 - t, 3);
-  }
-
-  const lenis = new Lenis({
-    duration: 0.6,  // Reduced from 1.2s for better responsiveness
-    easing: easeOutCubic,  // Changed from easeInOutExpo
-    orientation: 'vertical',
-    gestureOrientation: 'vertical',
-    smoothWheel: true,
-    wheelMultiplier: 1.0,
-    touchMultiplier: 2.0,
-    infinite: false,
-    syncTouch: true,
-    syncTouchLerp: 0.1,
-  });
-
-  // Integrate with GSAP ScrollTrigger
-  lenis.on('scroll', () => {
-    ScrollTrigger.update();
-  });
-
-  // Add to GSAP ticker for smooth updates
-  gsap.ticker.add((time) => {
-    lenis?.raf(time * 1000);
-  });
-
-  // Disable GSAP's lag smoothing to prevent conflicts
-  gsap.ticker.lagSmoothing(0);
-
-  // Expose globally for navigation system
-  window.lenis = lenis;
-  return lenis;
-}
-```
-
-**Section Snap Functionality**: REMOVED (disabled for performance and better UX)
-
-**Utility Functions**:
-```typescript
-// Initialize smooth scroll (device tier aware)
-export function initSmoothScroll(): Lenis | null;
-
-// Scroll to element smoothly
-export function scrollToElement(target: HTMLElement | string, options?: ScrollOptions): void;
-
-// Scroll to top of page
-export function scrollToTop(duration?: number): void;
-
-// Pause/resume smooth scroll (for modals)
-export function stopSmoothScroll(): void;
-export function startSmoothScroll(): void;
-
-// Cleanup
-export function destroySmoothScroll(): void;
-
-// Get current instance
-export function getSmoothScroll(): Lenis | null;
-```
+**Navigation Integration**:
+- Navigation links use standard anchor hash navigation
+- Browser handles scroll-to-target natively
+- Focus management still handled by JavaScript for accessibility
+- URL hash updates work naturally with browser behavior
 
 ## Animation Components
 
-### Neural Network Hero Animation
+### Hero Section (Simplified)
 
-**Location**: `src/scripts/neural-network.ts`
+**Status**: Neural network animation removed for better performance
 
-**Description**: Canvas-based particle system creating an animated network visualization
+**Current Implementation**:
+- Clean, minimal hero section with dark background
+- No canvas or particle system animations
+- Text-focused layout without distracting background effects
+- Zero animation overhead in hero section
 
-**Class**: `NeuralNetworkAnimation`
+**Performance Benefits**:
+- Instant page load without canvas initialization
+- No ongoing animation loop consuming CPU/GPU
+- Reduced JavaScript bundle size
+- Better Core Web Vitals scores (LCP, FCP)
 
-**Configuration Options**:
-```typescript
-interface NeuralNetworkConfig {
-  colors: {
-    nodes: string;    // Node color (from theme)
-    edges: string;    // Connection line color
-    pulses: string;   // Pulse effect color
-  };
-  nodeCount?: number;      // Override auto-detected count
-  connectionDistance?: number; // Max distance for connections
-  speed?: number;          // Animation speed multiplier
-}
-```
-
-**Features**:
-- Dynamic node generation with random positions and velocities
-- Distance-based connection rendering
-- Pulse effects along connections
-- Mouse interaction (future enhancement)
-- Viewport-aware rendering (pauses when off-screen)
-
-**Performance** (Optimized):
-- Device tier detection adjusts node count:
-  - HIGH: 50 nodes, 60fps target
-  - MID: 30 nodes, 30fps target
-  - LOW: 20 nodes, 30fps target
-- Async initialization to avoid blocking page load
-- Intersection Observer pauses animation when hero not visible
-- Simplified GSAP intro animation (batch fade instead of staggered per-node)
-- Uses `requestAnimationFrame` for optimal timing
-- Progressive enhancement with CSS gradient fallback
-
-**Reduced Motion**:
-- Displays static network when `prefers-reduced-motion: reduce`
-- Nodes still visible but stationary
-- Subtle opacity pulses only (no movement)
+**Design Decision**:
+- Neural network animation removed as it didn't add clear value
+- Clean background provides better focus on content
+- Maintains professional appearance without complexity
+- Allows for faster, more stable page loads
 
 ### Magnetic Burger Menu
 
@@ -285,132 +202,23 @@ export function initMagneticMenu(
    - Bottom line: rotate -45deg + translateY
    - All transitions: CSS with `var(--transition-color)` duration
 
-### Custom Cursor Animation
+### Custom Cursor (Removed)
 
-**Location**: `src/components/ui/CustomCursor.astro` and `src/scripts/custom-cursor.ts`
+**Status**: Custom cursor animation removed for better performance and native experience
 
-**Description**: High-performance cursor replacement with smooth mouse tracking and interactive element detection
+**Design Decision**:
+- Custom cursor removed to reduce JavaScript complexity
+- Native browser cursor provides familiar, reliable experience
+- No performance overhead from cursor tracking
+- Better accessibility with native cursor states
+- Maintains professional appearance without custom effects
 
-**Component**: `CustomCursor.astro`
-
-**Configuration Options**:
-```typescript
-interface Props {
-  class?: string;  // Additional CSS classes
-}
-```
-
-**Visual Design**:
-- Fixed position following mouse cursor (position: fixed, z-index: 10000)
-- 32px circular outline (2px border) in default state
-- `mix-blend-mode: difference` for adaptive contrast
-- Scales to 64px (3px border) when hovering interactive elements
-- Uses theme color tokens: `var(--color-text)` for border color
-- GPU-accelerated positioning with `will-change: transform`
-
-**Mouse Tracking** (`src/scripts/custom-cursor.ts`):
-
-**Functions**:
-```typescript
-// Initialize custom cursor with smooth tracking
-export function initCustomCursor(): void;
-
-// Set up smooth cursor following with GSAP quickTo
-function setupSmoothCursor(cursor: HTMLElement): void;
-
-// Set up instant cursor following (for reduced motion)
-function setupInstantCursor(cursor: HTMLElement): void;
-
-// Set up hover state detection for interactive elements
-function setupHoverDetection(cursor: HTMLElement): void;
-
-// Clean up custom cursor (remove event listeners, kill animations)
-export function cleanupCustomCursor(): void;
-```
-
-**Algorithm**:
-1. Check device capabilities (touch devices skip initialization)
-2. Check user motion preferences (`prefers-reduced-motion`)
-3. Create GSAP `quickTo()` functions for X and Y position (smooth mode)
-   - Or use instant `gsap.set()` for reduced motion mode
-4. Track `mousemove` events and update cursor position
-5. Monitor DOM for interactive elements (links, buttons, inputs, `[data-cursor="hover"]`)
-6. Add/remove `custom-cursor--hover` class on element hover
-7. Use MutationObserver to detect dynamically added interactive elements
-
-**Performance**:
-- GSAP `quickTo()` provides 60fps position updates without creating new tweens
-- Duration: 0.6s with `power3.out` easing for smooth, natural following
-- Instant updates for reduced motion (0 duration with `gsap.set()`)
-- Passive event listeners where possible
-- Minimal DOM queries (cached element references)
-
-**Interactive Element Detection** (Optimized):
-```typescript
-// Selectors for automatic hover detection
-const interactiveSelectors = [
-  'a[href]',
-  'button:not([disabled])',
-  '[data-cursor="hover"]',
-  'input:not([disabled])',
-  'textarea:not([disabled])',
-  'select:not([disabled])',
-].join(', ');
-
-// Static selector approach with event delegation (MutationObserver removed for performance)
-document.querySelectorAll(interactiveSelectors).forEach(element => {
-  element.addEventListener('mouseenter', () => {
-    cursor.classList.add('custom-cursor--hover');
-  });
-  element.addEventListener('mouseleave', () => {
-    cursor.classList.remove('custom-cursor--hover');
-  });
-});
-```
-
-**CSS Media Queries**:
-```css
-/* Hide system cursor on desktop */
-@media (hover: hover) and (pointer: fine) {
-  body { cursor: none; }
-}
-
-/* Hide custom cursor on touch devices */
-@media (hover: none) or (pointer: coarse) {
-  .custom-cursor { display: none; }
-}
-```
-
-**Accessibility**:
-- `aria-hidden="true"` - cursor is decorative only
-- `pointer-events: none` - cursor doesn't interfere with interactions
-- Respects `prefers-reduced-motion` by using instant position updates
-- Disabled on touch devices (system cursor restored)
-- Disabled on MID/LOW tier devices for better performance
-- Keyboard navigation unaffected by custom cursor
-- Scale transition respects reduced motion preferences
-
-**Lifecycle Management**:
-```typescript
-// Initialize on page load
-initCustomCursor();
-
-// Clean up on page navigation (Astro)
-document.addEventListener('astro:before-swap', () => {
-  cleanupCustomCursor();
-});
-```
-
-**State Management**:
-```typescript
-interface CursorState {
-  cursor: HTMLElement | null;           // Cursor element reference
-  quickX: ((value: number) => void) | null;  // GSAP quickTo X function
-  quickY: ((value: number) => void) | null;  // GSAP quickTo Y function
-  isHovering: boolean;                  // Current hover state
-  cleanup: (() => void) | null;         // Cleanup function
-}
-```
+**Benefits of Removal**:
+- Zero JavaScript for cursor management
+- No GSAP quickTo() calls or mousemove event listeners
+- Simpler codebase without cursor-related components
+- Better compatibility across browsers and devices
+- Native cursor already provides excellent UX
 
 ### Scroll Progress Animation
 
@@ -461,13 +269,12 @@ export function destroyScrollProgress(): void;
 6. Update ARIA `aria-valuenow` attribute for accessibility
 
 **Performance**:
-- Integrates with Lenis smooth scroll for synchronized updates
-- Falls back to native scroll events if Lenis unavailable
+- Uses native scroll events for optimal performance
 - Uses `requestAnimationFrame` throttling to prevent excessive updates
 - Handles window resize events (recalculates scrollable height)
 - Passive event listeners for better scrolling performance
 
-**Lenis Integration** (with lazy loading):
+**Implementation** (with lazy loading):
 ```typescript
 // Lazy load scroll progress on first scroll event
 export function initScrollProgressLazy() {
@@ -488,12 +295,8 @@ export function initScrollProgressLazy() {
   window.addEventListener('scroll', onScroll, { once: true, passive: true });
 }
 
-// Prefer Lenis scroll event for smoother updates
-if (window.lenis) {
-  window.lenis.on('scroll', updateProgressBar);
-} else {
-  window.addEventListener('scroll', handleScroll, { passive: true });
-}
+// Use native scroll events
+window.addEventListener('scroll', handleScroll, { passive: true });
 ```
 
 **Accessibility**:
@@ -510,15 +313,19 @@ if (window.lenis) {
 - Window resize during scroll (recalculates dynamically)
 - Lenis instance not available (falls back to native events)
 
-### Cursor Trail Animation (REMOVED)
+### Cursor Effects (Removed)
 
-**Status**: The cursor trail has been removed entirely in the performance optimization update.
+**Status**: Cursor trail and custom cursor both removed for better performance
 
-**Reason**: High overhead (60fps canvas drawing with continuous particle spawning) with relatively low UX value. Performance profiling showed significant CPU usage for minimal visual benefit.
+**Reason**:
+- Cursor trail: High overhead with 60fps canvas drawing
+- Custom cursor: Unnecessary complexity for limited UX benefit
+- Both removed as part of animation cleanup and optimization
 
-**Location**: `src/scripts/cursor-trail.ts` (DELETED)
-
-**Alternative**: The custom cursor still provides visual feedback through size scaling when hovering over interactive elements, which is sufficient for user experience while maintaining optimal performance.
+**Impact**:
+- Reduced JavaScript bundle size
+- Lower CPU/GPU usage
+- Native browser cursor provides familiar, reliable experience
 
 ### Text Split Animations
 
@@ -628,6 +435,22 @@ gsap.fromTo(fragments.map(f => f.element),
     },
   }
 );
+```
+
+**Initial Hidden State** (Fixed in PBF-18):
+```css
+/* src/styles/animations.css */
+/* Hide text with data-split-text until animation initializes */
+[data-split-text] {
+  opacity: 0;
+}
+
+/* Prevent flicker on reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  [data-split-text] {
+    opacity: 1;
+  }
+}
 ```
 
 **Accessibility Structure**:
@@ -840,26 +663,9 @@ lazyLoad('custom-cursor',
 
 **Purpose**: Single source of truth for all animation values
 
-**Structure**:
+**Structure** (Updated in PBF-18):
 ```typescript
-export const NEURAL_NETWORK_DEFAULTS = {
-  COLORS: {
-    NODES: 'var(--color-primary)',
-    EDGES: 'var(--color-accent)',
-    PULSES: 'var(--color-secondary)',
-  },
-  NODE_COUNT: {
-    HIGH: 100,
-    MID: 75,
-    LOW: 50,
-  },
-  CONNECTION_DISTANCE: 150,
-  SPEED: 1.0,
-  FPS_TARGET: {
-    DESKTOP: 60,
-    MOBILE: 30,
-  },
-};
+// Neural network constants removed (feature removed)
 
 export const MAGNETIC_MENU_DEFAULTS = {
   THRESHOLD: 100,
@@ -867,10 +673,14 @@ export const MAGNETIC_MENU_DEFAULTS = {
   EASE: 'power2.out',
 };
 
-export const SCROLL_ANIMATION_DEFAULTS = {
-  DURATION: 1.2,
-  STAGGER: 0.05,
-  EASE: 'power2.out',
+export const TEXT_ANIMATION_DEFAULTS = {
+  DURATION: 0.6,
+  DELAY: {
+    CHAR: 0.05,
+    WORD: 0.05,
+    LINE: 0.1,
+  },
+  EASE: 'power3.out',
 };
 ```
 
@@ -880,7 +690,7 @@ export const SCROLL_ANIMATION_DEFAULTS = {
 
 **Purpose**: CSS-based animation utilities and reduced motion support
 
-**Contents**:
+**Contents** (Updated in PBF-18):
 ```css
 /* GPU-accelerated transitions */
 :root {
@@ -900,6 +710,16 @@ export const SCROLL_ANIMATION_DEFAULTS = {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+
+  /* Show text immediately when reduced motion enabled */
+  [data-split-text] {
+    opacity: 1 !important;
+  }
+}
+
+/* Hide text split elements until animation initializes */
+[data-split-text] {
+  opacity: 0;
 }
 
 /* GPU acceleration hints */
@@ -920,10 +740,10 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 ```
 
 **Response**:
-- Neural network: Static display with subtle opacity pulses only
+- Text split animations: Instant display (no animation)
 - Magnetic menu: Disabled (no cursor following)
 - GSAP animations: Instant transitions (duration: 0.01ms)
-- Smooth scroll: Disabled or reduced
+- Scroll: Native browser behavior (no smooth scroll)
 
 ### Focus Management
 

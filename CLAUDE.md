@@ -8,7 +8,7 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - **Language**: TypeScript 5.0+ (strict mode, native Bun support)
 - **Linting**: Biome ≥2.0.0 (unified linter and formatter)
 - **Testing**: Bun test runner (built-in, Jest-compatible API)
-- **Animation**: GSAP ≥3.13.0 + Lenis ≥1.0.0
+- **Animation**: GSAP ≥3.13.0
 - **Deployment**: GitHub Pages (automated via GitHub Actions)
 - TypeScript 5.0+ (strict mode, native Bun support) + Astro ≥4.0.0, Biome ≥2.0.0 (linting), GSAP ≥3.13.0 (animations), Lenis ≥1.0.0 (smooth scroll) (002-1506-palette-couleur)
 - N/A (CSS custom properties defined in global stylesheet, no data persistence) (002-1506-palette-couleur)
@@ -57,17 +57,16 @@ The portfolio uses a single-page architecture with 5 full-viewport sections:
 
 ### Implementation Details
 - **IntersectionObserver**: Tracks active section (30% threshold)
-- **Smooth scroll**: Powered by Lenis + GSAP ScrollTrigger
+- **Native scroll**: Standard browser scroll behavior for performance
 - **Focus management**: Automatic focus on section navigation
 - **Deep linking**: Initial page load with hash scrolls to target section
 - **History management**: Browser back/forward buttons work correctly
 
 ### Navigation Scripts
 ```javascript
-// All five must be initialized in index.astro (order matters!)
-initSmoothScroll();        // Initialize Lenis first (exposes window.lenis)
+// Navigation scripts initialized in index.astro (order matters!)
 initActiveNavigation();    // Updates active link state
-initNavigationLinks();     // Handles link clicks + smooth scroll
+initNavigationLinks();     // Handles link clicks with native scroll
 initNavigationHistory();   // Handles deep linking + back/forward
 initNavigationDots();      // Syncs navigation dots with active section
 ```
@@ -178,32 +177,18 @@ bun test --watch         # Run tests in watch mode
 - Set global defaults via `gsap.defaults({ ease, duration })`
 - Clean up on unmount: Listen for `astro:before-swap` event
 
-### Canvas Animations
-- Use Canvas 2D for particle systems and generative art
-- Support high-DPI displays: Set canvas dimensions to `width * devicePixelRatio`
-- Use `requestAnimationFrame` for animation loops
-- Implement pause/resume when canvas not visible (Intersection Observer)
-- Clean up: Cancel animation frame, clear canvas context
-
-### Lenis Smooth Scroll
-- Initialize with `initSmoothScroll()` from `src/scripts/smooth-scroll.ts` (call before navigation scripts)
-- Configured with easeOutCubic easing (0.6s duration) for responsive feel (optimized from 1.2s in 011-1522)
-- Section snap removed for more natural free scrolling (optimized in 011-1522)
-- Device tier aware: automatically disabled on LOW tier devices for better performance
-- Integrates with GSAP ScrollTrigger via `gsap.ticker`
-- Exposed on `window.lenis` for navigation system compatibility
-- **Always** check `prefersReducedMotion()` before initialization - returns null if user prefers reduced motion
-- Progressive enhancement: Falls back to native scroll if initialization fails
-- Use `scrollToElement(target, options)` for programmatic smooth scrolling
-- Use `stopSmoothScroll()` / `startSmoothScroll()` to pause/resume (e.g., during modal open)
-- Clean up: Call `destroySmoothScroll()` on page navigation
+### Native Scroll (Updated in PBF-18)
+- Smooth scroll (Lenis) disabled for better performance and native browser behavior
+- Use native browser scroll for all navigation
+- Navigation links use standard anchor hash navigation
+- Focus management still handled by JavaScript for accessibility
+- URL hash updates work naturally with browser behavior
 
 ### Scroll Progress Indicators
 - Use `ScrollProgress.astro` component for visual scroll tracking
 - Place in layout before other fixed elements for proper z-index layering
 - Initialize with `initScrollProgress()` from `src/scripts/scroll-progress.ts`
-- Automatically integrates with Lenis smooth scroll for synchronized updates
-- Falls back to native scroll events if Lenis unavailable
+- Uses native scroll events for optimal performance
 - Uses `requestAnimationFrame` throttling for performance
 - Always include ARIA progressbar role and attributes for accessibility
 - Set `pointer-events: none` to prevent interaction interference
@@ -212,24 +197,7 @@ bun test --watch         # Run tests in watch mode
 - Handle edge cases: no scrollable content, resize events
 - Clean up: Remove listeners and cancel animation frames on unmount
 
-### Custom Cursor
-- Use `CustomCursor.astro` component for branded cursor experience on desktop
-- Place in layout (typically in `PageLayout.astro` after other fixed elements)
-- Initialize with `initCustomCursor()` from `src/scripts/custom-cursor.ts`
-- Automatically disabled on touch devices via CSS media queries
-- Device tier aware: automatically disabled on MID and LOW tier devices for performance (optimized in 011-1522)
-- Uses GSAP `quickTo()` for ultra-smooth 60fps cursor tracking (0.6s duration, power3.out easing)
-- Simplified MutationObserver removed in favor of static selectors + event delegation (optimized in 011-1522)
-- Respects `prefers-reduced-motion` by using instant position updates (no smooth following)
-- Always set `aria-hidden="true"` and `pointer-events: none` (decorative only)
-- Use `mix-blend-mode: difference` for adaptive contrast on any background
-- Interactive element detection: automatically scales up on hover over links, buttons, inputs
-- Add `data-cursor="hover"` attribute to custom elements for hover detection
-- Default size: 32px circle (2px border), hover size: 64px circle (3px border)
-- Media queries: `@media (hover: hover) and (pointer: fine)` for desktop only
-- Clean up: Call `cleanupCustomCursor()` on page navigation (astro:before-swap)
-
-### Text Split Animations (Feature: 012-1516-text-split)
+### Text Split Animations (Feature: 012-1516-text-split, Fixed in PBF-18)
 - Use declarative HTML API via `data-split-text` attribute for text reveal animations
 - Initialize with `initTextAnimations()` from `src/scripts/text-animations.ts`
 - Three splitting modes:
@@ -237,10 +205,11 @@ bun test --watch         # Run tests in watch mode
   - `data-split-text="word"` - Word-by-word reveal (section titles, medium text 100-300 chars)
   - `data-split-text="line"` - Line-by-line reveal (paragraphs, long text >300 chars)
 - Automatic viewport-based triggering via IntersectionObserver (50% threshold, trigger once only)
+- **Initial hidden state** (PBF-18): CSS hides text until animation starts to prevent content flicker
 - Full accessibility support:
   - Original text preserved in visually-hidden span (`.sr-only` class) for screen readers
   - Split fragments wrapped in `aria-hidden="true"` container
-  - Respects `prefers-reduced-motion` preference (instant reveal with no animation)
+  - Respects `prefers-reduced-motion` preference (instant reveal with no animation, text visible immediately)
 - Customization via data attributes:
   - `data-split-duration="0.8"` - Animation duration per fragment (default: 0.6s)
   - `data-split-delay="0.1"` - Stagger delay between fragments (default: 0.05s for char/word, 0.1s for line)
@@ -441,27 +410,34 @@ try {
 
 ### Performance Best Practices
 - **Always** check device tier before initializing performance-intensive animations
-- **Always** use lazy loading for non-critical components (scroll progress, nav dots, cursor)
-- **Always** implement async initialization for heavy animations (neural network)
+- **Always** use lazy loading for non-critical components (scroll progress, nav dots)
 - **Always** pause animations when not visible (Intersection Observer)
 - **Always** provide static fallbacks (CSS gradients, semantic HTML)
 - **Always** clean up resources on unmount (cancel rAF, remove listeners, clear state)
+- **Always** hide animated text with initial CSS to prevent content flicker
 - Target 30fps minimum on MID/LOW tier devices, 60fps on HIGH tier
 - Keep critical assets under 200KB, total page weight under 500KB
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
-- PBF-18-fix-the-site: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), GSAP 3.13.0 (animations)
+- PBF-18-fix-the-site: Animation cleanup and optimization
+  - Removed neural network hero animation (deleted src/scripts/neural-network.ts)
+  - Removed custom cursor animation (deleted src/scripts/custom-cursor.ts, CustomCursor.astro)
+  - Disabled smooth scroll (Lenis) for better performance and native browser behavior
+  - Fixed text animation timing: added CSS initial hidden state to prevent content flicker
+  - Updated animation-config.ts: removed neural network constants
+  - Simplified hero section: clean dark background without canvas/particle systems
+  - Performance benefits: faster page load, reduced JavaScript bundle, better Core Web Vitals
 - 012-1516-text-split: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + GSAP 3.13.0+ (animation engine), IntersectionObserver API (viewport detection)
 - 011-1522-fix-project: Major performance optimization overhaul (GitHub Pages deployment performance issues)
   - Added device tier detection system (HIGH/MID/LOW) in src/scripts/performance/device-tier.ts
   - Created performance monitor (development only) tracking FPS, Core Web Vitals, memory in src/scripts/performance/performance-monitor.ts
   - Implemented lazy loading system with priority levels in src/scripts/performance/lazy-loader.ts
   - Removed cursor trail entirely for better performance (deleted src/scripts/cursor-trail.ts)
-  - Optimized smooth scroll: reduced duration 1.2s→0.6s, changed easing to easeOutCubic, removed section snap
-  - Optimized custom cursor: disabled on MID/LOW tier devices, simplified MutationObserver to static selectors
-  - Optimized neural network: device-based particle counts (50/30/20), async initialization, Intersection Observer pause
-  - Lazy loaded non-critical components: scroll progress (first scroll), navigation dots (hero exit), custom cursor (2s idle)
+  - Optimized smooth scroll: reduced duration 1.2s→0.6s, changed easing to easeOutCubic, removed section snap (NOTE: smooth scroll later disabled entirely in PBF-18)
+  - Optimized custom cursor: disabled on MID/LOW tier devices, simplified MutationObserver to static selectors (NOTE: custom cursor later removed entirely in PBF-18)
+  - Optimized neural network: device-based particle counts (50/30/20), async initialization, Intersection Observer pause (NOTE: neural network later removed entirely in PBF-18)
+  - Lazy loaded non-critical components: scroll progress (first scroll), navigation dots (hero exit)
   - Added progressive enhancement: error boundaries, noscript tag, static CSS gradient fallback
   - Created centralized performance config in src/config/performance.ts
   - Target performance: Lighthouse ≥85 mobile/≥95 desktop, LCP <2.5s, FCP <2s, 30fps animations

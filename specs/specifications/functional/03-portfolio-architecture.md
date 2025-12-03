@@ -6,38 +6,24 @@ The portfolio features an Awwwards-worthy architecture with advanced animations 
 
 ## Hero Section
 
-### Neural Network Animation
+The homepage features a clean, minimal hero section with focus on content presentation.
 
-The homepage features an animated neural network visualization that serves as the hero section backdrop.
+**Design**:
+- Clean dark background matching the site's color palette
+- Text-focused layout without distracting background animations
+- Optimized for fast page load and immediate content visibility
+- Professional, refined aesthetic that prioritizes readability
 
-**Behavior**:
-- Displays an animated network of interconnected nodes (particles) with connecting edges
-- Nodes pulse and move dynamically across the canvas
-- Connections form between nearby nodes, creating organic network patterns
-- Animation runs at 60fps on desktop and 30fps on mobile devices
-- Automatically pauses when not visible to conserve resources
-
-**Adaptive Performance**:
-- Device tier detection classifies devices as HIGH/MID/LOW based on CPU cores, memory, and connection speed
-- HIGH tier (8+ cores or 8GB+ RAM): 50 particles, 60fps target, all effects enabled
-- MID tier (4+ cores or 4GB+ RAM): 30 particles, 30fps target, cursor effects disabled
-- LOW tier (<4 cores and <4GB RAM): 20 particles, 30fps target, smooth scroll disabled, cursor effects disabled
-- Animation initializes asynchronously to avoid blocking page load
-- Pauses automatically when hero section not visible (Intersection Observer)
-- Simplified GSAP intro animation for faster initialization
+**Performance**:
+- Zero animation overhead - no canvas or particle systems
+- Instant content display on page load
+- No content flicker or delayed text reveals
+- Lightweight implementation for optimal performance
 
 **Accessibility**:
-- Respects `prefers-reduced-motion` user preference
-- When reduced motion is enabled, displays static network with subtle opacity pulses only
-- Animation is decorative and does not convey essential information
-- Content remains accessible without animation
-
-**Technical Details**:
-- Renders using Canvas 2D API for optimal performance
-- Uses high-DPI (Retina) canvas support for crisp visuals
-- GPU-accelerated rendering with transform and opacity properties
-- ResizeObserver handles responsive canvas sizing
-- Integrates with GSAP ScrollTrigger for lifecycle management
+- Content immediately visible to all users
+- No motion-triggered effects to respect user preferences
+- Clear, readable typography without animation dependencies
 
 ## Navigation System
 
@@ -120,12 +106,9 @@ The single-page architecture includes an intelligent navigation system that trac
 - `aria-current="page"` attribute updates for accessibility
 
 **Navigation Behavior**:
-- Click navigation links or dots to smoothly scroll to target section
-- Smooth scroll powered by Lenis library (optimized configuration)
-- Scrolling uses "easeOutCubic" easing (0.6s duration) for responsive feel
-- Section snap disabled for more natural, free-flowing scrolling
-- Smooth scroll automatically disabled on LOW tier devices (native scroll fallback)
-- Smooth scroll respects `prefers-reduced-motion` (disabled when user prefers reduced motion)
+- Click navigation links or dots to scroll to target section
+- Native browser scroll behavior for reliable, performant navigation
+- No smooth scroll animation for faster response and better compatibility
 - Focus automatically moves to target section for keyboard users
 - URL hash updates to reflect current section
 - Browser history tracks section changes (back/forward buttons work)
@@ -160,7 +143,7 @@ The single-page architecture includes an intelligent navigation system that trac
 - Violet-to-rose gradient fills left-to-right as user scrolls down
 - 4px height (3px on high-DPI displays) for subtle visibility
 - Positioned above all other elements (z-index 9999)
-- Updates smoothly in sync with Lenis scroll animation
+- Updates with native scroll events for optimal performance
 - Lazy loaded on first scroll event to reduce initial page load
 - Accessible with ARIA progressbar role and live progress values
 - Respects `prefers-reduced-motion` preference (disables transition)
@@ -175,52 +158,21 @@ The single-page architecture includes an intelligent navigation system that trac
 
 ## Visual Effects
 
-### Custom Cursor
+### Native Cursor
 
-The portfolio features a custom cursor that replaces the system cursor on desktop devices, providing a refined, on-brand interaction experience.
+The portfolio uses the native system cursor for all interactions.
 
 **Behavior**:
-- Circular cursor with border outline follows mouse movement smoothly
-- Uses mix-blend-mode: difference for adaptive contrast against any background
-- Scales up (2x size) when hovering over interactive elements
-- Smooth animation with natural easing for professional feel
-- Automatically detects and adapts to interactive elements (links, buttons, inputs)
+- Standard browser cursor behavior across all devices
+- Familiar user experience without custom overlays
+- Reliable interaction feedback via native browser states
+- Zero JavaScript overhead for cursor management
 
-**Interactive Element Detection**:
-- Automatically grows when hovering over links, buttons, form fields
-- Supports custom interactive elements via `data-cursor="hover"` attribute
-- Uses static selectors with event delegation for performance
-- Maintains consistent hover state across all interactive UI
-
-**Device Support**:
-- Desktop only (hover: hover and pointer: fine media queries)
-- System cursor hidden on desktop devices
-- Automatically disabled on touch devices (tablets, phones)
-- Automatically disabled on MID and LOW tier devices for better performance
-- Lazy loaded after 2 seconds idle to reduce initial page load
-- Reverts to system cursor on touch-enabled screens
-
-**Accessibility**:
-- Respects `prefers-reduced-motion` user preference
-- When reduced motion is enabled, cursor uses instant position updates (no smooth following)
-- Cursor marked as `aria-hidden="true"` (decorative, not functional)
-- Does not interfere with keyboard navigation or screen readers
-- Interactive elements remain fully accessible without cursor
-
-**Performance**:
-- Uses GSAP `quickTo()` for ultra-smooth 60fps position updates (0.6s duration, power3.out easing)
-- GPU-accelerated transforms (translateX/Y) for optimal rendering
-- Simplified implementation with static selectors instead of MutationObserver
-- Minimal CPU overhead (~1-2KB JavaScript)
-- Automatic cleanup on page navigation
-
-### Cursor Trail Effect (REMOVED)
-
-**Status**: The cursor trail effect has been removed entirely in the performance optimization update for better performance.
-
-**Reason**: High overhead (60fps canvas drawing with continuous particle spawning) with relatively low user experience value. The custom cursor remains functional without the trail effect.
-
-**Alternative**: The custom cursor still provides visual feedback through size scaling when hovering over interactive elements, which is sufficient for user experience while maintaining optimal performance.
+**Design Decision**:
+- Custom cursor removed to reduce complexity and improve performance
+- Native cursor provides consistent, accessible experience
+- Allows browser to handle cursor states optimally
+- Maintains professional appearance without additional custom effects
 
 ### Text Split Animations
 
@@ -233,6 +185,7 @@ The portfolio provides declarative text reveal animations that split text conten
 - Animations trigger automatically when element enters viewport (50% threshold)
 - Uses IntersectionObserver for efficient viewport detection
 - Trigger once only (no repeat on scroll)
+- Initial hidden state prevents content flicker on page load
 
 **Splitting Modes**:
 - **Character**: Best for headlines and short text (<100 characters)

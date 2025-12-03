@@ -52,9 +52,9 @@ portfolio/
 **Structure**:
 - `layout/` - Structural components that define page structure
   - Header, Footer, Navigation
-  - BurgerMenu (magnetic menu with neural pathway animations)
+  - BurgerMenu (magnetic menu effect)
 - `sections/` - Page-specific section components
-  - Hero (neural network canvas animation)
+  - Hero (clean, minimal design)
   - AboutIDE, ProjectsHexGrid, ExpertiseMatrix, BlogCommits, ContactProtocol (planned)
 - `ui/` - Generic UI elements
   - Buttons, Cards, Modals
@@ -287,20 +287,24 @@ body {
 
 **Purpose**: Client-side JavaScript utilities and animation logic
 
-**Structure**:
-- `animation-config.ts` - Centralized animation constants and configuration
+**Structure** (Updated in PBF-18):
+- `animation-config.ts` - Centralized animation constants (neural network constants removed)
 - `gsap-config.ts` - GSAP initialization and ScrollTrigger setup
-- `scroll-animations.ts` - Lenis smooth scroll integration
 - `accessibility.ts` - Focus management, keyboard navigation, motion preferences
-- `neural-network.ts` - Neural network Canvas animation class
 - `magnetic-menu.ts` - Magnetic effect utility for burger menu
 - `device-tier.ts` - Device capability detection and performance targeting
 - `performance.ts` - Frame rate monitoring and performance utilities
 - `active-navigation.ts` - Active section tracking with IntersectionObserver
-- `navigation-links.ts` - Navigation link click handler with smooth scroll
+- `navigation-links.ts` - Navigation link click handler with native scroll
 - `navigation-history.ts` - Browser history and deep linking management
 - `navigation-dots.ts` - Vertical navigation dots synchronization
-- `scroll-progress.ts` - Scroll progress tracking and bar updates
+- `scroll-progress.ts` - Scroll progress tracking with native scroll events
+- `text-animations.ts` - Text split animation utility (character/word/line reveals)
+
+**Removed in PBF-18**:
+- `neural-network.ts` - Neural network Canvas animation (DELETED)
+- `custom-cursor.ts` - Custom cursor tracking (DELETED)
+- `smooth-scroll.ts` - Lenis smooth scroll integration (feature disabled)
 
 **Conventions**:
 - Export named functions and classes
