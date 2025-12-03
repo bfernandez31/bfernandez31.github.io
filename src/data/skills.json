@@ -3,63 +3,678 @@
 		{ "id": "frontend", "name": "Frontend Development", "displayOrder": 1 },
 		{ "id": "backend", "name": "Backend Development", "displayOrder": 2 },
 		{ "id": "devops", "name": "DevOps & Infrastructure", "displayOrder": 3 },
-		{ "id": "design", "name": "Design & UX", "displayOrder": 4 },
-		{ "id": "tools", "name": "Tools & Workflow", "displayOrder": 5 }
+		{ "id": "database", "name": "Database & Storage", "displayOrder": 4 },
+		{ "id": "testing", "name": "Testing & Quality", "displayOrder": 5 },
+		{ "id": "design", "name": "Design & Architecture", "displayOrder": 6 },
+		{ "id": "tools", "name": "Tools & Workflow", "displayOrder": 7 },
+		{ "id": "soft-skills", "name": "Soft Skills & Management", "displayOrder": 8 }
 	],
 	"skills": [
+		{
+			"id": "angular",
+			"name": "Angular",
+			"category": "frontend",
+			"proficiencyLevel": 4,
+			"yearsExperience": 5,
+			"relatedProjects": [],
+			"icon": "angular"
+		},
+		{
+			"id": "javascript",
+			"name": "JavaScript",
+			"category": "frontend",
+			"proficiencyLevel": 4,
+			"yearsExperience": 8,
+			"relatedProjects": [],
+			"icon": "javascript"
+		},
 		{
 			"id": "typescript",
 			"name": "TypeScript",
 			"category": "frontend",
-			"proficiencyLevel": 5,
-			"yearsExperience": 4,
+			"proficiencyLevel": 4,
+			"yearsExperience": 5,
 			"relatedProjects": [],
 			"icon": "typescript"
-		},
-		{
-			"id": "react",
-			"name": "React",
-			"category": "frontend",
-			"proficiencyLevel": 5,
-			"yearsExperience": 5,
-			"relatedProjects": [],
-			"icon": "react"
-		},
-		{
-			"id": "astro",
-			"name": "Astro",
-			"category": "frontend",
-			"proficiencyLevel": 4,
-			"yearsExperience": 2,
-			"relatedProjects": [],
-			"icon": "astro"
-		},
-		{
-			"id": "gsap",
-			"name": "GSAP",
-			"category": "frontend",
-			"proficiencyLevel": 4,
-			"yearsExperience": 3,
-			"relatedProjects": [],
-			"icon": "gsap"
-		},
-		{
-			"id": "nodejs",
-			"name": "Node.js",
-			"category": "backend",
-			"proficiencyLevel": 4,
-			"yearsExperience": 5,
-			"relatedProjects": [],
-			"icon": "nodejs"
 		},
 		{
 			"id": "git",
 			"name": "Git",
 			"category": "tools",
-			"proficiencyLevel": 5,
-			"yearsExperience": 6,
+			"proficiencyLevel": 4,
+			"yearsExperience": 8,
 			"relatedProjects": [],
 			"icon": "git"
+		},
+		{
+			"id": "redux",
+			"name": "Redux",
+			"category": "frontend",
+			"proficiencyLevel": 4,
+			"yearsExperience": 4,
+			"relatedProjects": [],
+			"icon": "redux"
+		},
+		{
+			"id": "java",
+			"name": "Java",
+			"category": "backend",
+			"proficiencyLevel": 3,
+			"yearsExperience": 5,
+			"relatedProjects": [],
+			"icon": "java"
+		},
+		{
+			"id": "spring-boot",
+			"name": "Spring Boot",
+			"category": "backend",
+			"proficiencyLevel": 3,
+			"yearsExperience": 5,
+			"relatedProjects": [],
+			"icon": "spring"
+		},
+		{
+			"id": "spring-security",
+			"name": "Spring Security",
+			"category": "backend",
+			"proficiencyLevel": 3,
+			"yearsExperience": 4,
+			"relatedProjects": [],
+			"icon": "spring"
+		},
+		{
+			"id": "postgresql",
+			"name": "PostgreSQL",
+			"category": "database",
+			"proficiencyLevel": 3,
+			"yearsExperience": 5,
+			"relatedProjects": [],
+			"icon": "postgresql"
+		},
+		{
+			"id": "spring-batch",
+			"name": "Spring Batch",
+			"category": "backend",
+			"proficiencyLevel": 3,
+			"yearsExperience": 3,
+			"relatedProjects": [],
+			"icon": "spring"
+		},
+		{
+			"id": "cicd",
+			"name": "CI/CD",
+			"category": "devops",
+			"proficiencyLevel": 3,
+			"yearsExperience": 4,
+			"relatedProjects": [],
+			"icon": "cicd"
+		},
+		{
+			"id": "docker",
+			"name": "Docker",
+			"category": "devops",
+			"proficiencyLevel": 3,
+			"yearsExperience": 4,
+			"relatedProjects": [],
+			"icon": "docker"
+		},
+		{
+			"id": "css",
+			"name": "CSS",
+			"category": "frontend",
+			"proficiencyLevel": 3,
+			"yearsExperience": 8,
+			"relatedProjects": [],
+			"icon": "css"
+		},
+		{
+			"id": "i18n",
+			"name": "i18n",
+			"category": "frontend",
+			"proficiencyLevel": 3,
+			"yearsExperience": 4,
+			"relatedProjects": [],
+			"icon": "i18n"
+		},
+		{
+			"id": "sass",
+			"name": "Sass",
+			"category": "frontend",
+			"proficiencyLevel": 3,
+			"yearsExperience": 5,
+			"relatedProjects": [],
+			"icon": "sass"
+		},
+		{
+			"id": "confluence-jira",
+			"name": "Confluence-JIRA",
+			"category": "tools",
+			"proficiencyLevel": 3,
+			"yearsExperience": 5,
+			"relatedProjects": [],
+			"icon": "atlassian"
+		},
+		{
+			"id": "scrum",
+			"name": "Scrum",
+			"category": "soft-skills",
+			"proficiencyLevel": 3,
+			"yearsExperience": 5,
+			"relatedProjects": [],
+			"icon": "scrum"
+		},
+		{
+			"id": "swagger",
+			"name": "Swagger",
+			"category": "backend",
+			"proficiencyLevel": 3,
+			"yearsExperience": 4,
+			"relatedProjects": [],
+			"icon": "swagger"
+		},
+		{
+			"id": "rest",
+			"name": "REST",
+			"category": "backend",
+			"proficiencyLevel": 3,
+			"yearsExperience": 5,
+			"relatedProjects": [],
+			"icon": "rest"
+		},
+		{
+			"id": "restful",
+			"name": "RESTful",
+			"category": "backend",
+			"proficiencyLevel": 3,
+			"yearsExperience": 5,
+			"relatedProjects": [],
+			"icon": "rest"
+		},
+		{
+			"id": "jquery",
+			"name": "jQuery",
+			"category": "frontend",
+			"proficiencyLevel": 3,
+			"yearsExperience": 6,
+			"relatedProjects": [],
+			"icon": "jquery"
+		},
+		{
+			"id": "redis",
+			"name": "Redis",
+			"category": "database",
+			"proficiencyLevel": 2,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "redis"
+		},
+		{
+			"id": "jenkins",
+			"name": "Jenkins",
+			"category": "devops",
+			"proficiencyLevel": 2,
+			"yearsExperience": 3,
+			"relatedProjects": [],
+			"icon": "jenkins"
+		},
+		{
+			"id": "elk-stack",
+			"name": "ELK Stack",
+			"category": "devops",
+			"proficiencyLevel": 2,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "elastic"
+		},
+		{
+			"id": "gitlab-ci",
+			"name": "GitLab CI",
+			"category": "devops",
+			"proficiencyLevel": 2,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "gitlab"
+		},
+		{
+			"id": "kubernetes",
+			"name": "Kubernetes",
+			"category": "devops",
+			"proficiencyLevel": 2,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "kubernetes"
+		},
+		{
+			"id": "design-system",
+			"name": "Design System",
+			"category": "design",
+			"proficiencyLevel": 2,
+			"yearsExperience": 3,
+			"relatedProjects": [],
+			"icon": "design"
+		},
+		{
+			"id": "ddd",
+			"name": "DDD",
+			"category": "design",
+			"proficiencyLevel": 2,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "design"
+		},
+		{
+			"id": "jhipster",
+			"name": "JHipster",
+			"category": "backend",
+			"proficiencyLevel": 2,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "jhipster"
+		},
+		{
+			"id": "oracle-database",
+			"name": "Oracle Database",
+			"category": "database",
+			"proficiencyLevel": 2,
+			"yearsExperience": 3,
+			"relatedProjects": [],
+			"icon": "oracle"
+		},
+		{
+			"id": "atomic-design",
+			"name": "Atomic Design",
+			"category": "design",
+			"proficiencyLevel": 2,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "design"
+		},
+		{
+			"id": "kibana",
+			"name": "Kibana",
+			"category": "devops",
+			"proficiencyLevel": 2,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "kibana"
+		},
+		{
+			"id": "sonar",
+			"name": "Sonar",
+			"category": "testing",
+			"proficiencyLevel": 2,
+			"yearsExperience": 3,
+			"relatedProjects": [],
+			"icon": "sonarqube"
+		},
+		{
+			"id": "react-js",
+			"name": "React JS",
+			"category": "frontend",
+			"proficiencyLevel": 2,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "react"
+		},
+		{
+			"id": "story-book",
+			"name": "Story Book",
+			"category": "frontend",
+			"proficiencyLevel": 2,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "storybook"
+		},
+		{
+			"id": "devops",
+			"name": "DevOps",
+			"category": "devops",
+			"proficiencyLevel": 2,
+			"yearsExperience": 3,
+			"relatedProjects": [],
+			"icon": "devops"
+		},
+		{
+			"id": "uml",
+			"name": "UML",
+			"category": "design",
+			"proficiencyLevel": 2,
+			"yearsExperience": 4,
+			"relatedProjects": [],
+			"icon": "uml"
+		},
+		{
+			"id": "ab-testing",
+			"name": "A/B Testing",
+			"category": "testing",
+			"proficiencyLevel": 2,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "testing"
+		},
+		{
+			"id": "clojure",
+			"name": "Clojure",
+			"category": "backend",
+			"proficiencyLevel": 1,
+			"yearsExperience": 1,
+			"relatedProjects": [],
+			"icon": "clojure"
+		},
+		{
+			"id": "go",
+			"name": "Go",
+			"category": "backend",
+			"proficiencyLevel": 1,
+			"yearsExperience": 1,
+			"relatedProjects": [],
+			"icon": "go"
+		},
+		{
+			"id": "haskell",
+			"name": "Haskell",
+			"category": "backend",
+			"proficiencyLevel": 1,
+			"yearsExperience": 1,
+			"relatedProjects": [],
+			"icon": "haskell"
+		},
+		{
+			"id": "micronaut",
+			"name": "Micronaut",
+			"category": "backend",
+			"proficiencyLevel": 1,
+			"yearsExperience": 1,
+			"relatedProjects": [],
+			"icon": "micronaut"
+		},
+		{
+			"id": "quarkus",
+			"name": "Quarkus",
+			"category": "backend",
+			"proficiencyLevel": 1,
+			"yearsExperience": 1,
+			"relatedProjects": [],
+			"icon": "quarkus"
+		},
+		{
+			"id": "mobile-kotlin",
+			"name": "Mobile Kotlin",
+			"category": "frontend",
+			"proficiencyLevel": 1,
+			"yearsExperience": 1,
+			"relatedProjects": [],
+			"icon": "kotlin"
+		},
+		{
+			"id": "rust",
+			"name": "Rust",
+			"category": "backend",
+			"proficiencyLevel": 1,
+			"yearsExperience": 1,
+			"relatedProjects": [],
+			"icon": "rust"
+		},
+		{
+			"id": "scala",
+			"name": "Scala",
+			"category": "backend",
+			"proficiencyLevel": 1,
+			"yearsExperience": 1,
+			"relatedProjects": [],
+			"icon": "scala"
+		},
+		{
+			"id": "solidjs",
+			"name": "SolidJS",
+			"category": "frontend",
+			"proficiencyLevel": 1,
+			"yearsExperience": 1,
+			"relatedProjects": [],
+			"icon": "solidjs"
+		},
+		{
+			"id": "bootstrap",
+			"name": "Bootstrap",
+			"category": "frontend",
+			"proficiencyLevel": 0,
+			"yearsExperience": 3,
+			"relatedProjects": [],
+			"icon": "bootstrap"
+		},
+		{
+			"id": "pl-sql",
+			"name": "PL-SQL",
+			"category": "database",
+			"proficiencyLevel": 0,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "oracle"
+		},
+		{
+			"id": "webstorm",
+			"name": "WebStorm",
+			"category": "tools",
+			"proficiencyLevel": 0,
+			"yearsExperience": 4,
+			"relatedProjects": [],
+			"icon": "webstorm"
+		},
+		{
+			"id": "gitlab",
+			"name": "GitLab",
+			"category": "tools",
+			"proficiencyLevel": 0,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "gitlab"
+		},
+		{
+			"id": "apache-kafka",
+			"name": "Apache Kafka",
+			"category": "backend",
+			"proficiencyLevel": 0,
+			"yearsExperience": 1,
+			"relatedProjects": [],
+			"icon": "kafka"
+		},
+		{
+			"id": "spring-data",
+			"name": "Spring Data",
+			"category": "backend",
+			"proficiencyLevel": 0,
+			"yearsExperience": 4,
+			"relatedProjects": [],
+			"icon": "spring"
+		},
+		{
+			"id": "spring-rest",
+			"name": "Spring REST",
+			"category": "backend",
+			"proficiencyLevel": 0,
+			"yearsExperience": 4,
+			"relatedProjects": [],
+			"icon": "spring"
+		},
+		{
+			"id": "java-17",
+			"name": "Java 17",
+			"category": "backend",
+			"proficiencyLevel": 0,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "java"
+		},
+		{
+			"id": "modelisation-solution",
+			"name": "Modélisation de solution",
+			"category": "design",
+			"proficiencyLevel": 0,
+			"yearsExperience": 3,
+			"relatedProjects": [],
+			"icon": "design"
+		},
+		{
+			"id": "maven",
+			"name": "Maven",
+			"category": "tools",
+			"proficiencyLevel": 0,
+			"yearsExperience": 4,
+			"relatedProjects": [],
+			"icon": "maven"
+		},
+		{
+			"id": "architecture-applicative",
+			"name": "Architecture Applicative",
+			"category": "design",
+			"proficiencyLevel": 0,
+			"yearsExperience": 3,
+			"relatedProjects": [],
+			"icon": "design"
+		},
+		{
+			"id": "architecture-solution",
+			"name": "Architecture de Solution",
+			"category": "design",
+			"proficiencyLevel": 0,
+			"yearsExperience": 3,
+			"relatedProjects": [],
+			"icon": "design"
+		},
+		{
+			"id": "support-client-avant-vente",
+			"name": "Support client avant-vente",
+			"category": "soft-skills",
+			"proficiencyLevel": 0,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "support"
+		},
+		{
+			"id": "tms",
+			"name": "TMS",
+			"category": "tools",
+			"proficiencyLevel": 0,
+			"yearsExperience": 1,
+			"relatedProjects": [],
+			"icon": "tms"
+		},
+		{
+			"id": "directeur-technique",
+			"name": "Directeur Technique (CTO)",
+			"category": "soft-skills",
+			"proficiencyLevel": 0,
+			"yearsExperience": 1,
+			"relatedProjects": [],
+			"icon": "leadership"
+		},
+		{
+			"id": "plateformes-web",
+			"name": "Plateformes Web",
+			"category": "backend",
+			"proficiencyLevel": 0,
+			"yearsExperience": 5,
+			"relatedProjects": [],
+			"icon": "web"
+		},
+		{
+			"id": "gestion-projet",
+			"name": "Gestion de Projet",
+			"category": "soft-skills",
+			"proficiencyLevel": 0,
+			"yearsExperience": 3,
+			"relatedProjects": [],
+			"icon": "project-management"
+		},
+		{
+			"id": "user-journey",
+			"name": "User Journey",
+			"category": "design",
+			"proficiencyLevel": 0,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "ux"
+		},
+		{
+			"id": "relation-client",
+			"name": "Relation client",
+			"category": "soft-skills",
+			"proficiencyLevel": 0,
+			"yearsExperience": 4,
+			"relatedProjects": [],
+			"icon": "client"
+		},
+		{
+			"id": "leadership",
+			"name": "Leadership",
+			"category": "soft-skills",
+			"proficiencyLevel": 0,
+			"yearsExperience": 3,
+			"relatedProjects": [],
+			"icon": "leadership"
+		},
+		{
+			"id": "refonte-site-web",
+			"name": "Refonte site web",
+			"category": "design",
+			"proficiencyLevel": 0,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "web"
+		},
+		{
+			"id": "crm",
+			"name": "CRM",
+			"category": "tools",
+			"proficiencyLevel": 0,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "crm"
+		},
+		{
+			"id": "conception-outils",
+			"name": "Conception d'outils",
+			"category": "design",
+			"proficiencyLevel": 0,
+			"yearsExperience": 3,
+			"relatedProjects": [],
+			"icon": "tools"
+		},
+		{
+			"id": "spring-boot-2",
+			"name": "Spring Boot 2",
+			"category": "backend",
+			"proficiencyLevel": 0,
+			"yearsExperience": 3,
+			"relatedProjects": [],
+			"icon": "spring"
+		},
+		{
+			"id": "design",
+			"name": "Design",
+			"category": "design",
+			"proficiencyLevel": 0,
+			"yearsExperience": 4,
+			"relatedProjects": [],
+			"icon": "design"
+		},
+		{
+			"id": "gcp",
+			"name": "GCP",
+			"category": "devops",
+			"proficiencyLevel": 0,
+			"yearsExperience": 1,
+			"relatedProjects": [],
+			"icon": "gcp"
+		},
+		{
+			"id": "zag",
+			"name": "Zag",
+			"category": "frontend",
+			"proficiencyLevel": 2,
+			"yearsExperience": 1,
+			"relatedProjects": [],
+			"icon": "zag"
 		}
 	]
 }

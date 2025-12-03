@@ -317,7 +317,7 @@ body {
 - `navigation.ts` - Navigation links with metadata using hash anchors (e.g., `/#hero`, `/#about`)
 - `pages.ts` - Page metadata for single-page structure (title, description, Open Graph images, canonical URL)
 - `sections.ts` - Section configuration data (id, title, aria-label for all 5 sections)
-- `skills.json` - Skills matrix data (planned)
+- `skills.json` - Comprehensive skills matrix with 74 skills across 8 categories
 
 **Conventions**:
 - Use TypeScript for type-safe exports
@@ -337,6 +337,54 @@ export const navigationLinks = [
   { text: 'Contact', path: '/#contact', displayOrder: 5, ariaLabel: 'Navigate to contact section' },
 ];
 ```
+
+**Example Skills Data**:
+```json
+// src/data/skills.json
+{
+  "categories": [
+    { "id": "frontend", "name": "Frontend Development", "displayOrder": 1 },
+    { "id": "backend", "name": "Backend Development", "displayOrder": 2 },
+    { "id": "devops", "name": "DevOps & Infrastructure", "displayOrder": 3 },
+    { "id": "database", "name": "Database & Storage", "displayOrder": 4 },
+    { "id": "testing", "name": "Testing & Quality", "displayOrder": 5 },
+    { "id": "design", "name": "Design & Architecture", "displayOrder": 6 },
+    { "id": "tools", "name": "Tools & Workflow", "displayOrder": 7 },
+    { "id": "soft-skills", "name": "Soft Skills & Management", "displayOrder": 8 }
+  ],
+  "skills": [
+    {
+      "id": "angular",
+      "name": "Angular",
+      "category": "frontend",
+      "proficiencyLevel": 4,
+      "yearsExperience": 5,
+      "relatedProjects": [],
+      "icon": "angular"
+    },
+    {
+      "id": "spring-boot",
+      "name": "Spring Boot",
+      "category": "backend",
+      "proficiencyLevel": 3,
+      "yearsExperience": 5,
+      "relatedProjects": [],
+      "icon": "spring"
+    }
+  ]
+}
+```
+
+**Skills Data Schema**:
+- `categories`: Array of skill categories with unique IDs, display names, and ordering
+- `skills`: Array of 74 individual skills with:
+  - `id`: Unique identifier (kebab-case)
+  - `name`: Display name
+  - `category`: Reference to category ID
+  - `proficiencyLevel`: Integer 1-5 (1=beginner, 5=expert)
+  - `yearsExperience`: Years of professional experience
+  - `relatedProjects`: Array of project IDs (linkable to portfolio projects)
+  - `icon`: Icon identifier for visual representation
 
 **Example Content Config**:
 ```typescript
