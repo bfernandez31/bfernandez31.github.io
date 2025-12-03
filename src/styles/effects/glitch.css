@@ -1,0 +1,137 @@
+/**
+ * Glitch Effect
+ *
+ * Creates a cyberpunk-style RGB glitch effect using text-shadow offsets.
+ * Triggers on hover with randomized timing for organic feel.
+ * Fully accessible with prefers-reduced-motion support.
+ */
+
+/* Glitch keyframes - RGB channel separation */
+@keyframes glitch {
+	0% {
+		text-shadow:
+			0.05em 0 0 rgba(255, 0, 0, 0.75),
+			-0.05em -0.025em 0 rgba(0, 255, 0, 0.75),
+			-0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+	}
+	14% {
+		text-shadow:
+			0.05em 0 0 rgba(255, 0, 0, 0.75),
+			-0.05em -0.025em 0 rgba(0, 255, 0, 0.75),
+			-0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+	}
+	15% {
+		text-shadow:
+			-0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+			0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
+			-0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+	}
+	49% {
+		text-shadow:
+			-0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+			0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
+			-0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+	}
+	50% {
+		text-shadow:
+			0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+			0.05em 0 0 rgba(0, 255, 0, 0.75),
+			0 -0.05em 0 rgba(0, 0, 255, 0.75);
+	}
+	99% {
+		text-shadow:
+			0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+			0.05em 0 0 rgba(0, 255, 0, 0.75),
+			0 -0.05em 0 rgba(0, 0, 255, 0.75);
+	}
+	100% {
+		text-shadow:
+			-0.025em 0 0 rgba(255, 0, 0, 0.75),
+			-0.025em -0.025em 0 rgba(0, 255, 0, 0.75),
+			-0.025em -0.05em 0 rgba(0, 0, 255, 0.75);
+	}
+}
+
+/* Alternative glitch animation for variety */
+@keyframes glitch-2 {
+	0% {
+		text-shadow:
+			-0.025em -0.025em 0 rgba(255, 0, 0, 0.75),
+			0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
+			-0.025em 0.025em 0 rgba(0, 0, 255, 0.75);
+	}
+	25% {
+		text-shadow:
+			0.025em -0.025em 0 rgba(255, 0, 0, 0.75),
+			0.025em 0.05em 0 rgba(0, 255, 0, 0.75),
+			0 -0.05em 0 rgba(0, 0, 255, 0.75);
+	}
+	50% {
+		text-shadow:
+			-0.05em 0.025em 0 rgba(255, 0, 0, 0.75),
+			0.05em 0.025em 0 rgba(0, 255, 0, 0.75),
+			-0.025em -0.025em 0 rgba(0, 0, 255, 0.75);
+	}
+	75% {
+		text-shadow:
+			0.05em 0.05em 0 rgba(255, 0, 0, 0.75),
+			-0.025em 0 0 rgba(0, 255, 0, 0.75),
+			0.025em -0.05em 0 rgba(0, 0, 255, 0.75);
+	}
+	100% {
+		text-shadow:
+			-0.025em -0.025em 0 rgba(255, 0, 0, 0.75),
+			0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
+			-0.025em 0.025em 0 rgba(0, 0, 255, 0.75);
+	}
+}
+
+/**
+ * Glitch effect class
+ * Apply to any text element for hover-triggered glitch animation
+ */
+.glitch-effect {
+	position: relative;
+	display: inline-block;
+}
+
+/* Trigger glitch on hover - randomized animation */
+@media (hover: hover) and (pointer: fine) {
+	.glitch-effect:hover {
+		animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	}
+
+	/* Alternate animation for variety - can be added via additional class */
+	.glitch-effect.glitch-effect--alt:hover {
+		animation: glitch-2 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	}
+}
+
+/**
+ * Accessibility: Respect prefers-reduced-motion
+ * Disable animations for users who prefer reduced motion
+ */
+@media (prefers-reduced-motion: reduce) {
+	.glitch-effect:hover {
+		animation: none;
+	}
+
+	/* Provide subtle static effect instead */
+	.glitch-effect:hover {
+		text-shadow:
+			0.02em 0 0 rgba(255, 0, 0, 0.5),
+			-0.02em 0 0 rgba(0, 0, 255, 0.5);
+	}
+}
+
+/**
+ * Touch devices: Apply static glitch on tap
+ * No animation, just RGB offset for performance
+ */
+@media (hover: none) {
+	.glitch-effect:active {
+		text-shadow:
+			0.02em 0 0 rgba(255, 0, 0, 0.5),
+			-0.02em 0 0 rgba(0, 0, 255, 0.5);
+	}
+}
