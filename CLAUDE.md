@@ -20,6 +20,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - Static content (Markdown via Astro Content Collections, JSON data files) - no database (011-1522-fix-project)
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + GSAP 3.13.0+ (animation engine), IntersectionObserver API (viewport detection) (012-1516-text-split)
 - N/A (client-side animations only, no data persistence) (012-1516-text-split)
+- TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), GSAP 3.13.0 (animations) (PBF-18-fix-the-site)
+- N/A (static site, no data persistence) (PBF-18-fix-the-site)
 
 ## Project Structure
 ```
@@ -449,6 +451,7 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
+- PBF-18-fix-the-site: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), GSAP 3.13.0 (animations)
 - 012-1516-text-split: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + GSAP 3.13.0+ (animation engine), IntersectionObserver API (viewport detection)
 - 011-1522-fix-project: Major performance optimization overhaul (GitHub Pages deployment performance issues)
   - Added device tier detection system (HIGH/MID/LOW) in src/scripts/performance/device-tier.ts
@@ -462,7 +465,6 @@ try {
   - Added progressive enhancement: error boundaries, noscript tag, static CSS gradient fallback
   - Created centralized performance config in src/config/performance.ts
   - Target performance: Lighthouse ≥85 mobile/≥95 desktop, LCP <2.5s, FCP <2s, 30fps animations
-- 010-title-cursor-trail: Added luminous particle trail to custom cursor
   - Created cursor-trail.ts script with Canvas 2D particle system
   - Implemented fading particle trail with violet glow effect (60fps)
   - Spawns 2 particles per frame at cursor position (max 30 particles)
