@@ -4,25 +4,27 @@ set -e
 
 JSON_MODE=false
 MODE="specify"  # Default mode: full spec template
+TICKET_KEY=""   # Optional: ticket key for branch naming (e.g., ABC-123)
 ARGS=()
 for arg in "$@"; do
     case "$arg" in
         --json) JSON_MODE=true ;;
         --mode=*) MODE="${arg#--mode=}" ;;
-        --help|-h) echo "Usage: $0 [--json] [--mode=specify|quick-impl] <feature_description>"; exit 0 ;;
+        --ticket-key=*) TICKET_KEY="${arg#--ticket-key=}" ;;
+        --help|-h) echo "Usage: $0 [--json] [--mode=specify|quick-impl|cleanup] [--ticket-key=ABC-123] <feature_description>"; exit 0 ;;
         *) ARGS+=("$arg") ;;
     esac
 done
 
 # Validate mode parameter
-if [ "$MODE" != "specify" ] && [ "$MODE" != "quick-impl" ]; then
-    echo "Error: Invalid mode '$MODE'. Must be 'specify' or 'quick-impl'" >&2
+if [ "$MODE" != "specify" ] && [ "$MODE" != "quick-impl" ] && [ "$MODE" != "cleanup" ]; then
+    echo "Error: Invalid mode '$MODE'. Must be 'specify', 'quick-impl', or 'cleanup'" >&2
     exit 1
 fi
 
 FEATURE_DESCRIPTION="${ARGS[*]}"
 if [ -z "$FEATURE_DESCRIPTION" ]; then
-    echo "Usage: $0 [--json] [--mode=specify|quick-impl] <feature_description>" >&2
+    echo "Usage: $0 [--json] [--mode=specify|quick-impl|cleanup] <feature_description>" >&2
     exit 1
 fi
 
@@ -75,9 +77,29 @@ fi
 NEXT=$((HIGHEST + 1))
 FEATURE_NUM=$(printf "%03d" "$NEXT")
 
-BRANCH_NAME=$(echo "$FEATURE_DESCRIPTION" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/-\+/-/g' | sed 's/^-//' | sed 's/-$//')
-WORDS=$(echo "$BRANCH_NAME" | tr '-' '\n' | grep -v '^$' | head -3 | tr '\n' '-' | sed 's/-$//')
-BRANCH_NAME="${FEATURE_NUM}-${WORDS}"
+# Branch naming logic
+# - JSON mode with ticket-key: {ticketKey}-{words} or {ticketKey}-cleanup
+# - CLI mode (no ticket-key): {FEATURE_NUM}-{words} or cleanup-{date}
+
+# First, compute WORDS from description (used by both modes)
+SLUG=$(echo "$FEATURE_DESCRIPTION" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/-\+/-/g' | sed 's/^-//' | sed 's/-$//')
+WORDS=$(echo "$SLUG" | tr '-' '\n' | grep -v '^$' | head -3 | tr '\n' '-' | sed 's/-$//')
+
+if [ "$JSON_MODE" = true ] && [ -n "$TICKET_KEY" ]; then
+    # AI-Board mode: use ticketKey prefix
+    if [ "$MODE" = "cleanup" ]; then
+        BRANCH_NAME="${TICKET_KEY}-cleanup"
+    else
+        BRANCH_NAME="${TICKET_KEY}-${WORDS}"
+    fi
+else
+    # CLI mode: use FEATURE_NUM prefix (original behavior)
+    if [ "$MODE" = "cleanup" ]; then
+        BRANCH_NAME="cleanup-$(date +%Y%m%d)"
+    else
+        BRANCH_NAME="${FEATURE_NUM}-${WORDS}"
+    fi
+fi
 
 if [ "$HAS_GIT" = true ]; then
     git checkout -b "$BRANCH_NAME"
@@ -91,7 +113,58 @@ mkdir -p "$FEATURE_DIR"
 SPEC_FILE="$FEATURE_DIR/spec.md"
 
 # Choose template based on mode
-if [ "$MODE" = "quick-impl" ]; then
+if [ "$MODE" = "cleanup" ]; then
+    # Cleanup mode: Create cleanup-focused spec
+    cat > "$SPEC_FILE" <<EOF
+# Cleanup: ${FEATURE_DESCRIPTION}
+
+**Branch**: \`${BRANCH_NAME}\`
+**Created**: $(date +%Y-%m-%d)
+**Mode**: Cleanup (automated technical debt reduction)
+
+## Scope
+
+This cleanup will analyze all changes since the last cleanup merge and:
+- Detect dead/obsolete code
+- Assess project-wide impact
+- Synchronize specifications with implementation
+
+## Analysis
+
+_(To be filled by /cleanup command)_
+
+## Tasks
+
+See \`cleanup-tasks.md\` for detailed task tracking.
+EOF
+
+    # Also create cleanup-tasks.md template
+    TASKS_FILE="$FEATURE_DIR/cleanup-tasks.md"
+    cat > "$TASKS_FILE" <<EOF
+# Cleanup Tasks
+
+**Branch**: \`${BRANCH_NAME}\`
+**Created**: $(date +%Y-%m-%d)
+
+## Discovery
+- [ ] T001: Find last cleanup merge point
+- [ ] T002: Analyze diff since last cleanup
+
+## Analysis
+- [ ] T003: Dead code detection
+- [ ] T004: Project impact assessment
+- [ ] T005: Spec synchronization check
+
+## Fixes
+_(Tasks will be added as issues are discovered)_
+
+## Validation
+- [ ] T099: Run tests
+- [ ] T100: Type check
+- [ ] T101: Final review
+EOF
+
+elif [ "$MODE" = "quick-impl" ]; then
     # Quick-impl mode: Create minimal spec.md with only title and description
     cat > "$SPEC_FILE" <<EOF
 # Quick Implementation: ${FEATURE_DESCRIPTION}
