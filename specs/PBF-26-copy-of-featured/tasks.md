@@ -18,7 +18,7 @@
 
 **Purpose**: No setup required - this is a CSS-only fix to an existing component
 
-- [ ] T001 Verify dev environment works by running `bun run dev`
+- [X] T001 Verify dev environment works by running `bun run dev`
 
 **Checkpoint**: Development server running at http://localhost:4321
 
@@ -32,7 +32,7 @@
 
 ### Implementation for User Story 1
 
-- [ ] T002 [US1] Document current desktop layout state before changes in src/components/sections/FeaturedProject.astro
+- [X] T002 [US1] Document current desktop layout state before changes in src/components/sections/FeaturedProject.astro
 
 **Checkpoint**: Desktop baseline documented - ready to make changes
 
@@ -50,10 +50,10 @@
 
 ### Implementation for User Story 2
 
-- [ ] T003 [US2] Add CSS `order` property for `.featured-project__label` (order: 1) in mobile media query in src/components/sections/FeaturedProject.astro
-- [ ] T004 [US2] Add CSS `order` property for `.featured-project__content` (order: 2) in mobile media query in src/components/sections/FeaturedProject.astro
-- [ ] T005 [US2] Add CSS `order` property for `.featured-project__image-wrapper` (order: 3) in mobile media query in src/components/sections/FeaturedProject.astro
-- [ ] T006 [US2] Verify mobile layout fix using DevTools responsive mode (<768px viewport)
+- [X] T003 [US2] Add CSS `order` property for `.featured-project__label` (order: 1) in mobile media query in src/components/sections/FeaturedProject.astro
+- [X] T004 [US2] Add CSS `order` property for `.featured-project__content` (order: 2) in mobile media query in src/components/sections/FeaturedProject.astro
+- [X] T005 [US2] Add CSS `order` property for `.featured-project__image-wrapper` (order: 3) in mobile media query in src/components/sections/FeaturedProject.astro
+- [X] T006 [US2] Verify mobile layout fix using DevTools responsive mode (<768px viewport)
 
 **Checkpoint**: Mobile layout fixed - content appears before image
 
@@ -67,7 +67,7 @@
 
 ### Implementation for User Story 3
 
-- [ ] T007 [US3] Verify tablet layout (768-1023px) is unchanged after mobile fix in src/components/sections/FeaturedProject.astro
+- [X] T007 [US3] Verify tablet layout (768-1023px) is unchanged after mobile fix in src/components/sections/FeaturedProject.astro
 
 **Checkpoint**: Tablet layout verified - no regression
 
@@ -77,10 +77,10 @@
 
 **Purpose**: Final verification across all viewports and build validation
 
-- [ ] T008 Verify desktop layout (1024px+) still displays correctly
-- [ ] T009 Run build verification with `bun run build`
-- [ ] T010 Run linting check with `bun run lint`
-- [ ] T011 Run quickstart.md validation steps
+- [X] T008 Verify desktop layout (1024px+) still displays correctly
+- [X] T009 Run build verification with `bun run build`
+- [X] T010 Run linting check with `bun run lint`
+- [X] T011 Run quickstart.md validation steps
 
 ---
 
