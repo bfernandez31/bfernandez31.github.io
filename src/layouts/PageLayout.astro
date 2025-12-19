@@ -1,8 +1,7 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import ScrollProgress from "../components/ui/ScrollProgress.astro";
-import BurgerMenu from "../components/layout/BurgerMenu.astro";
-import Footer from "../components/layout/Footer.astro";
+import TuiLayout from "../components/layout/TuiLayout.astro";
+import type { SectionId } from "../types/tui";
 
 export interface Props {
 	title: string;
@@ -10,9 +9,21 @@ export interface Props {
 	ogImage?: string;
 	noindex?: boolean;
 	canonicalUrl?: string;
+	/** Initial active section for TUI layout */
+	activeSectionId?: SectionId;
+	/** Show TUI line numbers gutter */
+	showLineNumbers?: boolean;
 }
 
-const { title, description, ogImage, noindex, canonicalUrl } = Astro.props;
+const {
+	title,
+	description,
+	ogImage,
+	noindex,
+	canonicalUrl,
+	activeSectionId = 'hero',
+	showLineNumbers = true,
+} = Astro.props;
 ---
 
 <BaseLayout
@@ -22,12 +33,12 @@ const { title, description, ogImage, noindex, canonicalUrl } = Astro.props;
 	noindex={noindex}
 	canonicalUrl={canonicalUrl}
 >
-	<ScrollProgress />
-	<BurgerMenu />
-	<main>
+	<TuiLayout
+		activeSectionId={activeSectionId}
+		showLineNumbers={showLineNumbers}
+	>
 		<slot />
-	</main>
-	<Footer />
+	</TuiLayout>
 </BaseLayout>
 
 <script>
@@ -76,8 +87,3 @@ const { title, description, ogImage, noindex, canonicalUrl } = Astro.props;
 	}
 </script>
 
-<style>
-	main {
-		min-height: 100vh;
-	}
-</style>

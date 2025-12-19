@@ -1,0 +1,250 @@
+---
+/**
+ * TopBar Component
+ * Feature: PBF-32-portofolio-with-tui
+ *
+ * tmux-style top bar with buffer tabs, clock, and git branch
+ */
+
+import BufferTab from '../ui/BufferTab.astro';
+import type { BufferTab as BufferTabType } from '../../types/tui';
+
+interface Props {
+  /** Array of buffer tabs */
+  tabs: BufferTabType[];
+  /** Session name (decorative) */
+  sessionName?: string;
+  /** Git branch name */
+  gitBranch?: string;
+  /** Show clock */
+  showClock?: boolean;
+  /** Callback to toggle sidebar (mobile) */
+  showSidebarToggle?: boolean;
+}
+
+const {
+  tabs,
+  sessionName = 'portfolio',
+  gitBranch = 'main',
+  showClock = true,
+  showSidebarToggle = true,
+} = Astro.props;
+
+// Get current time (will be updated client-side)
+const now = new Date();
+const hours = String(now.getHours()).padStart(2, '0');
+const minutes = String(now.getMinutes()).padStart(2, '0');
+const initialTime = `${hours}:${minutes}`;
+---
+
+<header class="tui-topbar">
+  <div class="tui-topbar__left">
+    {showSidebarToggle && (
+      <button
+        class="tui-sidebar-toggle"
+        type="button"
+        aria-label="Toggle sidebar"
+        aria-expanded="false"
+        aria-controls="tui-sidebar"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+    )}
+    <span class="tui-topbar__session">{sessionName}</span>
+  </div>
+
+  <nav class="tui-topbar__tabs" aria-label="Buffer tabs">
+    {tabs.map((tab) => (
+      <BufferTab
+        sectionId={tab.sectionId}
+        label={tab.label}
+        windowNumber={tab.windowNumber}
+        isActive={tab.isActive}
+      />
+    ))}
+  </nav>
+
+  <div class="tui-topbar__meta">
+    <span class="tui-branch" aria-label={`Git branch: ${gitBranch}`}>
+      <span class="tui-branch__icon" aria-hidden="true"></span>
+      {gitBranch}
+    </span>
+    {showClock && (
+      <time class="tui-clock" id="tui-clock" datetime={now.toISOString()}>
+        {initialTime}
+      </time>
+    )}
+  </div>
+</header>
+
+<script>
+  // Update clock every minute
+  function updateClock() {
+    const clock = document.getElementById('tui-clock');
+    if (clock) {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      clock.textContent = `${hours}:${minutes}`;
+      clock.setAttribute('datetime', now.toISOString());
+    }
+  }
+
+  // Update immediately and then every minute
+  updateClock();
+  setInterval(updateClock, 60000);
+
+  // Sidebar toggle functionality
+  const toggle = document.querySelector('.tui-sidebar-toggle') as HTMLButtonElement | null;
+  const sidebar = document.getElementById('tui-sidebar');
+  const overlay = document.querySelector('.tui-sidebar-overlay');
+
+  if (toggle && sidebar) {
+    toggle.addEventListener('click', () => {
+      const isOpen = sidebar.classList.contains('is-open');
+      sidebar.classList.toggle('is-open');
+      overlay?.classList.toggle('is-visible');
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    // Close sidebar when clicking overlay
+    overlay?.addEventListener('click', () => {
+      sidebar.classList.remove('is-open');
+      overlay.classList.remove('is-visible');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+
+    // Close sidebar on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && sidebar.classList.contains('is-open')) {
+        sidebar.classList.remove('is-open');
+        overlay?.classList.remove('is-visible');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.focus();
+      }
+    });
+  }
+</script>
+
+<style>
+  .tui-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--color-surface-0, #1e1e2e);
+    border-bottom: 1px solid var(--color-surface-1, #313244);
+    min-height: 2rem;
+  }
+
+  .tui-topbar__left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .tui-topbar__session {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    color: var(--color-success, #a6e3a1);
+    font-weight: 700;
+  }
+
+  .tui-topbar__tabs {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .tui-topbar__tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tui-topbar__meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    color: var(--color-text-muted, #6c7086);
+    white-space: nowrap;
+  }
+
+  .tui-clock {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tui-branch {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .tui-branch__icon::before {
+    content: '';
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: var(--color-success, #a6e3a1);
+    border-radius: 50%;
+  }
+
+  .tui-sidebar-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    background: none;
+    border: none;
+    color: var(--color-text, #cdd6f4);
+    cursor: pointer;
+    border-radius: 0.25rem;
+    transition: background-color 0.15s ease;
+  }
+
+  .tui-sidebar-toggle:hover {
+    background-color: var(--color-surface-1, #313244);
+  }
+
+  .tui-sidebar-toggle:focus-visible {
+    outline: 2px solid var(--color-primary, #cba6f7);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 1023px) {
+    .tui-sidebar-toggle {
+      display: flex;
+    }
+
+    .tui-topbar__tabs {
+      display: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .tui-topbar__session {
+      display: none;
+    }
+
+    .tui-branch span:not(.tui-branch__icon) {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tui-sidebar-toggle {
+      transition: none;
+    }
+  }
+</style>

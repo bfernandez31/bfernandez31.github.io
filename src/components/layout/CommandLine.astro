@@ -1,0 +1,94 @@
+---
+/**
+ * CommandLine Component
+ * Feature: PBF-32-portofolio-with-tui
+ *
+ * Decorative Vim command line at bottom of viewport
+ */
+
+interface Props {
+  /** Command prompt character */
+  prompt?: ':' | '/' | '?';
+  /** Command content to display */
+  content?: string;
+  /** Whether command line is visible */
+  isVisible?: boolean;
+}
+
+const { prompt = ':', content = '', isVisible = true } = Astro.props;
+---
+
+<div
+  class:list={["tui-commandline", { "is-visible": isVisible }]}
+  role="status"
+  aria-live="polite"
+  aria-atomic="true"
+  id="tui-commandline"
+>
+  <span class="tui-commandline__prompt" aria-hidden="true">{prompt}</span>
+  <span class="tui-commandline__content" id="tui-commandline-content">{content}</span>
+  <span class="tui-commandline__cursor" aria-hidden="true"></span>
+</div>
+
+<style>
+  .tui-commandline {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.125rem 0.5rem;
+    background-color: var(--color-background, #1e1e2e);
+    color: var(--color-text, #cdd6f4);
+    font-family: var(--font-mono, monospace);
+    font-size: 0.875rem;
+    min-height: 1.5rem;
+    border-top: 1px solid var(--color-surface-1, #313244);
+  }
+
+  .tui-commandline:not(.is-visible) {
+    visibility: hidden;
+  }
+
+  .tui-commandline__prompt {
+    color: var(--color-accent, #b4befe);
+    font-weight: 700;
+  }
+
+  .tui-commandline__content {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .tui-commandline__cursor {
+    display: inline-block;
+    width: 0.5rem;
+    height: 1.1em;
+    background-color: var(--color-primary, #cba6f7);
+    animation: cmd-cursor-blink 1s step-end infinite;
+  }
+
+  @keyframes cmd-cursor-blink {
+    0%, 50% {
+      opacity: 1;
+    }
+    51%, 100% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tui-commandline__cursor {
+      animation: none;
+      opacity: 1;
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 767px) {
+    .tui-commandline {
+      font-size: 0.75rem;
+      padding: 0.125rem 0.25rem;
+    }
+  }
+</style>

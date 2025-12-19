@@ -53,16 +53,16 @@
 
 ### Implementation for User Story 1
 
-- [ ] T014 [P] [US1] Create BufferTab.astro component in src/components/ui/BufferTab.astro (individual tab with windowNumber, label, isActive state)
-- [ ] T015 [P] [US1] Create FileEntry.astro component in src/components/ui/FileEntry.astro (sidebar file entry with icon, fileName, isActive state)
-- [ ] T016 [US1] Create TopBar.astro component in src/components/layout/TopBar.astro (tmux-style bar with buffer tabs, clock, git branch)
-- [ ] T017 [US1] Create Sidebar.astro component in src/components/layout/Sidebar.astro (NvimTree-style file explorer with FileEntry components)
-- [ ] T018 [US1] Create StatusLine.astro component in src/components/layout/StatusLine.astro (Neovim statusline with mode, activeFile, line, column)
-- [ ] T019 [US1] Create CommandLine.astro component in src/components/layout/CommandLine.astro (decorative command line with prompt and content)
-- [ ] T020 [US1] Create TuiLayout.astro component in src/components/layout/TuiLayout.astro (main container integrating TopBar, Sidebar, content slot, StatusLine, CommandLine)
-- [ ] T021 [US1] Modify PageLayout.astro in src/layouts/PageLayout.astro to integrate TuiLayout as the main layout wrapper
-- [ ] T022 [US1] Add responsive sidebar behavior (hidden on mobile <768px, collapsible on tablet, visible on desktop ≥1024px) in src/styles/tui/layout.css
-- [ ] T023 [US1] Update index.astro in src/pages/index.astro to use TUI section containers with data-section attributes and line numbers
+- [x] T014 [P] [US1] Create BufferTab.astro component in src/components/ui/BufferTab.astro (individual tab with windowNumber, label, isActive state) ✅ DONE
+- [x] T015 [P] [US1] Create FileEntry.astro component in src/components/ui/FileEntry.astro (sidebar file entry with icon, fileName, isActive state) ✅ DONE
+- [x] T016 [US1] Create TopBar.astro component in src/components/layout/TopBar.astro (tmux-style bar with buffer tabs, clock, git branch) ✅ DONE
+- [x] T017 [US1] Create Sidebar.astro component in src/components/layout/Sidebar.astro (NvimTree-style file explorer with FileEntry components) ✅ DONE
+- [x] T018 [US1] Create StatusLine.astro component in src/components/layout/StatusLine.astro (Neovim statusline with mode, activeFile, line, column) ✅ DONE
+- [x] T019 [US1] Create CommandLine.astro component in src/components/layout/CommandLine.astro (decorative command line with prompt and content) ✅ DONE
+- [x] T020 [US1] Create TuiLayout.astro component in src/components/layout/TuiLayout.astro (main container integrating TopBar, Sidebar, content slot, StatusLine, CommandLine) ✅ DONE
+- [x] T021 [US1] Modify PageLayout.astro in src/layouts/PageLayout.astro to integrate TuiLayout as the main layout wrapper ✅ DONE
+- [x] T022 [US1] Add responsive sidebar behavior (hidden on mobile <768px, collapsible on tablet, visible on desktop ≥1024px) in src/styles/tui/layout.css ✅ DONE
+- [x] T023 [US1] Update index.astro in src/pages/index.astro to use TUI section containers with data-section attributes and line numbers ✅ DONE
 
 **Checkpoint**: TUI layout structure is visible and properly positioned across all viewport sizes
 

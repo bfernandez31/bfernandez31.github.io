@@ -84,7 +84,13 @@ const jsonLd: JSONLDStructuredData = {
 	<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} slot="head" />
 
 	<!-- Hero Section -->
-	<div data-section="hero" class="portfolio-section portfolio-section--hero">
+	<section
+		id="hero"
+		data-section="hero"
+		class="tui-section tui-section--hero"
+		role="main"
+		aria-label="Hero section with introduction and call to action"
+	>
 		<Hero
 			name="Benoit Fernandez"
 			role="Full Stack Developer & Creative Technologist"
@@ -92,13 +98,13 @@ const jsonLd: JSONLDStructuredData = {
 			ctaText="Explore Projects"
 			ctaLink="#projects"
 		/>
-	</div>
+	</section>
 
 	<!-- About Section -->
 	<section
 		id="about"
 		data-section="about"
-		class="portfolio-section portfolio-section--about"
+		class="tui-section tui-section--about"
 		role="region"
 		aria-label="About section with background and experience"
 	>
@@ -109,7 +115,7 @@ const jsonLd: JSONLDStructuredData = {
 	<section
 		id="experience"
 		data-section="experience"
-		class="portfolio-section portfolio-section--experience"
+		class="tui-section tui-section--experience"
 		role="region"
 		aria-label="Experience section with professional career history"
 	>
@@ -120,7 +126,7 @@ const jsonLd: JSONLDStructuredData = {
 	<section
 		id="projects"
 		data-section="projects"
-		class="portfolio-section portfolio-section--projects"
+		class="tui-section tui-section--projects"
 		role="region"
 		aria-label="Projects section showcasing portfolio work"
 	>
@@ -135,7 +141,7 @@ const jsonLd: JSONLDStructuredData = {
 	<section
 		id="expertise"
 		data-section="expertise"
-		class="portfolio-section portfolio-section--expertise"
+		class="tui-section tui-section--expertise"
 		role="region"
 		aria-label="Expertise section with technical skills and competencies"
 	>
@@ -146,7 +152,7 @@ const jsonLd: JSONLDStructuredData = {
 	<section
 		id="contact"
 		data-section="contact"
-		class="portfolio-section portfolio-section--contact"
+		class="tui-section tui-section--contact"
 		role="region"
 		aria-label="Contact section for inquiries and collaboration"
 	>
