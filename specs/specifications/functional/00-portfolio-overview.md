@@ -68,13 +68,13 @@ The portfolio includes integrated animation capabilities optimized for performan
 - Neural network hero animation with Canvas 2D rendering (adaptive particle counts: 50/30/20 based on device tier)
 - Glitch effect on hero title with hover-triggered RGB channel separation animation
 - Magnetic menu effect using GSAP quickTo() for smooth cursor interaction
-- Text split animations for character/word/line reveals with declarative HTML API
+- Simplified hero content animations with CSS-based fade-in effects
 - GSAP for high-performance animations
 - ScrollTrigger for scroll-based effects
 - Lenis for smooth scrolling (0.6s duration, easeOutCubic easing, no section snap)
 - GPU-accelerated transforms
 - Device tier detection for adaptive performance (HIGH/MID/LOW classification based on CPU, memory, connection)
-- Lazy loading for non-critical animations (scroll progress, navigation dots, custom cursor)
+- Lazy loading for non-critical animations (scroll progress, navigation dots)
 - Performance monitoring with FPS tracking and Core Web Vitals
 - Progressive enhancement with static fallbacks
 - Respects `prefers-reduced-motion` preferences

@@ -239,6 +239,31 @@ bun test --watch         # Run tests in watch mode
 - Browser-native CSS animation (Chrome 90+, Firefox 88+, Safari 14+)
 - Graceful degradation on older browsers (text remains readable)
 
+### Hero Section Animations (Feature: PBF-22-fix-the-first)
+- Simple CSS-based fade-in animation for hero content
+- Location: `src/components/sections/Hero.astro` (component-scoped styles)
+- No text splitting or character-by-character animations
+- Progressive enhancement: text visible before JavaScript executes
+- Animation pattern:
+  ```css
+  .hero__content {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .hero__content.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  ```
+- Full accessibility support:
+  - Respects `prefers-reduced-motion` (instant reveal with no animation)
+  - Text always visible to screen readers (no complex DOM manipulation)
+  - GPU-accelerated properties only (opacity, transform)
+- Triggered via `requestAnimationFrame` on page load
+- Minimal footprint: ~100 bytes CSS + ~50 bytes JS
+- Reliable across all devices (no risk of invisible/null text)
+
 ### Text Split Animations (Feature: 012-1516-text-split)
 - Use declarative HTML API via `data-split-text` attribute for text reveal animations
 - Initialize with `initTextAnimations()` from `src/scripts/text-animations.ts`
@@ -460,12 +485,27 @@ try {
 
 ## Recent Changes
 - PBF-22-fix-the-first: Hero section polish and animation fixes
-  - Removed custom cursor feature (deleted CustomCursor.astro, custom-cursor.ts)
-  - Simplified hero text animations (removed data-split-text, added simple CSS fade-in)
-  - Fixed hero spacing with responsive clamp() values for headline/subheadline margins
-  - Replaced hardcoded colors with CSS variables (--color-text, --color-background)
-  - Added prefers-reduced-motion support for hero content fade-in animation
-  - Reduced bundle size by ~8KB (cursor code removal)
+  - **REMOVED**: Custom cursor feature entirely (deleted CustomCursor.astro, custom-cursor.ts)
+    - User feedback: "le cursor n'apporte rien" (cursor adds nothing of value)
+    - Reduces bundle size by ~8KB and eliminates maintenance burden
+    - Site now uses standard system cursor throughout
+  - **SIMPLIFIED**: Hero text animations to CSS-based fade-in (removed data-split-text attributes)
+    - Replaced buggy character-by-character animations with simple fade-in
+    - Text always visible (no risk of invisible/null text)
+    - Progressive enhancement: works before JavaScript loads
+    - Minimal footprint: ~100 bytes CSS + ~50 bytes JS
+  - **FIXED**: Hero spacing with responsive clamp() values
+    - Headline margin-bottom: `clamp(1rem, 2.5vw, 2rem)`
+    - Subheadline margin-bottom: `clamp(1.5rem, 4vw, 3rem)`
+    - Proper visual hierarchy on all viewport sizes (320px to 2560px)
+  - **FIXED**: Color consistency using CSS variables
+    - Replaced hardcoded `#ffffff` with `var(--color-text)`
+    - Replaced hardcoded `#1e1e2e` with `var(--color-background)`
+    - All hero elements now use semantic color tokens from theme.css
+  - **ADDED**: Accessibility improvements
+    - prefers-reduced-motion support for hero fade-in (instant reveal)
+    - Text visible to screen readers without complex DOM manipulation
+    - GPU-accelerated properties (opacity, transform) for smooth performance
 - PBF-21-experience-pro: Added professional experience timeline section and updated skills filtering
   - Created new Experience section as 3rd section in single-page layout (between About and Projects)
   - Updated navigation from 5 to 6 sections: #hero, #about, #experience, #projects, #expertise, #contact
@@ -507,30 +547,6 @@ try {
   - Added progressive enhancement: error boundaries, noscript tag, static CSS gradient fallback
   - Created centralized performance config in src/config/performance.ts
   - Target performance: Lighthouse ≥85 mobile/≥95 desktop, LCP <2.5s, FCP <2s, 30fps animations
-  - Created cursor-trail.ts script with Canvas 2D particle system
-  - Implemented fading particle trail with violet glow effect (60fps)
-  - Spawns 2 particles per frame at cursor position (max 30 particles)
-  - Particles fade from opacity 1 to 0 with size decay (6px to 0)
-  - Added shadow blur effect for luminous appearance matching theme
-  - High-DPI (Retina) canvas support for crisp rendering
-  - Efficient FIFO particle management prevents array growth
-  - Respects prefers-reduced-motion preference (trail disabled completely)
-  - Automatically disabled on touch devices
-  - Full-viewport canvas overlay positioned at z-index: 9999 (below cursor)
-  - Integrated with PageLayout.astro with proper initialization and cleanup
-  - Uses requestAnimationFrame for smooth 60fps animation loop
-  - Minimal memory footprint (~2-3KB JavaScript)
-  - Created CustomCursor.astro component with circular design (32px default, 64px hover)
-  - Implemented custom-cursor.ts script with GSAP quickTo for 60fps position tracking
-  - Added mix-blend-mode: difference for adaptive contrast on any background
-  - Implemented automatic interactive element detection (links, buttons, inputs, custom via data-cursor)
-  - Created MutationObserver system to track dynamically added interactive elements
-  - Added smooth follow animation with power3.out easing (0.6s duration)
-  - Respects prefers-reduced-motion preference (instant position updates, no smooth following)
-  - Automatically disabled on touch devices via CSS media queries
-  - Maintains state management for cursor position, hover state, and cleanup
-  - Added to PageLayout.astro with proper z-index layering (z-index: 10000)
-  - Ensured full accessibility (aria-hidden, pointer-events: none, keyboard navigation unaffected)
   - Created ScrollProgress.astro component with fixed positioning at viewport top
   - Implemented violet-to-rose gradient progress bar (4px height, 3px on high-DPI)
   - Created scroll-progress.ts script for progress tracking and bar updates
