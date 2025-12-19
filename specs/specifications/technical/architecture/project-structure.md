@@ -338,16 +338,19 @@ const aiBoard = await getEntry("projects", "ai-board");
 
 **Component Structure**:
 - `<article>` wrapper with `featured-project` class and `aria-labelledby` attribute
-- Featured label overlay positioned absolutely in top-left corner
+- Inner container div (`featured-project__container`) with flexbox layout for responsive behavior
+- Featured label positioned in document flow (not absolutely positioned)
 - Image wrapper with 16:9 aspect ratio and overflow hidden
 - Content section with title, description, meta-narrative, technology tags, and CTA
 - Conditional rendering: only displays if `aiBoard` data exists
 
 **Styling Pattern**:
 - CSS custom properties for spacing, colors, and transitions
-- Desktop: Flexbox with 60/40 split (image 60%, content 40%)
-- Tablet (768px-1023px): 50/50 split for balance
-- Mobile (≤767px): `flex-direction: column` for vertical stacking
+- Container uses flexbox with `flex-direction: column` as default (mobile-first)
+- Desktop (≥1024px): Container switches to `flex-direction: row` with 60/40 split (image 60%, content 40%)
+- Tablet (768px-1023px): Row layout with 50/50 split for balance
+- Mobile (≤767px): Vertical stacking with full-width elements
+- Featured label moves from absolute positioning to document flow for better mobile layout
 - Background: `var(--color-surface)` with large border radius
 - Technology tags: Semi-transparent primary color background (`hsl(267 84% 81% / 0.15)`)
 - CTA button: Full interaction states with semantic color tokens
