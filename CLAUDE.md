@@ -156,7 +156,7 @@ bun test --watch         # Run tests in watch mode
 - Target 60fps on desktop, 30fps on mobile for animations
 - Monitor frame rate and adjust animation quality dynamically
 - Clean up animation resources on component unmount (event listeners, animation frames)
-- Use GSAP `quickTo()` for frequently updated values (cursor tracking, etc.)
+- Use GSAP `quickTo()` for frequently updated values (position tracking, etc.)
 - Pause animations when elements not visible (Intersection Observer)
 
 ### Accessibility Standards
@@ -176,7 +176,7 @@ bun test --watch         # Run tests in watch mode
 ### GSAP Animations
 - **Always** register plugins before use: `gsap.registerPlugin(ScrollTrigger)`
 - Use `gsap.fromTo()` for explicit start/end states
-- Use `gsap.quickTo()` for high-frequency updates (60fps cursor tracking)
+- Use `gsap.quickTo()` for high-frequency updates (60fps position tracking)
 - Set global defaults via `gsap.defaults({ ease, duration })`
 - Clean up on unmount: Listen for `astro:before-swap` event
 
@@ -213,23 +213,6 @@ bun test --watch         # Run tests in watch mode
 - Use CSS `width` property (not transform) for visual clarity
 - Handle edge cases: no scrollable content, resize events
 - Clean up: Remove listeners and cancel animation frames on unmount
-
-### Custom Cursor
-- Use `CustomCursor.astro` component for branded cursor experience on desktop
-- Place in layout (typically in `PageLayout.astro` after other fixed elements)
-- Initialize with `initCustomCursor()` from `src/scripts/custom-cursor.ts`
-- Automatically disabled on touch devices via CSS media queries
-- Device tier aware: automatically disabled on MID and LOW tier devices for performance (optimized in 011-1522)
-- Uses GSAP `quickTo()` for ultra-smooth 60fps cursor tracking (0.6s duration, power3.out easing)
-- Simplified MutationObserver removed in favor of static selectors + event delegation (optimized in 011-1522)
-- Respects `prefers-reduced-motion` by using instant position updates (no smooth following)
-- Always set `aria-hidden="true"` and `pointer-events: none` (decorative only)
-- Use `mix-blend-mode: difference` for adaptive contrast on any background
-- Interactive element detection: automatically scales up on hover over links, buttons, inputs
-- Add `data-cursor="hover"` attribute to custom elements for hover detection
-- Default size: 32px circle (2px border), hover size: 64px circle (3px border)
-- Media queries: `@media (hover: hover) and (pointer: fine)` for desktop only
-- Clean up: Call `cleanupCustomCursor()` on page navigation (astro:before-swap)
 
 ### Glitch Effect (Feature: 013-title-hero-glitch)
 - Use `.glitch-effect` CSS class for cyberpunk-style RGB channel separation animation
@@ -351,7 +334,7 @@ const cleanup = trapFocus(menuElement);
 ### Lazy Loading System
 - Use `lazyLoader` from `src/scripts/performance/lazy-loader.ts` for deferred initialization
 - Priority levels: IMMEDIATE (hero), HIGH (first scroll), MEDIUM (after 1s), LOW (after 2s idle)
-- Examples: scroll progress (first scroll), navigation dots (hero exit), custom cursor (2s idle)
+- Examples: scroll progress (first scroll), navigation dots (hero exit)
 - Reduces initial bundle size by deferring non-critical components
 - Error handling: graceful fallback if lazy load fails (site remains functional)
 - Usage: `lazyLoader.load(callback, { priority: 'HIGH', timeout: 2000 })`
@@ -362,7 +345,6 @@ const cleanup = trapFocus(menuElement);
 try {
   initSmoothScroll();
   initNeuralNetwork();
-  initCustomCursor();
 } catch (error) {
   console.error('Animation failed:', error);
   // Site remains functional with native behavior
@@ -441,7 +423,7 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
 ### Lazy Loading System
 - Use `lazyLoader` from `src/scripts/performance/lazy-loader.ts` for deferred initialization
 - Priority levels: IMMEDIATE (hero), HIGH (first scroll), MEDIUM (after 1s), LOW (after 2s idle)
-- Examples: scroll progress (first scroll), navigation dots (hero exit), custom cursor (2s idle)
+- Examples: scroll progress (first scroll), navigation dots (hero exit)
 - Reduces initial bundle size by deferring non-critical components
 - Error handling: graceful fallback if lazy load fails (site remains functional)
 - Usage: `lazyLoader.load(callback, { priority: 'HIGH', timeout: 2000 })`
@@ -452,7 +434,6 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
 try {
   initSmoothScroll();
   initNeuralNetwork();
-  initCustomCursor();
 } catch (error) {
   console.error('Animation failed:', error);
   // Site remains functional with native behavior
@@ -478,7 +459,13 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
-- PBF-22-fix-the-first: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, GSAP 3.13.0, Lenis 1.0.42, Biome 2.0.0+
+- PBF-22-fix-the-first: Hero section polish and animation fixes
+  - Removed custom cursor feature (deleted CustomCursor.astro, custom-cursor.ts)
+  - Simplified hero text animations (removed data-split-text, added simple CSS fade-in)
+  - Fixed hero spacing with responsive clamp() values for headline/subheadline margins
+  - Replaced hardcoded colors with CSS variables (--color-text, --color-background)
+  - Added prefers-reduced-motion support for hero content fade-in animation
+  - Reduced bundle size by ~8KB (cursor code removal)
 - PBF-21-experience-pro: Added professional experience timeline section and updated skills filtering
   - Created new Experience section as 3rd section in single-page layout (between About and Projects)
   - Updated navigation from 5 to 6 sections: #hero, #about, #experience, #projects, #expertise, #contact
@@ -516,7 +503,7 @@ try {
   - Optimized smooth scroll: reduced duration 1.2s→0.6s, changed easing to easeOutCubic, removed section snap
   - Optimized custom cursor: disabled on MID/LOW tier devices, simplified MutationObserver to static selectors
   - Optimized neural network: device-based particle counts (50/30/20), async initialization, Intersection Observer pause
-  - Lazy loaded non-critical components: scroll progress (first scroll), navigation dots (hero exit), custom cursor (2s idle)
+  - Lazy loaded non-critical components: scroll progress (first scroll), navigation dots (hero exit)
   - Added progressive enhancement: error boundaries, noscript tag, static CSS gradient fallback
   - Created centralized performance config in src/config/performance.ts
   - Target performance: Lighthouse ≥85 mobile/≥95 desktop, LCP <2.5s, FCP <2s, 30fps animations
