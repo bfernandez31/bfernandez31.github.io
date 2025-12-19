@@ -192,10 +192,12 @@ The Projects section begins with a dedicated Featured Project component that pro
 - External link opens in new tab with `rel="noopener noreferrer"` for security
 
 **Layout**:
-- Desktop (≥1024px): 60/40 split with image on left, content on right
-- Tablet (768px-1023px): 50/50 split for better balance
+- Container structure: Wrapper div with flexbox layout for responsive behavior
+- Featured label positioned in flow (not absolutely positioned) for better mobile layout
+- Desktop (≥1024px): 60/40 horizontal split with image on left, content on right
+- Tablet (768px-1023px): 50/50 horizontal split for better balance
 - Mobile (≤767px): Stacked vertical layout with full-width image at top
-- Content section vertically centered on desktop for visual balance
+- Content section includes title, description, meta-narrative, tags, and CTA
 - Call-to-action button stretches full width on mobile for touch-friendly interaction
 
 **Visual Design**:
