@@ -84,20 +84,15 @@ const jsonLd: JSONLDStructuredData = {
 	<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} slot="head" />
 
 	<!-- Hero Section -->
-	<section
-		id="hero"
-		data-section="hero"
-		class="portfolio-section portfolio-section--hero"
-		role="main"
-		aria-label="Hero section with introduction and call to action"
-	>
+	<div data-section="hero" class="portfolio-section portfolio-section--hero">
 		<Hero
-			headline="Full Stack Developer & Creative Technologist"
-			subheadline="Crafting performant, accessible web experiences with modern technologies"
+			name="Benoit Fernandez"
+			role="Full Stack Developer & Creative Technologist"
+			tagline="Crafting performant, accessible web experiences with modern technologies"
 			ctaText="Explore Projects"
 			ctaLink="#projects"
 		/>
-	</section>
+	</div>
 
 	<!-- About Section -->
 	<section

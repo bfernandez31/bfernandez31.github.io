@@ -92,25 +92,30 @@ The portfolio adapts to all screen sizes and devices:
 - Responsive images and typography
 - Accessible navigation patterns
 
+### Hero Section
+The portfolio features a clean, name-first hero section following modern portfolio conventions:
+- Simple CSS gradient background using Catppuccin Mocha colors
+- Developer's full name displayed prominently as h1 heading
+- Professional role/title shown below name
+- Clear call-to-action button linking to projects
+- Simple CSS-based fade-in animation (opacity + translateY)
+- Zero JavaScript required for rendering
+- Full accessibility support with `prefers-reduced-motion`
+- Responsive typography using CSS clamp() for all viewport sizes
+- Progressive enhancement: content visible before JavaScript loads
+
 ### Smooth Animations
-The portfolio includes integrated animation capabilities optimized for performance:
-- **Award-winning hero section** with 3D geometric background, cursor interactivity, and theatrical entrance animation
-- WebGL-powered 3D hero animation using OGL library (~24KB) with geometric shapes (cubes, octahedrons, tori)
-- Cursor-reactive parallax effects that respond to mouse movement on desktop devices
-- Choreographed hero entrance sequence with typography reveal and background activation
-- Scroll-triggered hero effects with parallax fade and scroll indicator
-- Glitch effect on hero title with hover-triggered RGB channel separation animation
+The portfolio includes performance-optimized animations:
 - Magnetic menu effect using GSAP quickTo() for smooth cursor interaction
 - GSAP for high-performance animations with Timeline-based orchestration
 - ScrollTrigger for scroll-based effects
 - Lenis for smooth scrolling (0.6s duration, easeOutCubic easing, no section snap)
 - GPU-accelerated transforms using transform and opacity properties
 - Device tier detection for adaptive performance (HIGH/MID/LOW classification based on CPU, memory, connection)
-- Automatic performance degradation with three levels (reduce shapes, disable parallax, fallback to gradient)
 - Lazy loading for non-critical animations (scroll progress, navigation dots)
-- Performance monitoring with FPS tracking and automatic degradation triggers
-- Progressive enhancement with CSS gradient fallbacks
-- Respects `prefers-reduced-motion` preferences with instant static content
+- Performance monitoring with FPS tracking in development
+- Progressive enhancement with static fallbacks
+- Respects `prefers-reduced-motion` preferences
 
 ### Development Workflow
 The portfolio provides a streamlined development experience:

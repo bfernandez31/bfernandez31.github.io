@@ -6,38 +6,52 @@ The portfolio features an Awwwards-worthy architecture with advanced animations 
 
 ## Hero Section
 
-### Neural Network Animation
+The homepage features a clean, name-first hero section following modern portfolio design conventions. This replaced the previous WebGL 3D animation (PBF-28) due to reliability and simplicity requirements.
 
-The homepage features an animated neural network visualization that serves as the hero section backdrop.
+**Layout**:
+- Developer's full name prominently displayed as h1 heading
+- Professional role/title shown as subtitle
+- Optional tagline for additional context
+- Clear call-to-action button linking to projects section
+- Centered content with maximum width constraint (1200px)
 
-**Behavior**:
-- Displays an animated network of interconnected nodes (particles) with connecting edges
-- Nodes pulse and move dynamically across the canvas
-- Connections form between nearby nodes, creating organic network patterns
-- Animation runs at 60fps on desktop and 30fps on mobile devices
-- Automatically pauses when not visible to conserve resources
+**Visual Design**:
+- Simple CSS gradient background: `linear-gradient(135deg, var(--color-background), var(--color-surface-0))`
+- Uses semantic color tokens from Catppuccin Mocha palette
+- Responsive typography with CSS clamp() for optimal scaling
+  - Name: `clamp(3rem, 10vw, 8rem)` for fluid sizing
+  - Role: `clamp(1.25rem, 3vw, 2rem)` for proper hierarchy
+- Full viewport height (100vh/100dvh) for consistent presentation
 
-**Adaptive Performance**:
-- Device tier detection classifies devices as HIGH/MID/LOW based on CPU cores, memory, and connection speed
-- HIGH tier (8+ cores or 8GB+ RAM): 50 particles, 60fps target, all effects enabled
-- MID tier (4+ cores or 4GB+ RAM): 30 particles, 30fps target, cursor effects disabled
-- LOW tier (<4 cores and <4GB RAM): 20 particles, 30fps target, smooth scroll disabled, cursor effects disabled
-- Animation initializes asynchronously to avoid blocking page load
-- Pauses automatically when hero section not visible (Intersection Observer)
-- Simplified GSAP intro animation for faster initialization
+**Animation**:
+- Simple CSS-based fade-in effect (opacity 0→1, translateY 20px→0)
+- 0.6s duration with cubic-bezier easing
+- No JavaScript required for content rendering
+- Progressive enhancement: visible immediately if JavaScript fails
 
 **Accessibility**:
-- Respects `prefers-reduced-motion` user preference
-- When reduced motion is enabled, displays static network with subtle opacity pulses only
-- Animation is decorative and does not convey essential information
-- Content remains accessible without animation
+- Respects `prefers-reduced-motion` user preference (instant reveal)
+- Semantic HTML with proper heading hierarchy (h1 for name)
+- Minimum 48px touch target for CTA button
+- Visible focus indicators for keyboard navigation
+- Screen reader compatible with natural content structure
 
-**Technical Details**:
-- Renders using Canvas 2D API for optimal performance
-- Uses high-DPI (Retina) canvas support for crisp visuals
-- GPU-accelerated rendering with transform and opacity properties
-- ResizeObserver handles responsive canvas sizing
-- Integrates with GSAP ScrollTrigger for lifecycle management
+**Performance**:
+- Zero JavaScript overhead for hero rendering
+- GPU-accelerated CSS animation (opacity, transform)
+- Immediate content visibility (no waiting for animation scripts)
+- Minimal footprint: ~2KB CSS (component-scoped)
+
+**Props Interface**:
+```typescript
+interface Props {
+  name: string;           // Developer's full name (required)
+  role?: string;          // Professional role/title
+  tagline?: string;       // Optional brief description
+  ctaText?: string;       // CTA button text (default: "Explore Projects")
+  ctaLink?: string;       // CTA link (default: "#projects")
+}
+```
 
 ## Navigation System
 

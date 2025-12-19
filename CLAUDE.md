@@ -8,7 +8,7 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - **Language**: TypeScript 5.0+ (strict mode, native Bun support)
 - **Linting**: Biome ≥2.0.0 (unified linter and formatter)
 - **Testing**: Bun test runner (built-in, Jest-compatible API)
-- **Animation**: GSAP ≥3.13.0 + Lenis ≥1.0.0 + OGL ≥1.0.6 (WebGL 3D graphics)
+- **Animation**: GSAP ≥3.13.0 + Lenis ≥1.0.0 (smooth scrolling and UI animations)
 - **Deployment**: GitHub Pages (automated via GitHub Actions)
 - TypeScript 5.0+ (strict mode, native Bun support) + Astro ≥4.0.0, Biome ≥2.0.0 (linting), GSAP ≥3.13.0 (animations), Lenis ≥1.0.0 (smooth scroll) (002-1506-palette-couleur)
 - N/A (CSS custom properties defined in global stylesheet, no data persistence) (002-1506-palette-couleur)
@@ -31,8 +31,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - N/A (static site, Markdown via Astro Content Collections) (PBF-26-copy-of-featured)
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, CSS Custom Properties (PBF-27-featured-project-issue)
 - N/A (static site, CSS-only image fallback) (PBF-27-featured-project-issue)
-- TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, GSAP 3.13.0, OGL 1.0.6 (WebGL), Lenis 1.0.42 (PBF-28-rework-the-first)
-- N/A (static site, no database) (PBF-28-rework-the-first)
+- TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), CSS Custom Properties (no additional JS libraries for hero) (PBF-30-hero-section)
+- N/A (static site, no data persistence) (PBF-30-hero-section)
 
 ## Project Structure
 ```
@@ -257,30 +257,64 @@ bun test --watch         # Run tests in watch mode
 - Browser-native CSS animation (Chrome 90+, Firefox 88+, Safari 14+)
 - Graceful degradation on older browsers (text remains readable)
 
-### Hero Section Animations (Feature: PBF-22-fix-the-first)
-- Simple CSS-based fade-in animation for hero content
-- Location: `src/components/sections/Hero.astro` (component-scoped styles)
-- No text splitting or character-by-character animations
-- Progressive enhancement: text visible before JavaScript executes
+### Hero Section Patterns (Feature: PBF-30-hero-section)
+
+The hero section uses a clean, name-first layout following modern portfolio conventions. This replaced the previous WebGL animation (PBF-28) for improved reliability and simplicity.
+
+**Component**: `src/components/sections/Hero.astro`
+
+**Props Interface**:
+```typescript
+interface Props {
+  name: string;           // Developer's full name (required)
+  role?: string;          // Professional role/title
+  tagline?: string;       // Optional brief description
+  ctaText?: string;       // CTA button text (default: "Explore Projects")
+  ctaLink?: string;       // CTA link (default: "#projects")
+}
+```
+
+**Layout Pattern**:
+- Full viewport height (100vh/100dvh) with centered content
+- Maximum width constraint (1200px) for readability
+- Simple CSS gradient background using semantic color tokens
+- Responsive typography with CSS clamp() for fluid scaling
+- Minimum 48px touch target for CTA button
+
+**Animation**:
+- CSS-only fade-in effect (no JavaScript required)
 - Animation pattern:
   ```css
-  .hero__content {
+  .hero__content--animate {
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    animation: heroFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
   }
-  .hero__content.visible {
-    opacity: 1;
-    transform: translateY(0);
+
+  @keyframes heroFadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   ```
-- Full accessibility support:
-  - Respects `prefers-reduced-motion` (instant reveal with no animation)
-  - Text always visible to screen readers (no complex DOM manipulation)
-  - GPU-accelerated properties only (opacity, transform)
-- Triggered via `requestAnimationFrame` on page load
-- Minimal footprint: ~100 bytes CSS + ~50 bytes JS
-- Reliable across all devices (no risk of invisible/null text)
+- GPU-accelerated properties (opacity, transform)
+- Minimal footprint: ~2KB CSS (component-scoped)
+- Progressive enhancement: content visible immediately if JavaScript fails
+
+**Accessibility**:
+- Respects `prefers-reduced-motion` (instant reveal with no animation)
+- Semantic HTML with proper heading hierarchy (h1 for name)
+- Text always visible to screen readers (no complex DOM manipulation)
+- Visible focus indicators for keyboard navigation
+- All interaction states for CTA button (hover, focus, active)
+
+**Best Practices**:
+- Use semantic color tokens (`var(--color-primary)`, `var(--color-text)`)
+- Never hard-code hex color values
+- Always include `prefers-reduced-motion` support
+- Keep JavaScript dependencies minimal (zero for hero rendering)
+- Ensure content is visible before JavaScript loads
 
 ### Text Split Animations (Feature: 012-1516-text-split)
 - Use declarative HTML API via `data-split-text` attribute for text reveal animations
@@ -492,33 +526,34 @@ try {
 
 ### Performance Best Practices
 - **Always** check device tier before initializing performance-intensive animations
-- **Always** use lazy loading for non-critical components (scroll progress, nav dots, cursor)
-- **Always** implement async initialization for heavy animations (neural network)
+- **Always** use lazy loading for non-critical components (scroll progress, nav dots)
+- **Always** implement async initialization for heavy animations
 - **Always** pause animations when not visible (Intersection Observer)
 - **Always** provide static fallbacks (CSS gradients, semantic HTML)
 - **Always** clean up resources on unmount (cancel rAF, remove listeners, clear state)
+- **Prefer CSS-only animations** over JavaScript for simple effects (hero section)
 - Target 30fps minimum on MID/LOW tier devices, 60fps on HIGH tier
 - Keep critical assets under 200KB, total page weight under 500KB
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
-- PBF-28-rework-the-first: Award-winning hero section with WebGL 3D background
-  - **REWORKED**: Award-winning hero section with WebGL 3D background (PBF-28-rework-the-first)
-    - Replaced Canvas 2D neural network with OGL-powered 3D geometric shapes (cubes, octahedrons, tori)
-    - Created modular hero animation system in src/scripts/hero/ (controller, background, cursor, typography, performance monitor)
-    - Implemented cursor-reactive parallax effects with GSAP quickTo() for 60fps smooth tracking (desktop only)
-    - Added choreographed entrance animation with Typography reveal (headline → subheadline → CTA)
-    - Scroll-triggered parallax fade effects and scroll indicator appearing at 50% progress
-    - Three-level automatic performance degradation (reduce shapes → disable parallax → CSS gradient fallback)
-    - Device tier adaptation: HIGH (10 shapes, 60fps), MID (7 shapes, 30fps), LOW (static gradient, no WebGL)
-    - WebGL context loss handling with graceful CSS gradient fallback
-    - Total bundle size: ~30KB (OGL 24KB + hero modules 6KB), within 200KB budget
-    - Visual concept: Geometric/Architectural 3D forms with Catppuccin Mocha colors (violet/rose/lavender)
-    - Progressive enhancement: CSS gradient visible before JS loads, noscript tag ensures content accessibility
-    - Full accessibility: reduced motion shows static content instantly, all subsystems disabled for zero overhead
-    - Performance targets met: Lighthouse ≥85 mobile/≥95 desktop, LCP <2.5s, CTA visible within 2s
-  - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, GSAP 3.13.0, OGL 1.0.6 (WebGL), Lenis 1.0.42
-  - N/A (static site, no database)
+- **PBF-30-hero-section**: Simplified hero section with CSS-only animation (ROLLBACK of PBF-28)
+  - Removed WebGL 3D hero animation entirely (PBF-28) due to reliability issues
+  - Deleted all hero animation modules: hero-controller.ts, background-3d.ts, cursor-tracker.ts, typography-reveal.ts, performance-monitor.ts, types.ts
+  - Removed OGL dependency (~24KB) from package.json
+  - Implemented clean, name-first hero layout following awwwards portfolio conventions
+  - Developer's full name displayed prominently as h1 heading
+  - Simple CSS gradient background: `linear-gradient(135deg, var(--color-background), var(--color-surface-0))`
+  - Simple CSS fade-in animation (opacity 0→1, translateY 20px→0) with 0.6s duration
+  - Zero JavaScript required for hero content rendering
+  - Progressive enhancement: content visible immediately if JavaScript fails
+  - Full accessibility: respects `prefers-reduced-motion`, semantic HTML, keyboard navigation
+  - Responsive typography using CSS clamp() (name: 3rem-8rem, role: 1.25rem-2rem)
+  - Minimum 48px touch target for CTA button
+  - Bundle size reduction: ~30KB JavaScript removed, current hero footprint ~2KB CSS
+  - Immediate content visibility (no waiting for animation scripts to load)
+  - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, CSS Custom Properties
+  - N/A (static site, no data persistence)
 - PBF-27-featured-project-issue: Fixed Projects section layout and image fallback
   - **FIXED**: Section title ordering - added unified "Projects" h2 title in src/pages/index.astro before FeaturedProject component
   - Changed ProjectsHexGrid title from h2 "Featured Projects" to h3 "More Projects" for proper heading hierarchy
@@ -532,8 +567,6 @@ try {
   - No new dependencies or technologies added (CSS-only fix)
   - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, CSS Custom Properties
   - N/A (static site, CSS-only image fallback)
-- PBF-26-copy-of-featured: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, GSAP 3.13.0, CSS Custom Properties
-- PBF-24-featured-project: Created FeaturedProject section component for AI-BOARD showcase
   - Built dedicated hero-style component (src/components/sections/FeaturedProject.astro) to prominently display AI-BOARD
   - Uses Astro Content Collections `getEntry()` to fetch AI-BOARD project data from src/content/projects/ai-board.md
   - Displays project image (16:9 aspect ratio), title, description, meta-narrative, technology tags, and CTA button

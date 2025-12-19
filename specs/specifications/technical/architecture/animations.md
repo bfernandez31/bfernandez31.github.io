@@ -162,148 +162,66 @@ export function getSmoothScroll(): Lenis | null;
 
 ## Animation Components
 
-### Award-Winning Hero Animation System
+### Hero Section Animation (SIMPLIFIED)
 
-**Location**: `src/scripts/hero/` (modular architecture)
+**Location**: `src/components/sections/Hero.astro` (component-scoped CSS)
 
-**Description**: WebGL-powered 3D geometric background with cursor interactivity, theatrical entrance animation, and scroll effects. Designed to achieve Awwwards-level visual impact while maintaining performance targets.
+**Status**: The complex WebGL 3D hero animation (PBF-28) has been replaced with a simple CSS-only implementation (PBF-30) for improved reliability and performance.
 
-**Visual Concept**: Geometric/Architectural 3D Forms
-- Floating 3D geometric primitives (cubes, octahedrons, tori) with wireframe rendering
-- Layered Z-axis positioning with mouse-driven parallax (foreground moves more than background)
-- Catppuccin Mocha color palette (violet primary, rose secondary, lavender accent)
-- Subtle shapes rotate on cursor proximity with smooth parallax movement
+**Description**: Clean, name-first hero layout with simple CSS fade-in animation.
 
-**Core Modules**:
+**Animation Pattern**:
+- Single fade-in animation for entire hero content container
+- No text splitting or character-by-character effects
+- No WebGL/Canvas rendering required
+- Progressive enhancement approach
 
-#### HeroAnimationController (`hero-controller.ts`)
-Main orchestrator coordinating all hero subsystems. Manages lifecycle, performance degradation, and accessibility.
-
-**Interface**: `IHeroAnimationController`
-
-```typescript
-interface HeroControllerOptions {
-  canvas: HTMLCanvasElement;
-  contentContainer: HTMLElement;
-  onEntranceComplete?: () => void;
-  forceTier?: DeviceTier;
-  skipEntrance?: boolean;
+**CSS Implementation**:
+```css
+.hero__content--animate {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
 }
 
-export function initHeroAnimation(options: HeroControllerOptions): Promise<void>;
-```
-
-**State Management**:
-- IDLE → LOADING → ANIMATING_ENTRANCE → ACTIVE → EXITING → DESTROYED
-- Device tier detection (HIGH/MID/LOW)
-- Reduced motion detection and instant static fallback
-- LOW tier bypasses WebGL entirely
-
-#### Background3D (`background-3d.ts`)
-WebGL renderer using OGL library (~24KB) for 3D geometric shapes.
-
-**Interface**: `IBackground3D`
-
-**Features**:
-- OGL-based WebGL 2 rendering with GPU acceleration
-- Multiple 3D geometry types: Box, Sphere, Torus
-- Adaptive shape count by device tier (HIGH: 10, MID: 7, LOW: 5)
-- Wireframe rendering for architectural aesthetic
-- Rotation animations with GSAP integration
-- Dynamic shape removal for performance degradation
-- WebGL context loss handling with graceful fallback
-
-**Configuration**:
-```typescript
-interface Background3DOptions {
-  canvas: HTMLCanvasElement;
-  deviceTier: DeviceTier;
-  antialias?: boolean;
-  maxPixelRatio?: number;
+@keyframes heroFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 ```
-
-#### CursorTracker (`cursor-tracker.ts`)
-High-performance cursor position tracking with GSAP quickTo() for 60fps parallax effects.
-
-**Interface**: `ICursorTracker`
-
-**Features**:
-- Smooth cursor position tracking using GSAP quickTo()
-- Multi-layer parallax with configurable factors (front: 0.3, mid: 0.15, back: 0.05)
-- Desktop only (disabled on touch devices via `@media (hover: hover)`)
-- Respects reduced motion preferences
-- No performance impact when disabled
-
-**Configuration**:
-```typescript
-interface ParallaxLayer {
-  selector: string;
-  factor: number;  // Parallax movement multiplier
-}
-```
-
-#### TypographyReveal (`typography-reveal.ts`)
-Choreographed entrance animation for hero text using GSAP Timeline.
-
-**Interface**: `ITypographyReveal`
-
-**Features**:
-- Staggered reveal sequence: headline → subheadline → CTA
-- GPU-accelerated properties (opacity, translateY)
-- Configurable timing and easing
-- Mobile-optimized simplified sequence
-- Ensures CTA visible within 2 seconds
-
-**Configuration**:
-```typescript
-interface TypographyRevealOptions {
-  container: HTMLElement;
-  onComplete?: () => void;
-  skipAnimation?: boolean;
-}
-```
-
-#### HeroPerformanceMonitor (`performance-monitor.ts`)
-Real-time FPS tracking with automatic degradation triggers.
-
-**Interface**: `IHeroPerformanceMonitor`
-
-**Features**:
-- RequestAnimationFrame-based FPS sampling
-- Three degradation levels triggered at 25fps/20fps/15fps thresholds
-- Level 1: Remove 30% of shapes (reduce WebGL load)
-- Level 2: Disable cursor parallax (eliminate mousemove overhead)
-- Level 3: Fallback to CSS gradient (stop WebGL entirely)
-- Automatic recovery if FPS improves
-
-**Performance Targets**:
-- Desktop HIGH tier: 60fps with 10 shapes, full parallax
-- Desktop MID tier: 30fps with 7 shapes, parallax enabled
-- Mobile/LOW tier: Static gradient fallback, no WebGL
-
-**Scroll Integration**:
-- IntersectionObserver tracks hero visibility
-- Parallax fade effect on scroll (shapes and content fade at different rates)
-- Scroll indicator appears after 50% scroll progress through hero
-- Smooth reset on scroll-to-top
 
 **Reduced Motion Support**:
-- Instant content reveal with no animation
-- Static CSS gradient background
-- All subsystems disabled
-- Zero JavaScript overhead
+```css
+@media (prefers-reduced-motion: reduce) {
+  .hero__content--animate {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+```
 
-**Progressive Enhancement**:
-- CSS gradient fallback visible before JS loads
-- Noscript tag ensures content visible without JavaScript
-- WebGL context loss gracefully falls back to gradient
-- All critical content (headline, CTA) accessible regardless of animation state
+**Features**:
+- Zero JavaScript required for content rendering
+- GPU-accelerated properties (opacity, transform)
+- Immediate content visibility (no animation blocking)
+- Minimal footprint (~100 bytes CSS)
+- Works before JavaScript loads (progressive enhancement)
 
-**Bundle Size**:
-- Total hero system: ~30KB (OGL 24KB + hero modules 6KB)
-- Tree-shakeable OGL imports (only core geometry types)
-- Within 200KB JavaScript budget
+**Removed Components** (from PBF-28):
+- ~~`src/scripts/hero/hero-controller.ts`~~ (DELETED)
+- ~~`src/scripts/hero/background-3d.ts`~~ (DELETED)
+- ~~`src/scripts/hero/cursor-tracker.ts`~~ (DELETED)
+- ~~`src/scripts/hero/typography-reveal.ts`~~ (DELETED)
+- ~~`src/scripts/hero/performance-monitor.ts`~~ (DELETED)
+- ~~`src/scripts/hero/types.ts`~~ (DELETED)
+- ~~OGL dependency (~24KB)~~ (REMOVED from package.json)
+
+**Bundle Size Reduction**:
+- Removed ~30KB of JavaScript (OGL + hero modules)
+- Current hero: ~2KB CSS (component-scoped)
 
 ### Magnetic Burger Menu
 
