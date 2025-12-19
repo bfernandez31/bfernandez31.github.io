@@ -27,14 +27,14 @@ export default defineConfig({
 					// Manual chunks for better caching
 					manualChunks: (id) => {
 						// Vendor chunks for libraries
-						if (id.includes('node_modules')) {
-							if (id.includes('gsap')) {
-								return 'vendor-gsap';
+						if (id.includes("node_modules")) {
+							if (id.includes("gsap")) {
+								return "vendor-gsap";
 							}
-							if (id.includes('lenis')) {
-								return 'vendor-lenis';
+							if (id.includes("lenis")) {
+								return "vendor-lenis";
 							}
-							return 'vendor';
+							return "vendor";
 						}
 					},
 				},

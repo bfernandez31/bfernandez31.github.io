@@ -5,7 +5,13 @@
  * @feature 005-1510-convert-multi
  */
 
-export type SectionId = "hero" | "about" | "experience" | "projects" | "expertise" | "contact";
+export type SectionId =
+	| "hero"
+	| "about"
+	| "experience"
+	| "projects"
+	| "expertise"
+	| "contact";
 export type SectionRole = "main" | "region" | "complementary";
 export type SectionHeadingLevel = 1 | 2;
 

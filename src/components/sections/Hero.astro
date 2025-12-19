@@ -13,8 +13,8 @@ const { headline, subheadline, ctaText, ctaLink } = Astro.props;
 	<canvas id="hero-canvas" class="hero__canvas"></canvas>
 	<div class="hero__content">
 		<!-- Headline with glitch effect (hover-triggered RGB offset animation, ~0.3s) -->
-		<h1 class="hero__headline glitch-effect" data-split-text="char">{headline}</h1>
-		{subheadline && <p class="hero__subheadline" data-split-text="word">{subheadline}</p>}
+		<h1 class="hero__headline glitch-effect">{headline}</h1>
+		{subheadline && <p class="hero__subheadline">{subheadline}</p>}
 		{
 			ctaText && ctaLink && (
 				<a href={ctaLink} class="hero__cta">
@@ -28,10 +28,14 @@ const { headline, subheadline, ctaText, ctaLink } = Astro.props;
 <script>
 	import { NeuralNetworkAnimation } from "../../scripts/neural-network";
 	import { NEURAL_NETWORK_DEFAULTS } from "../../scripts/animation-config";
-	import { initTextAnimations } from "../../scripts/text-animations";
 
-	// Initialize text animations
-	initTextAnimations();
+	// Simple content reveal (replaces complex text-split animation)
+	const heroContent = document.querySelector('.hero__content');
+	if (heroContent) {
+		requestAnimationFrame(() => {
+			heroContent.classList.add('visible');
+		});
+	}
 
 	// Asynchronous, non-blocking initialization for neural network
 	const canvas = document.getElementById("hero-canvas") as HTMLCanvasElement;
@@ -89,22 +93,33 @@ const { headline, subheadline, ctaText, ctaLink } = Astro.props;
 		text-align: center;
 		max-width: 800px;
 		margin: 0 auto;
+		/* Simple fade-in animation (replaces complex text-split) */
+		opacity: 0;
+		transform: translateY(20px);
+		transition:
+			opacity 0.6s ease-out,
+			transform 0.6s ease-out;
+	}
+
+	.hero__content.visible {
+		opacity: 1;
+		transform: translateY(0);
 	}
 
 	.hero__headline {
 		font-size: clamp(2rem, 5vw, 4rem);
 		font-weight: 700;
-		color: #ffffff;
-		margin-bottom: 1rem;
+		color: var(--color-text);
+		margin-bottom: clamp(1rem, 2.5vw, 2rem);
 		line-height: 1.2;
 		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 	}
 
 	.hero__subheadline {
 		font-size: clamp(1rem, 2.5vw, 1.5rem);
-		color: #ffffff;
+		color: var(--color-text);
 		opacity: 0.9;
-		margin-bottom: 2rem;
+		margin-bottom: clamp(1.5rem, 4vw, 3rem);
 		line-height: 1.5;
 		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 	}
@@ -114,7 +129,7 @@ const { headline, subheadline, ctaText, ctaLink } = Astro.props;
 		padding: 1rem 2rem;
 		font-size: 1.125rem;
 		font-weight: 600;
-		color: #1e1e2e;
+		color: var(--color-background);
 		background: var(--color-primary);
 		border-radius: 8px;
 		text-decoration: none;
@@ -139,5 +154,18 @@ const { headline, subheadline, ctaText, ctaLink } = Astro.props;
 
 	.hero__cta:active {
 		transform: translateY(0);
+	}
+
+	/* Accessibility: Reduced motion support */
+	@media (prefers-reduced-motion: reduce) {
+		.hero__content {
+			opacity: 1;
+			transform: none;
+			transition: none;
+		}
+
+		.hero__cta {
+			transition: none;
+		}
 	}
 </style>

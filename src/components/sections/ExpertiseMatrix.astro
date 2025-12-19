@@ -11,7 +11,10 @@ const skillsByCategory = categories
 	.map((category) => ({
 		...category,
 		skills: skillsData.skills
-			.filter((skill) => skill.category === category.id && skill.proficiencyLevel >= 2)
+			.filter(
+				(skill) =>
+					skill.category === category.id && skill.proficiencyLevel >= 2,
+			)
 			.sort((a, b) => b.proficiencyLevel - a.proficiencyLevel), // Sort by proficiency desc
 	}))
 	.filter((category) => category.skills.length > 0); // Only show categories with skills

@@ -285,132 +285,17 @@ export function initMagneticMenu(
    - Bottom line: rotate -45deg + translateY
    - All transitions: CSS with `var(--transition-color)` duration
 
-### Custom Cursor Animation
+### Custom Cursor Animation (REMOVED)
 
-**Location**: `src/components/ui/CustomCursor.astro` and `src/scripts/custom-cursor.ts`
+**Status**: The custom cursor feature has been removed entirely in PBF-22.
 
-**Description**: High-performance cursor replacement with smooth mouse tracking and interactive element detection
+**Reason**: User feedback indicated the cursor "adds nothing of value" to the experience. Removing it reduces bundle size (~8KB), simplifies the codebase, and eliminates potential performance overhead and bugs.
 
-**Component**: `CustomCursor.astro`
+**Location**: Component and script files deleted:
+- `src/components/ui/CustomCursor.astro` (DELETED)
+- `src/scripts/custom-cursor.ts` (DELETED)
 
-**Configuration Options**:
-```typescript
-interface Props {
-  class?: string;  // Additional CSS classes
-}
-```
-
-**Visual Design**:
-- Fixed position following mouse cursor (position: fixed, z-index: 10000)
-- 32px circular outline (2px border) in default state
-- `mix-blend-mode: difference` for adaptive contrast
-- Scales to 64px (3px border) when hovering interactive elements
-- Uses theme color tokens: `var(--color-text)` for border color
-- GPU-accelerated positioning with `will-change: transform`
-
-**Mouse Tracking** (`src/scripts/custom-cursor.ts`):
-
-**Functions**:
-```typescript
-// Initialize custom cursor with smooth tracking
-export function initCustomCursor(): void;
-
-// Set up smooth cursor following with GSAP quickTo
-function setupSmoothCursor(cursor: HTMLElement): void;
-
-// Set up instant cursor following (for reduced motion)
-function setupInstantCursor(cursor: HTMLElement): void;
-
-// Set up hover state detection for interactive elements
-function setupHoverDetection(cursor: HTMLElement): void;
-
-// Clean up custom cursor (remove event listeners, kill animations)
-export function cleanupCustomCursor(): void;
-```
-
-**Algorithm**:
-1. Check device capabilities (touch devices skip initialization)
-2. Check user motion preferences (`prefers-reduced-motion`)
-3. Create GSAP `quickTo()` functions for X and Y position (smooth mode)
-   - Or use instant `gsap.set()` for reduced motion mode
-4. Track `mousemove` events and update cursor position
-5. Monitor DOM for interactive elements (links, buttons, inputs, `[data-cursor="hover"]`)
-6. Add/remove `custom-cursor--hover` class on element hover
-7. Use MutationObserver to detect dynamically added interactive elements
-
-**Performance**:
-- GSAP `quickTo()` provides 60fps position updates without creating new tweens
-- Duration: 0.6s with `power3.out` easing for smooth, natural following
-- Instant updates for reduced motion (0 duration with `gsap.set()`)
-- Passive event listeners where possible
-- Minimal DOM queries (cached element references)
-
-**Interactive Element Detection** (Optimized):
-```typescript
-// Selectors for automatic hover detection
-const interactiveSelectors = [
-  'a[href]',
-  'button:not([disabled])',
-  '[data-cursor="hover"]',
-  'input:not([disabled])',
-  'textarea:not([disabled])',
-  'select:not([disabled])',
-].join(', ');
-
-// Static selector approach with event delegation (MutationObserver removed for performance)
-document.querySelectorAll(interactiveSelectors).forEach(element => {
-  element.addEventListener('mouseenter', () => {
-    cursor.classList.add('custom-cursor--hover');
-  });
-  element.addEventListener('mouseleave', () => {
-    cursor.classList.remove('custom-cursor--hover');
-  });
-});
-```
-
-**CSS Media Queries**:
-```css
-/* Hide system cursor on desktop */
-@media (hover: hover) and (pointer: fine) {
-  body { cursor: none; }
-}
-
-/* Hide custom cursor on touch devices */
-@media (hover: none) or (pointer: coarse) {
-  .custom-cursor { display: none; }
-}
-```
-
-**Accessibility**:
-- `aria-hidden="true"` - cursor is decorative only
-- `pointer-events: none` - cursor doesn't interfere with interactions
-- Respects `prefers-reduced-motion` by using instant position updates
-- Disabled on touch devices (system cursor restored)
-- Disabled on MID/LOW tier devices for better performance
-- Keyboard navigation unaffected by custom cursor
-- Scale transition respects reduced motion preferences
-
-**Lifecycle Management**:
-```typescript
-// Initialize on page load
-initCustomCursor();
-
-// Clean up on page navigation (Astro)
-document.addEventListener('astro:before-swap', () => {
-  cleanupCustomCursor();
-});
-```
-
-**State Management**:
-```typescript
-interface CursorState {
-  cursor: HTMLElement | null;           // Cursor element reference
-  quickX: ((value: number) => void) | null;  // GSAP quickTo X function
-  quickY: ((value: number) => void) | null;  // GSAP quickTo Y function
-  isHovering: boolean;                  // Current hover state
-  cleanup: (() => void) | null;         // Cleanup function
-}
-```
+**Alternative**: The portfolio now uses the standard system cursor throughout the site. Interactive elements rely on native browser hover states and CSS transitions for visual feedback.
 
 ### Scroll Progress Animation
 
@@ -629,187 +514,67 @@ if (window.lenis) {
 - Graceful degradation: no effect on older browsers (text remains readable)
 - No polyfills required
 
-### Text Split Animations
+### Hero Text Animations
 
-**Location**: `src/scripts/text-animations.ts`
+**Location**: `src/components/sections/Hero.astro` (inline styles and script)
 
-**Description**: Declarative text reveal animation utility that splits text into characters, words, or lines and animates with GSAP stagger effects
-
-**Functions**:
-```typescript
-// Initialize text animations for all [data-split-text] elements
-export function initTextAnimations(): void;
-
-// Clean up all text animations on page navigation
-export function cleanupTextAnimations(): void;
-
-// Split element's text content into fragments
-function splitText(element: HTMLElement, type: SplitType): SplitFragment[];
-
-// Create GSAP animation timeline for fragments
-function createTimeline(fragments: SplitFragment[], config: AnimationConfig): gsap.core.Timeline;
-
-// Animate a single element (called by IntersectionObserver)
-function animateElement(element: HTMLElement): void;
-```
-
-**Types**:
-```typescript
-export type SplitType = 'char' | 'word' | 'line';
-
-export interface AnimationConfig {
-  type: SplitType;
-  duration: number;  // Animation duration per fragment (seconds)
-  delay: number;     // Stagger delay between fragments (seconds)
-  easing: EasingFunction;  // GSAP easing function name
-}
-
-export interface SplitFragment {
-  element: HTMLSpanElement;  // DOM span wrapping this fragment
-  originalText: string;      // Original text content
-  index: number;             // Zero-indexed position
-}
-
-export interface AnimatedTextElement {
-  element: HTMLElement;      // Original element with data-split-text
-  config: AnimationConfig;   // Parsed animation configuration
-  fragments: SplitFragment[]; // Array of split text fragments
-  timeline: gsap.core.Timeline | null;  // GSAP timeline
-  observer: IntersectionObserver | null; // Observer instance
-  animated: boolean;         // Has animation been triggered?
-}
-```
-
-**Configuration Options**:
-```typescript
-// Default animation values
-const DEFAULT_CONFIG = {
-  type: 'char',
-  duration: 0.6,
-  delay: 0.05,
-  easing: 'power3.out',
-};
-
-// Validation constraints
-const CONFIG_CONSTRAINTS = {
-  duration: { min: 0.1, max: 5.0 },
-  delay: { min: 0.01, max: 1.0 },
-  maxFragments: 1000,  // Performance limit (error)
-  warnFragments: 500,  // Warning threshold
-};
-```
-
-**Splitting Algorithms**:
-
-1. **Character Splitting**:
-   - Uses `Array.from()` for Unicode support (handles multi-byte characters, emojis)
-   - Each character wrapped in `<span style="display: inline-block">`
-   - Best for headlines and short text (<100 characters)
-
-2. **Word Splitting**:
-   - Uses regex `/(\s+)/` to split while preserving whitespace
-   - Each word wrapped in `<span style="display: inline-block">`
-   - Best for section titles and medium text (100-300 characters)
-
-3. **Line Splitting**:
-   - Uses `Range.getClientRects()` to detect visual line breaks
-   - Detects line breaks by comparing `rect.top` values character by character
-   - Each line wrapped in `<span style="display: inline-block">`
-   - Best for paragraphs and long text (>300 characters)
-   - Known limitation: line breaks calculated at initialization, not recalculated on resize
+**Description**: Simplified CSS-based fade-in animation for hero section text content
 
 **Animation Pattern**:
-```typescript
-// Animation effect: fade + slide up
-gsap.fromTo(fragments.map(f => f.element),
-  {
-    opacity: 0,
-    y: 20,  // Start 20px below final position
-  },
-  {
-    opacity: 1,
-    y: 0,
-    duration: config.duration,
-    ease: config.easing,
-    stagger: {
-      amount: config.delay * fragments.length,
-      from: 'start',
-    },
+- Hero content container fades in with upward slide (translateY)
+- No text splitting or character-by-character animation
+- Single animation timeline for entire content block
+
+**CSS Implementation**:
+```css
+.hero__content {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.hero__content.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__content {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
-);
+}
 ```
 
-**Accessibility Structure**:
-```html
-<!-- Before splitting -->
-<h1 data-split-text="char">Hello World</h1>
-
-<!-- After splitting (simplified) -->
-<h1>
-  <span class="sr-only">Hello World</span> <!-- Screen readers read this -->
-  <span aria-hidden="true">
-    <span>H</span><span>e</span><span>l</span><span>l</span><span>o</span>
-    <span> </span>
-    <span>W</span><span>o</span><span>r</span><span>l</span><span>d</span>
-  </span>
-</h1>
+**JavaScript Trigger**:
+```typescript
+// Simple visibility trigger on page load
+requestAnimationFrame(() => {
+  const heroContent = document.querySelector('.hero__content');
+  heroContent?.classList.add('visible');
+});
 ```
 
-**Performance**:
-- IntersectionObserver with 50% threshold for viewport-based triggering
-- Global observer shared across all elements (efficient resource usage)
-- Trigger once only (unobserve after animation)
-- GPU-accelerated properties only (opacity, transform translateY)
-- Warning at 500 fragments, error at 1000 fragments
-- Initialization target: <100ms for 100-character text
-- 60fps on HIGH tier devices, 30fps minimum on MID tier
+**Benefits**:
+- Simpler codebase with fewer potential failure points
+- Text is always visible (no risk of invisible/null text)
+- Progressive enhancement: text visible even before JavaScript executes
+- Reliable performance across all devices
+- Reduced bundle size (no text-splitting library required)
 
 **Accessibility**:
-- `prefers-reduced-motion` support: instant reveal with `gsap.set()` instead of animation
-- Screen reader compatibility: original text in `.sr-only` span, split text in `aria-hidden="true"` wrapper
-- Semantic HTML preserved for assistive technologies
+- Respects `prefers-reduced-motion` preference (instant reveal, no animation)
+- No complex DOM manipulation that could confuse screen readers
+- Text remains in natural HTML structure for assistive technologies
 
-**Lifecycle Management**:
-```typescript
-// Initialize on page load
-initTextAnimations();
+**Performance**:
+- GPU-accelerated properties only (opacity, transform)
+- Single CSS transition (no GSAP overhead for hero text)
+- ~100 bytes CSS + ~50 bytes JS (minimal footprint)
 
-// Cleanup on page navigation (Astro)
-document.addEventListener('astro:before-swap', cleanupTextAnimations);
-```
-
-**Usage Examples**:
-```astro
-<!-- Character animation for hero headline -->
-<h1 data-split-text="char">Welcome</h1>
-
-<!-- Word animation for section title -->
-<h2 data-split-text="word" data-split-delay="0.08">About Me</h2>
-
-<!-- Line animation for paragraph -->
-<p data-split-text="line" data-split-duration="0.4">
-  Long paragraph that reveals line by line...
-</p>
-
-<script>
-  import { initTextAnimations } from '@/scripts/text-animations';
-  initTextAnimations();
-</script>
-```
-
-**Error Handling**:
-- Empty text content: skipped with console warning
-- Invalid split type: falls back to defaults with error
-- Invalid config values: falls back to defaults with warning
-- Too many fragments (>1000): skipped with error
-- GSAP not found: error logged (graceful degradation)
-- IntersectionObserver not supported: error logged (graceful degradation)
-
-**Known Limitations**:
-- Nested HTML tags (strong, em, etc.) are stripped by `textContent` extraction
-- Line breaks not recalculated on viewport resize (calculated once at init)
-- No manual trigger API (viewport-based only in v1)
-- No animation repeat support (trigger once only in v1)
+**Design Rationale**:
+User feedback indicated text split animations were buggy ("les animations bug") and resulted in null/invisible text. The simplified approach prioritizes reliability and readability over visual flair.
 
 ## Performance Monitoring
 

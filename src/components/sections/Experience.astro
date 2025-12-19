@@ -11,7 +11,7 @@ import type { Experience, ExperienceData } from "../../types/experience";
 
 // Cast the JSON data to the correct type and sort by displayOrder (1 = most recent)
 const experiences = (experienceData as ExperienceData).experiences.sort(
-	(a, b) => a.displayOrder - b.displayOrder
+	(a, b) => a.displayOrder - b.displayOrder,
 );
 
 /**

@@ -21,6 +21,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + GSAP 3.13.0+ (animation engine), IntersectionObserver API (viewport detection) (012-1516-text-split)
 - N/A (client-side animations only, no data persistence) (012-1516-text-split)
 - Static JSON data files (src/data/experiences.json, src/data/skills.json) - no database (PBF-21-experience-pro)
+- TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, GSAP 3.13.0, Lenis 1.0.42, Biome 2.0.0+ (PBF-22-fix-the-first)
+- N/A (static site, no persistence) (PBF-22-fix-the-first)
 
 ## Project Structure
 ```
@@ -154,7 +156,7 @@ bun test --watch         # Run tests in watch mode
 - Target 60fps on desktop, 30fps on mobile for animations
 - Monitor frame rate and adjust animation quality dynamically
 - Clean up animation resources on component unmount (event listeners, animation frames)
-- Use GSAP `quickTo()` for frequently updated values (cursor tracking, etc.)
+- Use GSAP `quickTo()` for frequently updated values (position tracking, etc.)
 - Pause animations when elements not visible (Intersection Observer)
 
 ### Accessibility Standards
@@ -174,7 +176,7 @@ bun test --watch         # Run tests in watch mode
 ### GSAP Animations
 - **Always** register plugins before use: `gsap.registerPlugin(ScrollTrigger)`
 - Use `gsap.fromTo()` for explicit start/end states
-- Use `gsap.quickTo()` for high-frequency updates (60fps cursor tracking)
+- Use `gsap.quickTo()` for high-frequency updates (60fps position tracking)
 - Set global defaults via `gsap.defaults({ ease, duration })`
 - Clean up on unmount: Listen for `astro:before-swap` event
 
@@ -212,23 +214,6 @@ bun test --watch         # Run tests in watch mode
 - Handle edge cases: no scrollable content, resize events
 - Clean up: Remove listeners and cancel animation frames on unmount
 
-### Custom Cursor
-- Use `CustomCursor.astro` component for branded cursor experience on desktop
-- Place in layout (typically in `PageLayout.astro` after other fixed elements)
-- Initialize with `initCustomCursor()` from `src/scripts/custom-cursor.ts`
-- Automatically disabled on touch devices via CSS media queries
-- Device tier aware: automatically disabled on MID and LOW tier devices for performance (optimized in 011-1522)
-- Uses GSAP `quickTo()` for ultra-smooth 60fps cursor tracking (0.6s duration, power3.out easing)
-- Simplified MutationObserver removed in favor of static selectors + event delegation (optimized in 011-1522)
-- Respects `prefers-reduced-motion` by using instant position updates (no smooth following)
-- Always set `aria-hidden="true"` and `pointer-events: none` (decorative only)
-- Use `mix-blend-mode: difference` for adaptive contrast on any background
-- Interactive element detection: automatically scales up on hover over links, buttons, inputs
-- Add `data-cursor="hover"` attribute to custom elements for hover detection
-- Default size: 32px circle (2px border), hover size: 64px circle (3px border)
-- Media queries: `@media (hover: hover) and (pointer: fine)` for desktop only
-- Clean up: Call `cleanupCustomCursor()` on page navigation (astro:before-swap)
-
 ### Glitch Effect (Feature: 013-title-hero-glitch)
 - Use `.glitch-effect` CSS class for cyberpunk-style RGB channel separation animation
 - Location: `src/styles/effects/glitch.css` (automatically imported via `global.css`)
@@ -253,6 +238,31 @@ bun test --watch         # Run tests in watch mode
 - ~2KB CSS footprint, no runtime overhead
 - Browser-native CSS animation (Chrome 90+, Firefox 88+, Safari 14+)
 - Graceful degradation on older browsers (text remains readable)
+
+### Hero Section Animations (Feature: PBF-22-fix-the-first)
+- Simple CSS-based fade-in animation for hero content
+- Location: `src/components/sections/Hero.astro` (component-scoped styles)
+- No text splitting or character-by-character animations
+- Progressive enhancement: text visible before JavaScript executes
+- Animation pattern:
+  ```css
+  .hero__content {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .hero__content.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  ```
+- Full accessibility support:
+  - Respects `prefers-reduced-motion` (instant reveal with no animation)
+  - Text always visible to screen readers (no complex DOM manipulation)
+  - GPU-accelerated properties only (opacity, transform)
+- Triggered via `requestAnimationFrame` on page load
+- Minimal footprint: ~100 bytes CSS + ~50 bytes JS
+- Reliable across all devices (no risk of invisible/null text)
 
 ### Text Split Animations (Feature: 012-1516-text-split)
 - Use declarative HTML API via `data-split-text` attribute for text reveal animations
@@ -349,7 +359,7 @@ const cleanup = trapFocus(menuElement);
 ### Lazy Loading System
 - Use `lazyLoader` from `src/scripts/performance/lazy-loader.ts` for deferred initialization
 - Priority levels: IMMEDIATE (hero), HIGH (first scroll), MEDIUM (after 1s), LOW (after 2s idle)
-- Examples: scroll progress (first scroll), navigation dots (hero exit), custom cursor (2s idle)
+- Examples: scroll progress (first scroll), navigation dots (hero exit)
 - Reduces initial bundle size by deferring non-critical components
 - Error handling: graceful fallback if lazy load fails (site remains functional)
 - Usage: `lazyLoader.load(callback, { priority: 'HIGH', timeout: 2000 })`
@@ -360,7 +370,6 @@ const cleanup = trapFocus(menuElement);
 try {
   initSmoothScroll();
   initNeuralNetwork();
-  initCustomCursor();
 } catch (error) {
   console.error('Animation failed:', error);
   // Site remains functional with native behavior
@@ -439,7 +448,7 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
 ### Lazy Loading System
 - Use `lazyLoader` from `src/scripts/performance/lazy-loader.ts` for deferred initialization
 - Priority levels: IMMEDIATE (hero), HIGH (first scroll), MEDIUM (after 1s), LOW (after 2s idle)
-- Examples: scroll progress (first scroll), navigation dots (hero exit), custom cursor (2s idle)
+- Examples: scroll progress (first scroll), navigation dots (hero exit)
 - Reduces initial bundle size by deferring non-critical components
 - Error handling: graceful fallback if lazy load fails (site remains functional)
 - Usage: `lazyLoader.load(callback, { priority: 'HIGH', timeout: 2000 })`
@@ -450,7 +459,6 @@ The site uses a comprehensive, accessible Catppuccin Mocha-based color palette w
 try {
   initSmoothScroll();
   initNeuralNetwork();
-  initCustomCursor();
 } catch (error) {
   console.error('Animation failed:', error);
   // Site remains functional with native behavior
@@ -476,6 +484,28 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
+- PBF-22-fix-the-first: Hero section polish and animation fixes
+  - **REMOVED**: Custom cursor feature entirely (deleted CustomCursor.astro, custom-cursor.ts)
+    - User feedback: "le cursor n'apporte rien" (cursor adds nothing of value)
+    - Reduces bundle size by ~8KB and eliminates maintenance burden
+    - Site now uses standard system cursor throughout
+  - **SIMPLIFIED**: Hero text animations to CSS-based fade-in (removed data-split-text attributes)
+    - Replaced buggy character-by-character animations with simple fade-in
+    - Text always visible (no risk of invisible/null text)
+    - Progressive enhancement: works before JavaScript loads
+    - Minimal footprint: ~100 bytes CSS + ~50 bytes JS
+  - **FIXED**: Hero spacing with responsive clamp() values
+    - Headline margin-bottom: `clamp(1rem, 2.5vw, 2rem)`
+    - Subheadline margin-bottom: `clamp(1.5rem, 4vw, 3rem)`
+    - Proper visual hierarchy on all viewport sizes (320px to 2560px)
+  - **FIXED**: Color consistency using CSS variables
+    - Replaced hardcoded `#ffffff` with `var(--color-text)`
+    - Replaced hardcoded `#1e1e2e` with `var(--color-background)`
+    - All hero elements now use semantic color tokens from theme.css
+  - **ADDED**: Accessibility improvements
+    - prefers-reduced-motion support for hero fade-in (instant reveal)
+    - Text visible to screen readers without complex DOM manipulation
+    - GPU-accelerated properties (opacity, transform) for smooth performance
 - PBF-21-experience-pro: Added professional experience timeline section and updated skills filtering
   - Created new Experience section as 3rd section in single-page layout (between About and Projects)
   - Updated navigation from 5 to 6 sections: #hero, #about, #experience, #projects, #expertise, #contact
@@ -506,7 +536,6 @@ try {
   - ~2KB CSS footprint, graceful degradation on older browsers
   - Integrated into Hero component headline with .glitch-effect class
   - Added @import "./effects/glitch.css" to global.css
-- 012-1516-text-split: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + GSAP 3.13.0+ (animation engine), IntersectionObserver API (viewport detection)
   - Added device tier detection system (HIGH/MID/LOW) in src/scripts/performance/device-tier.ts
   - Created performance monitor (development only) tracking FPS, Core Web Vitals, memory in src/scripts/performance/performance-monitor.ts
   - Implemented lazy loading system with priority levels in src/scripts/performance/lazy-loader.ts
@@ -514,34 +543,10 @@ try {
   - Optimized smooth scroll: reduced duration 1.2s→0.6s, changed easing to easeOutCubic, removed section snap
   - Optimized custom cursor: disabled on MID/LOW tier devices, simplified MutationObserver to static selectors
   - Optimized neural network: device-based particle counts (50/30/20), async initialization, Intersection Observer pause
-  - Lazy loaded non-critical components: scroll progress (first scroll), navigation dots (hero exit), custom cursor (2s idle)
+  - Lazy loaded non-critical components: scroll progress (first scroll), navigation dots (hero exit)
   - Added progressive enhancement: error boundaries, noscript tag, static CSS gradient fallback
   - Created centralized performance config in src/config/performance.ts
   - Target performance: Lighthouse ≥85 mobile/≥95 desktop, LCP <2.5s, FCP <2s, 30fps animations
-  - Created cursor-trail.ts script with Canvas 2D particle system
-  - Implemented fading particle trail with violet glow effect (60fps)
-  - Spawns 2 particles per frame at cursor position (max 30 particles)
-  - Particles fade from opacity 1 to 0 with size decay (6px to 0)
-  - Added shadow blur effect for luminous appearance matching theme
-  - High-DPI (Retina) canvas support for crisp rendering
-  - Efficient FIFO particle management prevents array growth
-  - Respects prefers-reduced-motion preference (trail disabled completely)
-  - Automatically disabled on touch devices
-  - Full-viewport canvas overlay positioned at z-index: 9999 (below cursor)
-  - Integrated with PageLayout.astro with proper initialization and cleanup
-  - Uses requestAnimationFrame for smooth 60fps animation loop
-  - Minimal memory footprint (~2-3KB JavaScript)
-  - Created CustomCursor.astro component with circular design (32px default, 64px hover)
-  - Implemented custom-cursor.ts script with GSAP quickTo for 60fps position tracking
-  - Added mix-blend-mode: difference for adaptive contrast on any background
-  - Implemented automatic interactive element detection (links, buttons, inputs, custom via data-cursor)
-  - Created MutationObserver system to track dynamically added interactive elements
-  - Added smooth follow animation with power3.out easing (0.6s duration)
-  - Respects prefers-reduced-motion preference (instant position updates, no smooth following)
-  - Automatically disabled on touch devices via CSS media queries
-  - Maintains state management for cursor position, hover state, and cleanup
-  - Added to PageLayout.astro with proper z-index layering (z-index: 10000)
-  - Ensured full accessibility (aria-hidden, pointer-events: none, keyboard navigation unaffected)
   - Created ScrollProgress.astro component with fixed positioning at viewport top
   - Implemented violet-to-rose gradient progress bar (4px height, 3px on high-DPI)
   - Created scroll-progress.ts script for progress tracking and bar updates

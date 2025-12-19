@@ -9,7 +9,7 @@
  * @version 1.0.0
  */
 
-import gsap from 'gsap';
+import gsap from "gsap";
 
 // ============================================================================
 // Types & Interfaces
@@ -18,42 +18,42 @@ import gsap from 'gsap';
 /**
  * Text splitting granularity options.
  */
-export type SplitType = 'char' | 'word' | 'line';
+export type SplitType = "char" | "word" | "line";
 
 /**
  * Valid GSAP easing function names.
  */
 export type EasingFunction =
-	| 'power1.out'
-	| 'power1.in'
-	| 'power1.inOut'
-	| 'power2.out'
-	| 'power2.in'
-	| 'power2.inOut'
-	| 'power3.out'
-	| 'power3.in'
-	| 'power3.inOut'
-	| 'power4.out'
-	| 'power4.in'
-	| 'power4.inOut'
-	| 'back.out'
-	| 'back.in'
-	| 'back.inOut'
-	| 'elastic.out'
-	| 'elastic.in'
-	| 'elastic.inOut'
-	| 'bounce.out'
-	| 'bounce.in'
-	| 'bounce.inOut'
-	| 'circ.out'
-	| 'circ.in'
-	| 'circ.inOut'
-	| 'expo.out'
-	| 'expo.in'
-	| 'expo.inOut'
-	| 'sine.out'
-	| 'sine.in'
-	| 'sine.inOut'
+	| "power1.out"
+	| "power1.in"
+	| "power1.inOut"
+	| "power2.out"
+	| "power2.in"
+	| "power2.inOut"
+	| "power3.out"
+	| "power3.in"
+	| "power3.inOut"
+	| "power4.out"
+	| "power4.in"
+	| "power4.inOut"
+	| "back.out"
+	| "back.in"
+	| "back.inOut"
+	| "elastic.out"
+	| "elastic.in"
+	| "elastic.inOut"
+	| "bounce.out"
+	| "bounce.in"
+	| "bounce.inOut"
+	| "circ.out"
+	| "circ.in"
+	| "circ.inOut"
+	| "expo.out"
+	| "expo.in"
+	| "expo.inOut"
+	| "sine.out"
+	| "sine.in"
+	| "sine.inOut"
 	| string;
 
 /**
@@ -104,12 +104,12 @@ export interface AnimatedTextElement {
  * Error codes for text animation failures.
  */
 export enum TextAnimationError {
-	EMPTY_TEXT = 'EMPTY_TEXT',
-	INVALID_SPLIT_TYPE = 'INVALID_SPLIT_TYPE',
-	INVALID_CONFIG = 'INVALID_CONFIG',
-	TOO_MANY_FRAGMENTS = 'TOO_MANY_FRAGMENTS',
-	GSAP_NOT_FOUND = 'GSAP_NOT_FOUND',
-	OBSERVER_NOT_SUPPORTED = 'OBSERVER_NOT_SUPPORTED',
+	EMPTY_TEXT = "EMPTY_TEXT",
+	INVALID_SPLIT_TYPE = "INVALID_SPLIT_TYPE",
+	INVALID_CONFIG = "INVALID_CONFIG",
+	TOO_MANY_FRAGMENTS = "TOO_MANY_FRAGMENTS",
+	GSAP_NOT_FOUND = "GSAP_NOT_FOUND",
+	OBSERVER_NOT_SUPPORTED = "OBSERVER_NOT_SUPPORTED",
 }
 
 /**
@@ -117,17 +117,17 @@ export enum TextAnimationError {
  */
 export const ERROR_MESSAGES: Record<TextAnimationError, string> = {
 	[TextAnimationError.EMPTY_TEXT]:
-		'Text animation skipped: element has no text content',
+		"Text animation skipped: element has no text content",
 	[TextAnimationError.INVALID_SPLIT_TYPE]:
 		'Invalid data-split-text value. Must be "char", "word", or "line"',
 	[TextAnimationError.INVALID_CONFIG]:
-		'Animation configuration out of valid range, using defaults',
+		"Animation configuration out of valid range, using defaults",
 	[TextAnimationError.TOO_MANY_FRAGMENTS]:
-		'Too many text fragments (>1000). Use word or line splitting for long content',
+		"Too many text fragments (>1000). Use word or line splitting for long content",
 	[TextAnimationError.GSAP_NOT_FOUND]:
-		'GSAP library not found. Text animations require GSAP 3.13.0+',
+		"GSAP library not found. Text animations require GSAP 3.13.0+",
 	[TextAnimationError.OBSERVER_NOT_SUPPORTED]:
-		'IntersectionObserver not supported. Text animations require modern browsers',
+		"IntersectionObserver not supported. Text animations require modern browsers",
 };
 
 // ============================================================================
@@ -138,10 +138,10 @@ export const ERROR_MESSAGES: Record<TextAnimationError, string> = {
  * Default animation configuration values.
  */
 export const DEFAULT_CONFIG: AnimationConfig = {
-	type: 'char',
+	type: "char",
 	duration: 0.6,
 	delay: 0.05,
-	easing: 'power3.out',
+	easing: "power3.out",
 };
 
 /**
@@ -177,8 +177,8 @@ let prefersReducedMotion = false;
  * @returns true if prefers-reduced-motion: reduce is set
  */
 function prefersReducedMotionCheck(): boolean {
-	if (typeof window === 'undefined') return false;
-	return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	if (typeof window === "undefined") return false;
+	return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
 /**
@@ -200,8 +200,16 @@ function parseConfig(element: HTMLElement): AnimationConfig {
 	}
 
 	// Parse duration with validation
-	let duration = durationStr ? Number.parseFloat(durationStr) : DEFAULT_CONFIG.duration;
-	if (!isInRange(duration, CONFIG_CONSTRAINTS.duration.min, CONFIG_CONSTRAINTS.duration.max)) {
+	let duration = durationStr
+		? Number.parseFloat(durationStr)
+		: DEFAULT_CONFIG.duration;
+	if (
+		!isInRange(
+			duration,
+			CONFIG_CONSTRAINTS.duration.min,
+			CONFIG_CONSTRAINTS.duration.max,
+		)
+	) {
 		console.warn(
 			`Invalid duration ${duration}s, using default ${DEFAULT_CONFIG.duration}s`,
 		);
@@ -209,9 +217,15 @@ function parseConfig(element: HTMLElement): AnimationConfig {
 	}
 
 	// Parse delay with validation (different defaults for line vs char/word)
-	const defaultDelay = type === 'line' ? 0.1 : 0.05;
+	const defaultDelay = type === "line" ? 0.1 : 0.05;
 	let delay = delayStr ? Number.parseFloat(delayStr) : defaultDelay;
-	if (!isInRange(delay, CONFIG_CONSTRAINTS.delay.min, CONFIG_CONSTRAINTS.delay.max)) {
+	if (
+		!isInRange(
+			delay,
+			CONFIG_CONSTRAINTS.delay.min,
+			CONFIG_CONSTRAINTS.delay.max,
+		)
+	) {
 		console.warn(`Invalid delay ${delay}s, using default ${defaultDelay}s`);
 		delay = defaultDelay;
 	}
@@ -232,8 +246,8 @@ function parseConfig(element: HTMLElement): AnimationConfig {
  * @returns SplitFragment object
  */
 function createSplitFragment(text: string, index: number): SplitFragment {
-	const span = document.createElement('span');
-	span.style.display = 'inline-block';
+	const span = document.createElement("span");
+	span.style.display = "inline-block";
 	span.textContent = text;
 
 	return {
@@ -249,7 +263,9 @@ function createSplitFragment(text: string, index: number): SplitFragment {
  * @param callback - Function called when element enters viewport
  * @returns IntersectionObserver instance
  */
-function createObserver(callback: (element: HTMLElement) => void): IntersectionObserver {
+function createObserver(
+	callback: (element: HTMLElement) => void,
+): IntersectionObserver {
 	return new IntersectionObserver(
 		(entries) => {
 			for (const entry of entries) {
@@ -260,7 +276,7 @@ function createObserver(callback: (element: HTMLElement) => void): IntersectionO
 		},
 		{
 			threshold: 0.5, // Trigger when 50% of element is visible
-			rootMargin: '0px',
+			rootMargin: "0px",
 		},
 	);
 }
@@ -279,7 +295,7 @@ export function initTextAnimations(): void {
 	prefersReducedMotion = prefersReducedMotionCheck();
 
 	// Query all elements with data-split-text attribute
-	const elements = document.querySelectorAll<HTMLElement>('[data-split-text]');
+	const elements = document.querySelectorAll<HTMLElement>("[data-split-text]");
 
 	if (elements.length === 0) {
 		return; // No elements to animate
@@ -345,16 +361,16 @@ export function cleanupTextAnimations(): void {
  * @returns Array of SplitFragment objects
  */
 function splitText(element: HTMLElement, type: SplitType): SplitFragment[] {
-	const originalText = element.textContent || '';
+	const originalText = element.textContent || "";
 	const fragments: SplitFragment[] = [];
 
-	if (type === 'char') {
+	if (type === "char") {
 		// Character splitting with Unicode support
 		const chars = Array.from(originalText);
 		for (let i = 0; i < chars.length; i++) {
 			fragments.push(createSplitFragment(chars[i], i));
 		}
-	} else if (type === 'word') {
+	} else if (type === "word") {
 		// Word splitting with whitespace preservation
 		const words = originalText.split(/(\s+)/);
 		for (let i = 0; i < words.length; i++) {
@@ -363,7 +379,7 @@ function splitText(element: HTMLElement, type: SplitType): SplitFragment[] {
 				fragments.push(createSplitFragment(words[i], i));
 			}
 		}
-	} else if (type === 'line') {
+	} else if (type === "line") {
 		// Line splitting using Range.getClientRects()
 		const range = document.createRange();
 		const textNode = element.firstChild;
@@ -375,7 +391,7 @@ function splitText(element: HTMLElement, type: SplitType): SplitFragment[] {
 		}
 
 		// Detect line breaks by checking getBoundingClientRect changes
-		let currentLine = '';
+		let currentLine = "";
 		let currentTop = 0;
 		let lineIndex = 0;
 
@@ -414,7 +430,10 @@ function splitText(element: HTMLElement, type: SplitType): SplitFragment[] {
  * @param config - Animation configuration
  * @returns GSAP Timeline instance
  */
-function createTimeline(fragments: SplitFragment[], config: AnimationConfig): gsap.core.Timeline {
+function createTimeline(
+	fragments: SplitFragment[],
+	config: AnimationConfig,
+): gsap.core.Timeline {
 	const timeline = gsap.timeline();
 
 	if (prefersReducedMotion) {
@@ -438,7 +457,7 @@ function createTimeline(fragments: SplitFragment[], config: AnimationConfig): gs
 				ease: config.easing,
 				stagger: {
 					amount: config.delay * fragments.length,
-					from: 'start',
+					from: "start",
 				},
 			},
 		);
@@ -474,7 +493,10 @@ function animateElement(element: HTMLElement): void {
 
 	// Check fragment count limits
 	if (fragments.length > CONFIG_CONSTRAINTS.maxFragments) {
-		console.error(ERROR_MESSAGES[TextAnimationError.TOO_MANY_FRAGMENTS], element);
+		console.error(
+			ERROR_MESSAGES[TextAnimationError.TOO_MANY_FRAGMENTS],
+			element,
+		);
 		return;
 	}
 
@@ -487,13 +509,13 @@ function animateElement(element: HTMLElement): void {
 
 	// Create accessibility structure
 	// 1. Create visually-hidden span with original text for screen readers
-	const srSpan = document.createElement('span');
-	srSpan.className = 'sr-only';
+	const srSpan = document.createElement("span");
+	srSpan.className = "sr-only";
 	srSpan.textContent = originalText;
 
 	// 2. Create wrapper for animated fragments
-	const animatedWrapper = document.createElement('span');
-	animatedWrapper.setAttribute('aria-hidden', 'true');
+	const animatedWrapper = document.createElement("span");
+	animatedWrapper.setAttribute("aria-hidden", "true");
 
 	// 3. Append all fragment spans to wrapper
 	for (const fragment of fragments) {
@@ -501,7 +523,7 @@ function animateElement(element: HTMLElement): void {
 	}
 
 	// 4. Replace element content
-	element.textContent = '';
+	element.textContent = "";
 	element.appendChild(srSpan);
 	element.appendChild(animatedWrapper);
 
@@ -534,7 +556,7 @@ function animateElement(element: HTMLElement): void {
  * Type guard to check if a value is a valid SplitType.
  */
 export function isSplitType(value: unknown): value is SplitType {
-	return value === 'char' || value === 'word' || value === 'line';
+	return value === "char" || value === "word" || value === "line";
 }
 
 /**
@@ -549,6 +571,6 @@ export function isInRange(value: number, min: number, max: number): boolean {
 // ============================================================================
 
 // Add cleanup listener for Astro page navigation
-if (typeof document !== 'undefined') {
-	document.addEventListener('astro:before-swap', cleanupTextAnimations);
+if (typeof document !== "undefined") {
+	document.addEventListener("astro:before-swap", cleanupTextAnimations);
 }

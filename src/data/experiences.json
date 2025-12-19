@@ -28,7 +28,15 @@
 				"Architecture front-back office",
 				"Leadership équipe technique"
 			],
-			"technologies": ["angular", "java", "spring-boot", "postgresql", "redis", "kubernetes", "docker"],
+			"technologies": [
+				"angular",
+				"java",
+				"spring-boot",
+				"postgresql",
+				"redis",
+				"kubernetes",
+				"docker"
+			],
 			"type": "full-time",
 			"displayOrder": 2
 		},
@@ -44,7 +52,14 @@
 				"Refonte système clientèle",
 				"Conception outil modélisation"
 			],
-			"technologies": ["angular", "typescript", "java", "postgresql", "redis", "elk-stack"],
+			"technologies": [
+				"angular",
+				"typescript",
+				"java",
+				"postgresql",
+				"redis",
+				"elk-stack"
+			],
 			"type": "full-time",
 			"displayOrder": 3
 		},
@@ -56,11 +71,15 @@
 			"startDate": "2019",
 			"endDate": "2020",
 			"description": "Mise en place d'une plateforme numérique – CoPass – pour proposer une organisation adaptée au contexte sanitaire",
-			"achievements": [
-				"Plateforme CoPass",
-				"Architecture Cloud GCP"
+			"achievements": ["Plateforme CoPass", "Architecture Cloud GCP"],
+			"technologies": [
+				"angular",
+				"java",
+				"spring-boot",
+				"postgresql",
+				"kubernetes",
+				"gcp"
 			],
-			"technologies": ["angular", "java", "spring-boot", "postgresql", "kubernetes", "gcp"],
 			"type": "full-time",
 			"displayOrder": 4
 		},
@@ -76,7 +95,13 @@
 				"Expérience multi-secteurs",
 				"Progression vers Tech Lead"
 			],
-			"technologies": ["java", "spring-boot", "angular", "javascript", "postgresql"],
+			"technologies": [
+				"java",
+				"spring-boot",
+				"angular",
+				"javascript",
+				"postgresql"
+			],
 			"type": "mixed",
 			"displayOrder": 5
 		}

@@ -34,7 +34,9 @@ let lenis: Lenis | null = null;
  */
 export function initSmoothScroll(): Lenis | null {
 	// Temporarily disabled for performance debugging
-	console.log("[SmoothScroll] Disabled - using native scroll for better performance");
+	console.log(
+		"[SmoothScroll] Disabled - using native scroll for better performance",
+	);
 	return null;
 }
 
