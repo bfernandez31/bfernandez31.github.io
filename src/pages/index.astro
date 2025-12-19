@@ -1,12 +1,11 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
-import Hero from "../components/sections/Hero.astro";
-import AboutIDE from "../components/sections/AboutIDE.astro";
-import Experience from "../components/sections/Experience.astro";
-import FeaturedProject from "../components/sections/FeaturedProject.astro";
-import ProjectsHexGrid from "../components/sections/ProjectsHexGrid.astro";
-import ExpertiseMatrix from "../components/sections/ExpertiseMatrix.astro";
-import ContactProtocol from "../components/sections/ContactProtocol.astro";
+import HeroTui from "../components/sections/HeroTui.astro";
+import AboutReadme from "../components/sections/AboutReadme.astro";
+import ExperienceGitLog from "../components/sections/ExperienceGitLog.astro";
+import ProjectsTelescope from "../components/sections/ProjectsTelescope.astro";
+import ExpertiseCheckhealth from "../components/sections/ExpertiseCheckhealth.astro";
+import ContactTerminal from "../components/sections/ContactTerminal.astro";
 import { pageMetadata } from "../data/pages";
 import type { JSONLDStructuredData } from "../types/seo";
 
@@ -84,130 +83,99 @@ const jsonLd: JSONLDStructuredData = {
 	<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} slot="head" />
 
 	<!-- Hero Section -->
-	<div data-section="hero" class="portfolio-section portfolio-section--hero">
-		<Hero
-			name="Benoit Fernandez"
-			role="Full Stack Developer & Creative Technologist"
-			tagline="Crafting performant, accessible web experiences with modern technologies"
+	<section
+		id="hero"
+		data-section="hero"
+		class="tui-section tui-section--hero"
+		role="main"
+		aria-label="Hero section with introduction and call to action"
+	>
+		<HeroTui
+			headline="Benoit Fernandez"
+			subheadline="Full Stack Developer & Creative Technologist"
+			typingSpeed={12.5}
 			ctaText="Explore Projects"
 			ctaLink="#projects"
 		/>
-	</div>
+	</section>
 
-	<!-- About Section -->
+	<!-- About Section (README.md style) -->
 	<section
 		id="about"
 		data-section="about"
-		class="portfolio-section portfolio-section--about"
+		class="tui-section tui-section--about"
 		role="region"
 		aria-label="About section with background and experience"
 	>
-		<AboutIDE biography={biography} highlights={highlights} />
+		<AboutReadme biography={biography} highlights={highlights} />
 	</section>
 
-	<!-- Experience Section -->
+	<!-- Experience Section (git log style) -->
 	<section
 		id="experience"
 		data-section="experience"
-		class="portfolio-section portfolio-section--experience"
+		class="tui-section tui-section--experience"
 		role="region"
 		aria-label="Experience section with professional career history"
 	>
-		<Experience />
+		<ExperienceGitLog />
 	</section>
 
-	<!-- Projects Section -->
+	<!-- Projects Section (Telescope/fzf style) -->
 	<section
 		id="projects"
 		data-section="projects"
-		class="portfolio-section portfolio-section--projects"
+		class="tui-section tui-section--projects"
 		role="region"
 		aria-label="Projects section showcasing portfolio work"
 	>
-		<div class="projects-section__header">
-			<h2 class="projects-section__title">Projects</h2>
-		</div>
-		<FeaturedProject />
-		<ProjectsHexGrid />
+		<ProjectsTelescope />
 	</section>
 
-	<!-- Expertise Section -->
+	<!-- Expertise Section (:checkhealth style) -->
 	<section
 		id="expertise"
 		data-section="expertise"
-		class="portfolio-section portfolio-section--expertise"
+		class="tui-section tui-section--expertise"
 		role="region"
 		aria-label="Expertise section with technical skills and competencies"
 	>
-		<ExpertiseMatrix />
+		<ExpertiseCheckhealth />
 	</section>
 
-	<!-- Contact Section -->
+	<!-- Contact Section (terminal style) -->
 	<section
 		id="contact"
 		data-section="contact"
-		class="portfolio-section portfolio-section--contact"
+		class="tui-section tui-section--contact"
 		role="region"
 		aria-label="Contact section for inquiries and collaboration"
 	>
-		<ContactProtocol />
+		<ContactTerminal />
 	</section>
 </PageLayout>
 
 <style>
-	/* Projects Section Title Styles */
-	.projects-section__header {
-		max-width: 1400px;
-		margin: 0 auto;
-		padding: 0 var(--spacing-base, 1rem);
-	}
-
-	.projects-section__title {
-		font-size: clamp(2rem, 5vw, 3rem);
-		color: var(--color-text);
-		margin-bottom: var(--spacing-xl, 2rem);
-		text-align: center;
-	}
-
-	/* Mobile (≤767px) */
-	@media (max-width: 767px) {
-		.projects-section__title {
-			font-size: clamp(1.75rem, 6vw, 2.5rem);
-			margin-bottom: var(--spacing-base, 1rem);
-		}
-	}
-
-	/* Tablet (768-1023px) */
-	@media (min-width: 768px) and (max-width: 1023px) {
-		.projects-section__title {
-			margin-bottom: var(--spacing-large, 1.5rem);
-		}
-	}
+	/* TUI section styling handled by component-scoped styles */
 </style>
 
 <script>
 	import { initGSAP } from "../scripts/gsap-config";
-	import { initSmoothScroll } from "../scripts/smooth-scroll";
 	import { initKeyboardNavDetection } from "../scripts/accessibility";
-	import { initActiveNavigation } from "../scripts/active-navigation";
-	import { initNavigationLinks } from "../scripts/navigation-links";
-	import { initNavigationHistory } from "../scripts/navigation-history";
+	import { initTuiNavigation } from "../scripts/tui-navigation";
 
 	// Progressive enhancement wrapper - ensure navigation always works
 	try {
 		// Initialize global animations and utilities
 		initGSAP();
-		initSmoothScroll();
 		initKeyboardNavDetection();
 
-		// Initialize single-page navigation
-		initActiveNavigation();
-		initNavigationLinks();
-		initNavigationHistory();
+		// Initialize TUI navigation (replaces old single-page navigation)
+		initTuiNavigation();
 	} catch (error) {
 		// Progressive enhancement: Navigation and content remain accessible if animations fail
-		console.error('[Index] Failed to initialize animations:', error);
-		console.log('[Index] Site will use native scroll and navigation (no smooth scroll)');
+		console.error('[Index] Failed to initialize TUI navigation:', error);
+		console.log('[Index] Site will use native hash navigation');
 		// Hash-based navigation still works via native browser behavior
 	}
 </script>

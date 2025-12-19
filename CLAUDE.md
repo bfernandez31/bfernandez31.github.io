@@ -33,23 +33,31 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - N/A (static site, CSS-only image fallback) (PBF-27-featured-project-issue)
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), CSS Custom Properties (no additional JS libraries for hero) (PBF-30-hero-section)
 - N/A (static site, no data persistence) (PBF-30-hero-section)
+- TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), GSAP 3.13.0 (animations), Lenis 1.0.42 (smooth scroll), Biome 2.3.4 (linting) (PBF-32-portofolio-with-tui)
 
 ## Project Structure
 ```
 portfolio/
 ├── src/
 │   ├── components/       # Reusable Astro components
-│   │   ├── layout/       # Header, Footer, BurgerMenu
-│   │   ├── sections/     # Hero, FeaturedProject, Experience, ProjectsHexGrid, etc.
-│   │   ├── ui/           # Button, Card, etc.
+│   │   ├── layout/       # TuiLayout, TopBar, Sidebar, StatusLine, CommandLine, Footer, BurgerMenu
+│   │   ├── sections/     # HeroTui, AboutReadme, ExperienceGitLog, ProjectsTelescope, ExpertiseCheckhealth, ContactTerminal
+│   │   ├── ui/           # BufferTab, FileEntry, LineNumbers, TypewriterText, Button, Card
 │   │   └── islands/      # Interactive components (client-side)
 │   ├── layouts/          # Page templates
 │   ├── pages/            # File-based routing
 │   ├── scripts/          # Client-side utilities & animations
+│   │   ├── tui-navigation.ts    # TUI sidebar + tab navigation
+│   │   ├── typing-animation.ts  # Hero typewriter effect
+│   │   └── statusline-sync.ts   # Statusline state management
 │   ├── data/             # Static configuration data
 │   ├── styles/           # Global styles
+│   │   └── tui/          # TUI-specific styles (layout, sidebar, statusline, typography, sections, icons, syntax)
+│   ├── types/            # TypeScript interfaces
+│   │   └── tui.ts        # TUI component types (Section, BufferTab, StatusLineState, etc.)
 │   └── content/          # Content collections
 ├── public/               # Static assets
+│   └── fonts/            # Self-hosted fonts (JetBrains Mono, Nerd Font subset)
 ├── tests/                # Unit and integration tests
 │   ├── unit/
 │   └── integration/
@@ -104,6 +112,209 @@ Old page URLs automatically redirect to hash anchors:
 - `/expertise` → `/#expertise`
 - `/contact` → `/#contact`
 
+## TUI (Terminal User Interface) Architecture
+
+The portfolio uses a comprehensive TUI layout inspired by Neovim and tmux, wrapping all content in a terminal-like environment.
+
+### TUI Layout Structure
+
+**Main Container**: `TuiLayout.astro`
+- Full viewport TUI environment containing all structural elements
+- Integrates TopBar, Sidebar, content area, StatusLine, CommandLine
+- Responsive layout with mobile sidebar toggle
+- Skip link for keyboard accessibility
+
+**Components**:
+- **TopBar.astro**: tmux-style top bar with buffer tabs, clock, git branch
+- **Sidebar.astro**: NvimTree-style file explorer with navigable section files
+- **StatusLine.astro**: Neovim statusline showing mode, file, cursor position
+- **CommandLine.astro**: Decorative vim command line at bottom
+- **LineNumbers.astro**: Line number gutter for content area
+- **BufferTab.astro**: Individual buffer tab in top bar
+- **FileEntry.astro**: Individual file entry in sidebar
+
+### TUI Navigation System
+
+**File-Based Navigation**:
+```typescript
+// Each section represented as a .tsx "file"
+const sections = [
+  { id: 'hero', fileName: 'hero.tsx', icon: '󰊢', order: 1 },
+  { id: 'about', fileName: 'about.tsx', icon: '󰉋', order: 2 },
+  { id: 'experience', fileName: 'experience.tsx', icon: '󰀄', order: 3 },
+  { id: 'projects', fileName: 'projects.tsx', icon: '󰇮', order: 4 },
+  { id: 'expertise', fileName: 'expertise.tsx', icon: '󰊢', order: 5 },
+  { id: 'contact', fileName: 'contact.tsx', icon: '󰇰', order: 6 }
+];
+```
+
+**State Synchronization**:
+- Sidebar file entries highlight active section
+- Top bar buffer tabs highlight active section
+- Status line updates to show current file name
+- Command line displays `:e {filename}` on navigation
+- URL hash updates to `#{sectionId}`
+- IntersectionObserver tracks active section (30% threshold)
+
+**Navigation Scripts**:
+```javascript
+// Initialize TUI navigation (src/scripts/tui-navigation.ts)
+initTuiNavigation();  // Handles sidebar + tab clicks, state sync
+initTypingAnimation(); // Hero typewriter effect
+initStatuslineSync();  // Statusline state updates
+```
+
+### TUI Section Styling
+
+Each section has unique TUI-inspired styling:
+
+**Hero** (typing style):
+- Typewriter animation with blinking cursor (█)
+- 50-80ms per character typing speed
+- ~530ms cursor blink interval
+- Uses GSAP TextPlugin for animation
+- Respects `prefers-reduced-motion`
+
+**About** (README.md style):
+- Markdown-inspired formatting (`#` headers, `-` lists)
+- Inline code blocks with syntax highlighting
+- Blockquote styling for callouts
+- Terminal color palette
+
+**Experience** (git log style):
+- Timeline with branch indicators
+- Commit-style entry formatting
+- Hash-like position identifiers
+- Diff-style highlighting
+
+**Projects** (Telescope/fzf style):
+- Fuzzy finder aesthetic
+- Search bar UI element
+- File path display
+- Preview pane layout
+
+**Expertise** (`:checkhealth` style):
+- Health check status indicators (OK/WARN/ERROR)
+- Progress bars for skill proficiency
+- Category sections with fold markers
+- Diagnostic-style descriptions
+
+**Contact** (terminal commands style):
+- Shell prompt indicators (`$`)
+- Command syntax with `echo`
+- Environment variable style
+- Script-like layout with comments
+
+### TUI Typography and Styling
+
+**Monospace Font**:
+- JetBrains Mono (self-hosted Latin subset ~35KB for 2 weights)
+- Applied throughout entire TUI layout
+- Optimal for terminal aesthetic and code display
+- Loaded via CSS `@font-face` with proper fallbacks
+
+**Nerd Font Icons**:
+- Custom 4-icon subset (self-hosted WOFF2 ~2-4KB)
+- File type indicators: 󰊢 (TypeScript), 󰉋 (markdown), 󰀄 (git), 󰇮 (folder)
+- Fallback to Unicode symbols if font fails
+- Icons defined in `src/styles/tui/icons.css`
+
+**Syntax Highlighting**:
+- CSS-only semantic classes (zero JavaScript overhead)
+- Token types: keywords, strings, comments, functions, operators
+- Catppuccin Mocha color palette
+- ~4KB CSS footprint
+- Defined in `src/styles/tui/syntax.css`
+
+**Line Numbers**:
+- Left gutter column with relative numbering
+- Alternating opacity for readability
+- CSS-only implementation (~1KB)
+- Respects monospace font alignment
+- Defined in `src/styles/tui/layout.css`
+
+### TUI Responsive Behavior
+
+**Desktop (≥1024px)**:
+- Full TUI layout visible
+- Sidebar fixed at ~200-250px width
+- All TUI elements visible (top bar, statusline, command line)
+- Line numbers always visible
+
+**Tablet (768-1023px)**:
+- Collapsible sidebar with toggle button
+- Top bar remains visible
+- Content area expands when sidebar hidden
+- TUI elements adapt with reduced padding
+
+**Mobile (<768px)**:
+- Sidebar hidden by default, accessible via toggle
+- Sidebar becomes full-width overlay when open
+- Sidebar auto-closes after navigation
+- Top bar simplified (tabs may stack or scroll)
+- Reduced line number width
+
+### TUI State Management
+
+**TUI Navigation State** (`src/types/tui.ts`):
+```typescript
+interface TuiNavigationState {
+  activeSectionId: SectionId;
+  previousSectionId: SectionId | null;
+  isSidebarVisible: boolean;
+  isSidebarCollapsed: boolean;
+}
+```
+
+**State Updates**:
+When active section changes:
+1. Update sidebar `FileEntry.isActive`
+2. Update top bar `BufferTab.isActive`
+3. Update statusline `activeFile`, reset `line`/`column`
+4. Update command line `content` to `:e {fileName}`
+5. Update URL hash to `#{sectionId}`
+6. Update browser history
+
+### TUI Accessibility
+
+**Keyboard Navigation**:
+- Standard web keyboard patterns (Tab/Shift+Tab, Enter, Escape)
+- No vim keybindings (j/k/h/l) - maintains WCAG compliance
+- Skip link to main content for keyboard users
+- Focus trap in mobile sidebar overlay
+- Visible focus indicators on all interactive elements
+
+**Screen Reader Support**:
+- Semantic HTML beneath TUI styling
+- ARIA attributes for all interactive elements
+- File names announced as navigation links, not actual files
+- Original text preserved for screen readers in typing animation
+- Split fragments marked with `aria-hidden="true"`
+
+**Reduced Motion**:
+- Typing animation shows instant reveal
+- Cursor remains static (no blinking)
+- Smooth scroll disabled
+- All transitions removed
+- Content always accessible
+
+### TUI Performance
+
+**Bundle Sizes**:
+- JetBrains Mono font: ~35KB (Latin subset, 2 weights)
+- Nerd Font icons: ~2-4KB (4-icon subset)
+- GSAP TextPlugin: ~3KB (typing animation)
+- TUI CSS: ~15KB (layout + components + sections)
+- TUI JavaScript: ~5KB (navigation + typing)
+- **Total TUI overhead: ~60KB** (within performance budget)
+
+**Optimization Strategies**:
+- Self-hosted fonts with Latin subset only
+- Minimal Nerd Font subset (4 icons vs. thousands)
+- CSS-only syntax highlighting (no Prism.js/highlight.js)
+- Lazy-loaded typing animation (viewport trigger)
+- Progressive enhancement (TUI functional without JavaScript)
+
 ## Commands
 ```bash
 bun install              # Install dependencies
@@ -131,9 +342,9 @@ bun test --watch         # Run tests in watch mode
 - Use `<slot />` for content projection
 - Prefer component-scoped styles over global styles
 - **Component Organization**:
-  - `layout/` - Structural components (Header, Footer, BurgerMenu)
-  - `sections/` - Page-specific sections (Hero, AboutIDE, ProjectsHexGrid)
-  - `ui/` - Reusable UI primitives (Button, Card, Modal)
+  - `layout/` - Structural components (TuiLayout, TopBar, Sidebar, StatusLine, CommandLine, Footer, BurgerMenu)
+  - `sections/` - Page-specific sections (HeroTui, AboutReadme, ExperienceGitLog, ProjectsTelescope, ExpertiseCheckhealth, ContactTerminal)
+  - `ui/` - Reusable UI primitives (BufferTab, FileEntry, LineNumbers, TypewriterText, Button, Card)
   - `islands/` - Client-side interactive components (use sparingly)
 
 ### File Naming
@@ -257,7 +468,64 @@ bun test --watch         # Run tests in watch mode
 - Browser-native CSS animation (Chrome 90+, Firefox 88+, Safari 14+)
 - Graceful degradation on older browsers (text remains readable)
 
-### Hero Section Patterns (Feature: PBF-30-hero-section)
+### TUI Typing Animation (Feature: PBF-32-portofolio-with-tui)
+
+The TUI hero section features a typewriter-style animation with a blinking cursor for an authentic terminal experience.
+
+**Component**: `src/components/sections/HeroTui.astro`
+
+**Animation Implementation**:
+- Uses GSAP TextPlugin for character-by-character reveal (~3KB)
+- Typing speed: 50-80ms per character for readable pace
+- Blinking block cursor (█) with ~530ms interval (CSS animation)
+- Animation triggers when hero enters viewport (IntersectionObserver)
+- Cursor continues blinking after text completes
+
+**Usage Pattern**:
+```typescript
+// src/scripts/typing-animation.ts
+import { gsap } from 'gsap';
+import { TextPlugin } from 'gsap/TextPlugin';
+
+gsap.registerPlugin(TextPlugin);
+
+export function initTypingAnimation() {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (prefersReducedMotion) {
+    // Show complete text instantly, static cursor
+    element.textContent = fullText;
+    cursor.classList.add('static');
+    return;
+  }
+
+  // Typewriter animation
+  gsap.to(element, {
+    duration: fullText.length * 0.06, // ~60ms per char
+    text: fullText,
+    ease: 'none',
+    onComplete: () => {
+      cursor.classList.add('blink'); // Start cursor blink
+    }
+  });
+}
+```
+
+**Accessibility**:
+- Original text preserved in visually-hidden span for screen readers
+- Animated text marked with `aria-hidden="true"`
+- Respects `prefers-reduced-motion`: instant reveal, static cursor
+- Progressive enhancement: text visible if JavaScript fails
+
+**Performance**:
+- GSAP TextPlugin only loaded for hero section (~3KB)
+- GPU-accelerated cursor blink (CSS animation)
+- Animation pauses when section not visible
+- Automatic cleanup on page navigation
+
+### Hero Section Patterns (Feature: PBF-30-hero-section) [DEPRECATED]
+
+**Note**: This pattern was replaced by TUI Typing Animation (PBF-32). Documentation kept for reference only.
 
 The hero section uses a clean, name-first layout following modern portfolio conventions. This replaced the previous WebGL animation (PBF-28) for improved reliability and simplicity.
 
@@ -537,7 +805,71 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
-- **PBF-30-hero-section**: Simplified hero section with CSS-only animation (ROLLBACK of PBF-28)
+- **PBF-32-portofolio-with-tui**: Complete TUI (Terminal User Interface) redesign
+  - **REPLACED** entire portfolio layout with terminal-inspired Neovim/tmux aesthetic
+  - Created comprehensive TUI layout system with 5 structural components:
+    - TopBar.astro: tmux-style window bar with buffer tabs, clock, git branch
+    - Sidebar.astro: NvimTree-style file explorer with 6 navigable "files" (hero.tsx, about.tsx, etc.)
+    - StatusLine.astro: Neovim statusline displaying mode (NORMAL), active file, cursor position
+    - CommandLine.astro: Decorative vim command line showing `:e {filename}` commands
+    - LineNumbers.astro: Line number gutter for content area
+  - **CREATED** 6 TUI-styled section components replacing previous sections:
+    - HeroTui.astro: Typewriter animation with blinking cursor (█) using GSAP TextPlugin
+    - AboutReadme.astro: README.md style with markdown formatting (`#` headers, `-` lists, code blocks)
+    - ExperienceGitLog.astro: git log style with branch indicators and commit-like entries
+    - ProjectsTelescope.astro: Telescope/fzf style with search bar and fuzzy finder aesthetic
+    - ExpertiseCheckhealth.astro: `:checkhealth` style with OK/WARN/ERROR indicators and progress bars
+    - ContactTerminal.astro: Terminal commands style with `$` prompts and `echo` syntax
+  - **ADDED** monospace typography throughout (JetBrains Mono self-hosted, Latin subset ~35KB)
+  - **ADDED** Nerd Font icon subset (~2-4KB for 4 icons: 󰊢 TypeScript, 󰉋 markdown, 󰀄 git, 󰇮 folder)
+  - **ADDED** CSS-only syntax highlighting (~4KB, zero JavaScript overhead)
+  - **IMPLEMENTED** TUI navigation system (src/scripts/tui-navigation.ts):
+    - File-based navigation metaphor (click sidebar files or top bar tabs)
+    - State synchronization across all TUI elements (sidebar, tabs, statusline, command line, URL hash)
+    - IntersectionObserver tracks active section (30% threshold)
+    - Smooth scroll integration with Lenis
+    - Browser history management for deep linking
+  - **IMPLEMENTED** typing animation system (src/scripts/typing-animation.ts):
+    - Character-by-character reveal using GSAP TextPlugin (~3KB)
+    - 50-80ms per character typing speed for readable pace
+    - Blinking block cursor with ~530ms interval (CSS animation)
+    - Viewport-triggered animation (IntersectionObserver)
+    - Progressive enhancement: text visible if JavaScript fails
+  - **CREATED** TUI type system (src/types/tui.ts):
+    - TypeScript interfaces for Section, BufferTab, FileEntry, StatusLineState, CommandLine
+    - SectionId and SectionStyleType enums
+    - TuiNavigationState for state management
+    - TypingAnimationState for animation phases
+  - **ORGANIZED** TUI styles in dedicated subdirectory (src/styles/tui/):
+    - layout.css: Grid-based TUI container layout (~3KB)
+    - sidebar.css: NvimTree styling (~2KB)
+    - statusline.css: Neovim statusline styling (~1KB)
+    - typography.css: Monospace font definitions (~1KB)
+    - sections.css: Section-specific TUI styles (~4KB)
+    - icons.css: Nerd Font icon definitions (~1KB)
+    - syntax.css: CSS-only syntax highlighting (~4KB)
+  - **RESPONSIVE** TUI layout across all breakpoints:
+    - Desktop (≥1024px): Full TUI with visible sidebar (~200-250px)
+    - Tablet (768-1023px): Collapsible sidebar with toggle
+    - Mobile (<768px): Hidden sidebar, full-width overlay when open, auto-close after navigation
+  - **ACCESSIBILITY** maintained throughout:
+    - Standard keyboard navigation (Tab/Shift+Tab, Enter, Escape) - no vim keybindings
+    - Skip link to main content for keyboard users
+    - ARIA attributes for all interactive elements
+    - Screen readers announce file names as navigation links, not actual files
+    - Respects `prefers-reduced-motion`: typing shows instant reveal, cursor static, smooth scroll disabled
+    - Progressive enhancement: TUI functional without JavaScript
+  - **PERFORMANCE** optimized:
+    - Total TUI overhead: ~60KB (fonts ~40KB + CSS ~15KB + JS ~5KB)
+    - Self-hosted fonts with Latin subset only (not full character set)
+    - Minimal Nerd Font subset (4 icons vs. thousands)
+    - CSS-only syntax highlighting (no Prism.js/highlight.js)
+    - Lazy-loaded typing animation (viewport trigger)
+    - Within performance budget: Lighthouse ≥85 mobile / ≥95 desktop
+  - **REMOVED** ProjectsHexGrid "More Projects" grid (per spec FR-015)
+  - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, GSAP 3.13.0 (+ TextPlugin), Lenis 1.0.42, Biome 2.3.4
+  - N/A (static site, Markdown via Astro Content Collections)
+- **PBF-30-hero-section**: Simplified hero section with CSS-only animation (ROLLBACK of PBF-28) [DEPRECATED by PBF-32]
   - Removed WebGL 3D hero animation entirely (PBF-28) due to reliability issues
   - Deleted all hero animation modules: hero-controller.ts, background-3d.ts, cursor-tracker.ts, typography-reveal.ts, performance-monitor.ts, types.ts
   - Removed OGL dependency (~24KB) from package.json

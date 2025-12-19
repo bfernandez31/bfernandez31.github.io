@@ -1,0 +1,198 @@
+/**
+ * TUI Statusline Styles (Neovim-style)
+ * Feature: PBF-32-portofolio-with-tui
+ *
+ * Neovim-inspired statusline at bottom of viewport
+ */
+
+/* ============================================
+   Statusline Container
+   ============================================ */
+
+.tui-statusline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 1.5rem;
+  padding: 0.125rem 0.5rem;
+  background-color: var(--color-primary);
+  color: var(--color-background);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* ============================================
+   Statusline Segments
+   ============================================ */
+
+.tui-statusline__left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tui-statusline__center {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tui-statusline__right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ============================================
+   Mode Indicator
+   ============================================ */
+
+.tui-statusline__mode {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.125rem 0.5rem;
+  background-color: var(--color-background);
+  color: var(--color-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 2px;
+}
+
+/* Mode variants */
+.tui-statusline__mode--normal {
+  background-color: var(--color-success);
+  color: var(--color-background);
+}
+
+.tui-statusline__mode--insert {
+  background-color: var(--color-info);
+  color: var(--color-background);
+}
+
+.tui-statusline__mode--visual {
+  background-color: var(--color-warning);
+  color: var(--color-background);
+}
+
+.tui-statusline__mode--command {
+  background-color: var(--color-error);
+  color: var(--color-text);
+}
+
+/* ============================================
+   File Info
+   ============================================ */
+
+.tui-statusline__file {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: inherit;
+}
+
+.tui-statusline__file-icon {
+  font-family: var(--font-nerd);
+}
+
+.tui-statusline__file-name {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tui-statusline__file-modified {
+  color: var(--color-warning);
+  margin-left: 0.25rem;
+}
+
+.tui-statusline__file-type {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+/* ============================================
+   Position Info
+   ============================================ */
+
+.tui-statusline__position {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.tui-statusline__line {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.tui-statusline__column {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.tui-statusline__percent {
+  min-width: 3ch;
+  text-align: right;
+}
+
+/* ============================================
+   Git Branch
+   ============================================ */
+
+.tui-statusline__git {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.tui-statusline__git-icon {
+  font-family: var(--font-nerd);
+}
+
+.tui-statusline__git-branch {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ============================================
+   Separator
+   ============================================ */
+
+.tui-statusline__sep {
+  width: 1px;
+  height: 1rem;
+  background-color: currentColor;
+  opacity: 0.3;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+
+@media (max-width: 767px) {
+  .tui-statusline {
+    font-size: 0.625rem;
+    padding: 0.125rem 0.25rem;
+  }
+
+  .tui-statusline__mode {
+    padding: 0.0625rem 0.25rem;
+  }
+
+  .tui-statusline__file-name {
+    max-width: 80px;
+  }
+
+  .tui-statusline__git-branch {
+    display: none;
+  }
+}

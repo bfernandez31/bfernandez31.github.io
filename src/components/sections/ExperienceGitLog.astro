@@ -1,0 +1,415 @@
+---
+/**
+ * ExperienceGitLog Component
+ * Feature: PBF-32-portofolio-with-tui
+ *
+ * Git log style Experience section with commit-like entries
+ */
+import experienceData from "../../data/experiences.json";
+import type { ExperienceData } from "../../types/experience";
+
+// Sort by displayOrder (1 = most recent)
+const experiences = (experienceData as ExperienceData).experiences.sort(
+  (a, b) => a.displayOrder - b.displayOrder,
+);
+
+/**
+ * Generate a fake git commit hash from string
+ */
+function generateHash(str: string): string {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash;
+  }
+  return Math.abs(hash).toString(16).padStart(7, '0').slice(0, 7);
+}
+
+/**
+ * Format date for git log display
+ */
+function formatGitDate(date: string): string {
+  const d = new Date(date);
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  return `${days[d.getDay()]} ${months[d.getMonth()]} ${d.getDate()} ${d.getFullYear()}`;
+}
+---
+
+<div class="tui-gitlog">
+  <div class="tui-gitlog__header">
+    <span class="tui-gitlog__command">
+      <span class="tui-gitlog__prompt" aria-hidden="true">$</span>
+      git log --oneline --graph --all
+    </span>
+  </div>
+
+  <div class="tui-gitlog__content">
+    <!-- Branch visualization -->
+    <div class="tui-gitlog__branch-header">
+      <span class="tui-gitlog__branch-icon" aria-hidden="true"></span>
+      <span class="tui-gitlog__branch-name">main</span>
+      <span class="tui-gitlog__branch-status">HEAD</span>
+    </div>
+
+    <!-- Commit entries -->
+    <ol class="tui-gitlog__commits" role="list" aria-label="Career timeline">
+      {experiences.map((exp, index) => {
+        const hash = generateHash(exp.company + exp.role);
+        const isLatest = index === 0;
+
+        return (
+          <li class="tui-gitlog__entry" data-entry-index={index}>
+            <div class="tui-gitlog__graph" aria-hidden="true">
+              <span class="tui-gitlog__line"></span>
+              <span class={`tui-gitlog__node ${isLatest ? 'tui-gitlog__node--head' : ''}`}></span>
+            </div>
+
+            <article class="tui-gitlog__commit">
+              <header class="tui-gitlog__commit-header">
+                <span class="tui-gitlog__hash">{hash}</span>
+                {isLatest && <span class="tui-gitlog__head-tag">HEAD</span>}
+                <span class="tui-gitlog__commit-title">{exp.role}</span>
+              </header>
+
+              <div class="tui-gitlog__commit-meta">
+                <span class="tui-gitlog__author">
+                  <span class="tui-gitlog__meta-label">Author:</span>
+                  {exp.company}
+                </span>
+                <span class="tui-gitlog__date">
+                  <span class="tui-gitlog__meta-label">Date:</span>
+                  <time datetime={exp.startDate}>
+                    {formatGitDate(exp.startDate)}
+                    {exp.endDate ? ` → ${formatGitDate(exp.endDate)}` : ' → Present'}
+                  </time>
+                </span>
+                <span class="tui-gitlog__location">
+                  <span class="tui-gitlog__meta-label">Location:</span>
+                  {exp.location}
+                </span>
+              </div>
+
+              <div class="tui-gitlog__commit-body">
+                <p class="tui-gitlog__description">{exp.description}</p>
+
+                {exp.achievements.length > 0 && (
+                  <div class="tui-gitlog__changes">
+                    <span class="tui-gitlog__changes-header">Changes:</span>
+                    <ul class="tui-gitlog__changes-list" role="list">
+                      {exp.achievements.map((achievement) => (
+                        <li class="tui-gitlog__change">
+                          <span class="tui-gitlog__change-icon" aria-hidden="true">+</span>
+                          {achievement}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                <div class="tui-gitlog__tags">
+                  {exp.technologies.map((tech) => (
+                    <span class="tui-gitlog__tag">{tech}</span>
+                  ))}
+                </div>
+              </div>
+            </article>
+          </li>
+        );
+      })}
+    </ol>
+
+    <!-- End of log -->
+    <div class="tui-gitlog__footer">
+      <span class="tui-gitlog__graph-end" aria-hidden="true">
+        <span class="tui-gitlog__line tui-gitlog__line--end"></span>
+        <span class="tui-gitlog__node tui-gitlog__node--initial"></span>
+      </span>
+      <span class="tui-gitlog__initial-commit">
+        <span class="tui-gitlog__hash">0000000</span>
+        Initial commit - Career started
+      </span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .tui-gitlog {
+    font-family: var(--font-mono, monospace);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+
+  .tui-gitlog__header {
+    padding: 0.5rem 0.75rem;
+    background-color: var(--color-surface-1, #313244);
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+
+  .tui-gitlog__command {
+    font-size: 0.875rem;
+    color: var(--color-text, #cdd6f4);
+  }
+
+  .tui-gitlog__prompt {
+    color: var(--color-success, #a6e3a1);
+    margin-right: 0.5rem;
+  }
+
+  .tui-gitlog__content {
+    background-color: var(--color-surface-0, #1e1e2e);
+    border: 1px solid var(--color-surface-1, #313244);
+    border-top: none;
+    border-radius: 0 0 0.5rem 0.5rem;
+    padding: 1rem;
+  }
+
+  /* Branch header */
+  .tui-gitlog__branch-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--color-surface-1, #313244);
+  }
+
+  .tui-gitlog__branch-icon {
+    font-family: var(--font-nerd, monospace);
+    color: var(--color-warning, #f9e2af);
+  }
+
+  .tui-gitlog__branch-name {
+    color: var(--color-success, #a6e3a1);
+    font-weight: 600;
+  }
+
+  .tui-gitlog__branch-status {
+    padding: 0.125rem 0.5rem;
+    background-color: var(--color-primary, #cba6f7);
+    color: var(--color-background, #1e1e2e);
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  /* Commits list */
+  .tui-gitlog__commits {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .tui-gitlog__entry {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Graph visualization */
+  .tui-gitlog__graph {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20px;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .tui-gitlog__line {
+    position: absolute;
+    width: 2px;
+    top: 0;
+    bottom: -1.5rem;
+    background-color: var(--color-surface-2, #45475a);
+  }
+
+  .tui-gitlog__line--end {
+    bottom: 0;
+    height: 1.5rem;
+  }
+
+  .tui-gitlog__node {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--color-surface-2, #45475a);
+    border: 2px solid var(--color-primary, #cba6f7);
+    z-index: 1;
+    position: relative;
+  }
+
+  .tui-gitlog__node--head {
+    background-color: var(--color-primary, #cba6f7);
+  }
+
+  .tui-gitlog__node--initial {
+    background-color: var(--color-text-muted, #6c7086);
+    border-color: var(--color-text-muted, #6c7086);
+  }
+
+  /* Commit content */
+  .tui-gitlog__commit {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tui-gitlog__commit-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .tui-gitlog__hash {
+    color: var(--color-warning, #f9e2af);
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+
+  .tui-gitlog__head-tag {
+    padding: 0.125rem 0.375rem;
+    background-color: var(--color-info, #89b4fa);
+    color: var(--color-background, #1e1e2e);
+    border-radius: 0.25rem;
+    font-size: 0.625rem;
+    font-weight: 700;
+  }
+
+  .tui-gitlog__commit-title {
+    color: var(--color-text, #cdd6f4);
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .tui-gitlog__commit-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted, #6c7086);
+    margin-bottom: 0.75rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--color-surface-1, #313244);
+  }
+
+  .tui-gitlog__meta-label {
+    color: var(--color-secondary, #f5c2e7);
+    margin-right: 0.5rem;
+  }
+
+  .tui-gitlog__author {
+    color: var(--color-info, #89b4fa);
+  }
+
+  .tui-gitlog__commit-body {
+    padding-left: 1rem;
+    border-left: 2px solid var(--color-surface-1, #313244);
+  }
+
+  .tui-gitlog__description {
+    color: var(--color-text, #cdd6f4);
+    line-height: 1.6;
+    margin: 0 0 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  /* Changes list */
+  .tui-gitlog__changes {
+    margin-bottom: 0.75rem;
+  }
+
+  .tui-gitlog__changes-header {
+    color: var(--color-text-muted, #6c7086);
+    font-size: 0.75rem;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .tui-gitlog__changes-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .tui-gitlog__change {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--color-text, #cdd6f4);
+    padding: 0.125rem 0;
+    line-height: 1.5;
+  }
+
+  .tui-gitlog__change-icon {
+    color: var(--color-success, #a6e3a1);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* Technology tags */
+  .tui-gitlog__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+
+  .tui-gitlog__tag {
+    padding: 0.125rem 0.5rem;
+    background-color: var(--color-surface-1, #313244);
+    color: var(--color-primary, #cba6f7);
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+  }
+
+  /* Footer */
+  .tui-gitlog__footer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 0.5rem;
+    color: var(--color-text-muted, #6c7086);
+    font-size: 0.8125rem;
+  }
+
+  .tui-gitlog__graph-end {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20px;
+    position: relative;
+  }
+
+  .tui-gitlog__initial-commit {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 767px) {
+    .tui-gitlog {
+      padding: 0.5rem;
+    }
+
+    .tui-gitlog__content {
+      padding: 0.75rem;
+    }
+
+    .tui-gitlog__entry {
+      gap: 0.75rem;
+    }
+
+    .tui-gitlog__commit-meta {
+      padding-left: 0.75rem;
+    }
+
+    .tui-gitlog__commit-body {
+      padding-left: 0.75rem;
+    }
+  }
+</style>

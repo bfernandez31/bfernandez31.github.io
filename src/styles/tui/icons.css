@@ -1,0 +1,98 @@
+/**
+ * TUI Nerd Font Icons
+ * Feature: PBF-32-portofolio-with-tui
+ *
+ * Nerd Font icon classes for file/folder icons
+ * Icons: file, folder, user, mail, code, git-branch, terminal
+ */
+
+/* ============================================
+   Base Icon Class
+   ============================================ */
+
+.nerd-icon {
+  font-family: var(--font-nerd, 'NerdIcons'), monospace;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1em;
+  line-height: 1;
+  display: inline-block;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   Icon Classes (using Unicode codepoints)
+   ============================================ */
+
+/* File icon - nf-md-file */
+.nerd-icon-file::before {
+  content: '\f0a2';
+}
+
+/* Folder icon - nf-md-folder */
+.nerd-icon-folder::before {
+  content: '\f04b';
+}
+
+/* User icon */
+.nerd-icon-user::before {
+  content: '\f0004';
+}
+
+/* Mail icon - nf-md-email */
+.nerd-icon-mail::before {
+  content: '\f01ea';
+}
+
+/* Code icon */
+.nerd-icon-code::before {
+  content: '\f002';
+}
+
+/* Git branch icon */
+.nerd-icon-git-branch::before {
+  content: '\f126';
+}
+
+/* Terminal icon */
+.nerd-icon-terminal::before {
+  content: '\f120';
+}
+
+/* ============================================
+   Icon Sizes
+   ============================================ */
+
+.nerd-icon--sm {
+  font-size: 0.75em;
+}
+
+.nerd-icon--lg {
+  font-size: 1.25em;
+}
+
+.nerd-icon--xl {
+  font-size: 1.5em;
+}
+
+/* ============================================
+   Icon Colors (use existing theme tokens)
+   ============================================ */
+
+.nerd-icon--primary {
+  color: var(--color-primary);
+}
+
+.nerd-icon--secondary {
+  color: var(--color-secondary);
+}
+
+.nerd-icon--accent {
+  color: var(--color-accent);
+}
+
+.nerd-icon--muted {
+  color: var(--color-text-muted);
+}

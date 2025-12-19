@@ -1,0 +1,89 @@
+---
+/**
+ * BufferTab Component
+ * Feature: PBF-32-portofolio-with-tui
+ *
+ * Individual tmux-style buffer tab for top bar navigation
+ */
+
+import type { SectionId } from '../../types/tui';
+
+interface Props {
+  /** Section ID this tab navigates to */
+  sectionId: SectionId;
+  /** Tab display label */
+  label: string;
+  /** Window number (tmux-style: 1, 2, 3...) */
+  windowNumber: number;
+  /** Whether this tab is currently active */
+  isActive?: boolean;
+  /** Additional CSS class */
+  class?: string;
+}
+
+const { sectionId, label, windowNumber, isActive = false, class: className } = Astro.props;
+---
+
+<a
+  href={`#${sectionId}`}
+  class:list={["tui-buffer-tab", { "is-active": isActive }, className]}
+  data-section-id={sectionId}
+  aria-current={isActive ? "page" : undefined}
+>
+  <span class="tui-buffer-tab__number">{windowNumber}</span>
+  <span class="tui-buffer-tab__label">{label}</span>
+</a>
+
+<style>
+  .tui-buffer-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    color: var(--color-text-muted, #6c7086);
+    text-decoration: none;
+    border-radius: 0.25rem;
+    background-color: transparent;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .tui-buffer-tab:hover {
+    background-color: var(--color-surface-1, #313244);
+    color: var(--color-text, #cdd6f4);
+  }
+
+  .tui-buffer-tab:focus-visible {
+    outline: 2px solid var(--color-primary, #cba6f7);
+    outline-offset: 2px;
+  }
+
+  .tui-buffer-tab.is-active {
+    background-color: var(--color-surface-2, #45475a);
+    color: var(--color-primary, #cba6f7);
+    font-weight: 700;
+  }
+
+  .tui-buffer-tab__number {
+    color: var(--color-text-muted, #6c7086);
+    font-size: 0.625rem;
+  }
+
+  .tui-buffer-tab.is-active .tui-buffer-tab__number {
+    color: var(--color-secondary, #f5c2e7);
+  }
+
+  .tui-buffer-tab__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 80px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tui-buffer-tab {
+      transition: none;
+    }
+  }
+</style>

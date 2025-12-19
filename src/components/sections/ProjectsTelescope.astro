@@ -1,0 +1,466 @@
+---
+/**
+ * ProjectsTelescope Component
+ * Feature: PBF-32-portofolio-with-tui
+ *
+ * Telescope/fzf style Projects section with search UI
+ */
+import { getCollection } from "astro:content";
+
+// Get all projects sorted by displayOrder
+let projects = await getCollection("projects");
+projects.sort((a, b) => {
+  const orderA = a.data.displayOrder ?? 999;
+  const orderB = b.data.displayOrder ?? 999;
+  return orderA - orderB;
+});
+---
+
+<div class="tui-telescope">
+  <div class="tui-telescope__header">
+    <span class="tui-telescope__title">
+      <span class="tui-telescope__icon" aria-hidden="true"></span>
+      Telescope: Projects
+    </span>
+    <span class="tui-telescope__hint">
+      <kbd>j</kbd>/<kbd>k</kbd> navigate • <kbd>Enter</kbd> select
+    </span>
+  </div>
+
+  <div class="tui-telescope__content">
+    <!-- Search bar -->
+    <div class="tui-telescope__search">
+      <span class="tui-telescope__search-icon" aria-hidden="true"></span>
+      <span class="tui-telescope__search-input" role="searchbox" aria-label="Project search">
+        <span class="tui-telescope__search-text">Find projects...</span>
+        <span class="tui-telescope__cursor" aria-hidden="true">│</span>
+      </span>
+    </div>
+
+    <!-- Results list -->
+    <div class="tui-telescope__results" role="listbox" aria-label="Project results">
+      <div class="tui-telescope__results-header">
+        <span class="tui-telescope__count">{projects.length} results</span>
+      </div>
+
+      <ul class="tui-telescope__list" role="list">
+        {projects.map((project, index) => {
+          const isFirst = index === 0;
+          const isFeatured = project.data.featured;
+
+          return (
+            <li
+              class={`tui-telescope__item ${isFirst ? 'tui-telescope__item--selected' : ''}`}
+              data-project-index={index}
+              role="option"
+              aria-selected={isFirst}
+            >
+              <a
+                href={`/projects/${project.slug}`}
+                class="tui-telescope__link"
+                aria-label={`View ${project.data.title} project`}
+              >
+                <div class="tui-telescope__item-indicator" aria-hidden="true">
+                  {isFirst ? '>' : ' '}
+                </div>
+
+                <div class="tui-telescope__item-content">
+                  <div class="tui-telescope__item-header">
+                    <span class="tui-telescope__item-icon" aria-hidden="true">
+                      {isFeatured ? '' : ''}
+                    </span>
+                    <span class="tui-telescope__item-title">{project.data.title}</span>
+                    {isFeatured && (
+                      <span class="tui-telescope__item-badge">featured</span>
+                    )}
+                  </div>
+
+                  <p class="tui-telescope__item-description">
+                    {project.data.description}
+                  </p>
+
+                  <div class="tui-telescope__item-meta">
+                    <span class="tui-telescope__item-path">
+                      ~/projects/{project.slug}
+                    </span>
+                    <div class="tui-telescope__item-tags">
+                      {project.data.technologies.slice(0, 4).map((tech: string) => (
+                        <span class="tui-telescope__item-tag">{tech}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tui-telescope__item-action" aria-hidden="true">
+                  →
+                </div>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+
+    <!-- Preview pane (decorative) -->
+    <div class="tui-telescope__preview" aria-hidden="true">
+      <div class="tui-telescope__preview-header">
+        <span class="tui-telescope__preview-title">Preview</span>
+      </div>
+      <div class="tui-telescope__preview-content">
+        <div class="tui-telescope__preview-placeholder">
+          <span class="tui-telescope__preview-icon"></span>
+          <span>Select a project to preview</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tui-telescope__footer">
+    <span class="tui-telescope__footer-item">
+      <kbd>?</kbd> help
+    </span>
+    <span class="tui-telescope__footer-item">
+      <kbd>q</kbd> close
+    </span>
+    <span class="tui-telescope__footer-item">
+      <span class="tui-telescope__match-count">{projects.length}/{projects.length}</span>
+    </span>
+  </div>
+</div>
+
+<style>
+  .tui-telescope {
+    font-family: var(--font-mono, monospace);
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1rem;
+    background-color: var(--color-surface-0, #1e1e2e);
+    border: 1px solid var(--color-surface-1, #313244);
+    border-radius: 0.5rem;
+  }
+
+  .tui-telescope__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--color-surface-1, #313244);
+    border-radius: 0.375rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .tui-telescope__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text, #cdd6f4);
+    font-weight: 600;
+  }
+
+  .tui-telescope__icon {
+    font-family: var(--font-nerd, monospace);
+    color: var(--color-info, #89b4fa);
+  }
+
+  .tui-telescope__hint {
+    color: var(--color-text-muted, #6c7086);
+    font-size: 0.75rem;
+  }
+
+  .tui-telescope__hint kbd {
+    padding: 0.125rem 0.375rem;
+    background-color: var(--color-surface-2, #45475a);
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+  }
+
+  .tui-telescope__content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* Search bar */
+  .tui-telescope__search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--color-background, #11111b);
+    border: 1px solid var(--color-primary, #cba6f7);
+    border-radius: 0.375rem;
+  }
+
+  .tui-telescope__search-icon {
+    font-family: var(--font-nerd, monospace);
+    color: var(--color-primary, #cba6f7);
+  }
+
+  .tui-telescope__search-input {
+    flex: 1;
+    color: var(--color-text-muted, #6c7086);
+    font-size: 0.875rem;
+  }
+
+  .tui-telescope__cursor {
+    color: var(--color-primary, #cba6f7);
+    animation: blink 1.06s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* Results */
+  .tui-telescope__results {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .tui-telescope__results-header {
+    padding: 0.25rem 0.5rem;
+    color: var(--color-text-muted, #6c7086);
+    font-size: 0.75rem;
+  }
+
+  .tui-telescope__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .tui-telescope__item {
+    border-bottom: 1px solid var(--color-surface-1, #313244);
+  }
+
+  .tui-telescope__item:last-child {
+    border-bottom: none;
+  }
+
+  .tui-telescope__link {
+    display: flex;
+    align-items: stretch;
+    gap: 0.5rem;
+    padding: 0.75rem 0.5rem;
+    color: var(--color-text, #cdd6f4);
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+  }
+
+  .tui-telescope__link:hover {
+    background-color: var(--color-surface-1, #313244);
+  }
+
+  .tui-telescope__item--selected .tui-telescope__link {
+    background-color: var(--color-surface-2, #45475a);
+  }
+
+  .tui-telescope__link:focus-visible {
+    outline: 2px solid var(--color-primary, #cba6f7);
+    outline-offset: -2px;
+  }
+
+  .tui-telescope__item-indicator {
+    width: 1rem;
+    color: var(--color-primary, #cba6f7);
+    font-weight: 700;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .tui-telescope__item-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tui-telescope__item-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .tui-telescope__item-icon {
+    font-family: var(--font-nerd, monospace);
+    color: var(--color-warning, #f9e2af);
+  }
+
+  .tui-telescope__item-title {
+    font-weight: 600;
+    color: var(--color-text, #cdd6f4);
+  }
+
+  .tui-telescope__item-badge {
+    padding: 0.125rem 0.375rem;
+    background-color: var(--color-primary, #cba6f7);
+    color: var(--color-background, #1e1e2e);
+    border-radius: 0.25rem;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .tui-telescope__item-description {
+    color: var(--color-text-muted, #6c7086);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    margin: 0 0 0.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tui-telescope__item-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .tui-telescope__item-path {
+    color: var(--color-info, #89b4fa);
+  }
+
+  .tui-telescope__item-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .tui-telescope__item-tag {
+    padding: 0.125rem 0.375rem;
+    background-color: var(--color-surface-1, #313244);
+    color: var(--color-secondary, #f5c2e7);
+    border-radius: 0.25rem;
+    font-size: 0.6875rem;
+  }
+
+  .tui-telescope__item-action {
+    width: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted, #6c7086);
+    flex-shrink: 0;
+  }
+
+  .tui-telescope__item--selected .tui-telescope__item-action {
+    color: var(--color-primary, #cba6f7);
+  }
+
+  /* Preview pane (hidden on mobile) */
+  .tui-telescope__preview {
+    display: none;
+    border: 1px solid var(--color-surface-1, #313244);
+    border-radius: 0.375rem;
+    overflow: hidden;
+  }
+
+  .tui-telescope__preview-header {
+    padding: 0.5rem 0.75rem;
+    background-color: var(--color-surface-1, #313244);
+  }
+
+  .tui-telescope__preview-title {
+    color: var(--color-text-muted, #6c7086);
+    font-size: 0.75rem;
+  }
+
+  .tui-telescope__preview-content {
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tui-telescope__preview-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-muted, #6c7086);
+    font-size: 0.875rem;
+  }
+
+  .tui-telescope__preview-icon {
+    font-family: var(--font-nerd, monospace);
+    font-size: 2rem;
+  }
+
+  /* Footer */
+  .tui-telescope__footer {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem 0.75rem;
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--color-surface-1, #313244);
+    color: var(--color-text-muted, #6c7086);
+    font-size: 0.75rem;
+  }
+
+  .tui-telescope__footer-item kbd {
+    padding: 0.125rem 0.25rem;
+    background-color: var(--color-surface-1, #313244);
+    border-radius: 0.125rem;
+    margin-right: 0.25rem;
+  }
+
+  .tui-telescope__match-count {
+    margin-left: auto;
+    color: var(--color-success, #a6e3a1);
+  }
+
+  /* Desktop layout */
+  @media (min-width: 1024px) {
+    .tui-telescope__content {
+      flex-direction: row;
+    }
+
+    .tui-telescope__results {
+      flex: 2;
+    }
+
+    .tui-telescope__preview {
+      display: block;
+      flex: 1;
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 767px) {
+    .tui-telescope {
+      padding: 0.5rem;
+    }
+
+    .tui-telescope__header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .tui-telescope__list {
+      max-height: 300px;
+    }
+
+    .tui-telescope__item-description {
+      -webkit-line-clamp: 1;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .tui-telescope__cursor {
+      animation: none;
+    }
+
+    .tui-telescope__link {
+      transition: none;
+    }
+  }
+</style>

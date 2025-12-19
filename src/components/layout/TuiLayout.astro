@@ -1,0 +1,189 @@
+---
+/**
+ * TuiLayout Component
+ * Feature: PBF-32-portofolio-with-tui
+ *
+ * Main TUI layout container integrating TopBar, Sidebar, content, StatusLine, CommandLine
+ */
+
+import TopBar from './TopBar.astro';
+import Sidebar from './Sidebar.astro';
+import StatusLine from './StatusLine.astro';
+import CommandLine from './CommandLine.astro';
+import LineNumbers from '../ui/LineNumbers.astro';
+import type { SectionId } from '../../types/tui';
+import { TUI_SECTIONS, generateBufferTabs, generateFileEntries } from '../../data/sections';
+
+interface Props {
+  /** Initial active section */
+  activeSectionId?: SectionId;
+  /** Show line numbers gutter */
+  showLineNumbers?: boolean;
+  /** Number of lines for line numbers gutter */
+  lineCount?: number;
+}
+
+const {
+  activeSectionId = 'hero',
+  showLineNumbers = true,
+  lineCount = 50,
+} = Astro.props;
+
+// Generate tabs and files from section config
+const tabs = generateBufferTabs(activeSectionId);
+const files = generateFileEntries(activeSectionId);
+
+// Get active section info
+const activeSection = TUI_SECTIONS.find(s => s.id === activeSectionId);
+const activeFileName = activeSection?.fileName || 'hero.tsx';
+---
+
+<div class="tui-layout">
+  <!-- Skip link for accessibility -->
+  <a href="#main-content" class="tui-skip-link">Skip to main content</a>
+
+  <!-- Sidebar overlay (mobile) -->
+  <div class="tui-sidebar-overlay" aria-hidden="true"></div>
+
+  <!-- tmux-style top bar -->
+  <TopBar
+    tabs={tabs}
+    sessionName="portfolio"
+    gitBranch="main"
+    showClock={true}
+    showSidebarToggle={true}
+  />
+
+  <!-- Main content area with sidebar -->
+  <div class="tui-main">
+    <!-- NvimTree sidebar -->
+    <Sidebar
+      files={files}
+      activeSectionId={activeSectionId}
+    />
+
+    <!-- Content area -->
+    <main id="main-content" class="tui-content">
+      {showLineNumbers && (
+        <div class="tui-content__gutter">
+          <LineNumbers lineCount={lineCount} />
+        </div>
+      )}
+      <div class="tui-content__viewport">
+        <slot />
+      </div>
+    </main>
+  </div>
+
+  <!-- Neovim statusline -->
+  <StatusLine
+    mode="NORMAL"
+    activeFile={activeFileName}
+    line={1}
+    column={1}
+    fileType="typescriptreact"
+    gitBranch="main"
+  />
+
+  <!-- Command line -->
+  <CommandLine
+    prompt=":"
+    content={`e ${activeFileName}`}
+    isVisible={true}
+  />
+</div>
+
+<style>
+  .tui-layout {
+    display: grid;
+    grid-template-rows: auto 1fr auto auto;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    background-color: var(--color-background, #1e1e2e);
+    color: var(--color-text, #cdd6f4);
+    font-family: var(--font-mono, monospace);
+  }
+
+  .tui-main {
+    display: flex;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .tui-content {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+  }
+
+  .tui-content__gutter {
+    flex-shrink: 0;
+    width: 3rem;
+    padding: 0.5rem 0;
+    text-align: right;
+    color: var(--color-text-muted, #6c7086);
+    background-color: var(--color-surface-0, #1e1e2e);
+    border-right: 1px solid var(--color-surface-1, #313244);
+    user-select: none;
+    overflow: hidden;
+  }
+
+  .tui-content__viewport {
+    flex: 1;
+    padding: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+
+  /* Sidebar overlay (mobile) */
+  .tui-sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 150;
+  }
+
+  .tui-sidebar-overlay.is-visible {
+    display: block;
+  }
+
+  /* Skip link */
+  .tui-skip-link {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    padding: 0.5rem 1rem;
+    background-color: var(--color-primary, #cba6f7);
+    color: var(--color-background, #1e1e2e);
+    z-index: 1000;
+    text-decoration: none;
+    font-family: var(--font-mono, monospace);
+  }
+
+  .tui-skip-link:focus {
+    top: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 767px) {
+    .tui-content__gutter {
+      width: 2.5rem;
+      font-size: 0.75rem;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .tui-main {
+      /* Sidebar is hidden/overlay on mobile/tablet */
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tui-content__viewport {
+      scroll-behavior: auto;
+    }
+  }
+</style>

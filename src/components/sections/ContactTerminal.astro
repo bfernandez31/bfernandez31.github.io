@@ -1,0 +1,588 @@
+---
+/**
+ * ContactTerminal Component
+ * Feature: PBF-32-portofolio-with-tui
+ *
+ * Terminal style Contact section with $ prompts and command output
+ */
+---
+
+<div class="tui-terminal">
+  <div class="tui-terminal__header">
+    <div class="tui-terminal__buttons" aria-hidden="true">
+      <span class="tui-terminal__button tui-terminal__button--close"></span>
+      <span class="tui-terminal__button tui-terminal__button--minimize"></span>
+      <span class="tui-terminal__button tui-terminal__button--maximize"></span>
+    </div>
+    <span class="tui-terminal__title">
+      <span class="tui-terminal__icon" aria-hidden="true"></span>
+      contact@portfolio: ~
+    </span>
+  </div>
+
+  <div class="tui-terminal__content">
+    <!-- Welcome message -->
+    <div class="tui-terminal__block">
+      <div class="tui-terminal__line">
+        <span class="tui-terminal__prompt" aria-hidden="true">$</span>
+        <span class="tui-terminal__command">cat welcome.txt</span>
+      </div>
+      <div class="tui-terminal__output">
+        <pre class="tui-terminal__ascii" aria-label="Contact">
+ ██████╗ ██████╗ ███╗   ██╗████████╗ █████╗  ██████╗████████╗
+██╔════╝██╔═══██╗████╗  ██║╚══██╔══╝██╔══██╗██╔════╝╚══██╔══╝
+██║     ██║   ██║██╔██╗ ██║   ██║   ███████║██║        ██║
+██║     ██║   ██║██║╚██╗██║   ██║   ██╔══██║██║        ██║
+╚██████╗╚██████╔╝██║ ╚████║   ██║   ██║  ██║╚██████╗   ██║
+ ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝   ╚═╝</pre>
+        <p class="tui-terminal__text">Let's build something amazing together!</p>
+      </div>
+    </div>
+
+    <!-- Contact info -->
+    <div class="tui-terminal__block">
+      <div class="tui-terminal__line">
+        <span class="tui-terminal__prompt" aria-hidden="true">$</span>
+        <span class="tui-terminal__command">./get_contact_info.sh</span>
+      </div>
+      <div class="tui-terminal__output">
+        <ul class="tui-terminal__info-list" role="list">
+          <li class="tui-terminal__info-item">
+            <span class="tui-terminal__info-label">EMAIL:</span>
+            <a href="mailto:hello@b-fernandez.com" class="tui-terminal__info-link">
+              hello@b-fernandez.com
+            </a>
+          </li>
+          <li class="tui-terminal__info-item">
+            <span class="tui-terminal__info-label">GITHUB:</span>
+            <a
+              href="https://github.com/b-fernandez"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="tui-terminal__info-link"
+            >
+              github.com/b-fernandez
+            </a>
+          </li>
+          <li class="tui-terminal__info-item">
+            <span class="tui-terminal__info-label">LINKEDIN:</span>
+            <a
+              href="https://linkedin.com/in/benoit-fernandez"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="tui-terminal__info-link"
+            >
+              linkedin.com/in/benoit-fernandez
+            </a>
+          </li>
+          <li class="tui-terminal__info-item">
+            <span class="tui-terminal__info-label">LOCATION:</span>
+            <span class="tui-terminal__info-value">France, Remote Friendly</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Status check -->
+    <div class="tui-terminal__block">
+      <div class="tui-terminal__line">
+        <span class="tui-terminal__prompt" aria-hidden="true">$</span>
+        <span class="tui-terminal__command">echo $AVAILABILITY_STATUS</span>
+      </div>
+      <div class="tui-terminal__output">
+        <span class="tui-terminal__status tui-terminal__status--available">
+          <span class="tui-terminal__status-dot" aria-hidden="true"></span>
+          AVAILABLE FOR NEW OPPORTUNITIES
+        </span>
+      </div>
+    </div>
+
+    <!-- Simulated form input -->
+    <div class="tui-terminal__block">
+      <div class="tui-terminal__line">
+        <span class="tui-terminal__prompt" aria-hidden="true">$</span>
+        <span class="tui-terminal__command">./send_message.sh --interactive</span>
+      </div>
+      <div class="tui-terminal__output">
+        <p class="tui-terminal__text tui-terminal__text--muted">
+          Starting interactive message composer...
+        </p>
+      </div>
+    </div>
+
+    <!-- Contact form styled as terminal input -->
+    <form class="tui-terminal__form" id="contact-form" novalidate>
+      <!-- Honeypot -->
+      <input
+        type="text"
+        name="bot-field"
+        class="tui-terminal__honeypot"
+        tabindex="-1"
+        aria-hidden="true"
+        autocomplete="off"
+      />
+
+      <div class="tui-terminal__form-field">
+        <label for="terminal-name" class="tui-terminal__form-label">
+          <span class="tui-terminal__prompt" aria-hidden="true">&gt;</span>
+          Enter your name:
+        </label>
+        <input
+          type="text"
+          id="terminal-name"
+          name="name"
+          class="tui-terminal__form-input"
+          required
+          autocomplete="name"
+          placeholder="John Doe"
+          aria-required="true"
+        />
+      </div>
+
+      <div class="tui-terminal__form-field">
+        <label for="terminal-email" class="tui-terminal__form-label">
+          <span class="tui-terminal__prompt" aria-hidden="true">&gt;</span>
+          Enter your email:
+        </label>
+        <input
+          type="email"
+          id="terminal-email"
+          name="email"
+          class="tui-terminal__form-input"
+          required
+          autocomplete="email"
+          placeholder="john@example.com"
+          aria-required="true"
+        />
+      </div>
+
+      <div class="tui-terminal__form-field">
+        <label for="terminal-message" class="tui-terminal__form-label">
+          <span class="tui-terminal__prompt" aria-hidden="true">&gt;</span>
+          Enter your message:
+        </label>
+        <textarea
+          id="terminal-message"
+          name="message"
+          class="tui-terminal__form-textarea"
+          required
+          rows="4"
+          placeholder="Your message here..."
+          aria-required="true"
+        ></textarea>
+      </div>
+
+      <div class="tui-terminal__form-actions">
+        <button type="submit" class="tui-terminal__form-submit">
+          <span class="tui-terminal__prompt" aria-hidden="true">$</span>
+          send_message
+          <span class="tui-terminal__form-submit-icon" aria-hidden="true">↵</span>
+        </button>
+      </div>
+
+      <div class="tui-terminal__form-response" role="status" aria-live="polite"></div>
+    </form>
+
+    <!-- Cursor line -->
+    <div class="tui-terminal__block tui-terminal__block--cursor">
+      <div class="tui-terminal__line">
+        <span class="tui-terminal__prompt" aria-hidden="true">$</span>
+        <span class="tui-terminal__cursor" aria-hidden="true">█</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Form handling
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const responseEl = form?.querySelector('.tui-terminal__form-response') as HTMLDivElement;
+
+  if (form && responseEl) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const honeypot = formData.get('bot-field');
+
+      // Check honeypot
+      if (honeypot) return;
+
+      const name = formData.get('name') as string;
+      const email = formData.get('email') as string;
+      const message = formData.get('message') as string;
+
+      // Simple validation
+      if (!name.trim() || !email.trim() || !message.trim()) {
+        responseEl.textContent = '[ERROR] All fields are required';
+        responseEl.className = 'tui-terminal__form-response tui-terminal__form-response--error';
+        return;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        responseEl.textContent = '[ERROR] Invalid email format';
+        responseEl.className = 'tui-terminal__form-response tui-terminal__form-response--error';
+        return;
+      }
+
+      // Show sending
+      const submitBtn = form.querySelector('.tui-terminal__form-submit') as HTMLButtonElement;
+      submitBtn.disabled = true;
+      responseEl.textContent = '[INFO] Sending message...';
+      responseEl.className = 'tui-terminal__form-response tui-terminal__form-response--info';
+
+      try {
+        // Simulate sending (replace with actual endpoint)
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        responseEl.textContent = '[SUCCESS] Message sent successfully! I will get back to you soon.';
+        responseEl.className = 'tui-terminal__form-response tui-terminal__form-response--success';
+        form.reset();
+      } catch {
+        responseEl.textContent = '[ERROR] Failed to send message. Please try email directly.';
+        responseEl.className = 'tui-terminal__form-response tui-terminal__form-response--error';
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  }
+</script>
+
+<style>
+  .tui-terminal {
+    font-family: var(--font-mono, monospace);
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+    background-color: var(--color-background, #11111b);
+    border: 1px solid var(--color-surface-1, #313244);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .tui-terminal__header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--color-surface-1, #313244);
+    border-radius: 0.5rem 0.5rem 0 0;
+    margin: -1rem -1rem 1rem;
+  }
+
+  .tui-terminal__buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .tui-terminal__button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .tui-terminal__button--close {
+    background-color: #f38ba8;
+  }
+
+  .tui-terminal__button--minimize {
+    background-color: #f9e2af;
+  }
+
+  .tui-terminal__button--maximize {
+    background-color: #a6e3a1;
+  }
+
+  .tui-terminal__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted, #6c7086);
+  }
+
+  .tui-terminal__icon {
+    font-family: var(--font-nerd, monospace);
+  }
+
+  .tui-terminal__content {
+    padding: 0 0.5rem;
+  }
+
+  /* Terminal blocks */
+  .tui-terminal__block {
+    margin-bottom: 1rem;
+  }
+
+  .tui-terminal__line {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .tui-terminal__prompt {
+    color: var(--color-success, #a6e3a1);
+    font-weight: 700;
+  }
+
+  .tui-terminal__command {
+    color: var(--color-text, #cdd6f4);
+  }
+
+  .tui-terminal__output {
+    padding-left: 1.25rem;
+    margin-top: 0.5rem;
+  }
+
+  .tui-terminal__text {
+    color: var(--color-text, #cdd6f4);
+    font-size: 0.875rem;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .tui-terminal__text--muted {
+    color: var(--color-text-muted, #6c7086);
+  }
+
+  /* ASCII art */
+  .tui-terminal__ascii {
+    color: var(--color-primary, #cba6f7);
+    font-size: 0.5rem;
+    line-height: 1.2;
+    margin: 0 0 0.5rem;
+    overflow-x: auto;
+  }
+
+  /* Info list */
+  .tui-terminal__info-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .tui-terminal__info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.25rem 0;
+    font-size: 0.875rem;
+  }
+
+  .tui-terminal__info-label {
+    color: var(--color-secondary, #f5c2e7);
+    font-weight: 600;
+    min-width: 80px;
+  }
+
+  .tui-terminal__info-link {
+    color: var(--color-info, #89b4fa);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.15s ease;
+  }
+
+  .tui-terminal__info-link:hover {
+    color: var(--color-primary, #cba6f7);
+  }
+
+  .tui-terminal__info-link:focus-visible {
+    outline: 2px solid var(--color-primary, #cba6f7);
+    outline-offset: 2px;
+  }
+
+  .tui-terminal__info-value {
+    color: var(--color-text, #cdd6f4);
+  }
+
+  /* Status */
+  .tui-terminal__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.25rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  .tui-terminal__status--available {
+    background-color: color-mix(in srgb, var(--color-success, #a6e3a1) 15%, transparent);
+    color: var(--color-success, #a6e3a1);
+  }
+
+  .tui-terminal__status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-success, #a6e3a1);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  /* Form */
+  .tui-terminal__form {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--color-surface-1, #313244);
+  }
+
+  .tui-terminal__honeypot {
+    position: absolute;
+    left: -9999px;
+  }
+
+  .tui-terminal__form-field {
+    margin-bottom: 0.75rem;
+  }
+
+  .tui-terminal__form-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-muted, #6c7086);
+    font-size: 0.875rem;
+    margin-bottom: 0.375rem;
+  }
+
+  .tui-terminal__form-input,
+  .tui-terminal__form-textarea {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--color-surface-0, #1e1e2e);
+    border: 1px solid var(--color-surface-1, #313244);
+    border-radius: 0.25rem;
+    color: var(--color-text, #cdd6f4);
+    font-family: var(--font-mono, monospace);
+    font-size: 0.875rem;
+    transition: border-color 0.15s ease;
+  }
+
+  .tui-terminal__form-input:focus,
+  .tui-terminal__form-textarea:focus {
+    outline: none;
+    border-color: var(--color-primary, #cba6f7);
+  }
+
+  .tui-terminal__form-textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .tui-terminal__form-actions {
+    margin-top: 1rem;
+  }
+
+  .tui-terminal__form-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--color-surface-1, #313244);
+    border: 1px solid var(--color-surface-2, #45475a);
+    border-radius: 0.25rem;
+    color: var(--color-text, #cdd6f4);
+    font-family: var(--font-mono, monospace);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .tui-terminal__form-submit:hover {
+    background-color: var(--color-surface-2, #45475a);
+    border-color: var(--color-primary, #cba6f7);
+  }
+
+  .tui-terminal__form-submit:focus-visible {
+    outline: 2px solid var(--color-primary, #cba6f7);
+    outline-offset: 2px;
+  }
+
+  .tui-terminal__form-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .tui-terminal__form-submit-icon {
+    color: var(--color-primary, #cba6f7);
+  }
+
+  .tui-terminal__form-response {
+    margin-top: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    display: none;
+  }
+
+  .tui-terminal__form-response:not(:empty) {
+    display: block;
+  }
+
+  .tui-terminal__form-response--success {
+    background-color: color-mix(in srgb, var(--color-success, #a6e3a1) 15%, transparent);
+    color: var(--color-success, #a6e3a1);
+  }
+
+  .tui-terminal__form-response--error {
+    background-color: color-mix(in srgb, #f38ba8 15%, transparent);
+    color: #f38ba8;
+  }
+
+  .tui-terminal__form-response--info {
+    background-color: color-mix(in srgb, var(--color-info, #89b4fa) 15%, transparent);
+    color: var(--color-info, #89b4fa);
+  }
+
+  /* Cursor */
+  .tui-terminal__block--cursor {
+    margin-top: 1.5rem;
+  }
+
+  .tui-terminal__cursor {
+    color: var(--color-primary, #cba6f7);
+    animation: cursor-blink 1.06s step-end infinite;
+  }
+
+  @keyframes cursor-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* Responsive */
+  @media (max-width: 767px) {
+    .tui-terminal {
+      padding: 0.75rem;
+    }
+
+    .tui-terminal__ascii {
+      font-size: 0.35rem;
+    }
+
+    .tui-terminal__info-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .tui-terminal__cursor,
+    .tui-terminal__status-dot {
+      animation: none;
+    }
+
+    .tui-terminal__form-input,
+    .tui-terminal__form-textarea,
+    .tui-terminal__form-submit,
+    .tui-terminal__info-link {
+      transition: none;
+    }
+  }
+</style>

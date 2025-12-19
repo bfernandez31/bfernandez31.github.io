@@ -1,0 +1,105 @@
+---
+/**
+ * FileEntry Component
+ * Feature: PBF-32-portofolio-with-tui
+ *
+ * Sidebar file entry for NvimTree-style navigation
+ */
+
+import type { SectionId } from '../../types/tui';
+
+interface Props {
+  /** Section ID this file navigates to */
+  sectionId: SectionId;
+  /** File name to display */
+  fileName: string;
+  /** Nerd Font icon character */
+  icon: string;
+  /** Whether this file is currently active */
+  isActive?: boolean;
+  /** Additional CSS class */
+  class?: string;
+}
+
+const { sectionId, fileName, icon, isActive = false, class: className } = Astro.props;
+---
+
+<a
+  href={`#${sectionId}`}
+  class:list={["tui-file-entry", { "is-active": isActive }, className]}
+  data-section-id={sectionId}
+  aria-current={isActive ? "page" : undefined}
+>
+  <span class="tui-file-entry__icon" aria-hidden="true">{icon}</span>
+  <span class="tui-file-entry__name">{fileName}</span>
+</a>
+
+<style>
+  .tui-file-entry {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.875rem;
+    color: var(--color-text, #cdd6f4);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    position: relative;
+  }
+
+  .tui-file-entry:hover {
+    background-color: var(--color-surface-1, #313244);
+  }
+
+  .tui-file-entry:focus-visible {
+    outline: 2px solid var(--color-primary, #cba6f7);
+    outline-offset: -2px;
+    background-color: var(--color-surface-1, #313244);
+  }
+
+  .tui-file-entry.is-active {
+    background-color: var(--color-surface-2, #45475a);
+    color: var(--color-primary, #cba6f7);
+    font-weight: 700;
+  }
+
+  .tui-file-entry.is-active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: var(--color-primary, #cba6f7);
+  }
+
+  .tui-file-entry__icon {
+    flex-shrink: 0;
+    width: 1rem;
+    font-family: var(--font-nerd, monospace);
+    color: var(--color-text-muted, #6c7086);
+  }
+
+  .tui-file-entry.is-active .tui-file-entry__icon {
+    color: var(--color-primary, #cba6f7);
+  }
+
+  .tui-file-entry__name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tui-file-entry {
+      transition: none;
+    }
+  }
+</style>

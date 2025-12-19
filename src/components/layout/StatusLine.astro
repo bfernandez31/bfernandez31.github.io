@@ -1,0 +1,187 @@
+---
+/**
+ * StatusLine Component
+ * Feature: PBF-32-portofolio-with-tui
+ *
+ * Neovim-style statusline at bottom of viewport
+ */
+
+import type { VimMode } from '../../types/tui';
+
+interface Props {
+  /** Vim mode indicator */
+  mode?: VimMode;
+  /** Active file name */
+  activeFile: string;
+  /** Current line number */
+  line?: number;
+  /** Current column number */
+  column?: number;
+  /** File type */
+  fileType?: string;
+  /** Git branch */
+  gitBranch?: string;
+}
+
+const {
+  mode = 'NORMAL',
+  activeFile,
+  line = 1,
+  column = 1,
+  fileType = 'typescriptreact',
+  gitBranch = 'main',
+} = Astro.props;
+
+// Calculate percentage (decorative)
+const percent = 'Top';
+---
+
+<footer class="tui-statusline" role="status" aria-live="polite">
+  <div class="tui-statusline__left">
+    <span class="tui-statusline__mode tui-statusline__mode--normal">
+      {mode}
+    </span>
+    <span class="tui-statusline__sep" aria-hidden="true"></span>
+    <span class="tui-statusline__git">
+      <span class="tui-statusline__git-icon" aria-hidden="true"></span>
+      <span class="tui-statusline__git-branch">{gitBranch}</span>
+    </span>
+  </div>
+
+  <div class="tui-statusline__center">
+    <span class="tui-statusline__file" id="tui-statusline-file">
+      <span class="tui-statusline__file-icon" aria-hidden="true"></span>
+      <span class="tui-statusline__file-name">{activeFile}</span>
+    </span>
+  </div>
+
+  <div class="tui-statusline__right">
+    <span class="tui-statusline__file-type">{fileType}</span>
+    <span class="tui-statusline__sep" aria-hidden="true"></span>
+    <span class="tui-statusline__position" id="tui-statusline-position">
+      <span class="tui-statusline__line">Ln {line}</span>
+      <span>,</span>
+      <span class="tui-statusline__column">Col {column}</span>
+    </span>
+    <span class="tui-statusline__sep" aria-hidden="true"></span>
+    <span class="tui-statusline__percent">{percent}</span>
+  </div>
+</footer>
+
+<style>
+  .tui-statusline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 1.5rem;
+    padding: 0.125rem 0.5rem;
+    background-color: var(--color-primary, #cba6f7);
+    color: var(--color-background, #1e1e2e);
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .tui-statusline__left,
+  .tui-statusline__center,
+  .tui-statusline__right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .tui-statusline__mode {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.0625rem 0.375rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 2px;
+  }
+
+  .tui-statusline__mode--normal {
+    background-color: var(--color-success, #a6e3a1);
+    color: var(--color-background, #1e1e2e);
+  }
+
+  .tui-statusline__sep {
+    width: 1px;
+    height: 0.875rem;
+    background-color: currentColor;
+    opacity: 0.3;
+  }
+
+  .tui-statusline__git {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .tui-statusline__git-icon::before {
+    content: '';
+    display: inline-block;
+    width: 0.375rem;
+    height: 0.375rem;
+    background-color: currentColor;
+    border-radius: 50%;
+  }
+
+  .tui-statusline__file {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .tui-statusline__file-icon::before {
+    content: '󰈔';
+    font-family: var(--font-nerd, monospace);
+  }
+
+  .tui-statusline__file-name {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .tui-statusline__file-type {
+    font-weight: 400;
+    opacity: 0.8;
+  }
+
+  .tui-statusline__position {
+    display: flex;
+    align-items: center;
+    gap: 0.125rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tui-statusline__percent {
+    min-width: 2.5rem;
+    text-align: right;
+  }
+
+  /* Responsive */
+  @media (max-width: 767px) {
+    .tui-statusline {
+      font-size: 0.625rem;
+      padding: 0.125rem 0.25rem;
+    }
+
+    .tui-statusline__mode {
+      padding: 0.0625rem 0.25rem;
+    }
+
+    .tui-statusline__file-name {
+      max-width: 80px;
+    }
+
+    .tui-statusline__git-branch,
+    .tui-statusline__file-type,
+    .tui-statusline__percent {
+      display: none;
+    }
+  }
+</style>

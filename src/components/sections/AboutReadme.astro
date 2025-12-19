@@ -1,0 +1,273 @@
+---
+/**
+ * AboutReadme Component
+ * Feature: PBF-32-portofolio-with-tui
+ *
+ * README.md style About section with markdown-like formatting
+ */
+
+interface Props {
+  /** Biography text */
+  biography: string;
+  /** Highlights list */
+  highlights?: string[];
+}
+
+const { biography, highlights = [] } = Astro.props;
+
+// Split biography into paragraphs for README formatting
+const paragraphs = biography.split('\n').filter(p => p.trim());
+---
+
+<div class="tui-readme">
+  <div class="tui-readme__header">
+    <span class="tui-readme__icon" aria-hidden="true"></span>
+    <span class="tui-readme__filename">README.md</span>
+  </div>
+
+  <article class="tui-readme__content">
+    <!-- Title with markdown header -->
+    <h2 class="tui-readme__title">
+      <span class="tui-readme__hash" aria-hidden="true">#</span>
+      About Me
+    </h2>
+
+    <!-- Biography paragraphs -->
+    <div class="tui-readme__section">
+      {paragraphs.map((paragraph) => (
+        <p class="tui-readme__paragraph">{paragraph}</p>
+      ))}
+    </div>
+
+    <!-- Highlights as bullet list -->
+    {highlights.length > 0 && (
+      <div class="tui-readme__section">
+        <h3 class="tui-readme__subtitle">
+          <span class="tui-readme__hash" aria-hidden="true">##</span>
+          Highlights
+        </h3>
+        <ul class="tui-readme__list" role="list">
+          {highlights.map((highlight) => (
+            <li class="tui-readme__list-item">
+              <span class="tui-readme__bullet" aria-hidden="true">-</span>
+              <span>{highlight}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    <!-- Code block section -->
+    <div class="tui-readme__section">
+      <h3 class="tui-readme__subtitle">
+        <span class="tui-readme__hash" aria-hidden="true">##</span>
+        Quick Start
+      </h3>
+      <div class="tui-readme__codeblock">
+        <div class="tui-readme__code-header">
+          <span class="tui-readme__code-lang">bash</span>
+        </div>
+        <pre class="tui-readme__code"><code><span class="tui-readme__code-comment"># Clone my portfolio</span>
+<span class="tui-readme__code-prompt">$</span> git clone https://github.com/b-fernandez/portfolio
+
+<span class="tui-readme__code-comment"># Let's connect!</span>
+<span class="tui-readme__code-prompt">$</span> echo "Hello, let's build something amazing"</code></pre>
+      </div>
+    </div>
+
+    <!-- Footer badge -->
+    <div class="tui-readme__footer">
+      <span class="tui-readme__badge">
+        <span class="tui-readme__badge-icon" aria-hidden="true"></span>
+        Open for opportunities
+      </span>
+    </div>
+  </article>
+</div>
+
+<style>
+  .tui-readme {
+    font-family: var(--font-mono, monospace);
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+
+  .tui-readme__header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--color-surface-1, #313244);
+    border-radius: 0.5rem 0.5rem 0 0;
+    font-size: 0.875rem;
+    color: var(--color-text-muted, #6c7086);
+  }
+
+  .tui-readme__icon {
+    font-family: var(--font-nerd, monospace);
+    color: var(--color-info, #89b4fa);
+  }
+
+  .tui-readme__filename {
+    color: var(--color-text, #cdd6f4);
+  }
+
+  .tui-readme__content {
+    background-color: var(--color-surface-0, #1e1e2e);
+    border: 1px solid var(--color-surface-1, #313244);
+    border-top: none;
+    border-radius: 0 0 0.5rem 0.5rem;
+    padding: 1.5rem;
+  }
+
+  .tui-readme__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-text, #cdd6f4);
+    margin: 0 0 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-surface-1, #313244);
+  }
+
+  .tui-readme__hash {
+    color: var(--color-primary, #cba6f7);
+    font-weight: 700;
+  }
+
+  .tui-readme__section {
+    margin-bottom: 1.5rem;
+  }
+
+  .tui-readme__section:last-child {
+    margin-bottom: 0;
+  }
+
+  .tui-readme__subtitle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text, #cdd6f4);
+    margin: 0 0 1rem;
+  }
+
+  .tui-readme__paragraph {
+    color: var(--color-text, #cdd6f4);
+    line-height: 1.7;
+    margin: 0 0 1rem;
+  }
+
+  .tui-readme__paragraph:last-child {
+    margin-bottom: 0;
+  }
+
+  .tui-readme__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .tui-readme__list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    color: var(--color-text, #cdd6f4);
+    padding: 0.25rem 0;
+    line-height: 1.6;
+  }
+
+  .tui-readme__bullet {
+    color: var(--color-secondary, #f5c2e7);
+    flex-shrink: 0;
+    font-weight: 700;
+  }
+
+  /* Code block */
+  .tui-readme__codeblock {
+    background-color: var(--color-background, #11111b);
+    border: 1px solid var(--color-surface-1, #313244);
+    border-radius: 0.375rem;
+    overflow: hidden;
+  }
+
+  .tui-readme__code-header {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--color-surface-1, #313244);
+    font-size: 0.75rem;
+  }
+
+  .tui-readme__code-lang {
+    color: var(--color-text-muted, #6c7086);
+  }
+
+  .tui-readme__code {
+    margin: 0;
+    padding: 1rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    overflow-x: auto;
+  }
+
+  .tui-readme__code code {
+    display: block;
+    color: var(--color-text, #cdd6f4);
+  }
+
+  .tui-readme__code-comment {
+    color: var(--color-text-muted, #6c7086);
+  }
+
+  .tui-readme__code-prompt {
+    color: var(--color-success, #a6e3a1);
+    margin-right: 0.5rem;
+  }
+
+  /* Footer */
+  .tui-readme__footer {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-surface-1, #313244);
+  }
+
+  .tui-readme__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    background-color: var(--color-success, #a6e3a1);
+    color: var(--color-background, #1e1e2e);
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .tui-readme__badge-icon {
+    font-family: var(--font-nerd, monospace);
+  }
+
+  /* Responsive */
+  @media (max-width: 767px) {
+    .tui-readme {
+      padding: 0.5rem;
+    }
+
+    .tui-readme__content {
+      padding: 1rem;
+    }
+
+    .tui-readme__title {
+      font-size: 1.5rem;
+    }
+
+    .tui-readme__subtitle {
+      font-size: 1.125rem;
+    }
+  }
+</style>
