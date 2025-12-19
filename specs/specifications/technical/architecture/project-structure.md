@@ -51,7 +51,7 @@ portfolio/
 
 **Structure**:
 - `layout/` - Structural components that define page structure
-  - Header, Footer, Navigation
+  - Header, Footer (with "Powered by AI-BOARD" attribution), Navigation
   - BurgerMenu (magnetic menu with neural pathway animations)
 - `sections/` - Page-specific section components
   - Hero (neural network canvas animation)
@@ -281,13 +281,48 @@ body {
 **Structure**:
 - `config.ts` - Define collection schemas with Zod
 - `blog/` - Blog post markdown files (planned)
-- `projects/` - Project case study files (planned)
+- `projects/` - Project case study markdown files with frontmatter metadata
+
+**Projects Collection**:
+The portfolio includes featured projects displayed in the Projects section. Each project is defined as a Markdown file in `src/content/projects/` with frontmatter metadata.
+
+**Project Schema**:
+- `title`: Project name (string)
+- `description`: Brief project description (string)
+- `image`: Project image path (string)
+- `imageAlt`: Image alt text for accessibility (string)
+- `technologies`: Array of technology names (string[])
+- `featured`: Whether to feature on homepage (boolean)
+- `displayOrder`: Display priority (number, 1 = highest)
+- `externalUrl`: Live project URL (string, optional)
+- `startDate`: Project start date (date)
+- `status`: Project status (completed, in-progress, planned)
+- `tags`: Topic tags for filtering (string[])
+
+**Example: AI-BOARD Project** (`src/content/projects/ai-board.md`):
+```yaml
+---
+title: "AI-BOARD"
+description: "AI-powered project management board that leverages Claude AI to streamline development workflows and automate task specifications"
+image: "/images/projects/ai-board.webp"
+imageAlt: "AI-BOARD dashboard interface showing project boards and AI-generated specifications"
+technologies: ["TypeScript", "Claude API", "Astro", "GSAP"]
+featured: true
+displayOrder: 1
+externalUrl: "https://ai-board-three.vercel.app/"
+startDate: 2024-06-01
+status: "completed"
+tags: ["ai", "productivity", "automation", "spec-kit"]
+---
+```
 
 **Conventions**:
 - Define Zod schemas for type safety
 - Use frontmatter for metadata
-- Markdown or MDX for content
+- Markdown or MDX for content body
 - Query with `getCollection()` API
+- Projects with `featured: true` appear in Projects section
+- `displayOrder` controls visual hierarchy (1 = top priority)
 
 ### Scripts (`src/scripts/`)
 

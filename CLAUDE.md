@@ -486,7 +486,17 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
-- PBF-23-featured-project: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), Content Collections (Zod validation)
+- PBF-23-featured-project: Added AI-BOARD as featured project and updated footer attribution
+  - Created AI-BOARD project entry in src/content/projects/ai-board.md with displayOrder: 1 (highest priority)
+  - AI-BOARD showcases AI-powered project management: specification generation, task breakdown, implementation planning
+  - Technologies: TypeScript, Claude API, Astro, GSAP
+  - Links to live deployment at https://ai-board-three.vercel.app/
+  - Updated all existing project displayOrder values (1→2, 2→3, 3→4, 4→5, 5→6, 6→7) to make room for AI-BOARD
+  - Meta-narrative: This portfolio was built using AI-BOARD's specification and planning tools
+  - Replaced footer "Built with Astro and Bun" text with "Powered by AI-BOARD" (links to AI-BOARD URL)
+  - Full accessibility: link opens in new tab with rel="noopener noreferrer", proper hover/focus states
+  - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), Content Collections (Zod validation)
+  - Markdown files via Astro Content Collections (src/content/projects/)
 - PBF-22-fix-the-first: Hero section polish and animation fixes
   - **REMOVED**: Custom cursor feature entirely (deleted CustomCursor.astro, custom-cursor.ts)
     - User feedback: "le cursor n'apporte rien" (cursor adds nothing of value)
