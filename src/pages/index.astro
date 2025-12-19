@@ -193,27 +193,21 @@ const jsonLd: JSONLDStructuredData = {
 
 <script>
 	import { initGSAP } from "../scripts/gsap-config";
-	import { initSmoothScroll } from "../scripts/smooth-scroll";
 	import { initKeyboardNavDetection } from "../scripts/accessibility";
-	import { initActiveNavigation } from "../scripts/active-navigation";
-	import { initNavigationLinks } from "../scripts/navigation-links";
-	import { initNavigationHistory } from "../scripts/navigation-history";
+	import { initTuiNavigation } from "../scripts/tui-navigation";
 
 	// Progressive enhancement wrapper - ensure navigation always works
 	try {
 		// Initialize global animations and utilities
 		initGSAP();
-		initSmoothScroll();
 		initKeyboardNavDetection();
 
-		// Initialize single-page navigation
-		initActiveNavigation();
-		initNavigationLinks();
-		initNavigationHistory();
+		// Initialize TUI navigation (replaces old single-page navigation)
+		initTuiNavigation();
 	} catch (error) {
 		// Progressive enhancement: Navigation and content remain accessible if animations fail
-		console.error('[Index] Failed to initialize animations:', error);
-		console.log('[Index] Site will use native scroll and navigation (no smooth scroll)');
+		console.error('[Index] Failed to initialize TUI navigation:', error);
+		console.log('[Index] Site will use native hash navigation');
 		// Hash-based navigation still works via native browser behavior
 	}
 </script>

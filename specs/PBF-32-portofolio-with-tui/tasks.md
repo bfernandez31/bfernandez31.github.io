@@ -76,11 +76,11 @@
 
 ### Implementation for User Story 2
 
-- [ ] T024 [US2] Create tui-navigation.ts script in src/scripts/tui-navigation.ts (handle sidebar file clicks, scroll to section, update active states)
-- [ ] T025 [US2] Add IntersectionObserver logic to tui-navigation.ts for detecting active section on scroll
-- [ ] T026 [US2] Add keyboard navigation support (Tab/Enter) to FileEntry.astro and Sidebar.astro
-- [ ] T027 [US2] Add visible focus indicators to FileEntry.astro in src/styles/tui/sidebar.css
-- [ ] T028 [US2] Integrate tui-navigation.ts initialization in src/pages/index.astro script section
+- [x] T024 [US2] Create tui-navigation.ts script in src/scripts/tui-navigation.ts (handle sidebar file clicks, scroll to section, update active states) ✅ DONE
+- [x] T025 [US2] Add IntersectionObserver logic to tui-navigation.ts for detecting active section on scroll ✅ DONE
+- [x] T026 [US2] Add keyboard navigation support (Tab/Enter) to FileEntry.astro and Sidebar.astro ✅ DONE
+- [x] T027 [US2] Add visible focus indicators to FileEntry.astro in src/styles/tui/sidebar.css ✅ DONE
+- [x] T028 [US2] Integrate tui-navigation.ts initialization in src/pages/index.astro script section ✅ DONE
 
 **Checkpoint**: Sidebar navigation fully functional with keyboard accessibility
 
@@ -94,11 +94,11 @@
 
 ### Implementation for User Story 3
 
-- [ ] T029 [US3] Add tab click handlers to TopBar.astro and BufferTab.astro
-- [ ] T030 [US3] Extend tui-navigation.ts to synchronize tab active states with sidebar active states
-- [ ] T031 [US3] Add keyboard navigation (Tab/Enter) to BufferTab.astro
-- [ ] T032 [US3] Add visible focus indicators to BufferTab.astro in src/styles/tui/layout.css
-- [ ] T033 [US3] Create statusline-sync.ts script in src/scripts/statusline-sync.ts to update StatusLine on section change
+- [x] T029 [US3] Add tab click handlers to TopBar.astro and BufferTab.astro ✅ DONE (in tui-navigation.ts)
+- [x] T030 [US3] Extend tui-navigation.ts to synchronize tab active states with sidebar active states ✅ DONE
+- [x] T031 [US3] Add keyboard navigation (Tab/Enter) to BufferTab.astro ✅ DONE (native anchor behavior)
+- [x] T032 [US3] Add visible focus indicators to BufferTab.astro in src/styles/tui/layout.css ✅ DONE
+- [x] T033 [US3] Create statusline-sync.ts script in src/scripts/statusline-sync.ts to update StatusLine on section change ✅ DONE
 
 **Checkpoint**: Tab navigation works and synchronizes with sidebar; statusline updates correctly
 
