@@ -343,6 +343,40 @@ export class FrameRateMonitor {
 }
 
 // ============================================================================
+// HERO ANIMATION CONFIG (PBF-28)
+// ============================================================================
+
+/**
+ * Hero animation configuration
+ * Used by src/scripts/hero/hero-controller.ts
+ */
+export const HERO_ANIMATION_DEFAULTS = {
+	// Entrance timing
+	ENTRANCE_DURATION: 2.5, // Total entrance animation duration (seconds)
+	CANVAS_FADE_DURATION: 0.8, // Canvas fade-in duration (seconds)
+	TYPOGRAPHY_DELAY_DESKTOP: 0.5, // Desktop text reveal delay (seconds)
+	TYPOGRAPHY_DELAY_MOBILE: 0.3, // Mobile text reveal delay (seconds)
+	CURSOR_ENABLE_DELAY: 1, // Delay before cursor tracking (seconds)
+
+	// Parallax factors (movement multiplier)
+	PARALLAX_FRONT: 0.15,
+	PARALLAX_MID: 0.08,
+	PARALLAX_BACK: 0.03,
+	PARALLAX_DURATION: 0.6, // Parallax animation duration (seconds)
+	PARALLAX_EASING: "power3.out",
+
+	// Performance degradation thresholds
+	DEGRADATION_LEVEL1_FPS: 45, // Below this: reduce shapes
+	DEGRADATION_LEVEL2_FPS: 30, // Below this: disable parallax
+	DEGRADATION_LEVEL3_FPS: 20, // Below this: CSS fallback
+
+	// Shape counts by tier
+	SHAPES_HIGH_TIER: 12,
+	SHAPES_MID_TIER: 7,
+	SHAPES_LOW_TIER: 3,
+} as const;
+
+// ============================================================================
 // EXPORT ALL CONFIGS
 // ============================================================================
 
@@ -354,4 +388,5 @@ export const ANIMATION_CONFIG = {
 	DURATIONS,
 	NEURAL_NETWORK_DEFAULTS,
 	MAGNETIC_MENU_DEFAULTS,
+	HERO_ANIMATION_DEFAULTS,
 } as const;

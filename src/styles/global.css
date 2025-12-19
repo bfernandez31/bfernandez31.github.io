@@ -6,6 +6,7 @@
 
 /* Import effects */
 @import "./effects/glitch.css";
+@import "./effects/hero-effects.css";
 
 /* Reset and base styles */
 *,

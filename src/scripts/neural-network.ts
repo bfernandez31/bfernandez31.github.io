@@ -2,6 +2,10 @@
  * Neural Network Animation
  * Feature: 003-1507-architecture-globale
  *
+ * @deprecated This module is deprecated in favor of the new hero animation system.
+ * Use src/scripts/hero/hero-controller.ts instead.
+ * See PBF-28-rework-the-first for the new 3D hero implementation.
+ *
  * Canvas 2D-based particle system for hero section.
  * Features adaptive performance, device tier detection, and accessibility support.
  */

@@ -8,7 +8,7 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - **Language**: TypeScript 5.0+ (strict mode, native Bun support)
 - **Linting**: Biome ≥2.0.0 (unified linter and formatter)
 - **Testing**: Bun test runner (built-in, Jest-compatible API)
-- **Animation**: GSAP ≥3.13.0 + Lenis ≥1.0.0
+- **Animation**: GSAP ≥3.13.0 + Lenis ≥1.0.0 + OGL ≥1.0.6 (WebGL 3D graphics)
 - **Deployment**: GitHub Pages (automated via GitHub Actions)
 - TypeScript 5.0+ (strict mode, native Bun support) + Astro ≥4.0.0, Biome ≥2.0.0 (linting), GSAP ≥3.13.0 (animations), Lenis ≥1.0.0 (smooth scroll) (002-1506-palette-couleur)
 - N/A (CSS custom properties defined in global stylesheet, no data persistence) (002-1506-palette-couleur)
@@ -31,6 +31,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - N/A (static site, Markdown via Astro Content Collections) (PBF-26-copy-of-featured)
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, CSS Custom Properties (PBF-27-featured-project-issue)
 - N/A (static site, CSS-only image fallback) (PBF-27-featured-project-issue)
+- TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, GSAP 3.13.0, OGL 1.0.6 (WebGL), Lenis 1.0.42 (PBF-28-rework-the-first)
+- N/A (static site, no database) (PBF-28-rework-the-first)
 
 ## Project Structure
 ```
@@ -500,6 +502,23 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
+- PBF-28-rework-the-first: Award-winning hero section with WebGL 3D background
+  - **REWORKED**: Award-winning hero section with WebGL 3D background (PBF-28-rework-the-first)
+    - Replaced Canvas 2D neural network with OGL-powered 3D geometric shapes (cubes, octahedrons, tori)
+    - Created modular hero animation system in src/scripts/hero/ (controller, background, cursor, typography, performance monitor)
+    - Implemented cursor-reactive parallax effects with GSAP quickTo() for 60fps smooth tracking (desktop only)
+    - Added choreographed entrance animation with Typography reveal (headline → subheadline → CTA)
+    - Scroll-triggered parallax fade effects and scroll indicator appearing at 50% progress
+    - Three-level automatic performance degradation (reduce shapes → disable parallax → CSS gradient fallback)
+    - Device tier adaptation: HIGH (10 shapes, 60fps), MID (7 shapes, 30fps), LOW (static gradient, no WebGL)
+    - WebGL context loss handling with graceful CSS gradient fallback
+    - Total bundle size: ~30KB (OGL 24KB + hero modules 6KB), within 200KB budget
+    - Visual concept: Geometric/Architectural 3D forms with Catppuccin Mocha colors (violet/rose/lavender)
+    - Progressive enhancement: CSS gradient visible before JS loads, noscript tag ensures content accessibility
+    - Full accessibility: reduced motion shows static content instantly, all subsystems disabled for zero overhead
+    - Performance targets met: Lighthouse ≥85 mobile/≥95 desktop, LCP <2.5s, CTA visible within 2s
+  - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, GSAP 3.13.0, OGL 1.0.6 (WebGL), Lenis 1.0.42
+  - N/A (static site, no database)
 - PBF-27-featured-project-issue: Fixed Projects section layout and image fallback
   - **FIXED**: Section title ordering - added unified "Projects" h2 title in src/pages/index.astro before FeaturedProject component
   - Changed ProjectsHexGrid title from h2 "Featured Projects" to h3 "More Projects" for proper heading hierarchy
@@ -646,6 +665,20 @@ try {
   - Ensured full accessibility with reduced motion support and ARIA attributes
   - Established component organization: layout/, sections/, ui/, islands/
   - Created data-driven navigation system
+  - **REWORKED**: Award-winning hero section with WebGL 3D background (PBF-28-rework-the-first)
+    - Replaced Canvas 2D neural network with OGL-powered 3D geometric shapes (cubes, octahedrons, tori)
+    - Created modular hero animation system in src/scripts/hero/ (controller, background, cursor, typography, performance monitor)
+    - Implemented cursor-reactive parallax effects with GSAP quickTo() for 60fps smooth tracking (desktop only)
+    - Added choreographed entrance animation with Typography reveal (headline → subheadline → CTA)
+    - Scroll-triggered parallax fade effects and scroll indicator appearing at 50% progress
+    - Three-level automatic performance degradation (reduce shapes → disable parallax → CSS gradient fallback)
+    - Device tier adaptation: HIGH (10 shapes, 60fps), MID (7 shapes, 30fps), LOW (static gradient, no WebGL)
+    - WebGL context loss handling with graceful CSS gradient fallback
+    - Total bundle size: ~30KB (OGL 24KB + hero modules 6KB), within 200KB budget
+    - Visual concept: Geometric/Architectural 3D forms with Catppuccin Mocha colors (violet/rose/lavender)
+    - Progressive enhancement: CSS gradient visible before JS loads, noscript tag ensures content accessibility
+    - Full accessibility: reduced motion shows static content instantly, all subsystems disabled for zero overhead
+    - Performance targets met: Lighthouse ≥85 mobile/≥95 desktop, LCP <2.5s, CTA visible within 2s
   - Created comprehensive Catppuccin Mocha color token system
   - Updated all components to use semantic color tokens
   - Implemented interaction states (hover, focus, active, disabled)

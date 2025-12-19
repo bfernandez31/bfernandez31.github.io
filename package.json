@@ -17,7 +17,8 @@
 	"dependencies": {
 		"@studio-freight/lenis": "^1.0.42",
 		"astro": "^5.15.3",
-		"gsap": "^3.13.0"
+		"gsap": "^3.13.0",
+		"ogl": "^1.0.11"
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.5",
