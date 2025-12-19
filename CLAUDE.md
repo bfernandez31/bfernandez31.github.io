@@ -20,6 +20,7 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - Static content (Markdown via Astro Content Collections, JSON data files) - no database (011-1522-fix-project)
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + GSAP 3.13.0+ (animation engine), IntersectionObserver API (viewport detection) (012-1516-text-split)
 - N/A (client-side animations only, no data persistence) (012-1516-text-split)
+- Static JSON data files (src/data/experiences.json, src/data/skills.json) - no database (PBF-21-experience-pro)
 
 ## Project Structure
 ```
@@ -474,6 +475,7 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
+- PBF-21-experience-pro: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro ≥5.15.3 (static site generator), GSAP ≥3.13.0 (animations), Lenis ≥1.0.42 (smooth scroll)
 - 013-title-hero-glitch: Added pure CSS glitch effect for hero title
   - Created src/styles/effects/glitch.css with RGB channel separation animation
   - Hover-triggered cyberpunk-style text effect using keyframe animations
@@ -486,7 +488,6 @@ try {
   - Integrated into Hero component headline with .glitch-effect class
   - Added @import "./effects/glitch.css" to global.css
 - 012-1516-text-split: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + GSAP 3.13.0+ (animation engine), IntersectionObserver API (viewport detection)
-- 011-1522-fix-project: Major performance optimization overhaul (GitHub Pages deployment performance issues)
   - Added device tier detection system (HIGH/MID/LOW) in src/scripts/performance/device-tier.ts
   - Created performance monitor (development only) tracking FPS, Core Web Vitals, memory in src/scripts/performance/performance-monitor.ts
   - Implemented lazy loading system with priority levels in src/scripts/performance/lazy-loader.ts
@@ -498,7 +499,6 @@ try {
   - Added progressive enhancement: error boundaries, noscript tag, static CSS gradient fallback
   - Created centralized performance config in src/config/performance.ts
   - Target performance: Lighthouse ≥85 mobile/≥95 desktop, LCP <2.5s, FCP <2s, 30fps animations
-- 010-title-cursor-trail: Added luminous particle trail to custom cursor
   - Created cursor-trail.ts script with Canvas 2D particle system
   - Implemented fading particle trail with violet glow effect (60fps)
   - Spawns 2 particles per frame at cursor position (max 30 particles)
