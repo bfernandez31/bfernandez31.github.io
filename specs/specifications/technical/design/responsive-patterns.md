@@ -208,13 +208,20 @@ All components default to mobile layout without media queries. Larger viewports 
 | Tablet (768-1023px) | Horizontal split | 50% | Side-by-side |
 | Desktop (≥1024px) | Horizontal split | 60% | Side-by-side |
 
-**CSS Implementation**: `src/components/sections/FeaturedProject.astro` lines 226-243
+**CSS Implementation**: `src/components/sections/FeaturedProject.astro`
 
 **Key Features**:
 - Content-first mobile ordering using `order` property
 - Aspect ratio preservation (16:9) across viewports
 - Full-width CTA button on mobile, inline on desktop
 - Absolute positioned label on desktop, inline on mobile
+- Gradient fallback for broken images: `linear-gradient(135deg, var(--color-primary), var(--color-secondary))`
+- Image displays over gradient when loaded successfully
+
+**Section Structure**:
+- Projects section begins with unified "Projects" h2 title in `index.astro`
+- FeaturedProject component follows the section title
+- ProjectsHexGrid displays with "More Projects" h3 subtitle for proper heading hierarchy
 
 ### Experience Timeline Component
 

@@ -129,6 +129,9 @@ const jsonLd: JSONLDStructuredData = {
 		role="region"
 		aria-label="Projects section showcasing portfolio work"
 	>
+		<div class="projects-section__header">
+			<h2 class="projects-section__title">Projects</h2>
+		</div>
 		<FeaturedProject />
 		<ProjectsHexGrid />
 	</section>
@@ -155,6 +158,37 @@ const jsonLd: JSONLDStructuredData = {
 		<ContactProtocol />
 	</section>
 </PageLayout>
+
+<style>
+	/* Projects Section Title Styles */
+	.projects-section__header {
+		max-width: 1400px;
+		margin: 0 auto;
+		padding: 0 var(--spacing-base, 1rem);
+	}
+
+	.projects-section__title {
+		font-size: clamp(2rem, 5vw, 3rem);
+		color: var(--color-text);
+		margin-bottom: var(--spacing-xl, 2rem);
+		text-align: center;
+	}
+
+	/* Mobile (≤767px) */
+	@media (max-width: 767px) {
+		.projects-section__title {
+			font-size: clamp(1.75rem, 6vw, 2.5rem);
+			margin-bottom: var(--spacing-base, 1rem);
+		}
+	}
+
+	/* Tablet (768-1023px) */
+	@media (min-width: 768px) and (max-width: 1023px) {
+		.projects-section__title {
+			margin-bottom: var(--spacing-large, 1.5rem);
+		}
+	}
+</style>
 
 <script>
 	import { initGSAP } from "../scripts/gsap-config";
