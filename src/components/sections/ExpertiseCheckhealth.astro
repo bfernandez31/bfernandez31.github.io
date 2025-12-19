@@ -1,0 +1,377 @@
+---
+/**
+ * ExpertiseCheckhealth Component
+ * Feature: PBF-32-portofolio-with-tui
+ *
+ * Neovim :checkhealth style Expertise section with OK/WARN indicators
+ */
+import skillsData from "../../data/skills.json";
+
+// Sort categories by display order
+const categories = [...skillsData.categories].sort(
+  (a, b) => a.displayOrder - b.displayOrder,
+);
+
+// Group skills by category, filtering for proficiencyLevel >= 2
+const skillsByCategory = categories
+  .map((category) => ({
+    ...category,
+    skills: skillsData.skills
+      .filter(
+        (skill) =>
+          skill.category === category.id && skill.proficiencyLevel >= 2,
+      )
+      .sort((a, b) => b.proficiencyLevel - a.proficiencyLevel),
+  }))
+  .filter((category) => category.skills.length > 0);
+
+/**
+ * Get status based on proficiency level
+ */
+function getStatus(level: number): { label: string; class: string } {
+  if (level >= 4) return { label: 'OK', class: 'ok' };
+  if (level >= 3) return { label: 'WARN', class: 'warn' };
+  return { label: 'INFO', class: 'info' };
+}
+
+/**
+ * Get progress bar fill
+ */
+function getProgressBar(level: number): string {
+  const filled = '█'.repeat(level);
+  const empty = '░'.repeat(5 - level);
+  return filled + empty;
+}
+---
+
+<div class="tui-checkhealth">
+  <div class="tui-checkhealth__header">
+    <span class="tui-checkhealth__command">
+      <span class="tui-checkhealth__prompt" aria-hidden="true">:</span>
+      checkhealth expertise
+    </span>
+  </div>
+
+  <div class="tui-checkhealth__content">
+    <div class="tui-checkhealth__summary">
+      <h2 class="tui-checkhealth__title">
+        <span class="tui-checkhealth__title-marker" aria-hidden="true">==</span>
+        Expertise Matrix Report
+        <span class="tui-checkhealth__title-marker" aria-hidden="true">==</span>
+      </h2>
+    </div>
+
+    {skillsByCategory.map((category) => {
+      const totalSkills = category.skills.length;
+      const okCount = category.skills.filter(s => s.proficiencyLevel >= 4).length;
+
+      return (
+        <section class="tui-checkhealth__section">
+          <header class="tui-checkhealth__section-header">
+            <span class="tui-checkhealth__section-marker" aria-hidden="true">##</span>
+            <h3 class="tui-checkhealth__section-title">{category.name}</h3>
+            <span class="tui-checkhealth__section-count">
+              ({okCount}/{totalSkills} OK)
+            </span>
+          </header>
+
+          <ul class="tui-checkhealth__checks" role="list">
+            {category.skills.map((skill) => {
+              const status = getStatus(skill.proficiencyLevel);
+              const progressBar = getProgressBar(skill.proficiencyLevel);
+
+              return (
+                <li class={`tui-checkhealth__check tui-checkhealth__check--${status.class}`}>
+                  <div class="tui-checkhealth__check-indicator">
+                    <span class={`tui-checkhealth__status tui-checkhealth__status--${status.class}`}>
+                      {status.label}
+                    </span>
+                  </div>
+
+                  <div class="tui-checkhealth__check-content">
+                    <span class="tui-checkhealth__check-name">{skill.name}</span>
+                    <span class="tui-checkhealth__check-detail">
+                      Level: {skill.proficiencyLevel}/5 | {skill.yearsExperience}y experience
+                    </span>
+                  </div>
+
+                  <div class="tui-checkhealth__check-progress" aria-hidden="true">
+                    <span class={`tui-checkhealth__progress-bar tui-checkhealth__progress-bar--${status.class}`}>
+                      {progressBar}
+                    </span>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+
+          {/* Advice section for category */}
+          <div class="tui-checkhealth__advice">
+            <span class="tui-checkhealth__advice-icon" aria-hidden="true">-</span>
+            <span class="tui-checkhealth__advice-text">
+              {okCount === totalSkills
+                ? `All ${category.name.toLowerCase()} skills at production level`
+                : `${okCount}/${totalSkills} skills at advanced/expert level`}
+            </span>
+          </div>
+        </section>
+      );
+    })}
+
+    {/* Summary footer */}
+    <div class="tui-checkhealth__footer">
+      <div class="tui-checkhealth__footer-status">
+        <span class="tui-checkhealth__status tui-checkhealth__status--ok">OK</span>
+        <span>All checks passed</span>
+      </div>
+      <div class="tui-checkhealth__footer-meta">
+        <span>Total categories: {skillsByCategory.length}</span>
+        <span>Total skills: {skillsByCategory.reduce((acc, c) => acc + c.skills.length, 0)}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .tui-checkhealth {
+    font-family: var(--font-mono, monospace);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+
+  .tui-checkhealth__header {
+    padding: 0.5rem 0.75rem;
+    background-color: var(--color-surface-1, #313244);
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+
+  .tui-checkhealth__command {
+    font-size: 0.875rem;
+    color: var(--color-text, #cdd6f4);
+  }
+
+  .tui-checkhealth__prompt {
+    color: var(--color-primary, #cba6f7);
+    margin-right: 0.25rem;
+  }
+
+  .tui-checkhealth__content {
+    background-color: var(--color-surface-0, #1e1e2e);
+    border: 1px solid var(--color-surface-1, #313244);
+    border-top: none;
+    border-radius: 0 0 0.5rem 0.5rem;
+    padding: 1rem;
+  }
+
+  /* Summary/Title */
+  .tui-checkhealth__summary {
+    margin-bottom: 1.5rem;
+  }
+
+  .tui-checkhealth__title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text, #cdd6f4);
+    margin: 0;
+  }
+
+  .tui-checkhealth__title-marker {
+    color: var(--color-primary, #cba6f7);
+  }
+
+  /* Section */
+  .tui-checkhealth__section {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-surface-1, #313244);
+  }
+
+  .tui-checkhealth__section:last-of-type {
+    margin-bottom: 1rem;
+  }
+
+  .tui-checkhealth__section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .tui-checkhealth__section-marker {
+    color: var(--color-secondary, #f5c2e7);
+    font-weight: 700;
+  }
+
+  .tui-checkhealth__section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text, #cdd6f4);
+    margin: 0;
+  }
+
+  .tui-checkhealth__section-count {
+    color: var(--color-text-muted, #6c7086);
+    font-size: 0.75rem;
+  }
+
+  /* Checks list */
+  .tui-checkhealth__checks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .tui-checkhealth__check {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.375rem 0;
+    font-size: 0.875rem;
+  }
+
+  .tui-checkhealth__check-indicator {
+    flex-shrink: 0;
+    width: 3.5rem;
+  }
+
+  .tui-checkhealth__status {
+    display: inline-block;
+    padding: 0.125rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .tui-checkhealth__status--ok {
+    background-color: color-mix(in srgb, var(--color-success, #a6e3a1) 20%, transparent);
+    color: var(--color-success, #a6e3a1);
+  }
+
+  .tui-checkhealth__status--warn {
+    background-color: color-mix(in srgb, var(--color-warning, #f9e2af) 20%, transparent);
+    color: var(--color-warning, #f9e2af);
+  }
+
+  .tui-checkhealth__status--info {
+    background-color: color-mix(in srgb, var(--color-info, #89b4fa) 20%, transparent);
+    color: var(--color-info, #89b4fa);
+  }
+
+  .tui-checkhealth__check-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tui-checkhealth__check-name {
+    color: var(--color-text, #cdd6f4);
+    margin-right: 0.75rem;
+  }
+
+  .tui-checkhealth__check-detail {
+    color: var(--color-text-muted, #6c7086);
+    font-size: 0.75rem;
+  }
+
+  .tui-checkhealth__check-progress {
+    flex-shrink: 0;
+  }
+
+  .tui-checkhealth__progress-bar {
+    font-family: var(--font-mono, monospace);
+    letter-spacing: 0.1em;
+    font-size: 0.75rem;
+  }
+
+  .tui-checkhealth__progress-bar--ok {
+    color: var(--color-success, #a6e3a1);
+  }
+
+  .tui-checkhealth__progress-bar--warn {
+    color: var(--color-warning, #f9e2af);
+  }
+
+  .tui-checkhealth__progress-bar--info {
+    color: var(--color-info, #89b4fa);
+  }
+
+  /* Advice */
+  .tui-checkhealth__advice {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--color-background, #11111b);
+    border-radius: 0.25rem;
+    font-size: 0.8125rem;
+  }
+
+  .tui-checkhealth__advice-icon {
+    color: var(--color-info, #89b4fa);
+    font-weight: 700;
+  }
+
+  .tui-checkhealth__advice-text {
+    color: var(--color-text-muted, #6c7086);
+  }
+
+  /* Footer */
+  .tui-checkhealth__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-surface-1, #313244);
+    font-size: 0.8125rem;
+  }
+
+  .tui-checkhealth__footer-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text, #cdd6f4);
+  }
+
+  .tui-checkhealth__footer-meta {
+    display: flex;
+    gap: 1rem;
+    color: var(--color-text-muted, #6c7086);
+  }
+
+  /* Responsive */
+  @media (max-width: 767px) {
+    .tui-checkhealth {
+      padding: 0.5rem;
+    }
+
+    .tui-checkhealth__content {
+      padding: 0.75rem;
+    }
+
+    .tui-checkhealth__check {
+      flex-wrap: wrap;
+    }
+
+    .tui-checkhealth__check-progress {
+      width: 100%;
+      padding-left: 4.25rem;
+      margin-top: 0.25rem;
+    }
+
+    .tui-checkhealth__footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .tui-checkhealth__footer-meta {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+  }
+</style>

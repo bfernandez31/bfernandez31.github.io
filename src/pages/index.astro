@@ -1,12 +1,11 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import HeroTui from "../components/sections/HeroTui.astro";
-import AboutIDE from "../components/sections/AboutIDE.astro";
-import Experience from "../components/sections/Experience.astro";
-import FeaturedProject from "../components/sections/FeaturedProject.astro";
-import ProjectsHexGrid from "../components/sections/ProjectsHexGrid.astro";
-import ExpertiseMatrix from "../components/sections/ExpertiseMatrix.astro";
-import ContactProtocol from "../components/sections/ContactProtocol.astro";
+import AboutReadme from "../components/sections/AboutReadme.astro";
+import ExperienceGitLog from "../components/sections/ExperienceGitLog.astro";
+import ProjectsTelescope from "../components/sections/ProjectsTelescope.astro";
+import ExpertiseCheckhealth from "../components/sections/ExpertiseCheckhealth.astro";
+import ContactTerminal from "../components/sections/ContactTerminal.astro";
 import { pageMetadata } from "../data/pages";
 import type { JSONLDStructuredData } from "../types/seo";
 
@@ -100,7 +99,7 @@ const jsonLd: JSONLDStructuredData = {
 		/>
 	</section>
 
-	<!-- About Section -->
+	<!-- About Section (README.md style) -->
 	<section
 		id="about"
 		data-section="about"
@@ -108,10 +107,10 @@ const jsonLd: JSONLDStructuredData = {
 		role="region"
 		aria-label="About section with background and experience"
 	>
-		<AboutIDE biography={biography} highlights={highlights} />
+		<AboutReadme biography={biography} highlights={highlights} />
 	</section>
 
-	<!-- Experience Section -->
+	<!-- Experience Section (git log style) -->
 	<section
 		id="experience"
 		data-section="experience"
@@ -119,10 +118,10 @@ const jsonLd: JSONLDStructuredData = {
 		role="region"
 		aria-label="Experience section with professional career history"
 	>
-		<Experience />
+		<ExperienceGitLog />
 	</section>
 
-	<!-- Projects Section -->
+	<!-- Projects Section (Telescope/fzf style) -->
 	<section
 		id="projects"
 		data-section="projects"
@@ -130,14 +129,10 @@ const jsonLd: JSONLDStructuredData = {
 		role="region"
 		aria-label="Projects section showcasing portfolio work"
 	>
-		<div class="projects-section__header">
-			<h2 class="projects-section__title">Projects</h2>
-		</div>
-		<FeaturedProject />
-		<ProjectsHexGrid />
+		<ProjectsTelescope />
 	</section>
 
-	<!-- Expertise Section -->
+	<!-- Expertise Section (:checkhealth style) -->
 	<section
 		id="expertise"
 		data-section="expertise"
@@ -145,10 +140,10 @@ const jsonLd: JSONLDStructuredData = {
 		role="region"
 		aria-label="Expertise section with technical skills and competencies"
 	>
-		<ExpertiseMatrix />
+		<ExpertiseCheckhealth />
 	</section>
 
-	<!-- Contact Section -->
+	<!-- Contact Section (terminal style) -->
 	<section
 		id="contact"
 		data-section="contact"
@@ -156,39 +151,12 @@ const jsonLd: JSONLDStructuredData = {
 		role="region"
 		aria-label="Contact section for inquiries and collaboration"
 	>
-		<ContactProtocol />
+		<ContactTerminal />
 	</section>
 </PageLayout>
 
 <style>
-	/* Projects Section Title Styles */
-	.projects-section__header {
-		max-width: 1400px;
-		margin: 0 auto;
-		padding: 0 var(--spacing-base, 1rem);
-	}
-
-	.projects-section__title {
-		font-size: clamp(2rem, 5vw, 3rem);
-		color: var(--color-text);
-		margin-bottom: var(--spacing-xl, 2rem);
-		text-align: center;
-	}
-
-	/* Mobile (≤767px) */
-	@media (max-width: 767px) {
-		.projects-section__title {
-			font-size: clamp(1.75rem, 6vw, 2.5rem);
-			margin-bottom: var(--spacing-base, 1rem);
-		}
-	}
-
-	/* Tablet (768-1023px) */
-	@media (min-width: 768px) and (max-width: 1023px) {
-		.projects-section__title {
-			margin-bottom: var(--spacing-large, 1.5rem);
-		}
-	}
+	/* TUI section styling handled by component-scoped styles */
 </style>
 
 <script>
