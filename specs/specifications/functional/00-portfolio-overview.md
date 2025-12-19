@@ -21,7 +21,11 @@ The portfolio highlights select projects with a dedicated Featured Project secti
 - Displays project image (16:9 aspect ratio), title, description, and meta-narrative
 - Technology tags shown as interactive badges
 - Clear call-to-action button linking to live deployment
-- Responsive design: horizontal split on desktop (60/40 image/content), stacked vertical on mobile
+- Responsive design with optimized visual hierarchy:
+  - **Desktop (≥1024px)**: Horizontal split with 60/40 image-to-content ratio
+  - **Tablet (768-1023px)**: Horizontal split with 50/50 image-to-content ratio
+  - **Mobile (<768px)**: Vertical stacked layout with content-first ordering (label → title/description/tags → image)
+- Content-first mobile layout ensures visitors see project information before large preview image
 - Simple CSS-based fade-in animation on page load
 - Accessible with ARIA landmarks, semantic HTML, and keyboard navigation
 - Respects `prefers-reduced-motion` user preference

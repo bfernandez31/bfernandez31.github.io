@@ -55,7 +55,7 @@ portfolio/
   - BurgerMenu (magnetic menu with neural pathway animations)
 - `sections/` - Page-specific section components
   - Hero (neural network canvas animation)
-  - FeaturedProject (AI-BOARD showcase with hero-style card layout)
+  - FeaturedProject (AI-BOARD showcase with hero-style card layout, responsive flexbox ordering for mobile)
   - Experience (professional experience timeline)
   - AboutIDE, ProjectsHexGrid, ExpertiseMatrix, BlogCommits, ContactProtocol (planned)
 - `ui/` - Generic UI elements
