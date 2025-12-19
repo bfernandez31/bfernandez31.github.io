@@ -1,0 +1,84 @@
+{
+	"experiences": [
+		{
+			"id": "cdc-frontend-2023",
+			"role": "Tech Lead Frontend",
+			"company": "Caisse des dépôts et consignations",
+			"location": "Toulouse",
+			"startDate": "2023",
+			"endDate": null,
+			"description": "Projet MADPS - Développement et TMA de l'application SAU",
+			"achievements": [
+				"Migration Angular 13 vers 17",
+				"Mise en place CI/CD avec Jenkins"
+			],
+			"technologies": ["angular", "typescript", "git", "jenkins"],
+			"type": "full-time",
+			"displayOrder": 1
+		},
+		{
+			"id": "sfr-architect-2021",
+			"role": "Architecte Applicatif",
+			"company": "SFR",
+			"location": "Toulouse",
+			"startDate": "2021",
+			"endDate": "2023",
+			"description": "Refonte du back-office des boutiques SFR et mise en place d'une nouvelle expérience digital. Conception de la solution front back office, Réalisation de l'architecture applicative et des différents livrables (DAT, MEX, ...). Développement de la solution et accompagnement de l'équipe",
+			"achievements": [
+				"Architecture front-back office",
+				"Leadership équipe technique"
+			],
+			"technologies": ["angular", "java", "spring-boot", "postgresql", "redis", "kubernetes", "docker"],
+			"type": "full-time",
+			"displayOrder": 2
+		},
+		{
+			"id": "sfr-frontend-2020",
+			"role": "Tech Lead Frontend",
+			"company": "SFR",
+			"location": "Toulouse",
+			"startDate": "2020",
+			"endDate": "2021",
+			"description": "Refonte du système des chargées de clientèles SFR et conception de l'outil de modélisation des parcours",
+			"achievements": [
+				"Refonte système clientèle",
+				"Conception outil modélisation"
+			],
+			"technologies": ["angular", "typescript", "java", "postgresql", "redis", "elk-stack"],
+			"type": "full-time",
+			"displayOrder": 3
+		},
+		{
+			"id": "sfr-techlead-2019",
+			"role": "Tech Lead",
+			"company": "SFR",
+			"location": "Toulouse",
+			"startDate": "2019",
+			"endDate": "2020",
+			"description": "Mise en place d'une plateforme numérique – CoPass – pour proposer une organisation adaptée au contexte sanitaire",
+			"achievements": [
+				"Plateforme CoPass",
+				"Architecture Cloud GCP"
+			],
+			"technologies": ["angular", "java", "spring-boot", "postgresql", "kubernetes", "gcp"],
+			"type": "full-time",
+			"displayOrder": 4
+		},
+		{
+			"id": "toulouse-dev-2010",
+			"role": "Développeur Informatique",
+			"company": "Diverses expériences",
+			"location": "Toulouse",
+			"startDate": "2010",
+			"endDate": "2019",
+			"description": "DocOne, ICDC, Orange, DataOne - Développement d'applications web et backend avec Java et Angular",
+			"achievements": [
+				"Expérience multi-secteurs",
+				"Progression vers Tech Lead"
+			],
+			"technologies": ["java", "spring-boot", "angular", "javascript", "postgresql"],
+			"type": "mixed",
+			"displayOrder": 5
+		}
+	]
+}

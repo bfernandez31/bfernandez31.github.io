@@ -6,13 +6,15 @@ const categories = [...skillsData.categories].sort(
 	(a, b) => a.displayOrder - b.displayOrder,
 );
 
-// Group skills by category
-const skillsByCategory = categories.map((category) => ({
-	...category,
-	skills: skillsData.skills
-		.filter((skill) => skill.category === category.id)
-		.sort((a, b) => b.proficiencyLevel - a.proficiencyLevel), // Sort by proficiency desc
-}));
+// Group skills by category, filtering for proficiencyLevel >= 2
+const skillsByCategory = categories
+	.map((category) => ({
+		...category,
+		skills: skillsData.skills
+			.filter((skill) => skill.category === category.id && skill.proficiencyLevel >= 2)
+			.sort((a, b) => b.proficiencyLevel - a.proficiencyLevel), // Sort by proficiency desc
+	}))
+	.filter((category) => category.skills.length > 0); // Only show categories with skills
 ---
 
 <section class="expertise">

@@ -47,11 +47,23 @@ export const extendedNavigationLinks: ExtendedNavigationLink[] = [
 		},
 	},
 	{
+		id: "experience",
+		text: "Experience",
+		path: "/#experience",
+		ariaLabel: "View my professional experience",
+		displayOrder: 3,
+		neuralPathwayConfig: {
+			nodeCount: 6,
+			color: "var(--color-accent)",
+			animationDuration: 0.7,
+		},
+	},
+	{
 		id: "projects",
 		text: "Projects",
 		path: "/#projects",
 		ariaLabel: "View my portfolio projects",
-		displayOrder: 3,
+		displayOrder: 4,
 		neuralPathwayConfig: {
 			nodeCount: 7,
 			color: "var(--color-primary)",
@@ -63,7 +75,7 @@ export const extendedNavigationLinks: ExtendedNavigationLink[] = [
 		text: "Expertise",
 		path: "/#expertise",
 		ariaLabel: "Explore my technical skills and expertise",
-		displayOrder: 4,
+		displayOrder: 5,
 		neuralPathwayConfig: {
 			nodeCount: 6,
 			color: "var(--color-secondary)",
@@ -75,7 +87,7 @@ export const extendedNavigationLinks: ExtendedNavigationLink[] = [
 		text: "Blog",
 		path: "/blog",
 		ariaLabel: "Read my blog posts and articles",
-		displayOrder: 5,
+		displayOrder: 6,
 		neuralPathwayConfig: {
 			nodeCount: 5,
 			color: "var(--color-accent)",
@@ -87,7 +99,7 @@ export const extendedNavigationLinks: ExtendedNavigationLink[] = [
 		text: "Contact",
 		path: "/#contact",
 		ariaLabel: "Get in touch with me",
-		displayOrder: 6,
+		displayOrder: 7,
 		neuralPathwayConfig: {
 			nodeCount: 8,
 			color: "var(--color-primary)",
@@ -118,13 +130,22 @@ export const navigationLinks: NavigationLinkType[] = [
 		order: 2,
 	},
 	{
+		href: "#experience",
+		targetSectionId: "experience",
+		label: "Experience",
+		ariaLabel: "Navigate to Experience section",
+		ariaCurrent: null,
+		isActive: false,
+		order: 3,
+	},
+	{
 		href: "#projects",
 		targetSectionId: "projects",
 		label: "Projects",
 		ariaLabel: "Navigate to Projects section",
 		ariaCurrent: null,
 		isActive: false,
-		order: 3,
+		order: 4,
 	},
 	{
 		href: "#expertise",
@@ -133,7 +154,7 @@ export const navigationLinks: NavigationLinkType[] = [
 		ariaLabel: "Navigate to Expertise section",
 		ariaCurrent: null,
 		isActive: false,
-		order: 4,
+		order: 5,
 	},
 	{
 		href: "#contact",
@@ -142,6 +163,6 @@ export const navigationLinks: NavigationLinkType[] = [
 		ariaLabel: "Navigate to Contact section",
 		ariaCurrent: null,
 		isActive: false,
-		order: 5,
+		order: 6,
 	},
 ];

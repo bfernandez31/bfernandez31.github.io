@@ -15,7 +15,7 @@
 			"name": "Angular",
 			"category": "frontend",
 			"proficiencyLevel": 4,
-			"yearsExperience": 5,
+			"yearsExperience": 10,
 			"relatedProjects": [],
 			"icon": "angular"
 		},
@@ -24,7 +24,7 @@
 			"name": "JavaScript",
 			"category": "frontend",
 			"proficiencyLevel": 4,
-			"yearsExperience": 8,
+			"yearsExperience": 15,
 			"relatedProjects": [],
 			"icon": "javascript"
 		},
@@ -33,7 +33,7 @@
 			"name": "TypeScript",
 			"category": "frontend",
 			"proficiencyLevel": 4,
-			"yearsExperience": 5,
+			"yearsExperience": 8,
 			"relatedProjects": [],
 			"icon": "typescript"
 		},
@@ -42,7 +42,7 @@
 			"name": "Git",
 			"category": "tools",
 			"proficiencyLevel": 4,
-			"yearsExperience": 8,
+			"yearsExperience": 12,
 			"relatedProjects": [],
 			"icon": "git"
 		},
@@ -51,7 +51,7 @@
 			"name": "Redux",
 			"category": "frontend",
 			"proficiencyLevel": 4,
-			"yearsExperience": 4,
+			"yearsExperience": 6,
 			"relatedProjects": [],
 			"icon": "redux"
 		},
@@ -60,7 +60,7 @@
 			"name": "Java",
 			"category": "backend",
 			"proficiencyLevel": 3,
-			"yearsExperience": 5,
+			"yearsExperience": 15,
 			"relatedProjects": [],
 			"icon": "java"
 		},
@@ -69,7 +69,7 @@
 			"name": "Spring Boot",
 			"category": "backend",
 			"proficiencyLevel": 3,
-			"yearsExperience": 5,
+			"yearsExperience": 8,
 			"relatedProjects": [],
 			"icon": "spring"
 		},
@@ -78,7 +78,7 @@
 			"name": "Spring Security",
 			"category": "backend",
 			"proficiencyLevel": 3,
-			"yearsExperience": 4,
+			"yearsExperience": 6,
 			"relatedProjects": [],
 			"icon": "spring"
 		},
@@ -87,7 +87,7 @@
 			"name": "PostgreSQL",
 			"category": "database",
 			"proficiencyLevel": 3,
-			"yearsExperience": 5,
+			"yearsExperience": 10,
 			"relatedProjects": [],
 			"icon": "postgresql"
 		},
@@ -114,7 +114,7 @@
 			"name": "Docker",
 			"category": "devops",
 			"proficiencyLevel": 3,
-			"yearsExperience": 4,
+			"yearsExperience": 6,
 			"relatedProjects": [],
 			"icon": "docker"
 		},
@@ -123,7 +123,7 @@
 			"name": "CSS",
 			"category": "frontend",
 			"proficiencyLevel": 3,
-			"yearsExperience": 8,
+			"yearsExperience": 15,
 			"relatedProjects": [],
 			"icon": "css"
 		},
@@ -240,7 +240,7 @@
 			"name": "Kubernetes",
 			"category": "devops",
 			"proficiencyLevel": 2,
-			"yearsExperience": 2,
+			"yearsExperience": 4,
 			"relatedProjects": [],
 			"icon": "kubernetes"
 		},

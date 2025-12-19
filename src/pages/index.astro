@@ -2,6 +2,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import Hero from '../components/sections/Hero.astro';
 import AboutIDE from '../components/sections/AboutIDE.astro';
+import Experience from '../components/sections/Experience.astro';
 import ProjectsHexGrid from '../components/sections/ProjectsHexGrid.astro';
 import ExpertiseMatrix from '../components/sections/ExpertiseMatrix.astro';
 import ContactProtocol from '../components/sections/ContactProtocol.astro';
@@ -106,6 +107,17 @@ const jsonLd: JSONLDStructuredData = {
 		aria-label="About section with background and experience"
 	>
 		<AboutIDE biography={biography} highlights={highlights} />
+	</section>
+
+	<!-- Experience Section -->
+	<section
+		id="experience"
+		data-section="experience"
+		class="portfolio-section portfolio-section--experience"
+		role="region"
+		aria-label="Experience section with professional career history"
+	>
+		<Experience />
 	</section>
 
 	<!-- Projects Section -->
