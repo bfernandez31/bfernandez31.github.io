@@ -224,6 +224,18 @@ const aiBoard = await getEntry("projects", "ai-board");
 
   /* Mobile layout (max-width: 767px) - stacked */
   @media (max-width: 767px) {
+    .featured-project__label {
+      order: 1;
+    }
+
+    .featured-project__content {
+      order: 2;
+    }
+
+    .featured-project__image-wrapper {
+      order: 3;
+    }
+
     .featured-project__cta {
       width: 100%;
       justify-content: center;
