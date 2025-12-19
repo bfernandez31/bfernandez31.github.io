@@ -2,56 +2,101 @@
 
 ## Overview
 
-The portfolio features an Awwwards-worthy architecture with advanced animations and interactive elements that create a visually striking, high-performance user experience. The architecture is built on Astro's static site generation with selective client-side hydration for animations.
+The portfolio features a Terminal User Interface (TUI) aesthetic inspired by Neovim and tmux, creating an immersive developer-focused experience. The architecture is built on Astro's static site generation with selective client-side hydration for animations, wrapped in a full TUI layout that mimics a terminal environment.
+
+## TUI Layout System
+
+The portfolio uses a comprehensive TUI (Terminal User Interface) layout that wraps all content in a terminal-like environment, providing an authentic developer experience.
+
+**Layout Structure**:
+- **Top Bar**: tmux-style window bar with buffer tabs, clock display, and git branch indicator
+- **Sidebar**: NvimTree-style file explorer showing navigable section "files" (hero.tsx, about.tsx, etc.)
+- **Content Area**: Main content region with line numbers gutter and syntax-highlighted sections
+- **Status Line**: Neovim-style statusline displaying mode, active file, and cursor position
+- **Command Line**: Decorative command line at bottom showing vim-style commands
+
+**Visual Design**:
+- Monospace typography throughout (JetBrains Mono font)
+- Nerd Font icons for file types and UI elements
+- Catppuccin Mocha color palette maintained for TUI elements
+- CSS-based syntax highlighting for code-like sections
+- Border elements and separators creating terminal panel aesthetics
+
+**Navigation**:
+- Click sidebar files to navigate between sections
+- Click top bar tabs to switch sections
+- Smooth scrolling to target section with Lenis integration
+- Active section tracked via IntersectionObserver (30% threshold)
+- Sidebar and tab states synchronize automatically
+- URL hash updates reflect current section (#hero, #about, etc.)
+
+**Responsive Behavior**:
+- Desktop (≥1024px): Full TUI layout with visible sidebar (~200-250px width)
+- Tablet (768-1023px): Collapsible sidebar with toggle button
+- Mobile (<768px): Hidden sidebar accessible via toggle, full-width overlay when open
+- Sidebar auto-closes after navigation on mobile/tablet
+
+**State Synchronization**:
+When active section changes:
+1. Sidebar file entry highlights active file
+2. Top bar tab highlights active buffer
+3. Status line updates to show current file name
+4. Command line displays `:e {filename}` command
+5. URL hash updates to `#{sectionId}`
+6. Browser history tracks section navigation
+
+**Accessibility**:
+- Skip link to main content for keyboard users
+- Standard keyboard navigation (Tab/Shift+Tab, Enter, Escape)
+- ARIA attributes for all interactive elements
+- Semantic HTML structure beneath TUI styling
+- Respects `prefers-reduced-motion` for all animations
+- Screen readers announce content naturally despite terminal metaphor
+
+**Performance**:
+- Lazy-loaded monospace font (JetBrains Mono ~35KB Latin subset)
+- Minimal Nerd Font icon subset (~2-4KB for 4 icons)
+- CSS-only syntax highlighting (~4KB)
+- Typing animation uses GSAP TextPlugin (~3KB)
+- Total TUI overhead: ~50KB including fonts
 
 ## Hero Section
 
-The homepage features a clean, name-first hero section following modern portfolio design conventions. This replaced the previous WebGL 3D animation (PBF-28) due to reliability and simplicity requirements.
+The hero section features a typewriter-style typing animation with a blinking cursor, providing an authentic terminal greeting experience.
 
-**Layout**:
-- Developer's full name prominently displayed as h1 heading
-- Professional role/title shown as subtitle
-- Optional tagline for additional context
-- Clear call-to-action button linking to projects section
-- Centered content with maximum width constraint (1200px)
+**Typing Animation**:
+- Character-by-character text reveal using GSAP TextPlugin
+- Typing speed: 50-80ms per character for readable pace
+- Blinking block cursor (█) at typing position with ~530ms blink interval
+- Cursor continues blinking after text completes
+- Animation triggers automatically when hero section enters viewport
 
 **Visual Design**:
-- Simple CSS gradient background: `linear-gradient(135deg, var(--color-background), var(--color-surface-0))`
-- Uses semantic color tokens from Catppuccin Mocha palette
+- TUI-styled section with line numbers in left gutter
+- Monospace font (JetBrains Mono) for terminal aesthetic
+- Terminal-like layout with cursor and typing effect
+- Syntax highlighting colors from Catppuccin Mocha palette
 - Responsive typography with CSS clamp() for optimal scaling
-  - Name: `clamp(3rem, 10vw, 8rem)` for fluid sizing
-  - Role: `clamp(1.25rem, 3vw, 2rem)` for proper hierarchy
-- Full viewport height (100vh/100dvh) for consistent presentation
-
-**Animation**:
-- Simple CSS-based fade-in effect (opacity 0→1, translateY 20px→0)
-- 0.6s duration with cubic-bezier easing
-- No JavaScript required for content rendering
-- Progressive enhancement: visible immediately if JavaScript fails
 
 **Accessibility**:
-- Respects `prefers-reduced-motion` user preference (instant reveal)
+- Respects `prefers-reduced-motion`: text appears instantly, cursor static
+- Original text preserved in visually-hidden span for screen readers
+- Animated text marked with `aria-hidden="true"`
 - Semantic HTML with proper heading hierarchy (h1 for name)
-- Minimum 48px touch target for CTA button
-- Visible focus indicators for keyboard navigation
-- Screen reader compatible with natural content structure
+- Keyboard navigation support for all interactive elements
 
 **Performance**:
-- Zero JavaScript overhead for hero rendering
-- GPU-accelerated CSS animation (opacity, transform)
-- Immediate content visibility (no waiting for animation scripts)
-- Minimal footprint: ~2KB CSS (component-scoped)
+- GSAP TextPlugin for efficient character animation (~3KB)
+- GPU-accelerated cursor blink animation (CSS)
+- Progressive enhancement: text visible immediately if JavaScript fails
+- Animation pauses when section not visible (IntersectionObserver)
+- Automatic cleanup on page navigation
 
-**Props Interface**:
-```typescript
-interface Props {
-  name: string;           // Developer's full name (required)
-  role?: string;          // Professional role/title
-  tagline?: string;       // Optional brief description
-  ctaText?: string;       // CTA button text (default: "Explore Projects")
-  ctaLink?: string;       // CTA link (default: "#projects")
-}
-```
+**Animation States**:
+- `idle`: Not started, waiting for viewport trigger
+- `typing`: Character-by-character reveal in progress
+- `complete`: All text visible, cursor continues blinking
+- `reduced`: Instant reveal when user prefers reduced motion
 
 ## Navigation System
 
@@ -294,6 +339,88 @@ The Experience section presents a visual timeline of professional work history, 
 - Technology tags use semantic color tokens with hover/focus states
 - Consistent spacing and typography matching overall design system
 - GPU-accelerated animations (opacity, transform) for smooth 60fps performance
+
+## TUI Section Styling
+
+Each portfolio section has unique TUI-inspired styling that matches its content purpose, creating a cohesive terminal aesthetic throughout the site.
+
+### Section Style Types
+
+**Hero (Typing Style)**:
+- Typewriter animation with character-by-character text reveal
+- Blinking block cursor (█) with ~530ms interval
+- Terminal-like layout with line numbers
+- Monospace typography (JetBrains Mono)
+- Respects `prefers-reduced-motion` for instant reveal
+
+**About (README.md Style)**:
+- Markdown-inspired formatting with `#` headers
+- List items with `-` bullet points
+- Inline code blocks with syntax highlighting
+- Blockquote styling for callouts
+- Code fence blocks for technical details
+- Maintains terminal color palette
+
+**Experience (Git Log Style)**:
+- Timeline visualization with branch indicators
+- Commit-style entry formatting
+- Hash-like identifiers for each position
+- Author/date metadata display
+- Diff-style highlighting for achievements
+- Branch merge visualizations
+
+**Projects (Telescope/fzf Style)**:
+- Search bar UI element (decorative or functional)
+- Fuzzy finder aesthetic with file path display
+- Preview pane layout for project details
+- Keyboard shortcut hints in UI
+- File tree-style project organization
+- Results counter and filtering indicators
+
+**Expertise (`:checkhealth` Style)**:
+- Health check status indicators (OK/WARN/ERROR)
+- Progress bars for skill proficiency levels
+- Category sections with fold markers
+- Diagnostic-style skill descriptions
+- Color-coded status messages
+- Neovim health check formatting
+
+**Contact (Terminal Commands Style)**:
+- Shell prompt indicators (`$`)
+- Command syntax with `echo` statements
+- Environment variable style for contact info
+- Script-like layout with comments (`#`)
+- Exit code displays
+- Syntax highlighting for commands
+
+### Common TUI Elements
+
+**Line Numbers**:
+- Left gutter column with relative line numbering
+- Alternating opacity for readability
+- Highlights current section line range
+- CSS-only implementation (~1KB)
+- Respects monospace font alignment
+
+**Syntax Highlighting**:
+- CSS-only semantic classes (no JavaScript)
+- Catppuccin Mocha color palette
+- Token types: keywords, strings, comments, functions, operators
+- ~4KB CSS footprint
+- Graceful degradation without colors
+
+**Borders and Separators**:
+- Box-drawing characters (─, │, ┌, ┐, └, ┘)
+- Unicode block elements for visual structure
+- Consistent border styling across sections
+- Terminal panel aesthetics
+
+**Icons**:
+- Nerd Font subset (~2-4KB for 4 icons)
+- File type indicators (󰊢, 󰉋, 󰀄, 󰇮)
+- Status symbols for checkhealth
+- Self-hosted WOFF2 format
+- Fallback to Unicode symbols if font fails
 
 ## Visual Effects
 
