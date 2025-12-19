@@ -18,11 +18,11 @@
 
 **Purpose**: Preparation and analysis before implementation
 
-- [ ] T001 Review current layout structure in src/pages/index.astro to understand Projects section markup
-- [ ] T002 [P] Review FeaturedProject component in src/components/sections/FeaturedProject.astro
-- [ ] T003 [P] Review ProjectsHexGrid component in src/components/sections/ProjectsHexGrid.astro
+- [x] T001 Review current layout structure in src/pages/index.astro to understand Projects section markup
+- [x] T002 [P] Review FeaturedProject component in src/components/sections/FeaturedProject.astro
+- [x] T003 [P] Review ProjectsHexGrid component in src/components/sections/ProjectsHexGrid.astro
 
-**Checkpoint**: Codebase understanding complete - ready to implement fixes
+**Checkpoint**: Codebase understanding complete - ready to implement fixes ✅ DONE
 
 ---
 
@@ -44,13 +44,13 @@
 
 ### Implementation for User Story 1
 
-- [ ] T004 [US1] Add section title h2 element with class "projects-section__title" before FeaturedProject component in src/pages/index.astro
-- [ ] T005 [US1] Add CSS styles for ".projects-section__title" in src/pages/index.astro (scoped styles)
-- [ ] T006 [US1] Add CSS gradient fallback background to ".featured-project__image-wrapper" in src/components/sections/FeaturedProject.astro
-- [ ] T007 [US1] Modify ProjectsHexGrid h2 title to h3 "More Projects" in src/components/sections/ProjectsHexGrid.astro
-- [ ] T008 [US1] Update ".hex-grid__title" CSS to use h3 typography in src/components/sections/ProjectsHexGrid.astro
+- [x] T004 [US1] Add section title h2 element with class "projects-section__title" before FeaturedProject component in src/pages/index.astro
+- [x] T005 [US1] Add CSS styles for ".projects-section__title" in src/pages/index.astro (scoped styles)
+- [x] T006 [US1] Add CSS gradient fallback background to ".featured-project__image-wrapper" in src/components/sections/FeaturedProject.astro
+- [x] T007 [US1] Modify ProjectsHexGrid h2 title to h3 "More Projects" in src/components/sections/ProjectsHexGrid.astro
+- [x] T008 [US1] Update ".hex-grid__title" CSS to use h3 typography in src/components/sections/ProjectsHexGrid.astro
 
-**Checkpoint**: User Story 1 complete - section title visible, image shows gradient fallback, heading hierarchy correct (h2 → h3)
+**Checkpoint**: User Story 1 complete - section title visible, image shows gradient fallback, heading hierarchy correct (h2 → h3) ✅ DONE
 
 ---
 
@@ -65,12 +65,12 @@
 
 ### Implementation for User Story 2
 
-- [ ] T009 [US2] Verify/adjust mobile styles for section title at ≤767px breakpoint in src/pages/index.astro
-- [ ] T010 [US2] Verify/adjust tablet styles for section title at 768-1023px breakpoint in src/pages/index.astro
-- [ ] T011 [US2] Verify gradient fallback displays correctly across all breakpoints in src/components/sections/FeaturedProject.astro
-- [ ] T012 [US2] Test and verify ProjectsHexGrid h3 title alignment at all breakpoints in src/components/sections/ProjectsHexGrid.astro
+- [x] T009 [US2] Verify/adjust mobile styles for section title at ≤767px breakpoint in src/pages/index.astro
+- [x] T010 [US2] Verify/adjust tablet styles for section title at 768-1023px breakpoint in src/pages/index.astro
+- [x] T011 [US2] Verify gradient fallback displays correctly across all breakpoints in src/components/sections/FeaturedProject.astro
+- [x] T012 [US2] Test and verify ProjectsHexGrid h3 title alignment at all breakpoints in src/components/sections/ProjectsHexGrid.astro
 
-**Checkpoint**: User Story 2 complete - responsive layout consistent across all breakpoints
+**Checkpoint**: User Story 2 complete - responsive layout consistent across all breakpoints ✅ DONE
 
 ---
 
@@ -78,11 +78,13 @@
 
 **Purpose**: Final validation and accessibility checks
 
-- [ ] T013 Run development server and perform manual testing per quickstart.md checklist
-- [ ] T014 Test keyboard navigation and heading hierarchy with screen reader or browser outline
-- [ ] T015 Verify prefers-reduced-motion support is maintained (no new animations added)
-- [ ] T016 Run `bun run build` and verify production build succeeds with no errors
-- [ ] T017 Run `bun run lint` and fix any Biome linting issues
+- [x] T013 Run development server and perform manual testing per quickstart.md checklist
+- [x] T014 Test keyboard navigation and heading hierarchy with screen reader or browser outline
+- [x] T015 Verify prefers-reduced-motion support is maintained (no new animations added)
+- [x] T016 Run `bun run build` and verify production build succeeds with no errors
+- [x] T017 Run `bun run lint` and fix any Biome linting issues (pre-existing Biome/Astro false positives ignored)
+
+**Checkpoint**: Phase 5 complete ✅ DONE
 
 ---
 

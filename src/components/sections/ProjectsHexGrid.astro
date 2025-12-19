@@ -31,7 +31,7 @@ const displayProjects = projects.slice(0, limit);
 
 <section class="hex-grid" data-projects-count={displayProjects.length}>
   <div class="hex-grid__container">
-    <h2 class="hex-grid__title">Featured Projects</h2>
+    <h3 class="hex-grid__title">More Projects</h3>
 
     <div class="hex-grid__wrapper">
       {displayProjects.map((project, index) => (
@@ -97,9 +97,9 @@ const displayProjects = projects.slice(0, limit);
   }
 
   .hex-grid__title {
-    font-size: clamp(2rem, 5vw, 3rem);
-    color: var(--color-text);
-    margin-bottom: var(--spacing-xl);
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-large);
     text-align: center;
   }
 
