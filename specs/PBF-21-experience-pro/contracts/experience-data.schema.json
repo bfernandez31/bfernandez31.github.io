@@ -1,0 +1,115 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "experience-data.schema.json",
+  "title": "Experience Data Schema",
+  "description": "JSON Schema for professional experience data in the portfolio",
+  "type": "object",
+  "required": ["experiences"],
+  "properties": {
+    "experiences": {
+      "type": "array",
+      "description": "List of professional experience entries",
+      "items": {
+        "$ref": "#/definitions/Experience"
+      },
+      "minItems": 1
+    }
+  },
+  "definitions": {
+    "Experience": {
+      "type": "object",
+      "description": "A single professional work experience entry",
+      "required": [
+        "id",
+        "role",
+        "company",
+        "location",
+        "startDate",
+        "description",
+        "technologies",
+        "type",
+        "displayOrder"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier in kebab-case format",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "examples": ["cdc-frontend-2023", "sfr-architect-2021"]
+        },
+        "role": {
+          "type": "string",
+          "description": "Job title or role name",
+          "minLength": 2,
+          "maxLength": 100,
+          "examples": ["Tech Lead Frontend", "Architecte Applicatif"]
+        },
+        "company": {
+          "type": "string",
+          "description": "Company or organization name",
+          "minLength": 2,
+          "maxLength": 100,
+          "examples": ["Caisse des dépôts et consignations", "SFR"]
+        },
+        "location": {
+          "type": "string",
+          "description": "Work location (city)",
+          "minLength": 2,
+          "maxLength": 50,
+          "examples": ["Toulouse", "Paris"]
+        },
+        "startDate": {
+          "type": "string",
+          "description": "Start date in ISO 8601 format (YYYY or YYYY-MM)",
+          "pattern": "^\\d{4}(-\\d{2})?$",
+          "examples": ["2023", "2021-01"]
+        },
+        "endDate": {
+          "type": ["string", "null"],
+          "description": "End date in ISO 8601 format, or null for current position",
+          "pattern": "^\\d{4}(-\\d{2})?$",
+          "examples": ["2023", "2021-06", null]
+        },
+        "description": {
+          "type": "string",
+          "description": "Role description and key responsibilities",
+          "minLength": 10,
+          "maxLength": 500
+        },
+        "achievements": {
+          "type": "array",
+          "description": "List of key achievements or accomplishments",
+          "items": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 200
+          },
+          "default": []
+        },
+        "technologies": {
+          "type": "array",
+          "description": "Array of skill IDs referencing skills.json",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "minItems": 1,
+          "examples": [["angular", "typescript", "java"]]
+        },
+        "type": {
+          "type": "string",
+          "description": "Employment type",
+          "enum": ["full-time", "contract", "freelance", "mixed"]
+        },
+        "displayOrder": {
+          "type": "integer",
+          "description": "Display order (1 = most recent, higher = older)",
+          "minimum": 1,
+          "examples": [1, 2, 3]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -55,6 +55,7 @@ portfolio/
   - BurgerMenu (magnetic menu with neural pathway animations)
 - `sections/` - Page-specific section components
   - Hero (neural network canvas animation)
+  - Experience (professional experience timeline)
   - AboutIDE, ProjectsHexGrid, ExpertiseMatrix, BlogCommits, ContactProtocol (planned)
 - `ui/` - Generic UI elements
   - Buttons, Cards, Modals
@@ -158,22 +159,22 @@ const { title, description = 'Portfolio site' } = Astro.props;
 **Purpose**: File-based routing (files map to URLs)
 
 **Current Structure**:
-- `index.astro` → `/` (single-page layout with 5 sections)
+- `index.astro` → `/` (single-page layout with 6 sections)
 - `blog/` → `/blog/*` (multi-page blog section)
 - `404.astro` → `/404` (error page)
 
 **Single-Page Architecture**:
 The portfolio uses a single-page layout where all main content is consolidated into `index.astro`:
-- Contains 5 full-viewport sections: hero, about, projects, expertise, contact
+- Contains 6 full-viewport sections: hero, about, experience, projects, expertise, contact
 - Each section has unique `id` and `data-section` attributes
-- Navigation uses hash anchors (e.g., `/#about`, `/#projects`)
+- Navigation uses hash anchors (e.g., `/#about`, `/#experience`, `/#projects`)
 - Old page URLs redirect to hash anchors via Astro redirects configuration
 
 **Routing Rules**:
-- `index.astro` → `/` (single-page with sections `#hero`, `#about`, `#projects`, `#expertise`, `#contact`)
+- `index.astro` → `/` (single-page with sections `#hero`, `#about`, `#experience`, `#projects`, `#expertise`, `#contact`)
 - `blog/index.astro` → `/blog` (separate multi-page section)
 - `blog/[slug].astro` → `/blog/post-title` (dynamic routes)
-- Redirects: `/about` → `/#about`, `/projects` → `/#projects`, `/expertise` → `/#expertise`, `/contact` → `/#contact`
+- Redirects: `/about` → `/#about`, `/experience` → `/#experience`, `/projects` → `/#projects`, `/expertise` → `/#expertise`, `/contact` → `/#contact`
 
 **Conventions**:
 - Import and use layouts
@@ -189,6 +190,7 @@ The portfolio uses a single-page layout where all main content is consolidated i
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/sections/Hero.astro';
 import AboutIDE from '../components/sections/AboutIDE.astro';
+import Experience from '../components/sections/Experience.astro';
 import ProjectsHexGrid from '../components/sections/ProjectsHexGrid.astro';
 import ExpertiseMatrix from '../components/sections/ExpertiseMatrix.astro';
 import ContactProtocol from '../components/sections/ContactProtocol.astro';
@@ -201,6 +203,10 @@ import ContactProtocol from '../components/sections/ContactProtocol.astro';
 
   <section id="about" data-section="about" class="portfolio-section portfolio-section--about" role="region" aria-label="About section">
     <AboutIDE />
+  </section>
+
+  <section id="experience" data-section="experience" class="portfolio-section portfolio-section--experience" role="region" aria-label="Professional experience timeline">
+    <Experience />
   </section>
 
   <section id="projects" data-section="projects" class="portfolio-section portfolio-section--projects" role="region" aria-label="Projects showcase">
@@ -314,10 +320,11 @@ body {
 **Purpose**: Static structured data for site configuration
 
 **Structure**:
-- `navigation.ts` - Navigation links with metadata using hash anchors (e.g., `/#hero`, `/#about`)
+- `navigation.ts` - Navigation links with metadata using hash anchors (e.g., `/#hero`, `/#about`, `/#experience`)
 - `pages.ts` - Page metadata for single-page structure (title, description, Open Graph images, canonical URL)
-- `sections.ts` - Section configuration data (id, title, aria-label for all 5 sections)
-- `skills.json` - Comprehensive skills matrix with 74 skills across 8 categories
+- `sections.ts` - Section configuration data (id, title, aria-label for all 6 sections)
+- `experiences.json` - Professional experience entries with timeline data (5 positions from 2010-present)
+- `skills.json` - Comprehensive skills matrix with 74 skills across 8 categories (filtered to ~25 with proficiency ≥2)
 
 **Conventions**:
 - Use TypeScript for type-safe exports
@@ -332,10 +339,36 @@ body {
 export const navigationLinks = [
   { text: 'Home', path: '/#hero', displayOrder: 1, ariaLabel: 'Navigate to hero section' },
   { text: 'About', path: '/#about', displayOrder: 2, ariaLabel: 'Navigate to about section' },
-  { text: 'Projects', path: '/#projects', displayOrder: 3, ariaLabel: 'Navigate to projects section' },
-  { text: 'Expertise', path: '/#expertise', displayOrder: 4, ariaLabel: 'Navigate to expertise section' },
-  { text: 'Contact', path: '/#contact', displayOrder: 5, ariaLabel: 'Navigate to contact section' },
+  { text: 'Experience', path: '/#experience', displayOrder: 3, ariaLabel: 'Navigate to experience section' },
+  { text: 'Projects', path: '/#projects', displayOrder: 4, ariaLabel: 'Navigate to projects section' },
+  { text: 'Expertise', path: '/#expertise', displayOrder: 5, ariaLabel: 'Navigate to expertise section' },
+  { text: 'Contact', path: '/#contact', displayOrder: 6, ariaLabel: 'Navigate to contact section' },
 ];
+```
+
+**Example Experience Data**:
+```json
+// src/data/experiences.json
+{
+  "experiences": [
+    {
+      "id": "cdc-frontend-2023",
+      "role": "Tech Lead Frontend",
+      "company": "Caisse des dépôts et consignations",
+      "location": "Toulouse",
+      "startDate": "2023",
+      "endDate": null,
+      "description": "Projet MADPS - Développement et TMA de l'application SAU",
+      "achievements": [
+        "Migration Angular 13 vers 17",
+        "Mise en place CI/CD avec Jenkins"
+      ],
+      "technologies": ["angular", "typescript", "git", "jenkins"],
+      "type": "full-time",
+      "displayOrder": 1
+    }
+  ]
+}
 ```
 
 **Example Skills Data**:
@@ -358,7 +391,7 @@ export const navigationLinks = [
       "name": "Angular",
       "category": "frontend",
       "proficiencyLevel": 4,
-      "yearsExperience": 5,
+      "yearsExperience": 10,
       "relatedProjects": [],
       "icon": "angular"
     },
@@ -367,7 +400,7 @@ export const navigationLinks = [
       "name": "Spring Boot",
       "category": "backend",
       "proficiencyLevel": 3,
-      "yearsExperience": 5,
+      "yearsExperience": 8,
       "relatedProjects": [],
       "icon": "spring"
     }
@@ -375,14 +408,28 @@ export const navigationLinks = [
 }
 ```
 
+**Experience Data Schema**:
+- `experiences`: Array of professional experience entries with:
+  - `id`: Unique identifier (kebab-case)
+  - `role`: Job title/position
+  - `company`: Company or organization name
+  - `location`: Work location (city)
+  - `startDate`: Start date (ISO 8601 YYYY or YYYY-MM format)
+  - `endDate`: End date or null for current position
+  - `description`: Role description and key responsibilities
+  - `achievements`: Array of key accomplishments
+  - `technologies`: Array of skill IDs (references skills.json)
+  - `type`: Employment type (full-time, contract, freelance, mixed)
+  - `displayOrder`: Display order (1 = most recent)
+
 **Skills Data Schema**:
 - `categories`: Array of skill categories with unique IDs, display names, and ordering
-- `skills`: Array of 74 individual skills with:
+- `skills`: Array of 74 individual skills (filtered to ~25 with proficiency ≥2) with:
   - `id`: Unique identifier (kebab-case)
   - `name`: Display name
   - `category`: Reference to category ID
-  - `proficiencyLevel`: Integer 1-5 (1=beginner, 5=expert)
-  - `yearsExperience`: Years of professional experience
+  - `proficiencyLevel`: Integer 1-5 (1=beginner, 5=expert) - filtered to show ≥2 only
+  - `yearsExperience`: Years of professional experience (calculated from 2010 career start)
   - `relatedProjects`: Array of project IDs (linkable to portfolio projects)
   - `icon`: Icon identifier for visual representation
 

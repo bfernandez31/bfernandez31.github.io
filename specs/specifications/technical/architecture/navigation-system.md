@@ -8,7 +8,7 @@ The portfolio implements a sophisticated single-page navigation system that prov
 
 ### Core Components
 
-The navigation system consists of five primary JavaScript modules:
+The navigation system consists of five primary JavaScript modules that work together to provide smooth navigation across 6 full-viewport sections:
 
 1. **Smooth Scroll Manager** (`src/scripts/smooth-scroll.ts`)
    - Initializes Lenis smooth scroll library
@@ -355,7 +355,7 @@ dotLinks.forEach((dotLink) => {
 
 ### Visual Styling
 
-The component uses CSS custom properties and respects user motion preferences:
+The component uses CSS custom properties and respects user motion preferences. With the addition of the Experience section, the navigation dots now include 6 dots total (hero, about, experience, projects, expertise, contact):
 
 ```css
 .navigation-dots {
@@ -444,7 +444,7 @@ Each section follows a consistent structure:
 ```
 
 **Attributes**:
-- `id`: Unique identifier for hash navigation
+- `id`: Unique identifier for hash navigation (hero, about, experience, projects, expertise, contact)
 - `data-section`: Matches `id`, used by IntersectionObserver
 - `class`: Base class + section-specific modifier
 - `role`: ARIA landmark (`main` for hero, `region` for others)

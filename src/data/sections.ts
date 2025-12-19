@@ -29,6 +29,16 @@ export const sections: SectionProps[] = [
 		order: 2,
 	},
 	{
+		id: "experience",
+		dataSection: "experience",
+		ariaLabel: "Experience section with professional career history",
+		ariaRole: "region",
+		heading: "Experience",
+		headingLevel: 2,
+		minHeight: "100dvh",
+		order: 3,
+	},
+	{
 		id: "projects",
 		dataSection: "projects",
 		ariaLabel: "Projects section showcasing portfolio work",
@@ -36,7 +46,7 @@ export const sections: SectionProps[] = [
 		heading: "Projects",
 		headingLevel: 2,
 		minHeight: "100dvh",
-		order: 3,
+		order: 4,
 	},
 	{
 		id: "expertise",
@@ -46,7 +56,7 @@ export const sections: SectionProps[] = [
 		heading: "Expertise",
 		headingLevel: 2,
 		minHeight: "100dvh",
-		order: 4,
+		order: 5,
 	},
 	{
 		id: "contact",
@@ -56,6 +66,6 @@ export const sections: SectionProps[] = [
 		heading: "Contact",
 		headingLevel: 2,
 		minHeight: "100dvh",
-		order: 5,
+		order: 6,
 	},
 ];

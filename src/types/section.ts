@@ -5,7 +5,7 @@
  * @feature 005-1510-convert-multi
  */
 
-export type SectionId = "hero" | "about" | "projects" | "expertise" | "contact";
+export type SectionId = "hero" | "about" | "experience" | "projects" | "expertise" | "contact";
 export type SectionRole = "main" | "region" | "complementary";
 export type SectionHeadingLevel = 1 | 2;
 
@@ -67,6 +67,7 @@ export const sectionCSSClasses = {
 	variants: {
 		hero: "portfolio-section--hero",
 		about: "portfolio-section--about",
+		experience: "portfolio-section--experience",
 		projects: "portfolio-section--projects",
 		expertise: "portfolio-section--expertise",
 		contact: "portfolio-section--contact",
@@ -85,6 +86,7 @@ export function validateSectionProps(props: SectionProps): void {
 	const validIds: readonly SectionId[] = [
 		"hero",
 		"about",
+		"experience",
 		"projects",
 		"expertise",
 		"contact",
