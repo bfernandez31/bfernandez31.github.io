@@ -112,13 +112,13 @@
 
 ### Implementation for User Story 4
 
-- [ ] T034 [P] [US4] Install GSAP TextPlugin (verify gsap package includes TextPlugin, register in typing-animation.ts)
-- [ ] T035 [US4] Create typing-animation.ts script in src/scripts/typing-animation.ts (createTypewriter function with speed, cursor, delay options)
-- [ ] T036 [US4] Add prefers-reduced-motion support to typing-animation.ts (instant reveal with static cursor)
-- [ ] T037 [US4] Create TypewriterText.astro component in src/components/ui/TypewriterText.astro (wrapper for typing animation with sr-only text)
-- [ ] T038 [US4] Create HeroTui.astro component in src/components/sections/HeroTui.astro (hero with TypewriterText headline, subheadline, CTA)
-- [ ] T039 [US4] Add cursor blinking CSS animation in src/styles/tui/typography.css (.typewriter-cursor with 530ms blink)
-- [ ] T040 [US4] Replace Hero section in src/pages/index.astro with HeroTui component
+- [x] T034 [P] [US4] Install GSAP TextPlugin (verify gsap package includes TextPlugin, register in typing-animation.ts) ✅ DONE
+- [x] T035 [US4] Create typing-animation.ts script in src/scripts/typing-animation.ts (createTypewriter function with speed, cursor, delay options) ✅ DONE
+- [x] T036 [US4] Add prefers-reduced-motion support to typing-animation.ts (instant reveal with static cursor) ✅ DONE
+- [x] T037 [US4] Create TypewriterText.astro component in src/components/ui/TypewriterText.astro (wrapper for typing animation with sr-only text) ✅ DONE
+- [x] T038 [US4] Create HeroTui.astro component in src/components/sections/HeroTui.astro (hero with TypewriterText headline, subheadline, CTA) ✅ DONE
+- [x] T039 [US4] Add cursor blinking CSS animation in src/styles/tui/typography.css (.typewriter-cursor with 530ms blink) ✅ DONE
+- [x] T040 [US4] Replace Hero section in src/pages/index.astro with HeroTui component ✅ DONE
 
 **Checkpoint**: Hero typing animation works with accessibility support
 

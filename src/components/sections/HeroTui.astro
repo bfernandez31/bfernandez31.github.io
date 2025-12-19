@@ -1,0 +1,275 @@
+---
+/**
+ * HeroTui Component
+ * Feature: PBF-32-portofolio-with-tui
+ *
+ * Hero section with TUI typing animation
+ */
+
+interface Props {
+  /** Main headline text */
+  headline: string;
+  /** Subheadline text */
+  subheadline?: string;
+  /** Typing speed (chars/sec) */
+  typingSpeed?: number;
+  /** CTA button text */
+  ctaText?: string;
+  /** CTA button link */
+  ctaLink?: string;
+}
+
+const {
+  headline,
+  subheadline,
+  typingSpeed = 12.5,
+  ctaText = 'Explore Projects',
+  ctaLink = '#projects',
+} = Astro.props;
+---
+
+<div class="tui-hero">
+  <div class="tui-hero__content">
+    <h1
+      class="tui-hero__headline"
+      id="hero-headline"
+      data-typewriter={headline}
+      data-typewriter-speed={typingSpeed}
+      data-typewriter-delay="0.5"
+    >
+      <span class="typewriter-text">{headline}</span>
+      <span class="typewriter-cursor" aria-hidden="true">█</span>
+    </h1>
+
+    {subheadline && (
+      <p
+        class="tui-hero__subheadline"
+        id="hero-subheadline"
+        data-typewriter={subheadline}
+        data-typewriter-speed={typingSpeed * 1.5}
+        data-typewriter-delay="0.3"
+      >
+        <span class="typewriter-text">{subheadline}</span>
+      </p>
+    )}
+
+    {ctaText && ctaLink && (
+      <a href={ctaLink} class="tui-hero__cta">
+        <span class="tui-hero__cta-icon" aria-hidden="true">$</span>
+        {ctaText}
+      </a>
+    )}
+  </div>
+
+  <!-- Decorative code block -->
+  <div class="tui-hero__decoration" aria-hidden="true">
+    <div class="tui-hero__code">
+      <span class="tui-hero__code-comment">// Welcome to my portfolio</span>
+      <span class="tui-hero__code-line">
+        <span class="tui-hero__code-keyword">const</span>
+        <span class="tui-hero__code-var"> developer</span>
+        <span class="tui-hero__code-op"> =</span>
+        <span class="tui-hero__code-string"> "Full Stack"</span>
+        <span class="tui-hero__code-punct">;</span>
+      </span>
+      <span class="tui-hero__code-line">
+        <span class="tui-hero__code-keyword">export</span>
+        <span class="tui-hero__code-keyword"> default</span>
+        <span class="tui-hero__code-var"> portfolio</span>
+        <span class="tui-hero__code-punct">;</span>
+      </span>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { createTypewriterChain } from '../../scripts/typing-animation';
+
+  // Initialize hero typing animation
+  const headline = document.getElementById('hero-headline');
+  const subheadline = document.getElementById('hero-subheadline');
+
+  if (headline) {
+    const items = [
+      {
+        element: headline,
+        text: headline.getAttribute('data-typewriter') || '',
+        options: {
+          speed: parseFloat(headline.getAttribute('data-typewriter-speed') || '12.5'),
+          delay: parseFloat(headline.getAttribute('data-typewriter-delay') || '0.5'),
+        },
+      },
+    ];
+
+    if (subheadline) {
+      items.push({
+        element: subheadline,
+        text: subheadline.getAttribute('data-typewriter') || '',
+        options: {
+          speed: parseFloat(subheadline.getAttribute('data-typewriter-speed') || '18'),
+          delay: 0.3,
+        },
+      });
+    }
+
+    createTypewriterChain(items);
+  }
+</script>
+
+<style>
+  .tui-hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: calc(100vh - 5rem);
+    padding: 2rem;
+    gap: 2rem;
+  }
+
+  .tui-hero__content {
+    max-width: 800px;
+  }
+
+  .tui-hero__headline {
+    font-family: var(--font-mono, monospace);
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--color-text, #cdd6f4);
+    margin: 0 0 1rem;
+    line-height: 1.2;
+  }
+
+  .tui-hero__subheadline {
+    font-family: var(--font-mono, monospace);
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    color: var(--color-text-muted, #a6adc8);
+    margin: 0 0 2rem;
+    line-height: 1.4;
+  }
+
+  .tui-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-mono, monospace);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-background, #1e1e2e);
+    background-color: var(--color-primary, #cba6f7);
+    border: none;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .tui-hero__cta:hover {
+    background-color: var(--color-secondary, #f5c2e7);
+    transform: translateY(-2px);
+  }
+
+  .tui-hero__cta:focus-visible {
+    outline: 2px solid var(--color-primary, #cba6f7);
+    outline-offset: 2px;
+  }
+
+  .tui-hero__cta:active {
+    transform: translateY(0);
+  }
+
+  .tui-hero__cta-icon {
+    color: var(--color-background, #1e1e2e);
+    opacity: 0.7;
+  }
+
+  /* Decorative code block */
+  .tui-hero__decoration {
+    display: none;
+    padding: 1rem;
+    background-color: var(--color-surface-0, #1e1e2e);
+    border: 1px solid var(--color-surface-1, #313244);
+    border-radius: 0.5rem;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .tui-hero__code {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .tui-hero__code-comment {
+    color: var(--color-text-muted, #6c7086);
+  }
+
+  .tui-hero__code-line {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .tui-hero__code-keyword {
+    color: var(--color-secondary, #f5c2e7);
+  }
+
+  .tui-hero__code-var {
+    color: var(--color-info, #89b4fa);
+  }
+
+  .tui-hero__code-op {
+    color: var(--color-text, #cdd6f4);
+  }
+
+  .tui-hero__code-string {
+    color: var(--color-success, #a6e3a1);
+  }
+
+  .tui-hero__code-punct {
+    color: var(--color-text-muted, #6c7086);
+  }
+
+  /* Typewriter cursor styling */
+  :global(.typewriter-cursor) {
+    display: inline-block;
+    width: 1ch;
+    color: var(--color-primary, #cba6f7);
+  }
+
+  /* Responsive */
+  @media (min-width: 1024px) {
+    .tui-hero {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tui-hero__decoration {
+      display: block;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .tui-hero {
+      padding: 1rem;
+      min-height: calc(100vh - 4rem);
+    }
+
+    .tui-hero__cta {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tui-hero__cta {
+      transition: none;
+    }
+
+    .tui-hero__cta:hover {
+      transform: none;
+    }
+  }
+</style>

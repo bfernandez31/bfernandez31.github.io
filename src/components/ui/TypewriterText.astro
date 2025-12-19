@@ -1,0 +1,99 @@
+---
+/**
+ * TypewriterText Component
+ * Feature: PBF-32-portofolio-with-tui
+ *
+ * Wrapper component for typing animation with screen reader support
+ */
+
+type Props = {
+  /** Full text to type */
+  text: string;
+  /** Characters per second */
+  speed?: number;
+  /** Cursor character */
+  cursor?: string;
+  /** Start delay (seconds) */
+  delay?: number;
+  /** HTML tag to render */
+  as?: 'h1' | 'h2' | 'h3' | 'p' | 'span';
+  /** Additional CSS class */
+  class?: string;
+  /** Animation ID for chaining */
+  id?: string;
+};
+
+const {
+  text,
+  speed = 12.5,
+  cursor = '█',
+  delay = 0,
+  as: Tag = 'span',
+  class: className,
+  id,
+} = Astro.props;
+---
+
+<Tag
+  class:list={["typewriter", className]}
+  data-typewriter={text}
+  data-typewriter-speed={speed}
+  data-typewriter-delay={delay}
+  data-typewriter-cursor={cursor}
+  id={id}
+>
+  <!-- Screen reader accessible text (visible before JS loads) -->
+  <span class="typewriter__text">{text}</span>
+  <span class="typewriter__cursor" aria-hidden="true">{cursor}</span>
+</Tag>
+
+<style>
+  .typewriter {
+    position: relative;
+    display: inline-block;
+  }
+
+  .typewriter__text {
+    /* Initial text visible before JS */
+  }
+
+  .typewriter__cursor {
+    display: inline-block;
+    width: 1ch;
+    color: var(--color-primary, #cba6f7);
+    animation: cursor-blink 1.06s step-end infinite;
+  }
+
+  /* When JS is loaded, these are replaced by GSAP-controlled elements */
+  :global(.typewriter-text) {
+    /* Typed text container */
+  }
+
+  :global(.typewriter-cursor) {
+    display: inline-block;
+    width: 1ch;
+    color: var(--color-primary, #cba6f7);
+  }
+
+  :global(.typewriter-cursor--blink) {
+    animation: cursor-blink 1.06s step-end infinite;
+  }
+
+  @keyframes cursor-blink {
+    0%, 50% {
+      opacity: 1;
+    }
+    51%, 100% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .typewriter__cursor,
+    :global(.typewriter-cursor),
+    :global(.typewriter-cursor--blink) {
+      animation: none !important;
+      opacity: 1 !important;
+    }
+  }
+</style>

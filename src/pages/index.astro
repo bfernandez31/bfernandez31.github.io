@@ -1,6 +1,6 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
-import Hero from "../components/sections/Hero.astro";
+import HeroTui from "../components/sections/HeroTui.astro";
 import AboutIDE from "../components/sections/AboutIDE.astro";
 import Experience from "../components/sections/Experience.astro";
 import FeaturedProject from "../components/sections/FeaturedProject.astro";
@@ -91,10 +91,10 @@ const jsonLd: JSONLDStructuredData = {
 		role="main"
 		aria-label="Hero section with introduction and call to action"
 	>
-		<Hero
-			name="Benoit Fernandez"
-			role="Full Stack Developer & Creative Technologist"
-			tagline="Crafting performant, accessible web experiences with modern technologies"
+		<HeroTui
+			headline="Benoit Fernandez"
+			subheadline="Full Stack Developer & Creative Technologist"
+			typingSpeed={12.5}
 			ctaText="Explore Projects"
 			ctaLink="#projects"
 		/>
