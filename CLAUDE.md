@@ -23,6 +23,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - Static JSON data files (src/data/experiences.json, src/data/skills.json) - no database (PBF-21-experience-pro)
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, GSAP 3.13.0, Lenis 1.0.42, Biome 2.0.0+ (PBF-22-fix-the-first)
 - N/A (static site, no persistence) (PBF-22-fix-the-first)
+- TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), Content Collections (Zod validation) (PBF-23-featured-project)
+- Markdown files via Astro Content Collections (src/content/projects/) (PBF-23-featured-project)
 
 ## Project Structure
 ```
@@ -484,6 +486,7 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
+- PBF-23-featured-project: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), Content Collections (Zod validation)
 - PBF-22-fix-the-first: Hero section polish and animation fixes
   - **REMOVED**: Custom cursor feature entirely (deleted CustomCursor.astro, custom-cursor.ts)
     - User feedback: "le cursor n'apporte rien" (cursor adds nothing of value)
@@ -525,7 +528,6 @@ try {
   - Full keyboard accessibility with focus-visible styles and logical tab order
   - Respects prefers-reduced-motion preference (instant reveal with no animation)
   - Static JSON data files (src/data/experiences.json, src/data/skills.json) - no database
-- 013-title-hero-glitch: Added pure CSS glitch effect for hero title
   - Created src/styles/effects/glitch.css with RGB channel separation animation
   - Hover-triggered cyberpunk-style text effect using keyframe animations
   - Two animation variants (glitch and glitch-2) for visual variety
