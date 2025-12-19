@@ -5,7 +5,7 @@ image: "/images/projects/neural-portfolio.webp"
 imageAlt: "Neural network visualization with animated particles and connections"
 technologies: ["TypeScript", "Astro", "GSAP", "Canvas API"]
 featured: true
-displayOrder: 1
+displayOrder: 2
 githubUrl: "https://github.com/username/neural-portfolio"
 externalUrl: "https://portfolio.example.com"
 startDate: 2024-01-15

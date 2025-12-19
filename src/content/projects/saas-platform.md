@@ -5,7 +5,7 @@ image: "/images/projects/saas-platform.webp"
 imageAlt: "Team analytics dashboard with real-time metrics and productivity insights"
 technologies: ["Vue.js", "Go", "Kubernetes", "PostgreSQL", "GraphQL"]
 featured: true
-displayOrder: 5
+displayOrder: 6
 githubUrl: "https://github.com/username/team-analytics"
 externalUrl: "https://analytics.example.com"
 startDate: 2023-05-22
