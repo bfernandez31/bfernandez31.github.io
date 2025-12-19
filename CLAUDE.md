@@ -29,6 +29,7 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - Static Markdown files via Astro Content Collections (`src/content/projects/`) (PBF-24-featured-project)
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, GSAP 3.13.0, CSS Custom Properties (PBF-26-copy-of-featured)
 - N/A (static site, Markdown via Astro Content Collections) (PBF-26-copy-of-featured)
+- TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, CSS Custom Properties (PBF-27-featured-project-issue)
 
 ## Project Structure
 ```
@@ -490,6 +491,7 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
+- PBF-27-featured-project-issue: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, CSS Custom Properties
 - PBF-26-copy-of-featured: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, GSAP 3.13.0, CSS Custom Properties
 - PBF-24-featured-project: Created FeaturedProject section component for AI-BOARD showcase
   - Built dedicated hero-style component (src/components/sections/FeaturedProject.astro) to prominently display AI-BOARD
@@ -503,7 +505,6 @@ try {
   - Positioned at top of Projects section (before ProjectsHexGrid) in src/pages/index.astro
   - Technology stack: TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, Content Collections (Zod validation)
   - Static Markdown files via Astro Content Collections (`src/content/projects/`)
-- PBF-23-featured-project: Added AI-BOARD as featured project and updated footer attribution
   - Created AI-BOARD project entry in src/content/projects/ai-board.md with displayOrder: 1 (highest priority)
   - AI-BOARD showcases AI-powered project management: specification generation, task breakdown, implementation planning
   - Technologies: TypeScript, Claude API, Astro, GSAP
