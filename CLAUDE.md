@@ -33,6 +33,7 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - N/A (static site, CSS-only image fallback) (PBF-27-featured-project-issue)
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), CSS Custom Properties (no additional JS libraries for hero) (PBF-30-hero-section)
 - N/A (static site, no data persistence) (PBF-30-hero-section)
+- TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), GSAP 3.13.0 (animations), Lenis 1.0.42 (smooth scroll), Biome 2.3.4 (linting) (PBF-32-portofolio-with-tui)
 
 ## Project Structure
 ```
@@ -537,6 +538,7 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
+- PBF-32-portofolio-with-tui: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), GSAP 3.13.0 (animations), Lenis 1.0.42 (smooth scroll), Biome 2.3.4 (linting)
 - **PBF-30-hero-section**: Simplified hero section with CSS-only animation (ROLLBACK of PBF-28)
   - Removed WebGL 3D hero animation entirely (PBF-28) due to reliability issues
   - Deleted all hero animation modules: hero-controller.ts, background-3d.ts, cursor-tracker.ts, typography-reveal.ts, performance-monitor.ts, types.ts
