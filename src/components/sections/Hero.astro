@@ -1,298 +1,252 @@
 ---
-export interface Props {
-	headline: string;
-	subheadline?: string;
+/**
+ * Hero Section Component
+ * Feature: PBF-30-hero-section
+ *
+ * Simple, name-first hero layout following awwwards portfolio conventions.
+ * CSS-only animation with full accessibility support.
+ */
+
+interface Props {
+	/** Developer's full name - displayed as h1 */
+	name: string;
+	/** Professional role/title - displayed as subtitle */
+	role?: string;
+	/** Optional tagline or brief description */
+	tagline?: string;
+	/** CTA button text */
 	ctaText?: string;
+	/** CTA button link (hash anchor or URL) */
 	ctaLink?: string;
 }
 
-const { headline, subheadline, ctaText, ctaLink } = Astro.props;
+const {
+	name,
+	role,
+	tagline,
+	ctaText = "Explore Projects",
+	ctaLink = "#projects",
+} = Astro.props;
 ---
 
-<section
-	class="hero"
-	id="hero"
-	data-section="hero"
-	role="main"
-	aria-label="Hero section with introduction"
->
-	<!-- WebGL Canvas (aria-hidden for accessibility) -->
-	<canvas id="hero-canvas" class="hero__canvas" aria-hidden="true"></canvas>
-
-	<!-- Fallback gradient (visible if JS/WebGL fails or before load) -->
-	<div class="hero__fallback" aria-hidden="true"></div>
-
-	<!-- Content Layer -->
-	<div class="hero__content hero__content--animated">
-		<!-- Headline with glitch effect -->
-		<h1 class="hero__headline glitch-effect" data-hero-text="headline">
-			{headline}
-		</h1>
-		{
-			subheadline && (
-				<p class="hero__subheadline" data-hero-text="subheadline">
-					{subheadline}
-				</p>
-			)
-		}
-		{
-			ctaText && ctaLink && (
-				<a href={ctaLink} class="hero__cta" data-hero-text="cta">
-					{ctaText}
-				</a>
-			)
-		}
+<section id="hero" class="hero" role="banner" aria-label="Introduction">
+	<div class="hero__content hero__content--animate">
+		<h1 class="hero__name">{name}</h1>
+		{role && <p class="hero__role">{role}</p>}
+		{tagline && <p class="hero__tagline">{tagline}</p>}
+		<a href={ctaLink} class="hero__cta">{ctaText}</a>
 	</div>
-
-	<!-- Scroll indicator (appears after scroll progress) -->
-	<div class="hero__scroll-indicator" aria-hidden="true">
-		<span class="hero__scroll-indicator-text">Scroll</span>
-		<span class="hero__scroll-indicator-arrow"></span>
-	</div>
-
-	<!-- Noscript fallback -->
-	<noscript>
-		<style>
-			.hero__content--animated {
-				opacity: 1 !important;
-				transform: none !important;
-			}
-			.hero__fallback {
-				opacity: 1 !important;
-			}
-		</style>
-	</noscript>
 </section>
 
-<script>
-	import { initHeroAnimation } from "../../scripts/hero/hero-controller";
-
-	// Initialize hero on DOM ready
-	document.addEventListener("DOMContentLoaded", async () => {
-		const canvas = document.getElementById("hero-canvas") as HTMLCanvasElement;
-		const content = document.querySelector(".hero__content") as HTMLElement;
-
-		if (canvas && content) {
-			try {
-				await initHeroAnimation({
-					canvas,
-					contentContainer: content,
-					onEntranceComplete: () => {
-						// Animation complete - could trigger analytics or other events
-					},
-				});
-			} catch (error) {
-				// Fallback: show content immediately if initialization fails
-				content.style.opacity = "1";
-				content.style.transform = "none";
-				const textElements = content.querySelectorAll("[data-hero-text]");
-				textElements.forEach((el) => {
-					(el as HTMLElement).style.opacity = "1";
-					(el as HTMLElement).style.transform = "none";
-				});
-			}
-		}
-	});
-
-	// Cleanup on page navigation (Astro View Transitions)
-	document.addEventListener("astro:before-swap", () => {
-		window.__heroController__?.destroy();
-	});
-</script>
-
 <style>
+	/* ==========================================================================
+	   HERO SECTION BASE
+	   ========================================================================== */
+
 	.hero {
-		position: relative;
-		min-height: 100vh;
-		min-height: 100dvh;
+		/* Layout */
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		overflow: hidden;
-		padding: 2rem;
-		background: var(--color-background);
-		border: none;
-		outline: none;
-	}
+		min-height: 100vh;
+		min-height: 100dvh; /* Dynamic viewport height for mobile */
 
-	.hero__canvas {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		z-index: 0;
-		opacity: 0;
-		transition: opacity 0.3s ease-out;
-	}
-
-	.hero.hero--active .hero__canvas {
-		opacity: 1;
-	}
-
-	.hero__fallback {
-		position: absolute;
-		inset: 0;
-		z-index: 0;
+		/* Background - simple gradient */
 		background: linear-gradient(
 			135deg,
 			var(--color-background) 0%,
-			color-mix(in oklch, var(--color-primary), var(--color-background) 85%)
-				50%,
-			var(--color-background) 100%
+			var(--color-surface-0) 100%
 		);
-		opacity: 1;
-		transition: opacity 0.3s ease-out;
+
+		/* Spacing */
+		padding: var(--space-xl, 2rem) var(--space-md, 1rem);
+
+		/* Position context */
+		position: relative;
+		overflow: hidden;
 	}
 
-	.hero.hero--active .hero__fallback {
-		opacity: 0;
-		pointer-events: none;
-	}
+	/* ==========================================================================
+	   HERO CONTENT CONTAINER
+	   ========================================================================== */
 
 	.hero__content {
-		position: relative;
-		z-index: 1;
-		text-align: center;
-		max-width: 800px;
-		margin: 0 auto;
-	}
-
-	.hero__content--animated {
-		opacity: 0;
-		transform: translateY(20px);
-	}
-
-	.hero__headline {
-		font-size: clamp(2.5rem, 6vw, 5rem);
-		font-weight: 700;
-		color: var(--color-text);
-		margin-bottom: clamp(1rem, 2.5vw, 2rem);
-		line-height: 1.1;
-		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-	}
-
-	.hero__subheadline {
-		font-size: clamp(1.125rem, 2.5vw, 1.5rem);
-		color: var(--color-text);
-		opacity: 0.9;
-		margin-bottom: clamp(1.5rem, 4vw, 3rem);
-		line-height: 1.5;
-		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-	}
-
-	.hero__cta {
-		display: inline-block;
-		padding: 1rem 2.5rem;
-		font-size: 1.125rem;
-		font-weight: 600;
-		color: var(--color-background);
-		background: var(--color-primary);
-		border-radius: 8px;
-		text-decoration: none;
-		transition:
-			background-color 0.3s ease,
-			transform 0.3s ease,
-			box-shadow 0.3s ease;
-		will-change: transform;
-		box-shadow: 0 4px 12px rgba(203, 166, 247, 0.3);
-	}
-
-	@media (hover: hover) {
-		.hero__cta:hover {
-			background: var(--color-secondary);
-			transform: translateY(-2px);
-			box-shadow: 0 6px 16px rgba(245, 194, 231, 0.4);
-		}
-	}
-
-	.hero__cta:focus-visible {
-		outline: 2px solid var(--color-primary);
-		outline-offset: 4px;
-		box-shadow: 0 0 0 4px rgba(203, 166, 247, 0.3);
-	}
-
-	.hero__cta:active {
-		transform: translateY(0);
-	}
-
-	/* Scroll indicator */
-	.hero__scroll-indicator {
-		position: absolute;
-		bottom: 2rem;
-		left: 50%;
-		transform: translateX(-50%);
+		/* Layout */
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 0.5rem;
+		text-align: center;
+
+		/* Sizing */
+		max-width: 1200px;
+		width: 100%;
+	}
+
+	/* Animation initial state */
+	.hero__content--animate {
 		opacity: 0;
-		transition: opacity 0.5s ease-out;
-		pointer-events: none;
-		z-index: 2;
+		transform: translateY(20px);
+		animation: heroFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
 	}
 
-	.hero--scrolled .hero__scroll-indicator {
-		opacity: 1;
-		animation: scroll-bounce 2s ease-in-out infinite;
+	@keyframes heroFadeIn {
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
 	}
 
-	.hero__scroll-indicator-text {
-		font-size: 0.75rem;
-		text-transform: uppercase;
-		letter-spacing: 0.15em;
+	/* ==========================================================================
+	   HERO NAME (H1 - Primary)
+	   ========================================================================== */
+
+	.hero__name {
+		/* Typography - responsive with clamp() */
+		font-size: clamp(3rem, 10vw, 8rem);
+		font-weight: 700;
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+
+		/* Color */
 		color: var(--color-text);
-		opacity: 0.7;
+
+		/* Spacing */
+		margin: 0;
+		margin-bottom: clamp(1rem, 2.5vw, 2rem);
 	}
 
-	.hero__scroll-indicator-arrow {
-		width: 1.5rem;
-		height: 1.5rem;
-		border-right: 2px solid var(--color-primary);
-		border-bottom: 2px solid var(--color-primary);
-		transform: rotate(45deg);
+	/* ==========================================================================
+	   HERO ROLE (Subtitle)
+	   ========================================================================== */
+
+	.hero__role {
+		/* Typography - responsive with clamp() */
+		font-size: clamp(1.25rem, 3vw, 2rem);
+		font-weight: 400;
+		line-height: 1.4;
+
+		/* Color - slightly muted */
+		color: var(--color-text-muted);
+
+		/* Spacing */
+		margin: 0;
+		margin-bottom: clamp(0.5rem, 1.5vw, 1rem);
+
+		/* Constrain width for readability */
+		max-width: 600px;
+	}
+
+	/* ==========================================================================
+	   HERO TAGLINE (Optional)
+	   ========================================================================== */
+
+	.hero__tagline {
+		/* Typography */
+		font-size: clamp(1rem, 2vw, 1.25rem);
+		font-weight: 400;
+
+		/* Color - more muted */
+		color: var(--color-text-muted);
 		opacity: 0.8;
+
+		/* Spacing */
+		margin: 0;
+		margin-bottom: clamp(2rem, 4vw, 3rem);
+
+		/* Constrain width */
+		max-width: 500px;
 	}
 
-	@keyframes scroll-bounce {
-		0%,
-		20%,
-		50%,
-		80%,
-		100% {
-			transform: translateX(-50%) translateY(0);
-		}
-		40% {
-			transform: translateX(-50%) translateY(10px);
-		}
-		60% {
-			transform: translateX(-50%) translateY(5px);
-		}
+	/* ==========================================================================
+	   HERO CTA BUTTON
+	   ========================================================================== */
+
+	.hero__cta {
+		/* Layout */
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+
+		/* Sizing - 48px minimum for touch targets */
+		min-height: 48px;
+		padding: var(--space-sm, 0.75rem) var(--space-lg, 1.5rem);
+
+		/* Typography */
+		font-size: 1rem;
+		font-weight: 500;
+		text-decoration: none;
+
+		/* Colors */
+		background-color: var(--color-primary);
+		color: var(--color-background);
+
+		/* Border */
+		border: 2px solid var(--color-primary);
+		border-radius: 8px;
+
+		/* Spacing */
+		margin-top: clamp(2rem, 4vw, 3rem);
+
+		/* Transitions */
+		transition:
+			background-color var(--transition-color, 0.2s ease),
+			color var(--transition-color, 0.2s ease),
+			border-color var(--transition-color, 0.2s ease),
+			transform 0.2s ease;
+
+		/* Cursor */
+		cursor: pointer;
 	}
 
-	/* Accessibility: Reduced motion support */
+	/* Hover state */
+	.hero__cta:hover {
+		background-color: transparent;
+		color: var(--color-primary);
+	}
+
+	/* Focus state (keyboard accessibility) */
+	.hero__cta:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 4px;
+	}
+
+	/* Active state */
+	.hero__cta:active {
+		transform: scale(0.98);
+	}
+
+	/* ==========================================================================
+	   REDUCED MOTION SUPPORT (Accessibility)
+	   ========================================================================== */
+
 	@media (prefers-reduced-motion: reduce) {
-		.hero__content--animated {
+		.hero__content--animate {
+			/* Show content immediately without animation */
 			opacity: 1;
 			transform: none;
-		}
-
-		.hero__canvas,
-		.hero__fallback {
-			transition: none;
+			animation: none;
 		}
 
 		.hero__cta {
-			transition: background-color 0.15s ease;
+			transition: none;
 		}
+	}
 
-		@media (hover: hover) {
-			.hero__cta:hover {
-				transform: none;
-			}
+	/* ==========================================================================
+	   RESPONSIVE ADJUSTMENTS
+	   ========================================================================== */
+
+	/* Tablet and up */
+	@media (min-width: 768px) {
+		.hero {
+			padding: var(--space-2xl, 3rem) var(--space-xl, 2rem);
 		}
+	}
 
-		.hero--scrolled .hero__scroll-indicator {
-			animation: none;
+	/* Very large screens */
+	@media (min-width: 2560px) {
+		.hero__content {
+			max-width: 1400px;
 		}
 	}
 </style>

@@ -18,9 +18,9 @@
 
 **Purpose**: Remove unused code and dependencies before implementing new hero section
 
-- [ ] T001 Delete hero animation directory `src/scripts/hero/` (6 files: hero-controller.ts, background-3d.ts, cursor-tracker.ts, typography-reveal.ts, performance-monitor.ts, types.ts)
-- [ ] T002 Remove OGL dependency from `package.json` using `bun remove ogl`
-- [ ] T003 Run `bun install` to update lockfile and node_modules
+- [x] T001 Delete hero animation directory `src/scripts/hero/` (6 files: hero-controller.ts, background-3d.ts, cursor-tracker.ts, typography-reveal.ts, performance-monitor.ts, types.ts)
+- [x] T002 Remove OGL dependency from `package.json` using `bun remove ogl`
+- [x] T003 Run `bun install` to update lockfile and node_modules
 
 ---
 
@@ -30,8 +30,8 @@
 
 **⚠️ CRITICAL**: Must complete before hero component can be simplified
 
-- [ ] T004 Remove HERO_* constants from `src/config/performance.ts` (HERO_SHAPE_COUNTS, HERO_DEGRADATION_THRESHOLDS, HERO_ANIMATION_TIMING, HERO_PARALLAX_CONFIG)
-- [ ] T005 [P] Clean up or remove WebGL-related styles from `src/styles/effects/hero-effects.css` (canvas styling, fallback gradient, scroll indicator)
+- [x] T004 Remove HERO_* constants from `src/config/performance.ts` (HERO_SHAPE_COUNTS, HERO_DEGRADATION_THRESHOLDS, HERO_ANIMATION_TIMING, HERO_PARALLAX_CONFIG)
+- [x] T005 [P] Clean up or remove WebGL-related styles from `src/styles/effects/hero-effects.css` (canvas styling, fallback gradient, scroll indicator)
 
 **Checkpoint**: Foundation ready - hero component redesign can now begin
 
@@ -45,12 +45,12 @@
 
 ### Implementation for User Story 1
 
-- [ ] T006 [US1] Update Hero.astro Props interface in `src/components/sections/Hero.astro` (change `headline`→`name`, `subheadline`→`role`, add optional `tagline`)
-- [ ] T007 [US1] Replace Hero.astro template structure in `src/components/sections/Hero.astro` (remove canvas, fallback div, scroll indicator; add semantic h1 for name, p for role)
-- [ ] T008 [US1] Implement component-scoped CSS styles in `src/components/sections/Hero.astro` per `contracts/hero-styles.css` specification
-- [ ] T009 [US1] Remove JavaScript animation imports and script block from `src/components/sections/Hero.astro`
-- [ ] T010 [US1] Update Hero component usage in `src/pages/index.astro` (change props from `headline/subheadline` to `name="Benoit Fernandez" role="Full Stack Developer & Creative Technologist"`)
-- [ ] T011 [US1] Add CSS fade-in animation to hero content in `src/components/sections/Hero.astro` using `@keyframes heroFadeIn`
+- [x] T006 [US1] Update Hero.astro Props interface in `src/components/sections/Hero.astro` (change `headline`→`name`, `subheadline`→`role`, add optional `tagline`)
+- [x] T007 [US1] Replace Hero.astro template structure in `src/components/sections/Hero.astro` (remove canvas, fallback div, scroll indicator; add semantic h1 for name, p for role)
+- [x] T008 [US1] Implement component-scoped CSS styles in `src/components/sections/Hero.astro` per `contracts/hero-styles.css` specification
+- [x] T009 [US1] Remove JavaScript animation imports and script block from `src/components/sections/Hero.astro`
+- [x] T010 [US1] Update Hero component usage in `src/pages/index.astro` (change props from `headline/subheadline` to `name="Benoit Fernandez" role="Full Stack Developer & Creative Technologist"`)
+- [x] T011 [US1] Add CSS fade-in animation to hero content in `src/components/sections/Hero.astro` using `@keyframes heroFadeIn`
 
 **Checkpoint**: At this point, User Story 1 should be fully functional - name, role, and CTA visible on homepage load
 
@@ -64,9 +64,9 @@
 
 ### Implementation for User Story 2
 
-- [ ] T012 [US2] Add `@media (prefers-reduced-motion: reduce)` rules to Hero.astro styles (disable animation, show content immediately)
-- [ ] T013 [US2] Verify semantic HTML structure in `src/components/sections/Hero.astro` (h1 for name, role="banner", aria-label="Introduction")
-- [ ] T014 [US2] Add focus-visible styles for CTA button in `src/components/sections/Hero.astro` (outline: 2px solid, outline-offset: 4px)
+- [x] T012 [US2] Add `@media (prefers-reduced-motion: reduce)` rules to Hero.astro styles (disable animation, show content immediately)
+- [x] T013 [US2] Verify semantic HTML structure in `src/components/sections/Hero.astro` (h1 for name, role="banner", aria-label="Introduction")
+- [x] T014 [US2] Add focus-visible styles for CTA button in `src/components/sections/Hero.astro` (outline: 2px solid, outline-offset: 4px)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -80,9 +80,9 @@
 
 ### Implementation for User Story 3
 
-- [ ] T015 [US3] Verify responsive typography in `src/components/sections/Hero.astro` uses clamp() (name: 3rem-8rem, role: 1.25rem-2rem)
-- [ ] T016 [US3] Ensure CTA button has minimum 48px height in `src/components/sections/Hero.astro` for touch target accessibility
-- [ ] T017 [US3] Add responsive padding using `100dvh` for dynamic viewport height on mobile in `src/components/sections/Hero.astro`
+- [x] T015 [US3] Verify responsive typography in `src/components/sections/Hero.astro` uses clamp() (name: 3rem-8rem, role: 1.25rem-2rem)
+- [x] T016 [US3] Ensure CTA button has minimum 48px height in `src/components/sections/Hero.astro` for touch target accessibility
+- [x] T017 [US3] Add responsive padding using `100dvh` for dynamic viewport height on mobile in `src/components/sections/Hero.astro`
 
 **Checkpoint**: All user stories should now be independently functional across all devices
 
@@ -92,11 +92,11 @@
 
 **Purpose**: Final verification and cleanup
 
-- [ ] T018 Verify build succeeds with `bun run build`
-- [ ] T019 Verify no JavaScript errors in browser console related to hero
-- [ ] T020 Verify OGL is not in production bundle (check build output size)
-- [ ] T021 Run Lighthouse audit, confirm Performance score ≥85 (mobile)
-- [ ] T022 Run quickstart.md verification checklist
+- [x] T018 Verify build succeeds with `bun run build`
+- [x] T019 Verify no JavaScript errors in browser console related to hero
+- [x] T020 Verify OGL is not in production bundle (check build output size)
+- [x] T021 Run Lighthouse audit, confirm Performance score ≥85 (mobile)
+- [x] T022 Run quickstart.md verification checklist
 
 ---
 
