@@ -33,6 +33,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - N/A (static site, CSS-only image fallback) (PBF-27-featured-project-issue)
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, GSAP 3.13.0, OGL 1.0.6 (WebGL), Lenis 1.0.42 (PBF-28-rework-the-first)
 - N/A (static site, no database) (PBF-28-rework-the-first)
+- TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), CSS Custom Properties (no additional JS libraries for hero) (PBF-30-hero-section)
+- N/A (static site, no data persistence) (PBF-30-hero-section)
 
 ## Project Structure
 ```
@@ -502,6 +504,7 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
+- PBF-30-hero-section: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), CSS Custom Properties (no additional JS libraries for hero)
 - PBF-28-rework-the-first: Award-winning hero section with WebGL 3D background
   - **REWORKED**: Award-winning hero section with WebGL 3D background (PBF-28-rework-the-first)
     - Replaced Canvas 2D neural network with OGL-powered 3D geometric shapes (cubes, octahedrons, tori)
@@ -532,8 +535,6 @@ try {
   - No new dependencies or technologies added (CSS-only fix)
   - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, CSS Custom Properties
   - N/A (static site, CSS-only image fallback)
-- PBF-26-copy-of-featured: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, GSAP 3.13.0, CSS Custom Properties
-- PBF-24-featured-project: Created FeaturedProject section component for AI-BOARD showcase
   - Built dedicated hero-style component (src/components/sections/FeaturedProject.astro) to prominently display AI-BOARD
   - Uses Astro Content Collections `getEntry()` to fetch AI-BOARD project data from src/content/projects/ai-board.md
   - Displays project image (16:9 aspect ratio), title, description, meta-narrative, technology tags, and CTA button
