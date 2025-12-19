@@ -18,9 +18,9 @@
 
 **Purpose**: Verify existing infrastructure and content are in place
 
-- [ ] T001 Verify AI-BOARD content entry exists at src/content/projects/ai-board.md with `featured: true`
-- [ ] T002 [P] Verify project image exists at public/images/projects/ai-board.webp
-- [ ] T003 [P] Verify theme CSS variables are available (--color-primary, --color-surface, etc.) in src/styles/theme.css
+- [X] T001 Verify AI-BOARD content entry exists at src/content/projects/ai-board.md with `featured: true`
+- [X] T002 [P] Verify project image exists at public/images/projects/ai-board.webp
+- [X] T003 [P] Verify theme CSS variables are available (--color-primary, --color-surface, etc.) in src/styles/theme.css
 
 **Checkpoint**: Data source and dependencies verified - component creation can begin
 
@@ -42,15 +42,15 @@
 
 ### Implementation for User Story 1
 
-- [ ] T004 [US1] Create FeaturedProject.astro component shell at src/components/sections/FeaturedProject.astro
-- [ ] T005 [US1] Implement content fetching using `getEntry('projects', 'ai-board')` in FeaturedProject.astro
-- [ ] T006 [US1] Add article wrapper with aria-labelledby for accessibility in FeaturedProject.astro
-- [ ] T007 [US1] Implement image section with lazy loading and 16:9 aspect-ratio placeholder in FeaturedProject.astro
-- [ ] T008 [US1] Implement content section with title (h3), description in FeaturedProject.astro
-- [ ] T009 [US1] Add technology tags list with aria-label in FeaturedProject.astro
-- [ ] T010 [US1] Implement CTA link with target="_blank" rel="noopener noreferrer" in FeaturedProject.astro
-- [ ] T011 [US1] Add desktop flexbox layout styles (60% image / 40% content) in FeaturedProject.astro
-- [ ] T012 [US1] Add component import and render in src/pages/index.astro before ProjectsHexGrid
+- [X] T004 [US1] Create FeaturedProject.astro component shell at src/components/sections/FeaturedProject.astro
+- [X] T005 [US1] Implement content fetching using `getEntry('projects', 'ai-board')` in FeaturedProject.astro
+- [X] T006 [US1] Add article wrapper with aria-labelledby for accessibility in FeaturedProject.astro
+- [X] T007 [US1] Implement image section with lazy loading and 16:9 aspect-ratio placeholder in FeaturedProject.astro
+- [X] T008 [US1] Implement content section with title (h3), description in FeaturedProject.astro
+- [X] T009 [US1] Add technology tags list with aria-label in FeaturedProject.astro
+- [X] T010 [US1] Implement CTA link with target="_blank" rel="noopener noreferrer" in FeaturedProject.astro
+- [X] T011 [US1] Add desktop flexbox layout styles (60% image / 40% content) in FeaturedProject.astro
+- [X] T012 [US1] Add component import and render in src/pages/index.astro before ProjectsHexGrid
 
 **Checkpoint**: AI-BOARD visible at top of Projects section with hero-style presentation on desktop
 
@@ -64,10 +64,10 @@
 
 ### Implementation for User Story 2
 
-- [ ] T013 [US2] Add "Featured Project" label element with uppercase styling in FeaturedProject.astro
-- [ ] T014 [US2] Add meta-narrative paragraph "✨ This portfolio was built using AI-BOARD..." in FeaturedProject.astro
-- [ ] T015 [US2] Style meta-narrative with --color-secondary and italic text in FeaturedProject.astro
-- [ ] T016 [US2] Style technology tags with --color-primary subtle background in FeaturedProject.astro
+- [X] T013 [US2] Add "Featured Project" label element with uppercase styling in FeaturedProject.astro
+- [X] T014 [US2] Add meta-narrative paragraph "✨ This portfolio was built using AI-BOARD..." in FeaturedProject.astro
+- [X] T015 [US2] Style meta-narrative with --color-secondary and italic text in FeaturedProject.astro
+- [X] T016 [US2] Style technology tags with --color-primary subtle background in FeaturedProject.astro
 
 **Checkpoint**: Meta-narrative clearly visible and creates compelling story about AI-BOARD's significance
 
@@ -81,10 +81,10 @@
 
 ### Implementation for User Story 3
 
-- [ ] T017 [US3] Add mobile media query (max-width: 767px) with flex-direction: column in FeaturedProject.astro
-- [ ] T018 [US3] Ensure image takes full width on mobile in FeaturedProject.astro
-- [ ] T019 [US3] Verify CTA button remains tappable (44px minimum touch target) in FeaturedProject.astro
-- [ ] T020 [US3] Test tablet layout (768px-1023px) with 50/50 split in FeaturedProject.astro
+- [X] T017 [US3] Add mobile media query (max-width: 767px) with flex-direction: column in FeaturedProject.astro
+- [X] T018 [US3] Ensure image takes full width on mobile in FeaturedProject.astro
+- [X] T019 [US3] Verify CTA button remains tappable (44px minimum touch target) in FeaturedProject.astro
+- [X] T020 [US3] Test tablet layout (768px-1023px) with 50/50 split in FeaturedProject.astro
 
 **Checkpoint**: Featured section works correctly on all viewport sizes (320px to 2560px)
 
@@ -94,14 +94,14 @@
 
 **Purpose**: Animation, accessibility, and edge case handling
 
-- [ ] T021 [P] Add CSS fade-in animation (opacity 0→1, translateY 20px→0) in FeaturedProject.astro
-- [ ] T022 [P] Add prefers-reduced-motion media query disabling animations in FeaturedProject.astro
-- [ ] T023 [P] Add JavaScript to trigger .visible class on page load in FeaturedProject.astro
-- [ ] T024 [P] Add focus-visible styles for CTA link keyboard navigation in FeaturedProject.astro
-- [ ] T025 [P] Add conditional render to handle missing AI-BOARD content gracefully in FeaturedProject.astro
-- [ ] T026 Run `bun run build` to verify no TypeScript errors
-- [ ] T027 Run `bun run lint` to verify code style compliance
-- [ ] T028 Manual verification of quickstart.md testing checklist
+- [X] T021 [P] Add CSS fade-in animation (opacity 0→1, translateY 20px→0) in FeaturedProject.astro
+- [X] T022 [P] Add prefers-reduced-motion media query disabling animations in FeaturedProject.astro
+- [X] T023 [P] Add JavaScript to trigger .visible class on page load in FeaturedProject.astro
+- [X] T024 [P] Add focus-visible styles for CTA link keyboard navigation in FeaturedProject.astro
+- [X] T025 [P] Add conditional render to handle missing AI-BOARD content gracefully in FeaturedProject.astro
+- [X] T026 Run `bun run build` to verify no TypeScript errors
+- [X] T027 Run `bun run lint` to verify code style compliance
+- [X] T028 Manual verification of quickstart.md testing checklist
 
 ---
 
