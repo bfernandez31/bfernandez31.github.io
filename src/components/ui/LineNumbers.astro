@@ -1,0 +1,62 @@
+---
+/**
+ * LineNumbers Component
+ * Feature: PBF-32-portofolio-with-tui
+ *
+ * Decorative line number gutter for TUI content area
+ */
+
+interface Props {
+  /** Starting line number (default: 1) */
+  startLine?: number;
+  /** Number of lines to display */
+  lineCount: number;
+  /** Currently highlighted/active line (optional) */
+  highlightLine?: number;
+  /** Additional CSS class */
+  class?: string;
+}
+
+const { startLine = 1, lineCount, highlightLine, class: className } = Astro.props;
+
+// Generate line numbers array
+const lines = Array.from({ length: lineCount }, (_, i) => startLine + i);
+---
+
+<div class:list={["tui-line-numbers", className]} aria-hidden="true">
+  {lines.map((lineNum) => (
+    <span
+      class:list={[
+        "tui-line-numbers__line",
+        { "tui-line-numbers__line--highlight": lineNum === highlightLine },
+      ]}
+    >
+      {lineNum}
+    </span>
+  ))}
+</div>
+
+<style>
+  /* Component-scoped styles (fallback if global CSS not loaded) */
+  .tui-line-numbers {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--color-text-muted, #6c7086);
+    text-align: right;
+    padding-right: 0.5rem;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .tui-line-numbers__line {
+    padding: 0 0.25rem;
+  }
+
+  .tui-line-numbers__line--highlight {
+    color: var(--color-text, #cdd6f4);
+    background-color: var(--color-surface-1, #313244);
+  }
+</style>

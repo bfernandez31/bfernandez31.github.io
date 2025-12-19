@@ -18,12 +18,12 @@
 
 **Purpose**: Project initialization, fonts, and base configuration
 
-- [ ] T001 Download JetBrains Mono font files to public/fonts/jetbrains-mono-latin-400-normal.woff2 and public/fonts/jetbrains-mono-latin-700-normal.woff2
-- [ ] T002 Create Nerd Font icon subset (4 icons) to public/fonts/nerd-icons-subset.woff2
-- [ ] T003 [P] Create TUI type definitions in src/types/tui.ts (Section, BufferTab, FileEntry, StatusLineState, CommandLine, etc.)
-- [ ] T004 [P] Create SECTIONS configuration data in src/data/sections.ts with TUI metadata (icons, fileNames, styleTypes)
-- [ ] T005 [P] Create font-face declarations and typography in src/styles/tui/typography.css
-- [ ] T006 [P] Create Nerd Font icon classes in src/styles/tui/icons.css
+- [x] T001 Download JetBrains Mono font files to public/fonts/jetbrains-mono-latin-400-normal.woff2 and public/fonts/jetbrains-mono-latin-700-normal.woff2 ✅ DONE
+- [x] T002 Create Nerd Font icon subset (4 icons) to public/fonts/nerd-icons-subset.woff2 ✅ DONE
+- [x] T003 [P] Create TUI type definitions in src/types/tui.ts (Section, BufferTab, FileEntry, StatusLineState, CommandLine, etc.) ✅ DONE
+- [x] T004 [P] Create SECTIONS configuration data in src/data/sections.ts with TUI metadata (icons, fileNames, styleTypes) ✅ DONE
+- [x] T005 [P] Create font-face declarations and typography in src/styles/tui/typography.css ✅ DONE
+- [x] T006 [P] Create Nerd Font icon classes in src/styles/tui/icons.css ✅ DONE
 
 ---
 
@@ -33,13 +33,13 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T007 Create TUI grid layout CSS in src/styles/tui/layout.css (grid-template-rows, grid-template-columns, grid-template-areas for topbar, sidebar, content, status, cmdline)
-- [ ] T008 [P] Create sidebar base styling in src/styles/tui/sidebar.css (NvimTree-style file list)
-- [ ] T009 [P] Create statusline base styling in src/styles/tui/statusline.css (Neovim statusline segments)
-- [ ] T010 [P] Create TUI syntax highlight classes in src/styles/tui/syntax.css (readme, git-log, telescope, checkhealth, terminal styles)
-- [ ] T011 [P] Create section-specific TUI styles in src/styles/tui/sections.css (section containers, line numbers gutter)
-- [ ] T012 Import all TUI stylesheets in src/styles/global.css
-- [ ] T013 Create LineNumbers.astro component in src/components/ui/LineNumbers.astro (decorative line number gutter)
+- [x] T007 Create TUI grid layout CSS in src/styles/tui/layout.css (grid-template-rows, grid-template-columns, grid-template-areas for topbar, sidebar, content, status, cmdline) ✅ DONE
+- [x] T008 [P] Create sidebar base styling in src/styles/tui/sidebar.css (NvimTree-style file list) ✅ DONE
+- [x] T009 [P] Create statusline base styling in src/styles/tui/statusline.css (Neovim statusline segments) ✅ DONE
+- [x] T010 [P] Create TUI syntax highlight classes in src/styles/tui/syntax.css (readme, git-log, telescope, checkhealth, terminal styles) ✅ DONE
+- [x] T011 [P] Create section-specific TUI styles in src/styles/tui/sections.css (section containers, line numbers gutter) ✅ DONE
+- [x] T012 Import all TUI stylesheets in src/styles/global.css ✅ DONE
+- [x] T013 Create LineNumbers.astro component in src/components/ui/LineNumbers.astro (decorative line number gutter) ✅ DONE
 
 **Checkpoint**: Foundation ready - user story implementation can now begin
 

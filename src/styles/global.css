@@ -7,6 +7,15 @@
 /* Import effects */
 @import "./effects/glitch.css";
 
+/* Import TUI styles */
+@import "./tui/typography.css";
+@import "./tui/icons.css";
+@import "./tui/layout.css";
+@import "./tui/sidebar.css";
+@import "./tui/statusline.css";
+@import "./tui/syntax.css";
+@import "./tui/sections.css";
+
 /* Reset and base styles */
 *,
 *::before,
