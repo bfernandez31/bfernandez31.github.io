@@ -47,11 +47,11 @@ portfolio/
 
 ## Single-Page Architecture
 
-The portfolio uses a single-page architecture with 5 full-viewport sections:
+The portfolio uses a single-page architecture with 6 full-viewport sections:
 
 ### Navigation Pattern
-- **Main sections**: `#hero`, `#about`, `#projects`, `#expertise`, `#contact`
-- **URL structure**: All main content accessible via hash anchors (e.g., `/#about`)
+- **Main sections**: `#hero`, `#about`, `#experience`, `#projects`, `#expertise`, `#contact`
+- **URL structure**: All main content accessible via hash anchors (e.g., `/#about`, `/#experience`)
 - **Blog**: Separate multi-page section at `/blog` (not included in single-page layout)
 
 ### Implementation Details
@@ -87,6 +87,7 @@ initNavigationDots();      // Syncs navigation dots with active section
 ### Redirects
 Old page URLs automatically redirect to hash anchors:
 - `/about` → `/#about`
+- `/experience` → `/#experience`
 - `/projects` → `/#projects`
 - `/expertise` → `/#expertise`
 - `/contact` → `/#contact`
@@ -475,7 +476,25 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
-- PBF-21-experience-pro: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro ≥5.15.3 (static site generator), GSAP ≥3.13.0 (animations), Lenis ≥1.0.42 (smooth scroll)
+- PBF-21-experience-pro: Added professional experience timeline section and updated skills filtering
+  - Created new Experience section as 3rd section in single-page layout (between About and Projects)
+  - Updated navigation from 5 to 6 sections: #hero, #about, #experience, #projects, #expertise, #contact
+  - Created src/types/experience.ts TypeScript interface for Experience entity
+  - Created src/data/experiences.json with 5 professional positions (2010-present, 14+ years)
+  - Created src/components/sections/Experience.astro with timeline visualization
+  - Desktop layout (≥1024px): alternating left/right entry positioning for visual variety
+  - Mobile/tablet layout (<1024px): stacked vertical timeline layout
+  - Added GSAP ScrollTrigger fade-in animations for experience entries
+  - Technology tags displayed as interactive badges linking to related skills
+  - Semantic HTML using <ol>, <article>, <time> elements for accessibility
+  - Updated src/data/skills.json with corrected yearsExperience values based on 2010 career start
+  - Added proficiencyLevel ≥2 filter to ExpertiseMatrix.astro (reduced from ~74 to ~25 skills)
+  - Updated navigation.ts and sections.ts to add Experience link with displayOrder 3
+  - Reordered existing sections: Projects (3→4), Expertise (4→5), Contact (5→6)
+  - Added /experience → /#experience URL redirect in Astro config
+  - Full keyboard accessibility with focus-visible styles and logical tab order
+  - Respects prefers-reduced-motion preference (instant reveal with no animation)
+  - Static JSON data files (src/data/experiences.json, src/data/skills.json) - no database
 - 013-title-hero-glitch: Added pure CSS glitch effect for hero title
   - Created src/styles/effects/glitch.css with RGB channel separation animation
   - Hover-triggered cyberpunk-style text effect using keyframe animations

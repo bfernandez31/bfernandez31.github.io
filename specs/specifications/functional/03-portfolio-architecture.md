@@ -83,27 +83,28 @@ The portfolio uses an innovative magnetic burger menu that responds to cursor pr
 
 ### Single-Page Architecture
 
-The portfolio uses a single-page layout with five full-viewport sections, providing a modern, cohesive browsing experience without page reloads.
+The portfolio uses a single-page layout with six full-viewport sections, providing a modern, cohesive browsing experience without page reloads.
 
 **Main Page** (`/`)
-- Contains all five sections in a single scrollable page
+- Contains all six sections in a single scrollable page
 - Each section occupies full viewport height (100vh on desktop)
-- Sections identified by hash anchors: `#hero`, `#about`, `#projects`, `#expertise`, `#contact`
+- Sections identified by hash anchors: `#hero`, `#about`, `#experience`, `#projects`, `#expertise`, `#contact`
 - Smooth scroll navigation between sections
 - Content from previously separate pages now consolidated
 
 **Section Overview**:
 1. **Hero** (`#hero`) - Neural network animation with introduction
 2. **About** (`#about`) - Professional background and skills
-3. **Projects** (`#projects`) - Portfolio showcase
-4. **Expertise** (`#expertise`) - Technical skills and competencies
-5. **Contact** (`#contact`) - Contact information and form
+3. **Experience** (`#experience`) - Professional experience timeline with career progression
+4. **Projects** (`#projects`) - Portfolio showcase
+5. **Expertise** (`#expertise`) - Technical skills and competencies
+6. **Contact** (`#contact`) - Contact information and form
 
 **URL Structure**:
-- Deep linking supported via hash fragments (e.g., `/#about`, `/#projects`)
+- Deep linking supported via hash fragments (e.g., `/#about`, `/#experience`, `/#projects`)
 - Browser history tracks section navigation
 - Back/forward buttons navigate between sections
-- Old page URLs redirect to hash anchors (`/about` → `/#about`)
+- Old page URLs redirect to hash anchors (`/about` → `/#about`, `/experience` → `/#experience`)
 
 **Separate Pages**:
 - **Blog** (`/blog`) - Multi-page blog section (separate from single-page layout)
@@ -144,7 +145,7 @@ The single-page architecture includes an intelligent navigation system that trac
 
 **Vertical Navigation Dots**:
 - Fixed-position navigation dots on right side of viewport (desktop only)
-- One dot per main section (5 dots total)
+- One dot per main section (6 dots total)
 - Active dot scales up and changes color to indicate current section
 - Hover reveals section label with smooth fade-in animation
 - Click dot to scroll to corresponding section
@@ -172,6 +173,43 @@ The single-page architecture includes an intelligent navigation system that trac
 - Dynamic viewport units (100dvh) account for mobile browser UI
 - Sections allow natural overflow on smaller screens
 - Scroll progress bar visible on all screen sizes
+
+## Experience Timeline Section
+
+### Professional Experience Display
+
+The Experience section presents a visual timeline of professional work history, showcasing career progression and key accomplishments in an engaging, easy-to-scan format.
+
+**Behavior**:
+- Displays 5 professional experience entries in reverse chronological order (most recent first)
+- Each entry shows: job title, company name, location, date range, description, achievements, and technology tags
+- Timeline visualization with vertical line connecting all entries
+- Position indicators (dots) mark each entry on the timeline
+- Desktop layout (≥1024px): Alternating left/right positioning for visual variety
+- Mobile/tablet layout (<1024px): Stacked vertical layout for readability
+- Smooth fade-in animations as entries enter viewport (via GSAP ScrollTrigger)
+- Technology tags displayed as interactive badges linking to skills
+
+**Date Formatting**:
+- Current positions display as "2023 - Présent" (endDate: null)
+- Past positions show full date range (e.g., "2021 - 2023")
+- Supports year-only format (YYYY) for flexibility
+
+**Accessibility**:
+- Semantic HTML using `<ol>` for ordered list of experiences
+- Each entry wrapped in `<article>` element for proper document structure
+- Uses `<time>` elements with datetime attributes for machine-readable dates
+- ARIA landmarks with `role="region"` and descriptive `aria-label`
+- Keyboard accessible with logical tab order following chronological sequence
+- Focus-visible styles for all interactive technology tags
+- Respects `prefers-reduced-motion` user preference (instant reveal with no animation)
+
+**Visual Design**:
+- Timeline line uses primary color gradient (violet to rose)
+- Position dots scale and highlight on scroll into view
+- Technology tags use semantic color tokens with hover/focus states
+- Consistent spacing and typography matching overall design system
+- GPU-accelerated animations (opacity, transform) for smooth 60fps performance
 
 ## Visual Effects
 

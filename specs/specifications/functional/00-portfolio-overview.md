@@ -12,20 +12,33 @@ The portfolio supports rapid project setup with a complete development environme
 ### Content Management
 The portfolio uses Astro's content collections system for type-safe content management. Content is organized into collections (blog posts, projects, case studies) with validated schemas ensuring data consistency.
 
+### Professional Experience Timeline
+The portfolio displays a comprehensive professional experience timeline showcasing career progression over 14+ years. The Experience section presents positions in reverse chronological order with rich context including company names, roles, dates, key achievements, and associated technologies.
+
+**Experience Display**:
+- Timeline visualization with chronological ordering (most recent first)
+- 5 professional positions from 2010 to present
+- Current position: Tech Lead Frontend at Caisse des dépôts et consignations (2023-Present)
+- Previous experience includes roles at SFR (Architect, Tech Lead Frontend, Tech Lead) and various Toulouse-based companies
+- Each entry displays: job title, company, location, date range, description, achievements, and technology tags
+- Responsive layout: alternating left/right on desktop (≥1024px), stacked vertical on mobile/tablet
+- Smooth scroll animations with fade-in effects for experience entries
+- Full keyboard accessibility with ARIA landmarks and focus management
+
 ### Skills & Expertise Showcase
-The portfolio includes a comprehensive skills matrix with 74 technical and professional skills organized into 8 categories:
-- **Frontend Development** (14 skills): Modern frameworks and libraries including Angular, React, TypeScript, JavaScript
-- **Backend Development** (21 skills): Server-side technologies including Java, Spring Boot, Node.js, Python
-- **DevOps & Infrastructure** (9 skills): CI/CD, containerization, cloud platforms
-- **Database & Storage** (4 skills): Relational and NoSQL database systems
-- **Testing & Quality** (2 skills): Testing frameworks and quality assurance tools
-- **Design & Architecture** (11 skills): Design patterns, architectural approaches, UI/UX tools
-- **Tools & Workflow** (7 skills): Version control, IDEs, project management
-- **Soft Skills & Management** (6 skills): Communication, leadership, problem-solving
+The portfolio includes a refined skills matrix focused on core competencies. After filtering, approximately 25 high-proficiency skills (proficiency ≥ 2) are displayed across 8 categories:
+- **Frontend Development**: Modern frameworks and libraries including Angular, React, TypeScript, JavaScript
+- **Backend Development**: Server-side technologies including Java, Spring Boot, Node.js, Python
+- **DevOps & Infrastructure**: CI/CD, containerization, cloud platforms
+- **Database & Storage**: Relational and NoSQL database systems
+- **Testing & Quality**: Testing frameworks and quality assurance tools
+- **Design & Architecture**: Design patterns, architectural approaches, UI/UX tools
+- **Tools & Workflow**: Version control, IDEs, project management
+- **Soft Skills & Management**: Communication, leadership, problem-solving
 
 Each skill includes:
-- Proficiency level (1-5 scale)
-- Years of experience
+- Proficiency level (1-5 scale, filtered to show only ≥2)
+- Years of experience (calculated from 2010 career start date)
 - Related projects (linkable to portfolio projects)
 - Icon identifier for visual representation
 
@@ -78,8 +91,8 @@ The portfolio provides a streamlined development experience:
 
 ### Navigation
 Users can navigate the portfolio through:
-- **Single-Page Architecture**: All main content organized into 5 full-viewport sections
-- **Section Navigation**: Smooth scrolling between sections via hash anchors (#hero, #about, #projects, #expertise, #contact)
+- **Single-Page Architecture**: All main content organized into 6 full-viewport sections
+- **Section Navigation**: Smooth scrolling between sections via hash anchors (#hero, #about, #experience, #projects, #expertise, #contact)
 - **Active Section Tracking**: IntersectionObserver automatically highlights current section in navigation
 - **Deep Linking**: Direct access to specific sections via URL hash fragments
 - **Magnetic Burger Menu**: Interactive menu with cursor proximity magnetic pull effect
