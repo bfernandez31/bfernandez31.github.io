@@ -42,7 +42,8 @@ export function detectDeviceTier(): DeviceTierResult {
 	const memoryGB = navigator.deviceMemory as number | undefined;
 
 	// Detect connection speed (only available in Chrome/Edge)
-	const connection = (navigator as any).connection ||
+	const connection =
+		(navigator as any).connection ||
 		(navigator as any).mozConnection ||
 		(navigator as any).webkitConnection;
 	const effectiveType = connection?.effectiveType;

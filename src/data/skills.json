@@ -7,7 +7,11 @@
 		{ "id": "testing", "name": "Testing & Quality", "displayOrder": 5 },
 		{ "id": "design", "name": "Design & Architecture", "displayOrder": 6 },
 		{ "id": "tools", "name": "Tools & Workflow", "displayOrder": 7 },
-		{ "id": "soft-skills", "name": "Soft Skills & Management", "displayOrder": 8 }
+		{
+			"id": "soft-skills",
+			"name": "Soft Skills & Management",
+			"displayOrder": 8
+		}
 	],
 	"skills": [
 		{
