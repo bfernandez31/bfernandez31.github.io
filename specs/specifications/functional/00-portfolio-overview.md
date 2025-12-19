@@ -94,19 +94,23 @@ The portfolio adapts to all screen sizes and devices:
 
 ### Smooth Animations
 The portfolio includes integrated animation capabilities optimized for performance:
-- Neural network hero animation with Canvas 2D rendering (adaptive particle counts: 50/30/20 based on device tier)
+- **Award-winning hero section** with 3D geometric background, cursor interactivity, and theatrical entrance animation
+- WebGL-powered 3D hero animation using OGL library (~24KB) with geometric shapes (cubes, octahedrons, tori)
+- Cursor-reactive parallax effects that respond to mouse movement on desktop devices
+- Choreographed hero entrance sequence with typography reveal and background activation
+- Scroll-triggered hero effects with parallax fade and scroll indicator
 - Glitch effect on hero title with hover-triggered RGB channel separation animation
 - Magnetic menu effect using GSAP quickTo() for smooth cursor interaction
-- Simplified hero content animations with CSS-based fade-in effects
-- GSAP for high-performance animations
+- GSAP for high-performance animations with Timeline-based orchestration
 - ScrollTrigger for scroll-based effects
 - Lenis for smooth scrolling (0.6s duration, easeOutCubic easing, no section snap)
-- GPU-accelerated transforms
+- GPU-accelerated transforms using transform and opacity properties
 - Device tier detection for adaptive performance (HIGH/MID/LOW classification based on CPU, memory, connection)
+- Automatic performance degradation with three levels (reduce shapes, disable parallax, fallback to gradient)
 - Lazy loading for non-critical animations (scroll progress, navigation dots)
-- Performance monitoring with FPS tracking and Core Web Vitals
-- Progressive enhancement with static fallbacks
-- Respects `prefers-reduced-motion` preferences
+- Performance monitoring with FPS tracking and automatic degradation triggers
+- Progressive enhancement with CSS gradient fallbacks
+- Respects `prefers-reduced-motion` preferences with instant static content
 
 ### Development Workflow
 The portfolio provides a streamlined development experience:

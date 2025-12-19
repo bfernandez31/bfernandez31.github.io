@@ -162,50 +162,148 @@ export function getSmoothScroll(): Lenis | null;
 
 ## Animation Components
 
-### Neural Network Hero Animation
+### Award-Winning Hero Animation System
 
-**Location**: `src/scripts/neural-network.ts`
+**Location**: `src/scripts/hero/` (modular architecture)
 
-**Description**: Canvas-based particle system creating an animated network visualization
+**Description**: WebGL-powered 3D geometric background with cursor interactivity, theatrical entrance animation, and scroll effects. Designed to achieve Awwwards-level visual impact while maintaining performance targets.
 
-**Class**: `NeuralNetworkAnimation`
+**Visual Concept**: Geometric/Architectural 3D Forms
+- Floating 3D geometric primitives (cubes, octahedrons, tori) with wireframe rendering
+- Layered Z-axis positioning with mouse-driven parallax (foreground moves more than background)
+- Catppuccin Mocha color palette (violet primary, rose secondary, lavender accent)
+- Subtle shapes rotate on cursor proximity with smooth parallax movement
 
-**Configuration Options**:
+**Core Modules**:
+
+#### HeroAnimationController (`hero-controller.ts`)
+Main orchestrator coordinating all hero subsystems. Manages lifecycle, performance degradation, and accessibility.
+
+**Interface**: `IHeroAnimationController`
+
 ```typescript
-interface NeuralNetworkConfig {
-  colors: {
-    nodes: string;    // Node color (from theme)
-    edges: string;    // Connection line color
-    pulses: string;   // Pulse effect color
-  };
-  nodeCount?: number;      // Override auto-detected count
-  connectionDistance?: number; // Max distance for connections
-  speed?: number;          // Animation speed multiplier
+interface HeroControllerOptions {
+  canvas: HTMLCanvasElement;
+  contentContainer: HTMLElement;
+  onEntranceComplete?: () => void;
+  forceTier?: DeviceTier;
+  skipEntrance?: boolean;
+}
+
+export function initHeroAnimation(options: HeroControllerOptions): Promise<void>;
+```
+
+**State Management**:
+- IDLE → LOADING → ANIMATING_ENTRANCE → ACTIVE → EXITING → DESTROYED
+- Device tier detection (HIGH/MID/LOW)
+- Reduced motion detection and instant static fallback
+- LOW tier bypasses WebGL entirely
+
+#### Background3D (`background-3d.ts`)
+WebGL renderer using OGL library (~24KB) for 3D geometric shapes.
+
+**Interface**: `IBackground3D`
+
+**Features**:
+- OGL-based WebGL 2 rendering with GPU acceleration
+- Multiple 3D geometry types: Box, Sphere, Torus
+- Adaptive shape count by device tier (HIGH: 10, MID: 7, LOW: 5)
+- Wireframe rendering for architectural aesthetic
+- Rotation animations with GSAP integration
+- Dynamic shape removal for performance degradation
+- WebGL context loss handling with graceful fallback
+
+**Configuration**:
+```typescript
+interface Background3DOptions {
+  canvas: HTMLCanvasElement;
+  deviceTier: DeviceTier;
+  antialias?: boolean;
+  maxPixelRatio?: number;
 }
 ```
 
+#### CursorTracker (`cursor-tracker.ts`)
+High-performance cursor position tracking with GSAP quickTo() for 60fps parallax effects.
+
+**Interface**: `ICursorTracker`
+
 **Features**:
-- Dynamic node generation with random positions and velocities
-- Distance-based connection rendering
-- Pulse effects along connections
-- Mouse interaction (future enhancement)
-- Viewport-aware rendering (pauses when off-screen)
+- Smooth cursor position tracking using GSAP quickTo()
+- Multi-layer parallax with configurable factors (front: 0.3, mid: 0.15, back: 0.05)
+- Desktop only (disabled on touch devices via `@media (hover: hover)`)
+- Respects reduced motion preferences
+- No performance impact when disabled
 
-**Performance** (Optimized):
-- Device tier detection adjusts node count:
-  - HIGH: 50 nodes, 60fps target
-  - MID: 30 nodes, 30fps target
-  - LOW: 20 nodes, 30fps target
-- Async initialization to avoid blocking page load
-- Intersection Observer pauses animation when hero not visible
-- Simplified GSAP intro animation (batch fade instead of staggered per-node)
-- Uses `requestAnimationFrame` for optimal timing
-- Progressive enhancement with CSS gradient fallback
+**Configuration**:
+```typescript
+interface ParallaxLayer {
+  selector: string;
+  factor: number;  // Parallax movement multiplier
+}
+```
 
-**Reduced Motion**:
-- Displays static network when `prefers-reduced-motion: reduce`
-- Nodes still visible but stationary
-- Subtle opacity pulses only (no movement)
+#### TypographyReveal (`typography-reveal.ts`)
+Choreographed entrance animation for hero text using GSAP Timeline.
+
+**Interface**: `ITypographyReveal`
+
+**Features**:
+- Staggered reveal sequence: headline → subheadline → CTA
+- GPU-accelerated properties (opacity, translateY)
+- Configurable timing and easing
+- Mobile-optimized simplified sequence
+- Ensures CTA visible within 2 seconds
+
+**Configuration**:
+```typescript
+interface TypographyRevealOptions {
+  container: HTMLElement;
+  onComplete?: () => void;
+  skipAnimation?: boolean;
+}
+```
+
+#### HeroPerformanceMonitor (`performance-monitor.ts`)
+Real-time FPS tracking with automatic degradation triggers.
+
+**Interface**: `IHeroPerformanceMonitor`
+
+**Features**:
+- RequestAnimationFrame-based FPS sampling
+- Three degradation levels triggered at 25fps/20fps/15fps thresholds
+- Level 1: Remove 30% of shapes (reduce WebGL load)
+- Level 2: Disable cursor parallax (eliminate mousemove overhead)
+- Level 3: Fallback to CSS gradient (stop WebGL entirely)
+- Automatic recovery if FPS improves
+
+**Performance Targets**:
+- Desktop HIGH tier: 60fps with 10 shapes, full parallax
+- Desktop MID tier: 30fps with 7 shapes, parallax enabled
+- Mobile/LOW tier: Static gradient fallback, no WebGL
+
+**Scroll Integration**:
+- IntersectionObserver tracks hero visibility
+- Parallax fade effect on scroll (shapes and content fade at different rates)
+- Scroll indicator appears after 50% scroll progress through hero
+- Smooth reset on scroll-to-top
+
+**Reduced Motion Support**:
+- Instant content reveal with no animation
+- Static CSS gradient background
+- All subsystems disabled
+- Zero JavaScript overhead
+
+**Progressive Enhancement**:
+- CSS gradient fallback visible before JS loads
+- Noscript tag ensures content visible without JavaScript
+- WebGL context loss gracefully falls back to gradient
+- All critical content (headline, CTA) accessible regardless of animation state
+
+**Bundle Size**:
+- Total hero system: ~30KB (OGL 24KB + hero modules 6KB)
+- Tree-shakeable OGL imports (only core geometry types)
+- Within 200KB JavaScript budget
 
 ### Magnetic Burger Menu
 

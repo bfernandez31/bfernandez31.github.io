@@ -229,6 +229,14 @@ gsap.to('.element', {
   },
   y: 100
 });
+
+// High-frequency cursor tracking with quickTo
+const quickX = gsap.quickTo('.element', 'x', { duration: 0.6 });
+const quickY = gsap.quickTo('.element', 'y', { duration: 0.6 });
+window.addEventListener('mousemove', (e) => {
+  quickX(e.clientX);
+  quickY(e.clientY);
+});
 ```
 
 **Best Practices**:
@@ -236,6 +244,7 @@ gsap.to('.element', {
 - Respect `prefers-reduced-motion` media query
 - Lazy load for non-critical animations
 - Reuse timelines for performance
+- Use `quickTo()` for frequently updated values (cursor tracking, 60fps updates)
 
 ### Lenis (≥1.0.0)
 
@@ -253,23 +262,86 @@ gsap.to('.element', {
 import Lenis from '@studio-freight/lenis';
 
 const lenis = new Lenis({
-  duration: 1.2,
-  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+  duration: 0.6,  // Optimized for responsiveness
+  easing: (t) => 1 - Math.pow(1 - t, 3),  // easeOutCubic
+  orientation: 'vertical',
+  smoothWheel: true,
 });
 
-function raf(time) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
-}
+// Integrate with GSAP ScrollTrigger
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add((time) => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
 
-requestAnimationFrame(raf);
+// Expose globally for navigation system
+window.lenis = lenis;
 ```
 
 **Features**:
 - Momentum-based scrolling
-- Configurable easing
+- Configurable easing (0.6s duration for responsive feel)
 - Scroll direction detection
 - Disable/enable programmatically
+- Device tier aware (auto-disabled on LOW tier devices)
+- Respects `prefers-reduced-motion` preference
+
+### OGL (≥0.0.24)
+
+**Purpose**: Lightweight WebGL library for 3D graphics
+
+**Why Selected**:
+- Minimal bundle size (~24KB vs Three.js ~150KB - 6x smaller)
+- Three.js-like API for easy adoption
+- Full WebGL 2 capabilities
+- Zero dependencies
+- Tree-shakeable ES6 modules
+- Perfect for hero section 3D effects
+
+**Bundle Size**: ~24KB (minified, tree-shakeable)
+
+**Usage Patterns**:
+```javascript
+import { Renderer, Camera, Transform, Box, Torus, Program } from 'ogl';
+
+// Create WebGL context
+const renderer = new Renderer({ dpr: 2, alpha: true });
+const gl = renderer.gl;
+canvas.appendChild(gl.canvas);
+
+// Setup scene
+const camera = new Camera(gl, { fov: 35 });
+camera.position.set(0, 0, 7);
+
+const scene = new Transform();
+
+// Create geometry
+const geometry = new Box(gl);
+const program = new Program(gl, { vertex, fragment });
+const mesh = new Mesh(gl, { geometry, program });
+mesh.setParent(scene);
+
+// Render loop
+function animate() {
+  mesh.rotation.y += 0.01;
+  renderer.render({ scene, camera });
+  requestAnimationFrame(animate);
+}
+```
+
+**Features Used**:
+- Multiple 3D geometry types (Box, Sphere, Torus)
+- Wireframe rendering for architectural aesthetic
+- GPU-accelerated rotation animations
+- Adaptive quality based on device tier
+- WebGL context loss handling
+- Tree-shaken imports (only needed geometry types)
+
+**Best Practices**:
+- Import only needed geometry types to minimize bundle
+- Handle WebGL context loss gracefully
+- Provide CSS gradient fallback
+- Respect device tier (skip WebGL on LOW tier)
+- Pause rendering when not visible (IntersectionObserver)
 
 ## Type Checking
 
@@ -364,12 +436,13 @@ jobs:
 
 ### Production Dependencies
 
-**Minimal Set** (3 packages):
+**Minimal Set** (4 packages):
 ```json
 {
   "astro": "^5.15.3",           // Framework
   "gsap": "^3.13.0",             // Animation
-  "@studio-freight/lenis": "^1.0.42"  // Smooth scroll
+  "@studio-freight/lenis": "^1.0.42",  // Smooth scroll
+  "ogl": "^1.0.6"                // WebGL 3D graphics
 }
 ```
 
@@ -377,7 +450,9 @@ jobs:
 - Astro: 0KB (build tool, not in bundle)
 - GSAP: ~45KB minified
 - Lenis: ~10KB minified
-- **Total**: ~55KB JavaScript (within 200KB budget)
+- OGL: ~24KB minified (tree-shakeable)
+- Hero modules: ~6KB minified
+- **Total**: ~85KB JavaScript (within 200KB budget)
 
 ### Development Dependencies
 
