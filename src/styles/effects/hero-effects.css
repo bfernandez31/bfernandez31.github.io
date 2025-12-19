@@ -1,0 +1,189 @@
+/**
+ * Hero Section Effects
+ * Feature: PBF-28-rework-the-first
+ *
+ * Visual effects and animations for the award-winning hero section.
+ * Includes canvas styling, fallback gradients, typography reveal, and scroll effects.
+ */
+
+/* ============================================================================
+   CANVAS & FALLBACK LAYERS
+   ============================================================================ */
+
+.hero__canvas {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+	opacity: 0;
+	transition: opacity 0.3s ease-out;
+}
+
+/* Canvas becomes visible when hero is active */
+.hero.hero--active .hero__canvas {
+	opacity: 1;
+}
+
+/* Fallback gradient (visible when WebGL fails or before JS loads) */
+.hero__fallback {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	background: linear-gradient(
+		135deg,
+		var(--color-background) 0%,
+		color-mix(in oklch, var(--color-primary), var(--color-background) 85%) 50%,
+		var(--color-background) 100%
+	);
+	opacity: 1;
+	transition: opacity 0.3s ease-out;
+}
+
+/* Hide fallback when canvas is active */
+.hero.hero--active .hero__fallback {
+	opacity: 0;
+	pointer-events: none;
+}
+
+/* ============================================================================
+   CONTENT INITIAL HIDDEN STATE (for entrance animation)
+   ============================================================================ */
+
+.hero__content--animated {
+	opacity: 0;
+	transform: translateY(20px);
+}
+
+/* Headline clip-path reveal (used by GSAP) */
+.hero__headline--clip {
+	clip-path: inset(100% 0 0 0);
+}
+
+/* ============================================================================
+   SCROLL INDICATOR
+   ============================================================================ */
+
+.hero__scroll-indicator {
+	position: absolute;
+	bottom: 2rem;
+	left: 50%;
+	transform: translateX(-50%);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.5rem;
+	opacity: 0;
+	transition: opacity 0.5s ease-out;
+	pointer-events: none;
+	z-index: 2;
+}
+
+/* Show scroll indicator after scroll reaches 50% */
+.hero--scrolled .hero__scroll-indicator {
+	opacity: 1;
+	animation: hero-scroll-bounce 2s ease-in-out infinite;
+}
+
+.hero__scroll-indicator-text {
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.15em;
+	color: var(--color-text);
+	opacity: 0.7;
+}
+
+.hero__scroll-indicator-arrow {
+	width: 1.5rem;
+	height: 1.5rem;
+	border-right: 2px solid var(--color-primary);
+	border-bottom: 2px solid var(--color-primary);
+	transform: rotate(45deg);
+	opacity: 0.8;
+}
+
+@keyframes hero-scroll-bounce {
+	0%,
+	20%,
+	50%,
+	80%,
+	100% {
+		transform: translateX(-50%) translateY(0);
+	}
+	40% {
+		transform: translateX(-50%) translateY(10px);
+	}
+	60% {
+		transform: translateX(-50%) translateY(5px);
+	}
+}
+
+/* ============================================================================
+   CTA FOCUS VISIBLE STYLES (Accessibility)
+   ============================================================================ */
+
+.hero__cta:focus-visible {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 4px;
+	box-shadow: 0 0 0 4px rgba(203, 166, 247, 0.3);
+}
+
+/* ============================================================================
+   RESPONSIVE TYPOGRAPHY
+   ============================================================================ */
+
+.hero__headline {
+	font-size: clamp(2.5rem, 6vw, 5rem);
+}
+
+.hero__subheadline {
+	font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+}
+
+/* ============================================================================
+   PREFERS-REDUCED-MOTION
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+	/* Show content immediately without animation */
+	.hero__content--animated {
+		opacity: 1;
+		transform: none;
+	}
+
+	.hero__headline--clip {
+		clip-path: none;
+	}
+
+	/* No scroll indicator animation */
+	.hero--scrolled .hero__scroll-indicator {
+		animation: none;
+	}
+
+	/* No canvas transition */
+	.hero__canvas,
+	.hero__fallback {
+		transition: none;
+	}
+
+	/* Disable CTA hover transform */
+	.hero__cta {
+		transition: background-color 0.15s ease;
+	}
+
+	@media (hover: hover) {
+		.hero__cta:hover {
+			transform: none;
+		}
+	}
+}
+
+/* ============================================================================
+   NOSCRIPT FALLBACK
+   ============================================================================ */
+
+/* Ensure content is visible if JS is disabled */
+noscript + .hero__content {
+	opacity: 1;
+	transform: none;
+}

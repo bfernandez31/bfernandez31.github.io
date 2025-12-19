@@ -26,9 +26,9 @@
 
 **Purpose**: Install dependencies and create project structure for hero animation system
 
-- [ ] T001 Install OGL dependency with `bun add ogl`
-- [ ] T002 [P] Create hero module directory structure at src/scripts/hero/
-- [ ] T003 [P] Create hero CSS effects file at src/styles/effects/hero-effects.css
+- [X] T001 Install OGL dependency with `bun add ogl`
+- [X] T002 [P] Create hero module directory structure at src/scripts/hero/
+- [X] T003 [P] Create hero CSS effects file at src/styles/effects/hero-effects.css
 
 ---
 
@@ -38,10 +38,10 @@
 
 **CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 Create TypeScript type imports for contracts in src/scripts/hero/types.ts (re-export from specs/PBF-28-rework-the-first/contracts/hero-animation.ts)
-- [ ] T005 [P] Create prefersReducedMotion utility export in src/scripts/animation-config.ts (if not exists)
-- [ ] T006 [P] Add hero performance settings to src/config/performance.ts (degradation thresholds, shape counts by tier)
-- [ ] T007 Update global.css to import src/styles/effects/hero-effects.css
+- [X] T004 Create TypeScript type imports for contracts in src/scripts/hero/types.ts (re-export from specs/PBF-28-rework-the-first/contracts/hero-animation.ts)
+- [X] T005 [P] Create prefersReducedMotion utility export in src/scripts/animation-config.ts (if not exists)
+- [X] T006 [P] Add hero performance settings to src/config/performance.ts (degradation thresholds, shape counts by tier)
+- [X] T007 Update global.css to import src/styles/effects/hero-effects.css
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -57,31 +57,31 @@
 
 #### Core Modules
 
-- [ ] T008 [P] [US1] Create Background3D class in src/scripts/hero/background-3d.ts implementing IBackground3D interface with OGL renderer, scene setup, and geometric shapes
-- [ ] T009 [P] [US1] Create CursorTracker class in src/scripts/hero/cursor-tracker.ts implementing ICursorTracker interface with GSAP quickTo for 60fps parallax
-- [ ] T010 [P] [US1] Create TypographyReveal class in src/scripts/hero/typography-reveal.ts implementing ITypographyReveal interface with GSAP timeline entrance
+- [X] T008 [P] [US1] Create Background3D class in src/scripts/hero/background-3d.ts implementing IBackground3D interface with OGL renderer, scene setup, and geometric shapes
+- [X] T009 [P] [US1] Create CursorTracker class in src/scripts/hero/cursor-tracker.ts implementing ICursorTracker interface with GSAP quickTo for 60fps parallax
+- [X] T010 [P] [US1] Create TypographyReveal class in src/scripts/hero/typography-reveal.ts implementing ITypographyReveal interface with GSAP timeline entrance
 
 #### Controller
 
-- [ ] T011 [US1] Create HeroAnimationController class in src/scripts/hero/hero-controller.ts implementing IHeroAnimationController interface, orchestrating background, cursor, and typography subsystems
-- [ ] T012 [US1] Export initHeroAnimation factory function from src/scripts/hero/hero-controller.ts with window.__heroController__ for cleanup
+- [X] T011 [US1] Create HeroAnimationController class in src/scripts/hero/hero-controller.ts implementing IHeroAnimationController interface, orchestrating background, cursor, and typography subsystems
+- [X] T012 [US1] Export initHeroAnimation factory function from src/scripts/hero/hero-controller.ts with window.__heroController__ for cleanup
 
 #### Component Integration
 
-- [ ] T013 [US1] Update Hero.astro component in src/components/sections/Hero.astro with canvas element, data-hero-text attributes, and fallback gradient
-- [ ] T014 [US1] Add client-side script to Hero.astro that imports and initializes hero animation on DOMContentLoaded
-- [ ] T015 [US1] Add cleanup listener for astro:before-swap event in Hero.astro script
+- [X] T013 [US1] Update Hero.astro component in src/components/sections/Hero.astro with canvas element, data-hero-text attributes, and fallback gradient
+- [X] T014 [US1] Add client-side script to Hero.astro that imports and initializes hero animation on DOMContentLoaded
+- [X] T015 [US1] Add cleanup listener for astro:before-swap event in Hero.astro script
 
 #### Styling
 
-- [ ] T016 [US1] Add hero canvas and fallback CSS to src/styles/effects/hero-effects.css (z-index layering, gradient fallback, hero--active class)
-- [ ] T017 [US1] Add hero content initial hidden state CSS in src/styles/effects/hero-effects.css (opacity: 0, transform for entrance)
-- [ ] T018 [US1] Add prefers-reduced-motion styles in src/styles/effects/hero-effects.css (content visible immediately, no animation)
+- [X] T016 [US1] Add hero canvas and fallback CSS to src/styles/effects/hero-effects.css (z-index layering, gradient fallback, hero--active class)
+- [X] T017 [US1] Add hero content initial hidden state CSS in src/styles/effects/hero-effects.css (opacity: 0, transform for entrance)
+- [X] T018 [US1] Add prefers-reduced-motion styles in src/styles/effects/hero-effects.css (content visible immediately, no animation)
 
 #### Mobile Adaptation
 
-- [ ] T019 [US1] Add touch device detection in cursor-tracker.ts (disable parallax when hover: hover fails)
-- [ ] T020 [US1] Add mobile-specific entrance animation timing in hero-controller.ts (simplified sequence)
+- [X] T019 [US1] Add touch device detection in cursor-tracker.ts (disable parallax when hover: hover fails)
+- [X] T020 [US1] Add mobile-specific entrance animation timing in hero-controller.ts (simplified sequence)
 
 **Checkpoint**: User Story 1 complete - hero shows entrance animation, cursor parallax works on desktop, mobile has adapted experience, reduced motion shows static content
 
@@ -95,11 +95,11 @@
 
 ### Implementation for User Story 2
 
-- [ ] T021 [US2] Add scroll progress tracking in hero-controller.ts using IntersectionObserver or scroll events
-- [ ] T022 [US2] Implement parallax fade effect on scroll in hero-controller.ts (shapes and content fade based on scroll position)
-- [ ] T023 [P] [US2] Add scroll indicator element to Hero.astro (arrow or text encouraging scroll)
-- [ ] T024 [US2] Add scroll indicator CSS animation in src/styles/effects/hero-effects.css (bounce, fade-in at 50% scroll)
-- [ ] T025 [US2] Implement hero reset on scroll-to-top in hero-controller.ts (smooth state restoration)
+- [X] T021 [US2] Add scroll progress tracking in hero-controller.ts using IntersectionObserver or scroll events
+- [X] T022 [US2] Implement parallax fade effect on scroll in hero-controller.ts (shapes and content fade based on scroll position)
+- [X] T023 [P] [US2] Add scroll indicator element to Hero.astro (arrow or text encouraging scroll)
+- [X] T024 [US2] Add scroll indicator CSS animation in src/styles/effects/hero-effects.css (bounce, fade-in at 50% scroll)
+- [X] T025 [US2] Implement hero reset on scroll-to-top in hero-controller.ts (smooth state restoration)
 
 **Checkpoint**: User Story 2 complete - scroll creates depth effect, indicator guides users, returning to top works smoothly
 
@@ -115,26 +115,26 @@
 
 #### Accessibility
 
-- [ ] T026 [P] [US3] Add aria-hidden="true" to canvas element in Hero.astro
-- [ ] T027 [P] [US3] Ensure CTA button has proper focus-visible styles in src/styles/effects/hero-effects.css
-- [ ] T028 [US3] Add keyboard navigation support in hero-controller.ts (no focus traps, logical tab order)
+- [X] T026 [P] [US3] Add aria-hidden="true" to canvas element in Hero.astro
+- [X] T027 [P] [US3] Ensure CTA button has proper focus-visible styles in src/styles/effects/hero-effects.css
+- [X] T028 [US3] Add keyboard navigation support in hero-controller.ts (no focus traps, logical tab order)
 
 #### Responsiveness
 
-- [ ] T029 [US3] Add responsive shape positioning in background-3d.ts (adjust positions based on viewport width)
-- [ ] T030 [US3] Add viewport size validation in hero-controller.ts (handle 320px to 2560px widths)
-- [ ] T031 [P] [US3] Add responsive typography sizing in src/styles/effects/hero-effects.css using clamp()
+- [X] T029 [US3] Add responsive shape positioning in background-3d.ts (adjust positions based on viewport width)
+- [X] T030 [US3] Add viewport size validation in hero-controller.ts (handle 320px to 2560px widths)
+- [X] T031 [P] [US3] Add responsive typography sizing in src/styles/effects/hero-effects.css using clamp()
 
 #### Performance Optimization
 
-- [ ] T032 [US3] Implement lazy initialization in hero-controller.ts (client:visible directive pattern)
-- [ ] T033 [US3] Add canvas resize handler in background-3d.ts with debounce for performance
-- [ ] T034 [US3] Optimize OGL imports in background-3d.ts (import only needed geometry types)
+- [X] T032 [US3] Implement lazy initialization in hero-controller.ts (client:visible directive pattern)
+- [X] T033 [US3] Add canvas resize handler in background-3d.ts with debounce for performance
+- [X] T034 [US3] Optimize OGL imports in background-3d.ts (import only needed geometry types)
 
 #### Visual Cohesion
 
-- [ ] T035 [P] [US3] Map Catppuccin Mocha colors to shape materials in background-3d.ts (violet primary, rose secondary, lavender accent)
-- [ ] T036 [P] [US3] Add perspective grid effect to background-3d.ts (optional, for architectural depth)
+- [X] T035 [P] [US3] Map Catppuccin Mocha colors to shape materials in background-3d.ts (violet primary, rose secondary, lavender accent)
+- [X] T036 [P] [US3] Add perspective grid effect to background-3d.ts (optional, for architectural depth)
 
 **Checkpoint**: User Story 3 complete - passes Lighthouse 85+ mobile, WCAG AA compliant, responsive across all viewports
 
@@ -150,25 +150,25 @@
 
 #### Performance Monitoring
 
-- [ ] T037 [US4] Create HeroPerformanceMonitor class in src/scripts/hero/performance-monitor.ts implementing IHeroPerformanceMonitor interface
-- [ ] T038 [US4] Integrate performance monitor with hero-controller.ts (frame rate sampling, degradation triggers)
+- [X] T037 [US4] Create HeroPerformanceMonitor class in src/scripts/hero/performance-monitor.ts implementing IHeroPerformanceMonitor interface
+- [X] T038 [US4] Integrate performance monitor with hero-controller.ts (frame rate sampling, degradation triggers)
 
 #### Degradation Levels
 
-- [ ] T039 [US4] Implement level 1 degradation in background-3d.ts (removeShape to reduce count by 30%)
-- [ ] T040 [US4] Implement level 2 degradation in hero-controller.ts (disable cursor parallax)
-- [ ] T041 [US4] Implement level 3 degradation in hero-controller.ts (switch to CSS gradient fallback, stop WebGL)
+- [X] T039 [US4] Implement level 1 degradation in background-3d.ts (removeShape to reduce count by 30%)
+- [X] T040 [US4] Implement level 2 degradation in hero-controller.ts (disable cursor parallax)
+- [X] T041 [US4] Implement level 3 degradation in hero-controller.ts (switch to CSS gradient fallback, stop WebGL)
 
 #### Device Tier Adaptation
 
-- [ ] T042 [US4] Add device tier shape count selection in background-3d.ts using DEFAULT_SHAPES_BY_TIER from contracts
-- [ ] T043 [US4] Add LOW tier shortcut in hero-controller.ts (skip WebGL init, show static immediately)
+- [X] T042 [US4] Add device tier shape count selection in background-3d.ts using DEFAULT_SHAPES_BY_TIER from contracts
+- [X] T043 [US4] Add LOW tier shortcut in hero-controller.ts (skip WebGL init, show static immediately)
 
 #### Progressive Enhancement
 
-- [ ] T044 [US4] Add noscript fallback in Hero.astro (visible content without JavaScript)
-- [ ] T045 [US4] Add WebGL context loss handling in background-3d.ts (graceful fallback to gradient)
-- [ ] T046 [US4] Ensure critical content (headline, CTA) is visible within 2s in hero-controller.ts
+- [X] T044 [US4] Add noscript fallback in Hero.astro (visible content without JavaScript)
+- [X] T045 [US4] Add WebGL context loss handling in background-3d.ts (graceful fallback to gradient)
+- [X] T046 [US4] Ensure critical content (headline, CTA) is visible within 2s in hero-controller.ts
 
 **Checkpoint**: User Story 4 complete - works on mid-tier devices, degrades gracefully, static fallback always available
 
@@ -178,12 +178,12 @@
 
 **Purpose**: Final optimizations and cleanup affecting multiple user stories
 
-- [ ] T047 [P] Deprecate old neural-network.ts in src/scripts/ (add deprecation comment, do not delete yet)
-- [ ] T048 [P] Add hero animation config export to src/scripts/animation-config.ts (entrance timing, parallax factors)
-- [ ] T049 Code cleanup: remove console.log statements from hero modules
-- [ ] T050 Verify all hero modules respect prefers-reduced-motion preference
-- [ ] T051 Run build verification: `bun run build` and check for TypeScript errors
-- [ ] T052 Run quickstart.md validation: test installation steps and verify expected output
+- [X] T047 [P] Deprecate old neural-network.ts in src/scripts/ (add deprecation comment, do not delete yet)
+- [X] T048 [P] Add hero animation config export to src/scripts/animation-config.ts (entrance timing, parallax factors)
+- [X] T049 Code cleanup: remove console.log statements from hero modules
+- [X] T050 Verify all hero modules respect prefers-reduced-motion preference
+- [X] T051 Run build verification: `bun run build` and check for TypeScript errors
+- [X] T052 Run quickstart.md validation: test installation steps and verify expected output
 
 ---
 
