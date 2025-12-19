@@ -21,6 +21,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + GSAP 3.13.0+ (animation engine), IntersectionObserver API (viewport detection) (012-1516-text-split)
 - N/A (client-side animations only, no data persistence) (012-1516-text-split)
 - Static JSON data files (src/data/experiences.json, src/data/skills.json) - no database (PBF-21-experience-pro)
+- TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, GSAP 3.13.0, Lenis 1.0.42, Biome 2.0.0+ (PBF-22-fix-the-first)
+- N/A (static site, no persistence) (PBF-22-fix-the-first)
 
 ## Project Structure
 ```
@@ -476,6 +478,7 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
+- PBF-22-fix-the-first: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, GSAP 3.13.0, Lenis 1.0.42, Biome 2.0.0+
 - PBF-21-experience-pro: Added professional experience timeline section and updated skills filtering
   - Created new Experience section as 3rd section in single-page layout (between About and Projects)
   - Updated navigation from 5 to 6 sections: #hero, #about, #experience, #projects, #expertise, #contact
@@ -506,7 +509,6 @@ try {
   - ~2KB CSS footprint, graceful degradation on older browsers
   - Integrated into Hero component headline with .glitch-effect class
   - Added @import "./effects/glitch.css" to global.css
-- 012-1516-text-split: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + GSAP 3.13.0+ (animation engine), IntersectionObserver API (viewport detection)
   - Added device tier detection system (HIGH/MID/LOW) in src/scripts/performance/device-tier.ts
   - Created performance monitor (development only) tracking FPS, Core Web Vitals, memory in src/scripts/performance/performance-monitor.ts
   - Implemented lazy loading system with priority levels in src/scripts/performance/lazy-loader.ts
