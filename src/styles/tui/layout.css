@@ -313,3 +313,41 @@
 .tui-skip-link:focus {
   top: 0;
 }
+
+/* ============================================
+   Minimum Viewport Width (320px)
+   ============================================ */
+
+@media (max-width: 320px) {
+  .tui-topbar {
+    padding: 0.125rem 0.25rem;
+  }
+
+  .tui-topbar__meta {
+    gap: 0.5rem;
+  }
+
+  .tui-statusline {
+    padding: 0.125rem 0.25rem;
+    gap: 0.25rem;
+    font-size: 0.6875rem;
+  }
+
+  .tui-commandline {
+    padding: 0.125rem 0.25rem;
+    font-size: 0.75rem;
+  }
+
+  .tui-content__gutter {
+    width: 2rem;
+    font-size: 0.625rem;
+  }
+
+  .tui-content__viewport {
+    padding: 0.25rem;
+  }
+
+  .tui-sidebar {
+    max-width: calc(100vw - 2rem);
+  }
+}

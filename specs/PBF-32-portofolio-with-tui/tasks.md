@@ -152,12 +152,12 @@
 
 ### Implementation for User Story 6
 
-- [ ] T048 [US6] Add mobile sidebar toggle button to TopBar.astro or TuiLayout.astro (hamburger/toggle icon)
-- [ ] T049 [US6] Implement sidebar overlay mode for mobile in src/styles/tui/layout.css (full-width overlay, slide-in animation)
-- [ ] T050 [US6] Add sidebar auto-close on navigation for mobile in src/scripts/tui-navigation.ts
-- [ ] T051 [US6] Add tablet collapsible sidebar behavior in src/styles/tui/layout.css (toggle button visible, sidebar slides in/out)
-- [ ] T052 [US6] Ensure content fills viewport on mobile when sidebar hidden in src/styles/tui/layout.css
-- [ ] T053 [US6] Test and fix horizontal scrolling at 320px minimum viewport width
+- [x] T048 [US6] Add mobile sidebar toggle button to TopBar.astro or TuiLayout.astro (hamburger/toggle icon) ✅ DONE
+- [x] T049 [US6] Implement sidebar overlay mode for mobile in src/styles/tui/layout.css (full-width overlay, slide-in animation) ✅ DONE
+- [x] T050 [US6] Add sidebar auto-close on navigation for mobile in src/scripts/tui-navigation.ts ✅ DONE
+- [x] T051 [US6] Add tablet collapsible sidebar behavior in src/styles/tui/layout.css (toggle button visible, sidebar slides in/out) ✅ DONE
+- [x] T052 [US6] Ensure content fills viewport on mobile when sidebar hidden in src/styles/tui/layout.css ✅ DONE
+- [x] T053 [US6] Test and fix horizontal scrolling at 320px minimum viewport width ✅ DONE
 
 **Checkpoint**: TUI layout is fully responsive across all breakpoints
 

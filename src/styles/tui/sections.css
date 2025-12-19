@@ -215,3 +215,44 @@
     font-size: 1rem;
   }
 }
+
+/* Minimum viewport width (320px) */
+@media (max-width: 320px) {
+  .tui-section {
+    padding: 0.5rem 0;
+  }
+
+  .tui-section--hero {
+    padding: 0.5rem;
+    min-height: calc(100vh - 4rem);
+  }
+
+  .tui-hero__headline {
+    font-size: 1.25rem;
+  }
+
+  .tui-hero__subheadline {
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .tui-hero__cta {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .tui-section__header {
+    margin-bottom: 1rem;
+  }
+
+  .tui-section__title {
+    font-size: 0.875rem;
+  }
+}
+
+/* Prevent horizontal overflow on all viewports */
+.tui-section,
+.tui-section__content {
+  overflow-x: hidden;
+  max-width: 100%;
+}
