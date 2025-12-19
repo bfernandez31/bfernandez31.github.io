@@ -25,6 +25,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - N/A (static site, no persistence) (PBF-22-fix-the-first)
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), Content Collections (Zod validation) (PBF-23-featured-project)
 - Markdown files via Astro Content Collections (src/content/projects/) (PBF-23-featured-project)
+- TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), Content Collections (Zod validation), GSAP 3.13.0 (animations) (PBF-24-featured-project)
+- Static Markdown files via Astro Content Collections (`src/content/projects/`) (PBF-24-featured-project)
 
 ## Project Structure
 ```
@@ -32,7 +34,7 @@ portfolio/
 ├── src/
 │   ├── components/       # Reusable Astro components
 │   │   ├── layout/       # Header, Footer, BurgerMenu
-│   │   ├── sections/     # Hero, AboutIDE, ProjectsHexGrid, etc.
+│   │   ├── sections/     # Hero, FeaturedProject, Experience, ProjectsHexGrid, etc.
 │   │   ├── ui/           # Button, Card, etc.
 │   │   └── islands/      # Interactive components (client-side)
 │   ├── layouts/          # Page templates
@@ -486,6 +488,18 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
+- PBF-24-featured-project: Created FeaturedProject section component for AI-BOARD showcase
+  - Built dedicated hero-style component (src/components/sections/FeaturedProject.astro) to prominently display AI-BOARD
+  - Uses Astro Content Collections `getEntry()` to fetch AI-BOARD project data from src/content/projects/ai-board.md
+  - Displays project image (16:9 aspect ratio), title, description, meta-narrative, technology tags, and CTA button
+  - Meta-narrative text: "This portfolio was built using AI-BOARD's specification and planning tools"
+  - Responsive layout: 60/40 split on desktop (≥1024px), 50/50 on tablet (768-1023px), stacked vertical on mobile (≤767px)
+  - Simple CSS-based fade-in animation (opacity + translateY) with prefers-reduced-motion support
+  - Full accessibility: semantic HTML (article, h3, ul), ARIA attributes, keyboard navigation, focus indicators
+  - Performance optimized: minimal JavaScript (~50 bytes), GPU-accelerated animations, lazy image loading
+  - Positioned at top of Projects section (before ProjectsHexGrid) in src/pages/index.astro
+  - Technology stack: TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, Content Collections (Zod validation)
+  - Static Markdown files via Astro Content Collections (`src/content/projects/`)
 - PBF-23-featured-project: Added AI-BOARD as featured project and updated footer attribution
   - Created AI-BOARD project entry in src/content/projects/ai-board.md with displayOrder: 1 (highest priority)
   - AI-BOARD showcases AI-powered project management: specification generation, task breakdown, implementation planning
@@ -519,7 +533,6 @@ try {
     - prefers-reduced-motion support for hero fade-in (instant reveal)
     - Text visible to screen readers without complex DOM manipulation
     - GPU-accelerated properties (opacity, transform) for smooth performance
-- PBF-21-experience-pro: Added professional experience timeline section and updated skills filtering
   - Created new Experience section as 3rd section in single-page layout (between About and Projects)
   - Updated navigation from 5 to 6 sections: #hero, #about, #experience, #projects, #expertise, #contact
   - Created src/types/experience.ts TypeScript interface for Experience entity

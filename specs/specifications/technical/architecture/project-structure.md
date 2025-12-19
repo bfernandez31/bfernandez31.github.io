@@ -55,6 +55,7 @@ portfolio/
   - BurgerMenu (magnetic menu with neural pathway animations)
 - `sections/` - Page-specific section components
   - Hero (neural network canvas animation)
+  - FeaturedProject (AI-BOARD showcase with hero-style card layout)
   - Experience (professional experience timeline)
   - AboutIDE, ProjectsHexGrid, ExpertiseMatrix, BlogCommits, ContactProtocol (planned)
 - `ui/` - Generic UI elements
@@ -210,6 +211,7 @@ import ContactProtocol from '../components/sections/ContactProtocol.astro';
   </section>
 
   <section id="projects" data-section="projects" class="portfolio-section portfolio-section--projects" role="region" aria-label="Projects showcase">
+    <FeaturedProject />
     <ProjectsHexGrid />
   </section>
 
@@ -320,9 +322,62 @@ tags: ["ai", "productivity", "automation", "spec-kit"]
 - Define Zod schemas for type safety
 - Use frontmatter for metadata
 - Markdown or MDX for content body
-- Query with `getCollection()` API
-- Projects with `featured: true` appear in Projects section
+- Query with `getCollection()` or `getEntry()` API
+- Projects with `featured: true` appear in FeaturedProject component
 - `displayOrder` controls visual hierarchy (1 = top priority)
+
+**FeaturedProject Component** (`src/components/sections/FeaturedProject.astro`):
+The FeaturedProject component provides a hero-style showcase for the AI-BOARD project at the top of the Projects section.
+
+**Implementation Details**:
+```typescript
+// Data fetching
+import { getEntry } from "astro:content";
+const aiBoard = await getEntry("projects", "ai-board");
+```
+
+**Component Structure**:
+- `<article>` wrapper with `featured-project` class and `aria-labelledby` attribute
+- Featured label overlay positioned absolutely in top-left corner
+- Image wrapper with 16:9 aspect ratio and overflow hidden
+- Content section with title, description, meta-narrative, technology tags, and CTA
+- Conditional rendering: only displays if `aiBoard` data exists
+
+**Styling Pattern**:
+- CSS custom properties for spacing, colors, and transitions
+- Desktop: Flexbox with 60/40 split (image 60%, content 40%)
+- Tablet (768px-1023px): 50/50 split for balance
+- Mobile (≤767px): `flex-direction: column` for vertical stacking
+- Background: `var(--color-surface)` with large border radius
+- Technology tags: Semi-transparent primary color background (`hsl(267 84% 81% / 0.15)`)
+- CTA button: Full interaction states with semantic color tokens
+
+**Animation Implementation**:
+```typescript
+// Client-side script for fade-in
+const featured = document.querySelector('.featured-project');
+if (featured && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  requestAnimationFrame(() => {
+    featured.classList.add('visible');
+  });
+}
+```
+
+**Accessibility Features**:
+- Semantic HTML: `<article>`, `<h3>`, `<ul>`, `<time>` elements
+- ARIA attributes: `aria-labelledby`, `aria-label`, `aria-hidden`
+- Keyboard navigation: Full tab order through content and CTA
+- Focus indicators: `outline: 2px solid var(--color-primary-focus)`
+- Screen reader support: Descriptive labels and alt text
+- Image optimization: `loading="lazy"`, `decoding="async"`
+
+**Performance Characteristics**:
+- Static data fetching at build time (no runtime overhead)
+- Minimal JavaScript: ~50 bytes for fade-in animation
+- GPU-accelerated CSS animations: opacity and transform only
+- Component-scoped styles: no global CSS pollution
+- Lazy image loading: reduces initial page weight
+- Progressive enhancement: works without JavaScript
 
 ### Scripts (`src/scripts/`)
 

@@ -13,15 +13,27 @@ The portfolio supports rapid project setup with a complete development environme
 The portfolio uses Astro's content collections system for type-safe content management. Content is organized into collections (blog posts, projects, case studies) with validated schemas ensuring data consistency.
 
 ### Featured Projects Showcase
-The portfolio highlights select projects in the Projects section, with AI-BOARD featured as the top project. AI-BOARD is an AI-powered project management tool that leverages Claude AI to streamline development workflows and automate task specifications.
+The portfolio highlights select projects with a dedicated Featured Project section that appears at the top of the Projects area. AI-BOARD is prominently showcased as the featured project, demonstrating AI-powered project management capabilities.
 
-**AI-BOARD Project**:
-- Displayed with highest priority (displayOrder: 1) in the projects section
+**Featured Project Display**:
+- Dedicated hero-style section at the top of the Projects section
+- Large horizontal card layout with prominent imagery and content
+- Displays project image (16:9 aspect ratio), title, description, and meta-narrative
+- Technology tags shown as interactive badges
+- Clear call-to-action button linking to live deployment
+- Responsive design: horizontal split on desktop (60/40 image/content), stacked vertical on mobile
+- Simple CSS-based fade-in animation on page load
+- Accessible with ARIA landmarks, semantic HTML, and keyboard navigation
+- Respects `prefers-reduced-motion` user preference
+
+**AI-BOARD Featured Project**:
+- Displayed with highest priority (displayOrder: 1) in the projects content collection
 - Showcases AI-powered features: automatic specification generation, task breakdown, implementation planning
 - Links to live deployment at https://ai-board-three.vercel.app/
 - Technologies: TypeScript, Claude API, Astro, GSAP
-- Meta-narrative: This portfolio itself was built using AI-BOARD's specification and planning tools
+- Meta-narrative: "This portfolio was built using AI-BOARD's specification and planning tools"
 - Footer attribution: "Powered by AI-BOARD" replaces generic framework credits
+- Data source: `src/content/projects/ai-board.md` (single source of truth)
 
 ### Professional Experience Timeline
 The portfolio displays a comprehensive professional experience timeline showcasing career progression over 14+ years. The Experience section presents positions in reverse chronological order with rich context including company names, roles, dates, key achievements, and associated technologies.

@@ -174,6 +174,65 @@ The single-page architecture includes an intelligent navigation system that trac
 - Sections allow natural overflow on smaller screens
 - Scroll progress bar visible on all screen sizes
 
+## Featured Project Section
+
+### AI-BOARD Showcase
+
+The Projects section begins with a dedicated Featured Project component that prominently showcases AI-BOARD, providing immediate visibility for the portfolio's flagship project.
+
+**Behavior**:
+- Displays as the first element in the Projects section, before the hex grid
+- Large hero-style card with horizontal layout (desktop) featuring image and content side-by-side
+- Fetches AI-BOARD project data from content collection using `getEntry("projects", "ai-board")`
+- Shows "Featured Project" label in top-left corner for visual differentiation
+- Displays project image with 16:9 aspect ratio, lazy loaded for performance
+- Content includes: title, description, meta-narrative, technology tags, and call-to-action button
+- Meta-narrative text: "This portfolio was built using AI-BOARD's specification and planning tools"
+- Technology tags rendered as interactive badges with primary color styling
+- External link opens in new tab with `rel="noopener noreferrer"` for security
+
+**Layout**:
+- Desktop (≥1024px): 60/40 split with image on left, content on right
+- Tablet (768px-1023px): 50/50 split for better balance
+- Mobile (≤767px): Stacked vertical layout with full-width image at top
+- Content section vertically centered on desktop for visual balance
+- Call-to-action button stretches full width on mobile for touch-friendly interaction
+
+**Visual Design**:
+- Background uses `--color-surface` with large border radius for card effect
+- Featured label uses uppercase text with primary accent color
+- Title styled with primary color and responsive clamp() sizing (1.5rem to 2rem)
+- Description uses secondary text color for hierarchy
+- Meta-narrative in italics with secondary accent color
+- Technology tags with semi-transparent primary background (15% opacity)
+- Call-to-action button with full interaction states (hover, focus, active)
+- Minimum 44px touch target height for accessibility
+
+**Animation**:
+- Simple CSS-based fade-in animation on page load
+- Starts with opacity: 0 and translateY(20px)
+- Transitions to visible state using requestAnimationFrame
+- 0.6s duration with ease-out easing for smooth reveal
+- Respects `prefers-reduced-motion` (instant reveal with no animation)
+- Progressive enhancement: visible immediately if JavaScript fails
+
+**Accessibility**:
+- Semantic HTML using `<article>` element with `aria-labelledby`
+- Technologies list uses `<ul>` with `aria-label="Technologies used"`
+- Call-to-action has descriptive `aria-label` mentioning new tab behavior
+- Decorative arrow icon marked with `aria-hidden="true"`
+- Full keyboard navigation with visible focus indicators
+- Image uses descriptive alt text from content collection
+- Lazy loading with `loading="lazy"` and `decoding="async"` attributes
+
+**Performance**:
+- Minimal JavaScript footprint (~50 bytes for fade-in)
+- GPU-accelerated properties (opacity, transform) for 60fps animation
+- Image lazy loaded to reduce initial page weight
+- No complex DOM manipulation or text splitting
+- Component-scoped CSS with no global impact
+- Static data fetching at build time (no runtime API calls)
+
 ## Experience Timeline Section
 
 ### Professional Experience Display

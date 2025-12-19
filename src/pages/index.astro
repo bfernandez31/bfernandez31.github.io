@@ -3,6 +3,7 @@ import PageLayout from "../layouts/PageLayout.astro";
 import Hero from "../components/sections/Hero.astro";
 import AboutIDE from "../components/sections/AboutIDE.astro";
 import Experience from "../components/sections/Experience.astro";
+import FeaturedProject from "../components/sections/FeaturedProject.astro";
 import ProjectsHexGrid from "../components/sections/ProjectsHexGrid.astro";
 import ExpertiseMatrix from "../components/sections/ExpertiseMatrix.astro";
 import ContactProtocol from "../components/sections/ContactProtocol.astro";
@@ -128,6 +129,7 @@ const jsonLd: JSONLDStructuredData = {
 		role="region"
 		aria-label="Projects section showcasing portfolio work"
 	>
+		<FeaturedProject />
 		<ProjectsHexGrid />
 	</section>
 
