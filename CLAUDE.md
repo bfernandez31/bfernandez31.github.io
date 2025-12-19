@@ -25,6 +25,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - N/A (static site, no persistence) (PBF-22-fix-the-first)
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), Content Collections (Zod validation) (PBF-23-featured-project)
 - Markdown files via Astro Content Collections (src/content/projects/) (PBF-23-featured-project)
+- TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), Content Collections (Zod validation), GSAP 3.13.0 (animations) (PBF-24-featured-project)
+- Static Markdown files via Astro Content Collections (`src/content/projects/`) (PBF-24-featured-project)
 
 ## Project Structure
 ```
@@ -486,6 +488,7 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
+- PBF-24-featured-project: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), Content Collections (Zod validation), GSAP 3.13.0 (animations)
 - PBF-23-featured-project: Added AI-BOARD as featured project and updated footer attribution
   - Created AI-BOARD project entry in src/content/projects/ai-board.md with displayOrder: 1 (highest priority)
   - AI-BOARD showcases AI-powered project management: specification generation, task breakdown, implementation planning
@@ -519,7 +522,6 @@ try {
     - prefers-reduced-motion support for hero fade-in (instant reveal)
     - Text visible to screen readers without complex DOM manipulation
     - GPU-accelerated properties (opacity, transform) for smooth performance
-- PBF-21-experience-pro: Added professional experience timeline section and updated skills filtering
   - Created new Experience section as 3rd section in single-page layout (between About and Projects)
   - Updated navigation from 5 to 6 sections: #hero, #about, #experience, #projects, #expertise, #contact
   - Created src/types/experience.ts TypeScript interface for Experience entity
