@@ -5,7 +5,7 @@ image: "/images/projects/data-visualization.webp"
 imageAlt: "3D globe visualization showing climate data patterns and temperature anomalies"
 technologies: ["D3.js", "Three.js", "Python", "FastAPI", "WebGL"]
 featured: false
-displayOrder: 3
+displayOrder: 4
 githubUrl: "https://github.com/username/climate-dashboard"
 externalUrl: "https://climate.example.com"
 startDate: 2023-09-10

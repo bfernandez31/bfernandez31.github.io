@@ -5,7 +5,7 @@ image: "/images/projects/ecommerce-platform.webp"
 imageAlt: "E-commerce platform dashboard showing product catalog and analytics"
 technologies: ["React", "Node.js", "PostgreSQL", "Redis", "Stripe"]
 featured: true
-displayOrder: 2
+displayOrder: 3
 githubUrl: "https://github.com/username/ecommerce-platform"
 externalUrl: "https://shop.example.com"
 startDate: 2023-11-20

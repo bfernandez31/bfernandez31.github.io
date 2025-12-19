@@ -5,7 +5,7 @@ image: "/images/projects/mobile-app.webp"
 imageAlt: "Mobile fitness app interface showing workout tracking and AI recommendations"
 technologies: ["React Native", "TypeScript", "Firebase", "TensorFlow Lite"]
 featured: false
-displayOrder: 4
+displayOrder: 5
 githubUrl: "https://github.com/username/fitness-app"
 externalUrl: "https://apps.apple.com/fitness-example"
 startDate: 2023-07-15
