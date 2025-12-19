@@ -16,9 +16,10 @@ The portfolio uses Astro's content collections system for type-safe content mana
 The portfolio highlights select projects with a dedicated Featured Project section that appears at the top of the Projects area. AI-BOARD is prominently showcased as the featured project, demonstrating AI-powered project management capabilities.
 
 **Featured Project Display**:
-- Dedicated hero-style section at the top of the Projects section
+- Dedicated hero-style section at the top of the Projects section with clear "Projects" section title
 - Large horizontal card layout with prominent imagery and content
-- Displays project image (16:9 aspect ratio), title, description, and meta-narrative
+- Displays project image (16:9 aspect ratio) with gradient fallback for broken images
+- Shows project title, description, meta-narrative, technology tags, and call-to-action button
 - Technology tags shown as interactive badges
 - Clear call-to-action button linking to live deployment
 - Responsive design with optimized visual hierarchy:
@@ -26,6 +27,7 @@ The portfolio highlights select projects with a dedicated Featured Project secti
   - **Tablet (768-1023px)**: Horizontal split with 50/50 image-to-content ratio
   - **Mobile (<768px)**: Vertical stacked layout with content-first ordering (label → title/description/tags → image)
 - Content-first mobile layout ensures visitors see project information before large preview image
+- Image fallback: Violet-to-rose gradient background displays if image fails to load
 - Simple CSS-based fade-in animation on page load
 - Accessible with ARIA landmarks, semantic HTML, and keyboard navigation
 - Respects `prefers-reduced-motion` user preference

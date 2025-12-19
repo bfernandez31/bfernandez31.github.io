@@ -30,6 +30,7 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, GSAP 3.13.0, CSS Custom Properties (PBF-26-copy-of-featured)
 - N/A (static site, Markdown via Astro Content Collections) (PBF-26-copy-of-featured)
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, CSS Custom Properties (PBF-27-featured-project-issue)
+- N/A (static site, CSS-only image fallback) (PBF-27-featured-project-issue)
 
 ## Project Structure
 ```
@@ -152,6 +153,14 @@ bun test --watch         # Run tests in watch mode
 - **Always** use `var(--transition-color)` for color transitions (respects reduced motion)
 - Prefer component-scoped styles over global styles
 - Use semantic color tokens (primary, secondary) not color names (violet, rose)
+
+### Image Fallback Pattern
+- **Always** provide CSS gradient fallback for images that may fail to load
+- Use gradient background on image wrapper element: `background: linear-gradient(135deg, var(--color-primary), var(--color-secondary))`
+- Image displays over gradient when loaded successfully
+- If image fails, gradient provides visual consistency with brand colors
+- Zero JavaScript required - pure CSS solution
+- Example: FeaturedProject component image wrapper
 
 ### Performance Best Practices
 - **Zero JavaScript by default** (Astro Islands architecture)
@@ -491,7 +500,19 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
-- PBF-27-featured-project-issue: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, CSS Custom Properties
+- PBF-27-featured-project-issue: Fixed Projects section layout and image fallback
+  - **FIXED**: Section title ordering - added unified "Projects" h2 title in src/pages/index.astro before FeaturedProject component
+  - Changed ProjectsHexGrid title from h2 "Featured Projects" to h3 "More Projects" for proper heading hierarchy
+  - Ensures correct visual hierarchy across all viewport sizes (mobile/tablet/desktop)
+  - **ADDED**: CSS gradient fallback for broken project images in FeaturedProject component
+  - Image wrapper displays `linear-gradient(135deg, var(--color-primary), var(--color-secondary))` when image fails to load
+  - Zero JavaScript - pure CSS solution for image fallback
+  - Gradient provides visual consistency with brand colors (violet-to-rose theme)
+  - Image displays over gradient when loaded successfully
+  - Tested across all breakpoints: mobile (≤767px), tablet (768-1023px), desktop (≥1024px)
+  - No new dependencies or technologies added (CSS-only fix)
+  - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, CSS Custom Properties
+  - N/A (static site, CSS-only image fallback)
 - PBF-26-copy-of-featured: Added TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, GSAP 3.13.0, CSS Custom Properties
 - PBF-24-featured-project: Created FeaturedProject section component for AI-BOARD showcase
   - Built dedicated hero-style component (src/components/sections/FeaturedProject.astro) to prominently display AI-BOARD

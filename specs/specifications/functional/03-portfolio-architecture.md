@@ -178,14 +178,21 @@ The single-page architecture includes an intelligent navigation system that trac
 
 ### AI-BOARD Showcase
 
-The Projects section begins with a dedicated Featured Project component that prominently showcases AI-BOARD, providing immediate visibility for the portfolio's flagship project.
+The Projects section begins with a clear section title followed by a dedicated Featured Project component that prominently showcases AI-BOARD, providing immediate visibility for the portfolio's flagship project.
+
+**Section Structure**:
+- Projects section starts with a unified "Projects" h2 section title
+- FeaturedProject component follows immediately after the section title
+- ProjectsHexGrid component displays with "More Projects" h3 subtitle for proper heading hierarchy
+- This ordering ensures correct visual hierarchy across all viewport sizes
 
 **Behavior**:
-- Displays as the first element in the Projects section, before the hex grid
+- Displays as the first card element in the Projects section, after the section title
 - Large hero-style card with horizontal layout (desktop) featuring image and content side-by-side
 - Fetches AI-BOARD project data from content collection using `getEntry("projects", "ai-board")`
 - Shows "Featured Project" label in top-left corner for visual differentiation
 - Displays project image with 16:9 aspect ratio, lazy loaded for performance
+- Image wrapper includes gradient fallback (violet-to-rose) that displays when image fails to load
 - Content includes: title, description, meta-narrative, technology tags, and call-to-action button
 - Meta-narrative text: "This portfolio was built using AI-BOARD's specification and planning tools"
 - Technology tags rendered as interactive badges with primary color styling
@@ -209,6 +216,8 @@ The Projects section begins with a dedicated Featured Project component that pro
 - Technology tags with semi-transparent primary background (15% opacity)
 - Call-to-action button with full interaction states (hover, focus, active)
 - Minimum 44px touch target height for accessibility
+- Image wrapper uses gradient fallback: `linear-gradient(135deg, var(--color-primary), var(--color-secondary))`
+- Gradient displays automatically when image fails to load, providing visual consistency
 
 **Animation**:
 - Simple CSS-based fade-in animation on page load
