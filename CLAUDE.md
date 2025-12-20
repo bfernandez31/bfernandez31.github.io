@@ -46,13 +46,9 @@ portfolio/
 - Smooth scroll powered by Lenis + GSAP ScrollTrigger
 - Deep linking with browser history management
 
-**Navigation Scripts** (order matters):
+**Navigation Scripts**:
 ```javascript
-initSmoothScroll();        // Initialize Lenis first
-initActiveNavigation();    // Updates active link state
-initNavigationLinks();     // Handles link clicks
-initNavigationHistory();   // Deep linking + back/forward
-initNavigationDots();      // Syncs navigation dots
+initTuiNavigation();       // Unified TUI navigation (scroll detection, click handlers, history)
 ```
 
 ## TUI (Terminal User Interface) Architecture
@@ -131,11 +127,11 @@ bun test                 # Run tests
 - Clean up on unmount: `astro:before-swap` event
 
 ### Lenis Smooth Scroll
-- Initialize with `initSmoothScroll()` before navigation scripts
+- Initialized automatically by `initTuiNavigation()`
 - easeOutCubic easing (0.6s duration)
 - Disabled on LOW tier devices
 - Exposed on `window.lenis`
-- Check `prefersReducedMotion()` before initialization
+- Checks `prefersReducedMotion()` before initialization
 
 ### TUI Typing Animation
 - GSAP TextPlugin for character-by-character reveal
