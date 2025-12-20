@@ -18,7 +18,7 @@
 			"id": "angular",
 			"name": "Angular",
 			"category": "frontend",
-			"proficiencyLevel": 4,
+			"proficiencyLevel": 5,
 			"yearsExperience": 10,
 			"relatedProjects": [],
 			"icon": "angular"
@@ -27,7 +27,7 @@
 			"id": "javascript",
 			"name": "JavaScript",
 			"category": "frontend",
-			"proficiencyLevel": 4,
+			"proficiencyLevel": 5,
 			"yearsExperience": 15,
 			"relatedProjects": [],
 			"icon": "javascript"
@@ -36,7 +36,7 @@
 			"id": "typescript",
 			"name": "TypeScript",
 			"category": "frontend",
-			"proficiencyLevel": 4,
+			"proficiencyLevel": 5,
 			"yearsExperience": 8,
 			"relatedProjects": [],
 			"icon": "typescript"
@@ -63,14 +63,14 @@
 			"id": "java",
 			"name": "Java",
 			"category": "backend",
-			"proficiencyLevel": 3,
+			"proficiencyLevel": 4,
 			"yearsExperience": 15,
 			"relatedProjects": [],
 			"icon": "java"
 		},
 		{
-			"id": "spring-boot",
-			"name": "Spring Boot",
+			"id": "spring",
+			"name": "Spring Boot/Security/Batch",
 			"category": "backend",
 			"proficiencyLevel": 3,
 			"yearsExperience": 8,
@@ -78,13 +78,40 @@
 			"icon": "spring"
 		},
 		{
-			"id": "spring-security",
-			"name": "Spring Security",
+			"id": "nodejs",
+			"name": "Node.js",
 			"category": "backend",
 			"proficiencyLevel": 3,
-			"yearsExperience": 6,
+			"yearsExperience": 2,
 			"relatedProjects": [],
-			"icon": "spring"
+			"icon": "nodejs"
+		},
+		{
+			"id": "nextjs",
+			"name": "Next.js",
+			"category": "backend",
+			"proficiencyLevel": 3,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "nextjs"
+		},
+		{
+			"id": "nestjs",
+			"name": "Nest.js",
+			"category": "backend",
+			"proficiencyLevel": 3,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "nestjs"
+		},
+		{
+			"id": "zig",
+			"name": "Zig",
+			"category": "backend",
+			"proficiencyLevel": 3,
+			"yearsExperience": 2,
+			"relatedProjects": [],
+			"icon": "zig"
 		},
 		{
 			"id": "postgresql",
@@ -94,15 +121,6 @@
 			"yearsExperience": 10,
 			"relatedProjects": [],
 			"icon": "postgresql"
-		},
-		{
-			"id": "spring-batch",
-			"name": "Spring Batch",
-			"category": "backend",
-			"proficiencyLevel": 3,
-			"yearsExperience": 3,
-			"relatedProjects": [],
-			"icon": "spring"
 		},
 		{
 			"id": "cicd",
@@ -132,24 +150,6 @@
 			"icon": "css"
 		},
 		{
-			"id": "i18n",
-			"name": "i18n",
-			"category": "frontend",
-			"proficiencyLevel": 3,
-			"yearsExperience": 4,
-			"relatedProjects": [],
-			"icon": "i18n"
-		},
-		{
-			"id": "sass",
-			"name": "Sass",
-			"category": "frontend",
-			"proficiencyLevel": 3,
-			"yearsExperience": 5,
-			"relatedProjects": [],
-			"icon": "sass"
-		},
-		{
 			"id": "confluence-jira",
 			"name": "Confluence-JIRA",
 			"category": "tools",
@@ -175,33 +175,6 @@
 			"yearsExperience": 4,
 			"relatedProjects": [],
 			"icon": "swagger"
-		},
-		{
-			"id": "rest",
-			"name": "REST",
-			"category": "backend",
-			"proficiencyLevel": 3,
-			"yearsExperience": 5,
-			"relatedProjects": [],
-			"icon": "rest"
-		},
-		{
-			"id": "restful",
-			"name": "RESTful",
-			"category": "backend",
-			"proficiencyLevel": 3,
-			"yearsExperience": 5,
-			"relatedProjects": [],
-			"icon": "rest"
-		},
-		{
-			"id": "jquery",
-			"name": "jQuery",
-			"category": "frontend",
-			"proficiencyLevel": 3,
-			"yearsExperience": 6,
-			"relatedProjects": [],
-			"icon": "jquery"
 		},
 		{
 			"id": "redis",
@@ -267,15 +240,6 @@
 			"icon": "design"
 		},
 		{
-			"id": "jhipster",
-			"name": "JHipster",
-			"category": "backend",
-			"proficiencyLevel": 2,
-			"yearsExperience": 2,
-			"relatedProjects": [],
-			"icon": "jhipster"
-		},
-		{
 			"id": "oracle-database",
 			"name": "Oracle Database",
 			"category": "database",
@@ -292,15 +256,6 @@
 			"yearsExperience": 2,
 			"relatedProjects": [],
 			"icon": "design"
-		},
-		{
-			"id": "kibana",
-			"name": "Kibana",
-			"category": "devops",
-			"proficiencyLevel": 2,
-			"yearsExperience": 2,
-			"relatedProjects": [],
-			"icon": "kibana"
 		},
 		{
 			"id": "sonar",
@@ -328,15 +283,6 @@
 			"yearsExperience": 2,
 			"relatedProjects": [],
 			"icon": "storybook"
-		},
-		{
-			"id": "devops",
-			"name": "DevOps",
-			"category": "devops",
-			"proficiencyLevel": 2,
-			"yearsExperience": 3,
-			"relatedProjects": [],
-			"icon": "devops"
 		},
 		{
 			"id": "uml",
@@ -670,15 +616,6 @@
 			"yearsExperience": 1,
 			"relatedProjects": [],
 			"icon": "gcp"
-		},
-		{
-			"id": "zag",
-			"name": "Zag",
-			"category": "frontend",
-			"proficiencyLevel": 2,
-			"yearsExperience": 1,
-			"relatedProjects": [],
-			"icon": "zag"
 		}
 	]
 }

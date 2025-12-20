@@ -20,7 +20,7 @@ projects.sort((a, b) => {
   <div class="tui-telescope__header">
     <span class="tui-telescope__title">
       <span class="tui-telescope__icon" aria-hidden="true"></span>
-      Telescope: Projects
+      Projects
     </span>
     <span class="tui-telescope__hint">
       <kbd>j</kbd>/<kbd>k</kbd> navigate • <kbd>Enter</kbd> select
@@ -419,16 +419,15 @@ projects.sort((a, b) => {
   /* Desktop layout */
   @media (min-width: 1024px) {
     .tui-telescope__content {
-      flex-direction: row;
+      flex-direction: column;
     }
 
     .tui-telescope__results {
-      flex: 2;
+      flex: 1;
     }
 
     .tui-telescope__preview {
-      display: block;
-      flex: 1;
+      display: none;
     }
   }
 
