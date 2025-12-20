@@ -198,6 +198,38 @@ All components default to mobile layout without media queries. Larger viewports 
 
 ## Component-Specific Patterns
 
+### TUI Layout Component
+
+**Responsive Behavior**:
+
+| Viewport | Sidebar | Content Layout | Toggle Button |
+|----------|---------|----------------|---------------|
+| Mobile (<768px) | Hidden overlay | Full-width | Visible |
+| Tablet (768-1023px) | Collapsible overlay | Full-width when collapsed | Visible |
+| Desktop (≥1024px) | Side-by-side grid | Grid column layout | Hidden |
+
+**CSS Implementation**: `src/components/layout/TuiLayout.astro` (structure) + `src/styles/tui/layout.css` (grid layout)
+
+**Key Features**:
+- CSS Grid layout for desktop side-by-side display
+- Sidebar width: 200-250px (minmax) on desktop
+- Content fills remaining space (1fr grid column)
+- Grid areas: topbar, sidebar, content, statusline, commandline
+- Mobile/tablet: Sidebar becomes full-width overlay
+- Component-scoped styles handle only visual properties (colors, fonts)
+- Global grid layout defined in `layout.css` for separation of concerns
+
+**Architecture Pattern**:
+- **Global Grid Definition** (`layout.css`): Controls layout structure and grid template
+- **Scoped Component Styles** (`TuiLayout.astro`): Controls visual properties (colors, fonts, sizing)
+- Scoped styles intentionally avoid `display: grid` and `grid-template-*` to prevent conflicts
+- Grid areas defined globally, allowing sidebar and content to participate in grid layout
+
+**Common Pitfall**:
+- **Issue**: Adding `display: grid` or `grid-template-*` properties in component-scoped styles can override global grid layout
+- **Solution**: Keep grid layout properties in global CSS, use only visual properties in scoped styles
+- **Fixed**: PBF-33 removed conflicting scoped grid properties, allowing global grid layout to function correctly
+
 ### FeaturedProject Component
 
 **Responsive Behavior**:

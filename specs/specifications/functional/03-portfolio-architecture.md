@@ -31,10 +31,11 @@ The portfolio uses a comprehensive TUI (Terminal User Interface) layout that wra
 - URL hash updates reflect current section (#hero, #about, etc.)
 
 **Responsive Behavior**:
-- Desktop (≥1024px): Full TUI layout with visible sidebar (~200-250px width)
-- Tablet (768-1023px): Collapsible sidebar with toggle button
+- Desktop (≥1024px): Full TUI layout with sidebar and content side-by-side using CSS Grid (~200-250px sidebar width)
+- Tablet (768-1023px): Collapsible sidebar with toggle button, content expands to full width when collapsed
 - Mobile (<768px): Hidden sidebar accessible via toggle, full-width overlay when open
 - Sidebar auto-closes after navigation on mobile/tablet
+- Grid layout ensures no overlap between sidebar and content on desktop viewports
 
 **State Synchronization**:
 When active section changes:
@@ -58,7 +59,14 @@ When active section changes:
 - Minimal Nerd Font icon subset (~2-4KB for 4 icons)
 - CSS-only syntax highlighting (~4KB)
 - Typing animation uses GSAP TextPlugin (~3KB)
+- CSS Grid layout with zero JavaScript overhead for layout
 - Total TUI overhead: ~50KB including fonts
+
+**Layout Architecture**:
+- **Global Grid Definition** (`src/styles/tui/layout.css`): Controls grid structure with `grid-template-columns: minmax(200px, 250px) 1fr` on desktop
+- **Component Structure** (`src/components/layout/TuiLayout.astro`): Provides semantic HTML and visual styling
+- **Separation of Concerns**: Grid layout properties managed globally, component-scoped styles handle only visual properties (colors, fonts, sizing)
+- **Grid Areas**: Named grid areas (topbar, sidebar, content, statusline, commandline) allow flexible positioning without wrapper elements
 
 ## Hero Section
 
