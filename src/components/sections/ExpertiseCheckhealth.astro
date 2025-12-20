@@ -9,38 +9,38 @@ import skillsData from "../../data/skills.json";
 
 // Sort categories by display order
 const categories = [...skillsData.categories].sort(
-  (a, b) => a.displayOrder - b.displayOrder,
+	(a, b) => a.displayOrder - b.displayOrder,
 );
 
 // Group skills by category, filtering for proficiencyLevel >= 2
 const skillsByCategory = categories
-  .map((category) => ({
-    ...category,
-    skills: skillsData.skills
-      .filter(
-        (skill) =>
-          skill.category === category.id && skill.proficiencyLevel >= 2,
-      )
-      .sort((a, b) => b.proficiencyLevel - a.proficiencyLevel),
-  }))
-  .filter((category) => category.skills.length > 0);
+	.map((category) => ({
+		...category,
+		skills: skillsData.skills
+			.filter(
+				(skill) =>
+					skill.category === category.id && skill.proficiencyLevel >= 2,
+			)
+			.sort((a, b) => b.proficiencyLevel - a.proficiencyLevel),
+	}))
+	.filter((category) => category.skills.length > 0);
 
 /**
  * Get status based on proficiency level
  */
 function getStatus(level: number): { label: string; class: string } {
-  if (level >= 4) return { label: 'OK', class: 'ok' };
-  if (level >= 3) return { label: 'WARN', class: 'warn' };
-  return { label: 'INFO', class: 'info' };
+	if (level >= 4) return { label: "OK", class: "ok" };
+	if (level >= 3) return { label: "WARN", class: "warn" };
+	return { label: "INFO", class: "info" };
 }
 
 /**
  * Get progress bar fill
  */
 function getProgressBar(level: number): string {
-  const filled = '█'.repeat(level);
-  const empty = '░'.repeat(5 - level);
-  return filled + empty;
+	const filled = "█".repeat(level);
+	const empty = "░".repeat(5 - level);
+	return filled + empty;
 }
 ---
 

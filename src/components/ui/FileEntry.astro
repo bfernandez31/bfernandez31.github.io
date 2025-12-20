@@ -6,22 +6,28 @@
  * Sidebar file entry for NvimTree-style navigation
  */
 
-import type { SectionId } from '../../types/tui';
+import type { SectionId } from "../../types/tui";
 
 interface Props {
-  /** Section ID this file navigates to */
-  sectionId: SectionId;
-  /** File name to display */
-  fileName: string;
-  /** Nerd Font icon character */
-  icon: string;
-  /** Whether this file is currently active */
-  isActive?: boolean;
-  /** Additional CSS class */
-  class?: string;
+	/** Section ID this file navigates to */
+	sectionId: SectionId;
+	/** File name to display */
+	fileName: string;
+	/** Nerd Font icon character */
+	icon: string;
+	/** Whether this file is currently active */
+	isActive?: boolean;
+	/** Additional CSS class */
+	class?: string;
 }
 
-const { sectionId, fileName, icon, isActive = false, class: className } = Astro.props;
+const {
+	sectionId,
+	fileName,
+	icon,
+	isActive = false,
+	class: className,
+} = Astro.props;
 ---
 
 <a

@@ -7,15 +7,15 @@
  */
 
 interface Props {
-  /** Command prompt character */
-  prompt?: ':' | '/' | '?';
-  /** Command content to display */
-  content?: string;
-  /** Whether command line is visible */
-  isVisible?: boolean;
+	/** Command prompt character */
+	prompt?: ":" | "/" | "?";
+	/** Command content to display */
+	content?: string;
+	/** Whether command line is visible */
+	isVisible?: boolean;
 }
 
-const { prompt = ':', content = '', isVisible = true } = Astro.props;
+const { prompt = ":", content = "", isVisible = true } = Astro.props;
 ---
 
 <div

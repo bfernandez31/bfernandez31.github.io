@@ -6,19 +6,19 @@
  * NvimTree-style file explorer sidebar
  */
 
-import FileEntry from '../ui/FileEntry.astro';
-import type { FileEntry as FileEntryType, SectionId } from '../../types/tui';
+import FileEntry from "../ui/FileEntry.astro";
+import type { FileEntry as FileEntryType, SectionId } from "../../types/tui";
 
 interface Props {
-  /** Array of file entries */
-  files: FileEntryType[];
-  /** Currently active section ID */
-  activeSectionId?: SectionId;
-  /** Additional CSS class */
-  class?: string;
+	/** Array of file entries */
+	files: FileEntryType[];
+	/** Currently active section ID */
+	activeSectionId?: SectionId;
+	/** Additional CSS class */
+	class?: string;
 }
 
-const { files, activeSectionId = 'hero', class: className } = Astro.props;
+const { files, activeSectionId = "hero", class: className } = Astro.props;
 ---
 
 <aside

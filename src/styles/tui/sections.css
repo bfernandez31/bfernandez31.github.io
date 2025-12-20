@@ -10,42 +10,42 @@
    ============================================ */
 
 .tui-section {
-  min-height: 100vh;
-  min-height: 100dvh;
-  padding: 2rem 0;
-  position: relative;
+	min-height: 100vh;
+	min-height: 100dvh;
+	padding: 2rem 0;
+	position: relative;
 }
 
 .tui-section:first-child {
-  padding-top: 0;
+	padding-top: 0;
 }
 
 /* Section header for titles */
 .tui-section__header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--color-surface-1);
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 1.5rem;
+	padding-bottom: 0.5rem;
+	border-bottom: 1px solid var(--color-surface-1);
 }
 
 .tui-section__icon {
-  font-family: var(--font-nerd);
-  color: var(--color-primary);
+	font-family: var(--font-nerd);
+	color: var(--color-primary);
 }
 
 .tui-section__title {
-  font-family: var(--font-mono);
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  margin: 0;
+	font-family: var(--font-mono);
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: var(--color-primary);
+	margin: 0;
 }
 
 /* Section content */
 .tui-section__content {
-  font-family: var(--font-mono);
+	font-family: var(--font-mono);
 }
 
 /* ============================================
@@ -53,30 +53,30 @@
    ============================================ */
 
 .tui-line-numbers {
-  display: flex;
-  flex-direction: column;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  line-height: 1.6;
-  color: var(--color-text-muted);
-  text-align: right;
-  padding-right: 0.5rem;
-  user-select: none;
-  pointer-events: none;
+	display: flex;
+	flex-direction: column;
+	font-family: var(--font-mono);
+	font-size: 0.75rem;
+	line-height: 1.6;
+	color: var(--color-text-muted);
+	text-align: right;
+	padding-right: 0.5rem;
+	user-select: none;
+	pointer-events: none;
 }
 
 .tui-line-numbers__line {
-  padding: 0 0.25rem;
+	padding: 0 0.25rem;
 }
 
 .tui-line-numbers__line--highlight {
-  color: var(--color-text);
-  background-color: var(--color-surface-1);
+	color: var(--color-text);
+	background-color: var(--color-surface-1);
 }
 
 .tui-line-numbers__line--current {
-  color: var(--color-primary);
-  font-weight: 700;
+	color: var(--color-primary);
+	font-weight: 700;
 }
 
 /* ============================================
@@ -85,37 +85,37 @@
 
 /* Hero: Typing animation section */
 .tui-section--hero {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: calc(100vh - 5rem);
-  padding: 2rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	min-height: calc(100vh - 5rem);
+	padding: 2rem;
 }
 
 /* About: README.md style */
 .tui-section--about {
-  /* Uses .tui-readme classes */
+	/* Uses .tui-readme classes */
 }
 
 /* Experience: git log style */
 .tui-section--experience {
-  /* Uses .tui-git-log classes */
+	/* Uses .tui-git-log classes */
 }
 
 /* Projects: Telescope/fzf style */
 .tui-section--projects {
-  /* Uses .tui-telescope classes */
+	/* Uses .tui-telescope classes */
 }
 
 /* Expertise: :checkhealth style */
 .tui-section--expertise {
-  /* Uses .tui-checkhealth classes */
+	/* Uses .tui-checkhealth classes */
 }
 
 /* Contact: Terminal style */
 .tui-section--contact {
-  /* Uses .tui-terminal classes */
+	/* Uses .tui-terminal classes */
 }
 
 /* ============================================
@@ -123,13 +123,13 @@
    ============================================ */
 
 .tui-section + .tui-section {
-  border-top: 1px dashed var(--color-surface-2);
+	border-top: 1px dashed var(--color-surface-2);
 }
 
 .tui-section__divider {
-  height: 1px;
-  background-color: var(--color-surface-1);
-  margin: 2rem 0;
+	height: 1px;
+	background-color: var(--color-surface-1);
+	margin: 2rem 0;
 }
 
 /* ============================================
@@ -137,61 +137,63 @@
    ============================================ */
 
 .tui-hero__headline {
-  font-family: var(--font-mono);
-  font-size: clamp(1.5rem, 4vw, 3rem);
-  font-weight: 700;
-  color: var(--color-text);
-  margin: 0 0 1rem;
-  line-height: 1.2;
+	font-family: var(--font-mono);
+	font-size: clamp(1.5rem, 4vw, 3rem);
+	font-weight: 700;
+	color: var(--color-text);
+	margin: 0 0 1rem;
+	line-height: 1.2;
 }
 
 .tui-hero__subheadline {
-  font-family: var(--font-mono);
-  font-size: clamp(1rem, 2vw, 1.5rem);
-  color: var(--color-text-muted);
-  margin: 0 0 2rem;
-  line-height: 1.4;
+	font-family: var(--font-mono);
+	font-size: clamp(1rem, 2vw, 1.5rem);
+	color: var(--color-text-muted);
+	margin: 0 0 2rem;
+	line-height: 1.4;
 }
 
 .tui-hero__cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  font-family: var(--font-mono);
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--color-background);
-  background-color: var(--color-primary);
-  border: none;
-  border-radius: 0.25rem;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background-color 0.15s ease, transform 0.15s ease;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.75rem 1.5rem;
+	font-family: var(--font-mono);
+	font-size: 1rem;
+	font-weight: 700;
+	color: var(--color-background);
+	background-color: var(--color-primary);
+	border: none;
+	border-radius: 0.25rem;
+	text-decoration: none;
+	cursor: pointer;
+	transition:
+		background-color 0.15s ease,
+		transform 0.15s ease;
 }
 
 .tui-hero__cta:hover {
-  background-color: var(--color-secondary);
-  transform: translateY(-2px);
+	background-color: var(--color-secondary);
+	transform: translateY(-2px);
 }
 
 .tui-hero__cta:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+	outline: 2px solid var(--color-primary);
+	outline-offset: 2px;
 }
 
 .tui-hero__cta:active {
-  transform: translateY(0);
+	transform: translateY(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tui-hero__cta {
-    transition: none;
-  }
+	.tui-hero__cta {
+		transition: none;
+	}
 
-  .tui-hero__cta:hover {
-    transform: none;
-  }
+	.tui-hero__cta:hover {
+		transform: none;
+	}
 }
 
 /* ============================================
@@ -199,60 +201,60 @@
    ============================================ */
 
 @media (max-width: 767px) {
-  .tui-section {
-    padding: 1rem 0;
-  }
+	.tui-section {
+		padding: 1rem 0;
+	}
 
-  .tui-section--hero {
-    padding: 1rem;
-  }
+	.tui-section--hero {
+		padding: 1rem;
+	}
 
-  .tui-line-numbers {
-    font-size: 0.625rem;
-  }
+	.tui-line-numbers {
+		font-size: 0.625rem;
+	}
 
-  .tui-section__title {
-    font-size: 1rem;
-  }
+	.tui-section__title {
+		font-size: 1rem;
+	}
 }
 
 /* Minimum viewport width (320px) */
 @media (max-width: 320px) {
-  .tui-section {
-    padding: 0.5rem 0;
-  }
+	.tui-section {
+		padding: 0.5rem 0;
+	}
 
-  .tui-section--hero {
-    padding: 0.5rem;
-    min-height: calc(100vh - 4rem);
-  }
+	.tui-section--hero {
+		padding: 0.5rem;
+		min-height: calc(100vh - 4rem);
+	}
 
-  .tui-hero__headline {
-    font-size: 1.25rem;
-  }
+	.tui-hero__headline {
+		font-size: 1.25rem;
+	}
 
-  .tui-hero__subheadline {
-    font-size: 0.875rem;
-    margin-bottom: 1rem;
-  }
+	.tui-hero__subheadline {
+		font-size: 0.875rem;
+		margin-bottom: 1rem;
+	}
 
-  .tui-hero__cta {
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-  }
+	.tui-hero__cta {
+		padding: 0.5rem 1rem;
+		font-size: 0.875rem;
+	}
 
-  .tui-section__header {
-    margin-bottom: 1rem;
-  }
+	.tui-section__header {
+		margin-bottom: 1rem;
+	}
 
-  .tui-section__title {
-    font-size: 0.875rem;
-  }
+	.tui-section__title {
+		font-size: 0.875rem;
+	}
 }
 
 /* Prevent horizontal overflow on all viewports */
 .tui-section,
 .tui-section__content {
-  overflow-x: hidden;
-  max-width: 100%;
+	overflow-x: hidden;
+	max-width: 100%;
 }

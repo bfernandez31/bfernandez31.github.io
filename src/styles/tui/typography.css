@@ -10,27 +10,29 @@
    ============================================ */
 
 @font-face {
-  font-family: 'JetBrains Mono';
-  src: url('/fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2122, U+2212, U+2215, U+FEFF, U+FFFD;
+	font-family: "JetBrains Mono";
+	src: url("/fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+	unicode-range:
+		U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2122, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
-  font-family: 'JetBrains Mono';
-  src: url('/fonts/jetbrains-mono-latin-700-normal.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2122, U+2212, U+2215, U+FEFF, U+FFFD;
+	font-family: "JetBrains Mono";
+	src: url("/fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+	unicode-range:
+		U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2122, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
-  font-family: 'NerdIcons';
-  src: url('/fonts/nerd-icons-subset.woff2') format('woff2');
-  font-display: swap;
+	font-family: "NerdIcons";
+	src: url("/fonts/nerd-icons-subset.woff2") format("woff2");
+	font-display: swap;
 }
 
 /* ============================================
@@ -38,8 +40,10 @@
    ============================================ */
 
 :root {
-  --font-mono: 'JetBrains Mono', 'Fira Code', 'Menlo', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
-  --font-nerd: 'NerdIcons', monospace;
+	--font-mono:
+		"JetBrains Mono", "Fira Code", "Menlo", "Consolas", "Liberation Mono",
+		"Courier New", monospace;
+	--font-nerd: "NerdIcons", monospace;
 }
 
 /* ============================================
@@ -47,29 +51,29 @@
    ============================================ */
 
 .tui-text {
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
-  line-height: 1.6;
+	font-family: var(--font-mono);
+	font-size: 0.875rem;
+	line-height: 1.6;
 }
 
 .tui-text--sm {
-  font-size: 0.75rem;
+	font-size: 0.75rem;
 }
 
 .tui-text--lg {
-  font-size: 1rem;
+	font-size: 1rem;
 }
 
 .tui-text--xl {
-  font-size: 1.25rem;
+	font-size: 1.25rem;
 }
 
 .tui-text--bold {
-  font-weight: 700;
+	font-weight: 700;
 }
 
 .tui-text--muted {
-  color: var(--color-text-muted);
+	color: var(--color-text-muted);
 }
 
 /* ============================================
@@ -77,31 +81,33 @@
    ============================================ */
 
 .typewriter-cursor {
-  display: inline-block;
-  width: 1ch;
-  color: var(--color-primary);
-  animation: none; /* Controlled by GSAP */
+	display: inline-block;
+	width: 1ch;
+	color: var(--color-primary);
+	animation: none; /* Controlled by GSAP */
 }
 
 /* CSS fallback for cursor blink */
 @keyframes cursor-blink {
-  0%, 50% {
-    opacity: 1;
-  }
-  51%, 100% {
-    opacity: 0;
-  }
+	0%,
+	50% {
+		opacity: 1;
+	}
+	51%,
+	100% {
+		opacity: 0;
+	}
 }
 
 .typewriter-cursor--blink {
-  animation: cursor-blink 1.06s step-end infinite;
+	animation: cursor-blink 1.06s step-end infinite;
 }
 
 /* Reduced motion: no blink */
 @media (prefers-reduced-motion: reduce) {
-  .typewriter-cursor,
-  .typewriter-cursor--blink {
-    animation: none !important;
-    opacity: 1 !important;
-  }
+	.typewriter-cursor,
+	.typewriter-cursor--blink {
+		animation: none !important;
+		opacity: 1 !important;
+	}
 }

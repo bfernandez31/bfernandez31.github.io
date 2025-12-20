@@ -10,30 +10,43 @@ import type { ExperienceData } from "../../types/experience";
 
 // Sort by displayOrder (1 = most recent)
 const experiences = (experienceData as ExperienceData).experiences.sort(
-  (a, b) => a.displayOrder - b.displayOrder,
+	(a, b) => a.displayOrder - b.displayOrder,
 );
 
 /**
  * Generate a fake git commit hash from string
  */
 function generateHash(str: string): string {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash;
-  }
-  return Math.abs(hash).toString(16).padStart(7, '0').slice(0, 7);
+	let hash = 0;
+	for (let i = 0; i < str.length; i++) {
+		const char = str.charCodeAt(i);
+		hash = (hash << 5) - hash + char;
+		hash = hash & hash;
+	}
+	return Math.abs(hash).toString(16).padStart(7, "0").slice(0, 7);
 }
 
 /**
  * Format date for git log display
  */
 function formatGitDate(date: string): string {
-  const d = new Date(date);
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  return `${days[d.getDay()]} ${months[d.getMonth()]} ${d.getDate()} ${d.getFullYear()}`;
+	const d = new Date(date);
+	const months = [
+		"Jan",
+		"Feb",
+		"Mar",
+		"Apr",
+		"May",
+		"Jun",
+		"Jul",
+		"Aug",
+		"Sep",
+		"Oct",
+		"Nov",
+		"Dec",
+	];
+	const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+	return `${days[d.getDay()]} ${months[d.getMonth()]} ${d.getDate()} ${d.getFullYear()}`;
 }
 ---
 

@@ -121,4 +121,3 @@ export const PERFORMANCE_CONFIG = {
 export function getDeviceConfig(tier: DeviceTierLevel): DeviceTierConfig {
 	return DEVICE_TIER_CONFIGS[tier];
 }
-

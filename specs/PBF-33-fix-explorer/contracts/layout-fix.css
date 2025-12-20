@@ -15,15 +15,15 @@
    ============================================ */
 
 .tui-layout {
-  /* MUST define two-column grid for sidebar + content */
-  display: grid;
-  grid-template-rows: auto 1fr auto auto;
-  grid-template-columns: minmax(200px, 250px) 1fr; /* ← CRITICAL */
-  grid-template-areas:
-    "topbar  topbar"
-    "sidebar content"
-    "status  status"
-    "cmdline cmdline";
+	/* MUST define two-column grid for sidebar + content */
+	display: grid;
+	grid-template-rows: auto 1fr auto auto;
+	grid-template-columns: minmax(200px, 250px) 1fr; /* ← CRITICAL */
+	grid-template-areas:
+		"topbar  topbar"
+		"sidebar content"
+		"status  status"
+		"cmdline cmdline";
 }
 
 /* ============================================
@@ -31,14 +31,14 @@
    ============================================ */
 
 .tui-sidebar {
-  grid-area: sidebar;
-  /* Must NOT have position: fixed on desktop */
-  /* Must NOT have display: none on desktop */
+	grid-area: sidebar;
+	/* Must NOT have position: fixed on desktop */
+	/* Must NOT have display: none on desktop */
 }
 
 .tui-content {
-  grid-area: content;
-  /* Must NOT be wrapped in a flex container that breaks grid */
+	grid-area: content;
+	/* Must NOT be wrapped in a flex container that breaks grid */
 }
 
 /* ============================================

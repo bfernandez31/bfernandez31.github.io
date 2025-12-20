@@ -10,21 +10,21 @@
    ============================================ */
 
 .tui-sidebar__header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.25rem 0.75rem;
-  margin-bottom: 0.5rem;
-  color: var(--color-text-muted);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.25rem 0.75rem;
+	margin-bottom: 0.5rem;
+	color: var(--color-text-muted);
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
 }
 
 .tui-sidebar__files {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 
 /* ============================================
@@ -32,75 +32,75 @@
    ============================================ */
 
 .tui-file-entry {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.25rem 0.75rem;
-  color: var(--color-text);
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background-color 0.15s ease;
-  border: none;
-  background: none;
-  width: 100%;
-  text-align: left;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.25rem 0.75rem;
+	color: var(--color-text);
+	font-family: var(--font-mono);
+	font-size: 0.875rem;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background-color 0.15s ease;
+	border: none;
+	background: none;
+	width: 100%;
+	text-align: left;
 }
 
 .tui-file-entry:hover {
-  background-color: var(--color-surface-1);
+	background-color: var(--color-surface-1);
 }
 
 .tui-file-entry:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: -2px;
-  background-color: var(--color-surface-1);
+	outline: 2px solid var(--color-primary);
+	outline-offset: -2px;
+	background-color: var(--color-surface-1);
 }
 
 /* Active state */
 .tui-file-entry.is-active {
-  background-color: var(--color-surface-2);
-  color: var(--color-primary);
-  font-weight: 700;
+	background-color: var(--color-surface-2);
+	color: var(--color-primary);
+	font-weight: 700;
 }
 
 .tui-file-entry.is-active::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background-color: var(--color-primary);
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 3px;
+	background-color: var(--color-primary);
 }
 
 /* File entry structure */
 .tui-file-entry__icon {
-  flex-shrink: 0;
-  width: 1rem;
-  font-family: var(--font-nerd);
-  color: var(--color-text-muted);
+	flex-shrink: 0;
+	width: 1rem;
+	font-family: var(--font-nerd);
+	color: var(--color-text-muted);
 }
 
 .tui-file-entry.is-active .tui-file-entry__icon {
-  color: var(--color-primary);
+	color: var(--color-primary);
 }
 
 .tui-file-entry__name {
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+	flex: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 /* File type colors (optional enhancement) */
 .tui-file-entry--tsx .tui-file-entry__icon {
-  color: var(--color-info);
+	color: var(--color-info);
 }
 
 .tui-file-entry--md .tui-file-entry__icon {
-  color: var(--color-success);
+	color: var(--color-success);
 }
 
 /* ============================================
@@ -108,26 +108,26 @@
    ============================================ */
 
 .tui-folder-entry {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.25rem 0.75rem;
-  color: var(--color-text-muted);
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
-  cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.25rem 0.75rem;
+	color: var(--color-text-muted);
+	font-family: var(--font-mono);
+	font-size: 0.875rem;
+	cursor: pointer;
 }
 
 .tui-folder-entry__icon {
-  flex-shrink: 0;
-  width: 1rem;
-  font-family: var(--font-nerd);
-  color: var(--color-warning);
+	flex-shrink: 0;
+	width: 1rem;
+	font-family: var(--font-nerd);
+	color: var(--color-warning);
 }
 
 .tui-folder-entry__name {
-  flex: 1;
-  font-weight: 700;
+	flex: 1;
+	font-weight: 700;
 }
 
 /* ============================================
@@ -135,11 +135,11 @@
    ============================================ */
 
 .tui-sidebar__footer {
-  margin-top: auto;
-  padding: 0.5rem 0.75rem;
-  border-top: 1px solid var(--color-surface-1);
-  color: var(--color-text-muted);
-  font-size: 0.75rem;
+	margin-top: auto;
+	padding: 0.5rem 0.75rem;
+	border-top: 1px solid var(--color-surface-1);
+	color: var(--color-text-muted);
+	font-size: 0.75rem;
 }
 
 /* ============================================
@@ -147,9 +147,9 @@
    ============================================ */
 
 .tui-file-entry[data-focused="true"] {
-  background-color: var(--color-surface-1);
-  outline: 1px dashed var(--color-primary);
-  outline-offset: -1px;
+	background-color: var(--color-surface-1);
+	outline: 1px dashed var(--color-primary);
+	outline-offset: -1px;
 }
 
 /* ============================================
@@ -157,7 +157,7 @@
    ============================================ */
 
 @media (prefers-reduced-motion: reduce) {
-  .tui-file-entry {
-    transition: none;
-  }
+	.tui-file-entry {
+		transition: none;
+	}
 }

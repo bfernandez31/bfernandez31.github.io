@@ -6,34 +6,34 @@
  * Neovim-style statusline at bottom of viewport
  */
 
-import type { VimMode } from '../../types/tui';
+import type { VimMode } from "../../types/tui";
 
 interface Props {
-  /** Vim mode indicator */
-  mode?: VimMode;
-  /** Active file name */
-  activeFile: string;
-  /** Current line number */
-  line?: number;
-  /** Current column number */
-  column?: number;
-  /** File type */
-  fileType?: string;
-  /** Git branch */
-  gitBranch?: string;
+	/** Vim mode indicator */
+	mode?: VimMode;
+	/** Active file name */
+	activeFile: string;
+	/** Current line number */
+	line?: number;
+	/** Current column number */
+	column?: number;
+	/** File type */
+	fileType?: string;
+	/** Git branch */
+	gitBranch?: string;
 }
 
 const {
-  mode = 'NORMAL',
-  activeFile,
-  line = 1,
-  column = 1,
-  fileType = 'typescriptreact',
-  gitBranch = 'main',
+	mode = "NORMAL",
+	activeFile,
+	line = 1,
+	column = 1,
+	fileType = "typescriptreact",
+	gitBranch = "main",
 } = Astro.props;
 
 // Calculate percentage (decorative)
-const percent = 'Top';
+const percent = "Top";
 ---
 
 <footer class="tui-statusline" role="status" aria-live="polite">

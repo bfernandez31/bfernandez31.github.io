@@ -7,30 +7,30 @@
  */
 
 type Props = {
-  /** Full text to type */
-  text: string;
-  /** Characters per second */
-  speed?: number;
-  /** Cursor character */
-  cursor?: string;
-  /** Start delay (seconds) */
-  delay?: number;
-  /** HTML tag to render */
-  as?: 'h1' | 'h2' | 'h3' | 'p' | 'span';
-  /** Additional CSS class */
-  class?: string;
-  /** Animation ID for chaining */
-  id?: string;
+	/** Full text to type */
+	text: string;
+	/** Characters per second */
+	speed?: number;
+	/** Cursor character */
+	cursor?: string;
+	/** Start delay (seconds) */
+	delay?: number;
+	/** HTML tag to render */
+	as?: "h1" | "h2" | "h3" | "p" | "span";
+	/** Additional CSS class */
+	class?: string;
+	/** Animation ID for chaining */
+	id?: string;
 };
 
 const {
-  text,
-  speed = 12.5,
-  cursor = '█',
-  delay = 0,
-  as: Tag = 'span',
-  class: className,
-  id,
+	text,
+	speed = 12.5,
+	cursor = "█",
+	delay = 0,
+	as: Tag = "span",
+	class: className,
+	id,
 } = Astro.props;
 ---
 
