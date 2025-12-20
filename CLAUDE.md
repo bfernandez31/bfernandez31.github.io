@@ -9,6 +9,8 @@
 - **Animation**: GSAP 3.13.0 + Lenis 1.0.42 (smooth scrolling and UI animations)
 - **Deployment**: GitHub Pages (automated via GitHub Actions)
 - **Data**: Static content (Markdown via Astro Content Collections, JSON data files)
+- TypeScript 5.9+ with Astro 5.15.3 + Astro, GSAP 3.13.0, Lenis 1.0.42 (PBF-41-about-rework)
+- N/A (static site, no data persistence) (PBF-41-about-rework)
 
 ## Project Structure
 ```
@@ -64,7 +66,7 @@ Terminal-inspired layout (Neovim/tmux aesthetic).
 
 **Section Styling**:
 - Hero: ASCII art name (box-drawing characters, ANSI Shadow style) with typewriter animation on subheadline
-- About: README.md style (markdown formatting)
+- About: README.md style (markdown formatting, displayed without header bar or border for clean file reading)
 - Experience: git log style (branch indicators, commits)
 - Projects: Telescope/fzf style (fuzzy finder aesthetic)
 - Expertise: `:checkhealth` style (OK/WARN/ERROR indicators)
