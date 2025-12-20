@@ -51,17 +51,19 @@ portfolio/
 
 **Structure**:
 - `layout/` - Structural components that define page structure
-  - Header, Footer (with "Powered by AI-BOARD" attribution), Navigation
-  - BurgerMenu (magnetic menu with neural pathway animations)
+  - TuiLayout, TopBar, Sidebar, StatusLine, CommandLine, Footer
 - `sections/` - Page-specific section components
-  - Hero (neural network canvas animation)
-  - FeaturedProject (AI-BOARD showcase with hero-style card layout, responsive flexbox ordering for mobile)
-  - Experience (professional experience timeline)
-  - AboutIDE, ProjectsHexGrid, ExpertiseMatrix, BlogCommits, ContactProtocol (planned)
+  - HeroTui (typewriter animation with blinking cursor)
+  - AboutReadme (README.md style formatting)
+  - ExperienceGitLog (git log style timeline)
+  - ProjectsTelescope (fuzzy finder aesthetic)
+  - ExpertiseCheckhealth (`:checkhealth` style matrix)
+  - ContactTerminal (terminal commands style)
+  - FeaturedProject (AI-BOARD showcase with hero-style card layout)
 - `ui/` - Generic UI elements
-  - Buttons, Cards, Modals
+  - BufferTab, FileEntry, LineNumbers, TypewriterText
+  - Button, Card, Modal
   - Forms, Inputs, Dropdowns
-  - ScrollProgress (scroll progress indicator)
 - `islands/` - Interactive components with client-side JavaScript
   - Framework-specific components (React, Vue, Svelte)
   - Hydrated with Astro's `client:*` directives
@@ -189,48 +191,44 @@ The portfolio uses a single-page layout where all main content is consolidated i
 ---
 // src/pages/index.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/sections/Hero.astro';
-import AboutIDE from '../components/sections/AboutIDE.astro';
-import Experience from '../components/sections/Experience.astro';
-import ProjectsHexGrid from '../components/sections/ProjectsHexGrid.astro';
-import ExpertiseMatrix from '../components/sections/ExpertiseMatrix.astro';
-import ContactProtocol from '../components/sections/ContactProtocol.astro';
+import HeroTui from '../components/sections/HeroTui.astro';
+import AboutReadme from '../components/sections/AboutReadme.astro';
+import ExperienceGitLog from '../components/sections/ExperienceGitLog.astro';
+import ProjectsTelescope from '../components/sections/ProjectsTelescope.astro';
+import ExpertiseCheckhealth from '../components/sections/ExpertiseCheckhealth.astro';
+import ContactTerminal from '../components/sections/ContactTerminal.astro';
 ---
 
 <BaseLayout title="Portfolio">
   <section id="hero" data-section="hero" class="portfolio-section portfolio-section--hero" role="main" aria-label="Hero section with introduction">
-    <Hero />
+    <HeroTui />
   </section>
 
   <section id="about" data-section="about" class="portfolio-section portfolio-section--about" role="region" aria-label="About section">
-    <AboutIDE />
+    <AboutReadme />
   </section>
 
   <section id="experience" data-section="experience" class="portfolio-section portfolio-section--experience" role="region" aria-label="Professional experience timeline">
-    <Experience />
+    <ExperienceGitLog />
   </section>
 
   <section id="projects" data-section="projects" class="portfolio-section portfolio-section--projects" role="region" aria-label="Projects showcase">
     <FeaturedProject />
-    <ProjectsHexGrid />
+    <ProjectsTelescope />
   </section>
 
   <section id="expertise" data-section="expertise" class="portfolio-section portfolio-section--expertise" role="region" aria-label="Expertise and skills">
-    <ExpertiseMatrix />
+    <ExpertiseCheckhealth />
   </section>
 
   <section id="contact" data-section="contact" class="portfolio-section portfolio-section--contact" role="region" aria-label="Contact information">
-    <ContactProtocol />
+    <ContactTerminal />
   </section>
 
   <script>
-    import { initActiveNavigation } from '@/scripts/active-navigation';
-    import { initNavigationLinks } from '@/scripts/navigation-links';
-    import { initNavigationHistory } from '@/scripts/navigation-history';
+    import { initTuiNavigation } from '@/scripts/tui-navigation';
 
-    initActiveNavigation();
-    initNavigationLinks();
-    initNavigationHistory();
+    initTuiNavigation();
   </script>
 </BaseLayout>
 ```
@@ -391,15 +389,11 @@ if (featured && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) 
 - `gsap-config.ts` - GSAP initialization and ScrollTrigger setup
 - `scroll-animations.ts` - Lenis smooth scroll integration
 - `accessibility.ts` - Focus management, keyboard navigation, motion preferences
-- `neural-network.ts` - Neural network Canvas animation class
-- `magnetic-menu.ts` - Magnetic effect utility for burger menu
-- `device-tier.ts` - Device capability detection and performance targeting
-- `performance.ts` - Frame rate monitoring and performance utilities
-- `active-navigation.ts` - Active section tracking with IntersectionObserver
-- `navigation-links.ts` - Navigation link click handler with smooth scroll
-- `navigation-history.ts` - Browser history and deep linking management
-- `navigation-dots.ts` - Vertical navigation dots synchronization
-- `scroll-progress.ts` - Scroll progress tracking and bar updates
+- `tui-navigation.ts` - TUI navigation system (active section tracking, smooth scroll, history management)
+- `performance/` - Performance utilities directory
+  - `device-tier.ts` - Device capability detection and performance targeting
+  - `performance-monitor.ts` - Frame rate monitoring and Core Web Vitals tracking
+  - `lazy-loader.ts` - Priority-based component loading
 
 **Conventions**:
 - Export named functions and classes
