@@ -386,11 +386,12 @@ Each portfolio section has unique TUI-inspired styling that matches its content 
 - Results counter and filtering indicators
 
 **Expertise (`:checkhealth` Style)**:
-- Health check status indicators (OK/WARN/ERROR)
+- Health check status indicators with text labels (✓ OK, ! WARN, i INFO)
+- Status badges display both icon and text for improved readability
 - Progress bars for skill proficiency levels
 - Category sections with fold markers
 - Diagnostic-style skill descriptions
-- Color-coded status messages
+- Color-coded status messages with semantic color tokens
 - Neovim health check formatting
 
 **Contact (Terminal Commands Style)**:
