@@ -50,6 +50,11 @@ let prefersReducedMotion = false;
 let viewportMediaQuery: MediaQueryList | null = null;
 let reducedMotionMediaQuery: MediaQueryList | null = null;
 
+// Wheel navigation state
+let wheelCooldown = false;
+let wheelHandler: ((e: WheelEvent) => void) | null = null;
+const WHEEL_COOLDOWN_MS = 800; // Prevent rapid section changes from scroll momentum
+
 // Lenis instance (if available)
 let lenisInstance: {
 	scrollTo: (target: string | HTMLElement, options?: object) => void;
@@ -82,6 +87,9 @@ export function initTuiNavigation(): void {
 
 	// Setup keyboard navigation
 	setupKeyboardNavigation();
+
+	// Setup wheel navigation (desktop only)
+	setupWheelNavigation();
 
 	// Handle initial hash navigation
 	handleInitialHash();
@@ -619,6 +627,59 @@ function setupKeyboardNavigation(): void {
 }
 
 /**
+ * Setup wheel navigation for desktop horizontal slide
+ * Converts vertical scroll to horizontal section navigation
+ */
+function setupWheelNavigation(): void {
+	const content = document.querySelector<HTMLElement>(".tui-content");
+	if (!content) return;
+
+	wheelHandler = (event: WheelEvent) => {
+		// Only handle on desktop mode
+		if (viewportMode !== "desktop") return;
+
+		// Skip if in cooldown or animating
+		if (wheelCooldown || animationState === "animating") return;
+
+		// Determine scroll direction (deltaY > 0 = scroll down = next section)
+		const delta = event.deltaY;
+		const threshold = 30; // Minimum delta to trigger navigation
+
+		if (Math.abs(delta) < threshold) return;
+
+		// Prevent default scroll behavior
+		event.preventDefault();
+
+		// Start cooldown
+		wheelCooldown = true;
+		setTimeout(() => {
+			wheelCooldown = false;
+		}, WHEEL_COOLDOWN_MS);
+
+		// Navigate based on direction
+		if (delta > 0) {
+			// Scroll down → next section
+			const nextIndex = Math.min(
+				currentSectionIndex + 1,
+				SECTION_IDS.length - 1,
+			);
+			if (nextIndex !== currentSectionIndex) {
+				navigateToSection(SECTION_IDS[nextIndex], "scroll");
+			}
+		} else {
+			// Scroll up → previous section
+			const prevIndex = Math.max(currentSectionIndex - 1, 0);
+			if (prevIndex !== currentSectionIndex) {
+				navigateToSection(SECTION_IDS[prevIndex], "scroll");
+			}
+		}
+	};
+
+	// Use passive: false to allow preventDefault
+	content.addEventListener("wheel", wheelHandler, { passive: false });
+}
+
+/**
  * Handle initial hash in URL
  */
 function handleInitialHash(): void {
@@ -713,5 +774,12 @@ function cleanup(): void {
 
 	if (reducedMotionMediaQuery) {
 		reducedMotionMediaQuery.removeEventListener("change", () => {});
+	}
+
+	// Remove wheel handler
+	if (wheelHandler) {
+		const content = document.querySelector<HTMLElement>(".tui-content");
+		content?.removeEventListener("wheel", wheelHandler);
+		wheelHandler = null;
 	}
 }
