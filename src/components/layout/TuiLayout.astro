@@ -128,9 +128,10 @@ const activeLineCount = activeSection?.lineCount || lineCount;
   .tui-content__viewport {
     flex: 1;
     padding: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden;
     scroll-behavior: smooth;
+    /* Required for absolute children to inherit size */
+    position: relative;
   }
 
   /* Sidebar overlay (mobile) */

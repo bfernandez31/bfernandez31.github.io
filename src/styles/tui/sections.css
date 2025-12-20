@@ -13,7 +13,7 @@
 	min-height: 100vh;
 	min-height: 100dvh;
 	padding: 2rem 0;
-	position: relative;
+	/* Position is set in layout.css: absolute on desktop, relative on mobile */
 }
 
 .tui-section:first-child {

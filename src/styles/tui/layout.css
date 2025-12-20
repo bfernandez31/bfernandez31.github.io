@@ -83,33 +83,62 @@
 	height: 100%;
 	overflow-y: auto;
 	overflow-x: hidden;
-	/* GPU acceleration for smooth animations */
+	/* GPU acceleration handled by GSAP on desktop, CSS on mobile */
 	will-change: transform;
-	transform: translateZ(0);
 }
 
 /* Position sections for horizontal slide */
 @media (min-width: 1024px) {
 	.tui-section-container {
-		position: relative;
+		/* Fill the viewport (which has position: relative) */
+		position: absolute;
+		inset: 0;
+		overflow: hidden;
 	}
 
 	.tui-section {
 		position: absolute;
-		top: 0;
-		left: 0;
+		inset: 0;
+		/* Solid background to cover sections behind */
+		background-color: var(--color-background);
+		/* Default: hidden to the right */
 		transform: translateX(100%);
 		opacity: 0;
+		pointer-events: none;
+		overflow-y: auto;
+		z-index: 1;
+		/* Smooth transitions */
+		transition: transform 0.4s ease-out, opacity 0.4s ease-out;
 	}
 
-	.tui-section.is-active {
+	/* First section visible before JS */
+	.tui-section:first-child {
 		transform: translateX(0);
 		opacity: 1;
+		pointer-events: auto;
+		z-index: 2;
 	}
 
+	/* Active section: visible and centered */
+	.tui-section.is-active {
+		transform: translateX(0) !important;
+		opacity: 1 !important;
+		pointer-events: auto;
+		z-index: 10;
+	}
+
+	/* Previous section: hidden to the left */
 	.tui-section.is-previous {
-		transform: translateX(-100%);
-		opacity: 0;
+		transform: translateX(-100%) !important;
+		opacity: 0 !important;
+		z-index: 1;
+	}
+
+	/* Reduce motion */
+	@media (prefers-reduced-motion: reduce) {
+		.tui-section {
+			transition: opacity 0.15s ease-out;
+		}
 	}
 }
 
@@ -421,6 +450,7 @@
 		min-height: 100dvh;
 		transform: none;
 		opacity: 1;
+		pointer-events: auto;
 		will-change: auto;
 	}
 }

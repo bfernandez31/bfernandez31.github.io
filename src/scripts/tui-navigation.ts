@@ -11,7 +11,6 @@
  * - Reduced motion support
  */
 
-import { gsap } from "gsap";
 import type {
 	SectionId,
 	ViewportMode,
@@ -34,9 +33,8 @@ const SECTION_IDS: SectionId[] = [
 // Breakpoints
 const DESKTOP_BREAKPOINT = 1024;
 
-// Animation config
+// Animation config (must match CSS transition duration in layout.css)
 const SLIDE_DURATION = 0.4;
-const SLIDE_EASE = "power2.inOut";
 const REDUCED_MOTION_DURATION = 0.15;
 
 // State
@@ -66,9 +64,6 @@ export function initTuiNavigation(): void {
 
 	// Detect reduced motion preference
 	setupReducedMotionDetection();
-
-	// Setup GSAP config
-	gsap.config({ force3D: true });
 
 	// Get Lenis instance if available
 	lenisInstance =
@@ -147,21 +142,25 @@ function setupReducedMotionDetection(): void {
 
 /**
  * Initialize section positions for horizontal slide
+ * CSS handles transforms via classes - we just set the right classes
  */
 function initializeSectionPositions(): void {
 	const sections = document.querySelectorAll<HTMLElement>(".tui-section");
 
 	sections.forEach((section, index) => {
+		// Clear any inline styles that GSAP might have set
+		section.style.transform = "";
+		section.style.opacity = "";
+
+		// Remove all state classes first
+		section.classList.remove("is-active", "is-previous");
+
 		if (index === currentSectionIndex) {
-			gsap.set(section, { xPercent: 0, opacity: 1 });
 			section.classList.add("is-active");
 		} else if (index < currentSectionIndex) {
-			gsap.set(section, { xPercent: -100, opacity: 0 });
 			section.classList.add("is-previous");
-		} else {
-			gsap.set(section, { xPercent: 100, opacity: 0 });
-			section.classList.remove("is-active", "is-previous");
 		}
+		// Others: no class = default CSS (translateX(100%), opacity: 0)
 	});
 }
 
@@ -172,7 +171,9 @@ function resetSectionPositions(): void {
 	const sections = document.querySelectorAll<HTMLElement>(".tui-section");
 
 	sections.forEach((section) => {
-		gsap.set(section, { clearProps: "xPercent,opacity" });
+		// Clear inline styles and classes for mobile vertical scroll
+		section.style.transform = "";
+		section.style.opacity = "";
 		section.classList.remove("is-active", "is-previous");
 	});
 }
@@ -270,12 +271,7 @@ export function navigateToSection(
 	// Skip if already on this section
 	if (sectionId === currentSectionId) return;
 
-	// Skip if animating (unless rapid click handling)
-	if (animationState === "animating") {
-		// Kill current animation and proceed (rapid click handling)
-		const sections = document.querySelectorAll<HTMLElement>(".tui-section");
-		gsap.killTweensOf(sections);
-	}
+	// Note: We allow navigation even during animation (CSS handles transition interruption)
 
 	lastNavigationSource = source;
 
@@ -295,70 +291,38 @@ function slideToSection(targetIndex: number, updateHistory = true): void {
 	if (sections.length === 0) return;
 
 	const targetSectionId = SECTION_IDS[targetIndex];
-	const currentSection = sections[currentSectionIndex];
 	const targetSection = sections[targetIndex];
 
-	if (!currentSection || !targetSection) return;
+	if (!targetSection) return;
 
 	// Update animation state
 	animationState = "animating";
 	dispatchAnimationStateEvent("started", currentSectionId, targetSectionId);
 
-	// Determine slide direction
-	const direction = targetIndex > currentSectionIndex ? -1 : 1;
 	const duration = prefersReducedMotion
 		? REDUCED_MOTION_DURATION
 		: SLIDE_DURATION;
 
-	// Clear any previous classes
-	sections.forEach((s) => s.classList.remove("is-active", "is-previous"));
+	// Update classes - mark ALL sections before target as is-previous
+	// This prevents :first-child from showing hero when navigating between other sections
+	sections.forEach((section, index) => {
+		section.classList.remove("is-active", "is-previous");
+		section.style.transform = "";
+		section.style.opacity = "";
 
-	if (prefersReducedMotion) {
-		// Instant switch with gentle fade for reduced motion
-		gsap.set(currentSection, { opacity: 0 });
-		gsap.set(targetSection, { xPercent: 0, opacity: 1 });
-		targetSection.classList.add("is-active");
+		if (index === targetIndex) {
+			section.classList.add("is-active");
+		} else if (index < targetIndex) {
+			// All sections before the target are "previous" (hidden to left)
+			section.classList.add("is-previous");
+		}
+		// Sections after target: no class = hidden to right (default CSS)
+	});
 
+	// Wait for CSS transition to complete
+	setTimeout(() => {
 		finishNavigation(targetIndex, targetSectionId, updateHistory);
-	} else {
-		// Full horizontal slide animation
-		const tl = gsap.timeline({
-			onComplete: () => {
-				finishNavigation(targetIndex, targetSectionId, updateHistory);
-			},
-		});
-
-		// Set initial position for target section
-		gsap.set(targetSection, { xPercent: direction * -100, opacity: 0 });
-
-		// Animate current section out
-		tl.to(
-			currentSection,
-			{
-				xPercent: direction * 100,
-				opacity: 0,
-				duration,
-				ease: SLIDE_EASE,
-			},
-			0,
-		);
-
-		// Animate target section in
-		tl.to(
-			targetSection,
-			{
-				xPercent: 0,
-				opacity: 1,
-				duration,
-				ease: SLIDE_EASE,
-			},
-			0,
-		);
-
-		// Add classes
-		currentSection.classList.add("is-previous");
-		targetSection.classList.add("is-active");
-	}
+	}, duration * 1000 + 50);
 }
 
 /**
@@ -750,8 +714,4 @@ function cleanup(): void {
 	if (reducedMotionMediaQuery) {
 		reducedMotionMediaQuery.removeEventListener("change", () => {});
 	}
-
-	// Kill any running animations
-	const sections = document.querySelectorAll<HTMLElement>(".tui-section");
-	gsap.killTweensOf(sections);
 }
