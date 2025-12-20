@@ -1,14 +1,12 @@
 ---
 /**
  * HeroTui Component
- * Feature: PBF-32-portofolio-with-tui
+ * Feature: PBF-38-ascii-art-for
  *
- * Hero section with TUI typing animation
+ * Hero section with ASCII art name and typewriter subheadline
  */
 
 interface Props {
-	/** Main headline text */
-	headline: string;
 	/** Subheadline text */
 	subheadline?: string;
 	/** Typing speed (chars/sec) */
@@ -20,7 +18,6 @@ interface Props {
 }
 
 const {
-	headline,
 	subheadline,
 	typingSpeed = 12.5,
 	ctaText = "Explore Projects",
@@ -30,15 +27,22 @@ const {
 
 <div class="tui-hero">
   <div class="tui-hero__content">
-    <h1
-      class="tui-hero__headline"
-      id="hero-headline"
-      data-typewriter={headline}
-      data-typewriter-speed={typingSpeed}
-      data-typewriter-delay="0.5"
-    >
-      <span class="typewriter-text">{headline}</span>
-      <span class="typewriter-cursor" aria-hidden="true">█</span>
+    <!-- ASCII Art Name (static, no typewriter animation) -->
+    <h1 class="tui-hero__headline-wrapper">
+      <pre class="tui-hero__ascii" aria-label="Benoit Fernandez">
+██████╗ ███████╗███╗   ██╗ ██████╗ ██╗████████╗
+██╔══██╗██╔════╝████╗  ██║██╔═══██╗██║╚══██╔══╝
+██████╔╝█████╗  ██╔██╗ ██║██║   ██║██║   ██║
+██╔══██╗██╔══╝  ██║╚██╗██║██║   ██║██║   ██║
+██████╔╝███████╗██║ ╚████║╚██████╔╝██║   ██║
+╚═════╝ ╚══════╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝   ╚═╝
+
+███████╗███████╗██████╗ ███╗   ██╗ █████╗ ███╗   ██╗██████╗ ███████╗███████╗
+██╔════╝██╔════╝██╔══██╗████╗  ██║██╔══██╗████╗  ██║██╔══██╗██╔════╝╚══███╔╝
+█████╗  █████╗  ██████╔╝██╔██╗ ██║███████║██╔██╗ ██║██║  ██║█████╗    ███╔╝
+██╔══╝  ██╔══╝  ██╔══██╗██║╚██╗██║██╔══██║██║╚██╗██║██║  ██║██╔══╝   ███╔╝
+██║     ███████╗██║  ██║██║ ╚████║██║  ██║██║ ╚████║██████╔╝███████╗███████╗
+╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚══════╝</pre>
     </h1>
 
     {subheadline && (
@@ -66,32 +70,20 @@ const {
 <script>
   import { createTypewriterChain } from '../../scripts/typing-animation';
 
-  // Initialize hero typing animation
-  const headline = document.getElementById('hero-headline');
+  // Initialize hero typing animation (subheadline only - ASCII art is static)
   const subheadline = document.getElementById('hero-subheadline');
 
-  if (headline) {
+  if (subheadline) {
     const items = [
       {
-        element: headline,
-        text: headline.getAttribute('data-typewriter') || '',
-        options: {
-          speed: parseFloat(headline.getAttribute('data-typewriter-speed') || '12.5'),
-          delay: parseFloat(headline.getAttribute('data-typewriter-delay') || '0.5'),
-        },
-      },
-    ];
-
-    if (subheadline) {
-      items.push({
         element: subheadline,
         text: subheadline.getAttribute('data-typewriter') || '',
         options: {
           speed: parseFloat(subheadline.getAttribute('data-typewriter-speed') || '18'),
           delay: 0.3,
         },
-      });
-    }
+      },
+    ];
 
     createTypewriterChain(items);
   }
@@ -112,13 +104,21 @@ const {
     max-width: 800px;
   }
 
-  .tui-hero__headline {
-    font-family: var(--font-mono, monospace);
-    font-size: clamp(1.5rem, 4vw, 3rem);
-    font-weight: 700;
-    color: var(--color-text, #cdd6f4);
+  /* ASCII Art Name - h1 wrapper for semantic heading */
+  .tui-hero__headline-wrapper {
     margin: 0 0 1rem;
+  }
+
+  /* ASCII Art Name - styled pre element */
+  .tui-hero__ascii {
+    font-family: var(--font-mono, monospace);
+    font-size: clamp(0.3rem, 0.8vw, 0.5rem);
     line-height: 1.2;
+    color: var(--color-primary, #cba6f7);
+    margin: 0;
+    overflow-x: auto;
+    user-select: none;
+    -webkit-user-select: none;
   }
 
   .tui-hero__subheadline {
@@ -185,6 +185,10 @@ const {
     .tui-hero {
       padding: 1rem;
       min-height: calc(100vh - 4rem);
+    }
+
+    .tui-hero__ascii {
+      font-size: 0.3rem;
     }
 
     .tui-hero__cta {

@@ -26,10 +26,10 @@
 
 **Purpose**: Review existing code structure to understand current implementation
 
-- [ ] T001 Review existing HeroTui.astro component structure in src/components/sections/HeroTui.astro
-- [ ] T002 Review ContactTerminal.astro ASCII art styling for reference in src/components/sections/ContactTerminal.astro
-- [ ] T003 Review typing-animation.ts to understand typewriter chain in src/scripts/typing-animation.ts
-- [ ] T004 Review index.astro for current HeroTui usage in src/pages/index.astro
+- [x] T001 Review existing HeroTui.astro component structure in src/components/sections/HeroTui.astro ✅ DONE
+- [x] T002 Review ContactTerminal.astro ASCII art styling for reference in src/components/sections/ContactTerminal.astro ✅ DONE
+- [x] T003 Review typing-animation.ts to understand typewriter chain in src/scripts/typing-animation.ts ✅ DONE
+- [x] T004 Review index.astro for current HeroTui usage in src/pages/index.astro ✅ DONE
 
 **Checkpoint**: Codebase reviewed - user story implementation can now begin
 
@@ -43,10 +43,10 @@
 
 ### Implementation for User Story 1
 
-- [ ] T005 [US1] Add ASCII art content and `<pre>` element with `<h1>` wrapper in src/components/sections/HeroTui.astro
-- [ ] T006 [US1] Add `.tui-hero__headline-wrapper` styles for semantic h1 wrapper in src/components/sections/HeroTui.astro
-- [ ] T007 [US1] Add `.tui-hero__ascii` base styles (font, color, line-height, user-select) in src/components/sections/HeroTui.astro
-- [ ] T008 [US1] Add aria-label="Benoit Fernandez" for screen reader accessibility in src/components/sections/HeroTui.astro
+- [x] T005 [US1] Add ASCII art content and `<pre>` element with `<h1>` wrapper in src/components/sections/HeroTui.astro ✅ DONE
+- [x] T006 [US1] Add `.tui-hero__headline-wrapper` styles for semantic h1 wrapper in src/components/sections/HeroTui.astro ✅ DONE
+- [x] T007 [US1] Add `.tui-hero__ascii` base styles (font, color, line-height, user-select) in src/components/sections/HeroTui.astro ✅ DONE
+- [x] T008 [US1] Add aria-label="Benoit Fernandez" for screen reader accessibility in src/components/sections/HeroTui.astro ✅ DONE
 
 **Checkpoint**: ASCII art displays correctly on desktop viewports (≥1024px)
 
@@ -60,9 +60,9 @@
 
 ### Implementation for User Story 2
 
-- [ ] T009 [US2] Add CSS clamp() font-size scaling (0.3rem to 0.5rem) in src/components/sections/HeroTui.astro
-- [ ] T010 [US2] Add overflow-x: auto fallback for extreme narrow viewports in src/components/sections/HeroTui.astro
-- [ ] T011 [US2] Add mobile breakpoint (@media max-width: 767px) font-size override in src/components/sections/HeroTui.astro
+- [x] T009 [US2] Add CSS clamp() font-size scaling (0.3rem to 0.5rem) in src/components/sections/HeroTui.astro ✅ DONE
+- [x] T010 [US2] Add overflow-x: auto fallback for extreme narrow viewports in src/components/sections/HeroTui.astro ✅ DONE
+- [x] T011 [US2] Add mobile breakpoint (@media max-width: 767px) font-size override in src/components/sections/HeroTui.astro ✅ DONE
 
 **Checkpoint**: ASCII art displays correctly on all viewport sizes (320px to 1920px+)
 
@@ -76,10 +76,10 @@
 
 ### Implementation for User Story 3
 
-- [ ] T012 [US3] Remove headline from typewriter animation chain in src/components/sections/HeroTui.astro script section
-- [ ] T013 [US3] Simplify script to only animate subheadline element in src/components/sections/HeroTui.astro
-- [ ] T014 [US3] Remove unused headline prop from HeroTui component interface in src/components/sections/HeroTui.astro
-- [ ] T015 [US3] Update HeroTui usage in index.astro to remove headline prop in src/pages/index.astro
+- [x] T012 [US3] Remove headline from typewriter animation chain in src/components/sections/HeroTui.astro script section ✅ DONE
+- [x] T013 [US3] Simplify script to only animate subheadline element in src/components/sections/HeroTui.astro ✅ DONE
+- [x] T014 [US3] Remove unused headline prop from HeroTui component interface in src/components/sections/HeroTui.astro ✅ DONE
+- [x] T015 [US3] Update HeroTui usage in index.astro to remove headline prop in src/pages/index.astro ✅ DONE
 
 **Checkpoint**: Subheadline animates with typewriter effect; ASCII art is static
 
@@ -89,8 +89,8 @@
 
 **Purpose**: Validation and cleanup
 
-- [ ] T016 Run bun run build to verify no TypeScript errors
-- [ ] T017 Run bun run lint to verify no linting errors
+- [x] T016 Run bun run build to verify no TypeScript errors ✅ DONE
+- [x] T017 Run bun run lint to verify no linting errors ✅ DONE (pre-existing warnings in other files, no new issues)
 - [ ] T018 Visual verification on desktop (≥1024px), tablet (768-1023px), mobile (<768px)
 - [ ] T019 Screen reader verification (aria-label announces "Benoit Fernandez")
 - [ ] T020 Run Lighthouse audit to verify performance budget (≥85 mobile, ≥95 desktop)
