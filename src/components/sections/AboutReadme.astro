@@ -7,16 +7,16 @@
  */
 
 interface Props {
-  /** Biography text */
-  biography: string;
-  /** Highlights list */
-  highlights?: string[];
+	/** Biography text */
+	biography: string;
+	/** Highlights list */
+	highlights?: string[];
 }
 
 const { biography, highlights = [] } = Astro.props;
 
 // Split biography into paragraphs for README formatting
-const paragraphs = biography.split('\n').filter(p => p.trim());
+const paragraphs = biography.split("\n").filter((p) => p.trim());
 ---
 
 <div class="tui-readme">

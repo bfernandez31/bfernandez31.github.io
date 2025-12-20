@@ -81,7 +81,7 @@ ScrollTrigger.defaults({
 
 **Version**: 1.0.42+
 
-**Usage**: Smooth, momentum-based scrolling (optimized for performance)
+**Usage**: Smooth, momentum-based scrolling on mobile (<1024px), integrated with GSAP for desktop horizontal slide animations
 
 **Configuration** (`src/scripts/smooth-scroll.ts`):
 ```typescript
@@ -161,6 +161,94 @@ export function getSmoothScroll(): Lenis | null;
 ```
 
 ## Animation Components
+
+### TUI Navigation Horizontal Slide (PBF-37)
+
+**Location**: `src/scripts/tui-navigation.ts`
+
+**Description**: Device-adaptive section navigation with horizontal slide animation on desktop, vertical scroll on mobile.
+
+**Desktop Animation (≥1024px)**:
+- Horizontal slide transition between sections using GSAP xPercent transforms
+- Simulates IDE tab switching behavior
+- 400ms duration with power2.inOut easing
+- Direction-aware animation (left-to-right or right-to-left based on target index)
+- Animation cancellation support for rapid clicks using `gsap.killTweensOf()`
+
+**Mobile Behavior (<1024px)**:
+- Traditional vertical smooth scrolling via Lenis
+- Preserves natural mobile scrolling experience
+- No horizontal animations on mobile devices
+
+**GSAP Implementation**:
+```typescript
+function slideToSection(targetIndex: number, updateHistory = true) {
+  if (isAnimating || targetIndex === currentSectionIndex) return;
+
+  isAnimating = true;
+
+  // Cancel any in-progress animations
+  gsap.killTweensOf(sectionsContainer);
+
+  // Dispatch animation start event
+  document.dispatchEvent(new CustomEvent('tui:animation-state', {
+    detail: { isAnimating: true }
+  }));
+
+  // Animate horizontal slide
+  gsap.to(sectionsContainer, {
+    xPercent: -targetIndex * 100,
+    duration: 0.4,
+    ease: 'power2.inOut',
+    onComplete: () => {
+      currentSectionIndex = targetIndex;
+      isAnimating = false;
+
+      // Update browser history
+      if (updateHistory) {
+        const sectionId = sections[targetIndex].id;
+        history.pushState({ sectionIndex: targetIndex }, '', `#${sectionId}`);
+      }
+
+      // Dispatch section change event
+      document.dispatchEvent(new CustomEvent('tui:section-change', {
+        detail: { sectionId: sections[targetIndex].id, sectionIndex: targetIndex }
+      }));
+    }
+  });
+}
+```
+
+**Reduced Motion Support**:
+```typescript
+// gsap.matchMedia for reduced motion
+gsap.matchMedia().add('(prefers-reduced-motion: reduce)', () => {
+  // Instant fade transition (0.15s) instead of slide
+  gsap.to(sectionsContainer, {
+    xPercent: -targetIndex * 100,
+    duration: 0.15,
+    opacity: 0.5,
+    onComplete: () => {
+      gsap.set(sectionsContainer, { opacity: 1 });
+    }
+  });
+});
+```
+
+**Features**:
+- GPU-accelerated xPercent transforms for 60fps animation
+- Keyboard navigation support (j/k, arrow keys)
+- Browser history integration (back/forward buttons work correctly)
+- Custom events for state synchronization (tui:section-change, tui:animation-state)
+- Viewport mode detection with automatic behavior switching on resize
+- Rapid click handling prevents animation conflicts
+- Zero layout shift during transitions
+
+**Performance**:
+- ~8KB JavaScript (unified navigation module)
+- 60fps target on HIGH tier devices
+- Fallback to instant transitions on LOW tier devices
+- Animation cleanup on component unmount
 
 ### Hero Section Animation (SIMPLIFIED)
 

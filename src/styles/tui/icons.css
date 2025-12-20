@@ -11,15 +11,15 @@
    ============================================ */
 
 .nerd-icon {
-  font-family: var(--font-nerd, 'NerdIcons'), monospace;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 1em;
-  line-height: 1;
-  display: inline-block;
-  speak: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	font-family: var(--font-nerd, "NerdIcons"), monospace;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 1em;
+	line-height: 1;
+	display: inline-block;
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 /* ============================================
@@ -28,37 +28,37 @@
 
 /* File icon - nf-md-file */
 .nerd-icon-file::before {
-  content: '\f0a2';
+	content: "\f0a2";
 }
 
 /* Folder icon - nf-md-folder */
 .nerd-icon-folder::before {
-  content: '\f04b';
+	content: "\f04b";
 }
 
 /* User icon */
 .nerd-icon-user::before {
-  content: '\f0004';
+	content: "\f0004";
 }
 
 /* Mail icon - nf-md-email */
 .nerd-icon-mail::before {
-  content: '\f01ea';
+	content: "\f01ea";
 }
 
 /* Code icon */
 .nerd-icon-code::before {
-  content: '\f002';
+	content: "\f002";
 }
 
 /* Git branch icon */
 .nerd-icon-git-branch::before {
-  content: '\f126';
+	content: "\f126";
 }
 
 /* Terminal icon */
 .nerd-icon-terminal::before {
-  content: '\f120';
+	content: "\f120";
 }
 
 /* ============================================
@@ -66,15 +66,15 @@
    ============================================ */
 
 .nerd-icon--sm {
-  font-size: 0.75em;
+	font-size: 0.75em;
 }
 
 .nerd-icon--lg {
-  font-size: 1.25em;
+	font-size: 1.25em;
 }
 
 .nerd-icon--xl {
-  font-size: 1.5em;
+	font-size: 1.5em;
 }
 
 /* ============================================
@@ -82,17 +82,17 @@
    ============================================ */
 
 .nerd-icon--primary {
-  color: var(--color-primary);
+	color: var(--color-primary);
 }
 
 .nerd-icon--secondary {
-  color: var(--color-secondary);
+	color: var(--color-secondary);
 }
 
 .nerd-icon--accent {
-  color: var(--color-accent);
+	color: var(--color-accent);
 }
 
 .nerd-icon--muted {
-  color: var(--color-text-muted);
+	color: var(--color-text-muted);
 }

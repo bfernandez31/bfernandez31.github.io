@@ -10,9 +10,9 @@ import { getCollection } from "astro:content";
 // Get all projects sorted by displayOrder
 let projects = await getCollection("projects");
 projects.sort((a, b) => {
-  const orderA = a.data.displayOrder ?? 999;
-  const orderB = b.data.displayOrder ?? 999;
-  return orderA - orderB;
+	const orderA = a.data.displayOrder ?? 999;
+	const orderB = b.data.displayOrder ?? 999;
+	return orderA - orderB;
 });
 ---
 

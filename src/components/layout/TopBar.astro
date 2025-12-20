@@ -6,34 +6,34 @@
  * tmux-style top bar with buffer tabs, clock, and git branch
  */
 
-import BufferTab from '../ui/BufferTab.astro';
-import type { BufferTab as BufferTabType } from '../../types/tui';
+import BufferTab from "../ui/BufferTab.astro";
+import type { BufferTab as BufferTabType } from "../../types/tui";
 
 interface Props {
-  /** Array of buffer tabs */
-  tabs: BufferTabType[];
-  /** Session name (decorative) */
-  sessionName?: string;
-  /** Git branch name */
-  gitBranch?: string;
-  /** Show clock */
-  showClock?: boolean;
-  /** Callback to toggle sidebar (mobile) */
-  showSidebarToggle?: boolean;
+	/** Array of buffer tabs */
+	tabs: BufferTabType[];
+	/** Session name (decorative) */
+	sessionName?: string;
+	/** Git branch name */
+	gitBranch?: string;
+	/** Show clock */
+	showClock?: boolean;
+	/** Callback to toggle sidebar (mobile) */
+	showSidebarToggle?: boolean;
 }
 
 const {
-  tabs,
-  sessionName = 'portfolio',
-  gitBranch = 'main',
-  showClock = true,
-  showSidebarToggle = true,
+	tabs,
+	sessionName = "portfolio",
+	gitBranch = "main",
+	showClock = true,
+	showSidebarToggle = true,
 } = Astro.props;
 
 // Get current time (will be updated client-side)
 const now = new Date();
-const hours = String(now.getHours()).padStart(2, '0');
-const minutes = String(now.getMinutes()).padStart(2, '0');
+const hours = String(now.getHours()).padStart(2, "0");
+const minutes = String(now.getMinutes()).padStart(2, "0");
 const initialTime = `${hours}:${minutes}`;
 ---
 
@@ -62,8 +62,10 @@ const initialTime = `${hours}:${minutes}`;
       <BufferTab
         sectionId={tab.sectionId}
         label={tab.label}
+        icon={tab.icon}
         windowNumber={tab.windowNumber}
         isActive={tab.isActive}
+        showClose={tab.showClose}
       />
     ))}
   </nav>
@@ -161,12 +163,19 @@ const initialTime = `${hours}:${minutes}`;
     gap: 0.25rem;
     overflow-x: auto;
     scrollbar-width: none;
+    -ms-overflow-style: none;
     flex: 1;
     justify-content: center;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
   }
 
   .tui-topbar__tabs::-webkit-scrollbar {
     display: none;
+  }
+
+  .tui-topbar__tabs > :global(.tui-buffer-tab) {
+    scroll-snap-align: start;
   }
 
   .tui-topbar__meta {

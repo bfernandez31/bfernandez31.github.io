@@ -202,11 +202,11 @@ All components default to mobile layout without media queries. Larger viewports 
 
 **Responsive Behavior**:
 
-| Viewport | Sidebar | Content Layout | Toggle Button |
-|----------|---------|----------------|---------------|
-| Mobile (<768px) | Hidden overlay | Full-width | Visible |
-| Tablet (768-1023px) | Collapsible overlay | Full-width when collapsed | Visible |
-| Desktop (≥1024px) | Side-by-side grid | Grid column layout | Hidden |
+| Viewport | Sidebar | Content Layout | Navigation | Toggle Button |
+|----------|---------|----------------|------------|---------------|
+| Mobile (<768px) | Hidden overlay | Full-width, vertical scroll | Smooth vertical scroll | Visible |
+| Tablet (768-1023px) | Collapsible overlay | Full-width when collapsed | Smooth vertical scroll | Visible |
+| Desktop (≥1024px) | Side-by-side grid | Horizontal flex layout | Horizontal slide animation | Hidden |
 
 **CSS Implementation**: `src/components/layout/TuiLayout.astro` (structure) + `src/styles/tui/layout.css` (grid layout)
 
@@ -219,11 +219,32 @@ All components default to mobile layout without media queries. Larger viewports 
 - Component-scoped styles handle only visual properties (colors, fonts)
 - Global grid layout defined in `layout.css` for separation of concerns
 
+**Desktop Horizontal Layout (PBF-37)**:
+- Sections container uses `display: flex; flex-direction: row` on desktop
+- Each section has `flex: 0 0 100%` (full viewport width)
+- Container animated via GSAP xPercent transforms for horizontal slide
+- Overflow hidden to prevent horizontal scrollbar
+- GPU-accelerated transforms for smooth 60fps animation
+
+**Mobile Vertical Layout**:
+- Sections container uses `display: block` on mobile
+- Each section has `min-height: 100vh` for full viewport height
+- Natural vertical scroll behavior preserved
+- No transform animations on mobile
+
 **Architecture Pattern**:
 - **Global Grid Definition** (`layout.css`): Controls layout structure and grid template
 - **Scoped Component Styles** (`TuiLayout.astro`): Controls visual properties (colors, fonts, sizing)
 - Scoped styles intentionally avoid `display: grid` and `grid-template-*` to prevent conflicts
 - Grid areas defined globally, allowing sidebar and content to participate in grid layout
+- Sections container layout controlled by viewport mode (desktop/mobile)
+
+**Viewport Mode Switching**:
+- JavaScript detects viewport width and applies appropriate layout
+- Breakpoint at 1024px (desktop threshold)
+- Resize listener handles mode switching gracefully
+- Animations cancelled before layout mode changes
+- Transform reset on mode switch to prevent visual glitches
 
 **Common Pitfall**:
 - **Issue**: Adding `display: grid` or `grid-template-*` properties in component-scoped styles can override global grid layout

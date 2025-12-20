@@ -9,6 +9,8 @@
 - **Animation**: GSAP 3.13.0 + Lenis 1.0.42 (smooth scrolling and UI animations)
 - **Deployment**: GitHub Pages (automated via GitHub Actions)
 - **Data**: Static content (Markdown via Astro Content Collections, JSON data files)
+- TypeScript 5.9+ (strict mode) + Astro 5.15.3, GSAP 3.13.0, Lenis 1.0.42 (PBF-37-layout-tui)
+- N/A (static site, no persistent storage) (PBF-37-layout-tui)
 
 ## Project Structure
 ```

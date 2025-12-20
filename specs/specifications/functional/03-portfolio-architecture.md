@@ -24,11 +24,14 @@ The portfolio uses a comprehensive TUI (Terminal User Interface) layout that wra
 
 **Navigation**:
 - Click sidebar files to navigate between sections
-- Click top bar tabs to switch sections
-- Smooth scrolling to target section with Lenis integration
+- Click top bar tabs to switch sections with horizontal slide animation (desktop only)
+- Desktop (≥1024px): Horizontal slide animation between sections simulates IDE tab switching
+- Mobile (<1024px): Smooth vertical scrolling preserved for natural mobile experience
+- Keyboard navigation (j/k, arrow keys) triggers horizontal slide on desktop
 - Active section tracked via IntersectionObserver (30% threshold)
 - Sidebar and tab states synchronize automatically
 - URL hash updates reflect current section (#hero, #about, etc.)
+- Browser back/forward buttons navigate between sections with appropriate slide direction
 
 **Responsive Behavior**:
 - Desktop (≥1024px): Full TUI layout with sidebar and content side-by-side using CSS Grid (~200-250px sidebar width)
@@ -67,6 +70,24 @@ When active section changes:
 - **Component Structure** (`src/components/layout/TuiLayout.astro`): Provides semantic HTML and visual styling
 - **Separation of Concerns**: Grid layout properties managed globally, component-scoped styles handle only visual properties (colors, fonts, sizing)
 - **Grid Areas**: Named grid areas (topbar, sidebar, content, statusline, commandline) allow flexible positioning without wrapper elements
+- **Horizontal Layout**: Desktop sections positioned horizontally in a container, animated via GSAP xPercent transforms for tab-switching effect
+
+**Buffer Tabs**:
+- Neovim-style buffer tabs with authentic file icons and separators
+- Active tab features distinct styling: highlighted background, primary color text, bottom border accent
+- Inactive tabs use muted colors with semi-transparent backgrounds
+- Hover state provides visual feedback with subtle color transitions
+- Close button (×) visible on active tab only for authentic editor appearance
+- File icons from Nerd Font subset indicate file type (TypeScript, Markdown, etc.)
+- Vertical pipe separators (│) between tabs, hidden on last tab and active tab
+- Horizontal scroll with snap-to-tab on overflow (mobile landscape, many tabs)
+
+**Line Numbers**:
+- Per-section line numbering starting from 1 for each "file"
+- Each section simulates individual buffer with independent line count
+- Line numbers reset when navigating between sections
+- Default line counts: Hero (15), About (40), Experience (60), Projects (50), Expertise (35), Contact (25)
+- Maintains terminal aesthetic with monospace alignment and muted coloring
 
 ## Hero Section
 

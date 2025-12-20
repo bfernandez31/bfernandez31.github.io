@@ -2,59 +2,50 @@
 
 ## Overview
 
-The portfolio implements a sophisticated single-page navigation system that provides smooth section-to-section transitions, active state tracking, and full accessibility support. The system uses hash-based routing with browser history integration and respects user motion preferences.
+The portfolio implements a sophisticated single-page navigation system with device-adaptive behavior. On desktop (≥1024px), sections animate horizontally simulating IDE tab switching. On mobile (<1024px), traditional vertical smooth scrolling provides a natural mobile experience. The system uses hash-based routing with browser history integration and respects user motion preferences.
 
 ## Architecture
 
 ### Core Components
 
-The navigation system consists of five primary JavaScript modules that work together to provide smooth navigation across 6 full-viewport sections:
+The navigation system is powered by a unified TUI navigation module that provides device-adaptive behavior:
 
-1. **Smooth Scroll Manager** (`src/scripts/smooth-scroll.ts`)
-   - Initializes Lenis smooth scroll library
-   - Configures section snap functionality
-   - Provides utility functions for scrolling
-   - Respects user motion preferences
+1. **TUI Navigation Manager** (`src/scripts/tui-navigation.ts`)
+   - Unified navigation system handling all section transitions
+   - Desktop (≥1024px): Horizontal slide animation using GSAP xPercent transforms
+   - Mobile (<1024px): Smooth vertical scrolling via Lenis
+   - Viewport mode detection with automatic behavior switching
+   - Navigation state management (currentSectionIndex, isAnimating, viewportMode)
+   - Browser history integration (popstate events, pushState)
+   - Keyboard navigation support (j/k, arrow keys)
+   - Rapid click handling with animation cancellation (gsap.killTweensOf)
+   - Active section tracking via IntersectionObserver
+   - Custom events dispatched for state synchronization (tui:section-change, tui:animation-state)
+   - Reduced motion support with instant transitions
 
-2. **Active Navigation Manager** (`src/scripts/active-navigation.ts`)
-   - Tracks which section is currently visible
-   - Updates navigation link states
-   - Uses IntersectionObserver API
-
-3. **Navigation Link Handler** (`src/scripts/navigation-links.ts`)
-   - Handles navigation link clicks
-   - Triggers smooth scroll to target sections
-   - Manages focus for keyboard users
-
-4. **Navigation History Manager** (`src/scripts/navigation-history.ts`)
-   - Handles initial page load with hash
-   - Manages browser back/forward navigation
-   - Updates URL hash on section changes
-
-5. **Navigation Dots Manager** (`src/scripts/navigation-dots.ts`)
-   - Synchronizes dot active states with section visibility
-   - Handles dot click events for smooth scrolling
-   - Uses MutationObserver to sync with main navigation
-   - Manages cleanup on page navigation
+**Previous Implementation** (pre-PBF-37):
+- Separate modules: `smooth-scroll.ts`, `active-navigation.ts`, `navigation-links.ts`, `navigation-history.ts`, `navigation-dots.ts`
+- **Current**: Unified in `tui-navigation.ts` for better maintainability and device-adaptive logic
 
 ### Implementation Pattern
 
-All five modules must be initialized in `index.astro`:
+The TUI navigation system initializes with a single function call in `index.astro`:
 
 ```javascript
-import { initSmoothScroll } from '../scripts/smooth-scroll';
-import { initActiveNavigation } from '@/scripts/active-navigation';
-import { initNavigationLinks } from '@/scripts/navigation-links';
-import { initNavigationHistory } from '@/scripts/navigation-history';
-import { initNavigationDots } from '@/scripts/navigation-dots';
+import { initTuiNavigation } from '@/scripts/tui-navigation';
 
-// Initialize on page load (order matters!)
-initSmoothScroll();        // Initialize Lenis first (exposes window.lenis)
-initActiveNavigation();    // Tracks active section
-initNavigationLinks();     // Handles link clicks (depends on window.lenis)
-initNavigationHistory();   // Handles deep linking + history
-initNavigationDots();      // Syncs navigation dots with active section
+// Initialize unified TUI navigation system
+initTuiNavigation();
 ```
+
+The `initTuiNavigation()` function handles:
+1. Viewport mode detection and resize listening
+2. Section container setup for horizontal layout (desktop)
+3. Lenis smooth scroll initialization (with device tier check)
+4. IntersectionObserver setup for active section tracking
+5. Event listeners for tab clicks, sidebar navigation, keyboard input
+6. Browser history management (popstate, initial hash)
+7. State synchronization via custom events
 
 ## Active Section Tracking
 
@@ -98,11 +89,91 @@ nav a[aria-current="page"] {
 }
 ```
 
-## Smooth Scroll Navigation
+## Horizontal Slide Animation (Desktop)
+
+### GSAP-Based Tab Switching
+
+On desktop viewports (≥1024px), the navigation system uses horizontal slide animations to simulate switching between editor tabs in an IDE.
+
+**Implementation**:
+```typescript
+// src/scripts/tui-navigation.ts
+function slideToSection(targetIndex: number, updateHistory = true) {
+  if (isAnimating || targetIndex === currentSectionIndex) return;
+
+  isAnimating = true;
+  const direction = targetIndex > currentSectionIndex ? 1 : -1;
+
+  // Kill any in-progress animations
+  gsap.killTweensOf(sectionsContainer);
+
+  // Dispatch animation start event
+  document.dispatchEvent(new CustomEvent('tui:animation-state', {
+    detail: { isAnimating: true }
+  }));
+
+  // Animate horizontal slide
+  gsap.to(sectionsContainer, {
+    xPercent: -targetIndex * 100,
+    duration: 0.4,
+    ease: 'power2.inOut',
+    onComplete: () => {
+      currentSectionIndex = targetIndex;
+      isAnimating = false;
+
+      // Update browser history
+      if (updateHistory) {
+        const sectionId = sections[targetIndex].id;
+        history.pushState({ sectionIndex: targetIndex }, '', `#${sectionId}`);
+      }
+
+      // Dispatch section change event
+      document.dispatchEvent(new CustomEvent('tui:section-change', {
+        detail: { sectionId: sections[targetIndex].id, sectionIndex: targetIndex }
+      }));
+
+      // Dispatch animation end event
+      document.dispatchEvent(new CustomEvent('tui:animation-state', {
+        detail: { isAnimating: false }
+      }));
+    }
+  });
+}
+```
+
+**Features**:
+- **Animation Duration**: 400ms for responsive feel
+- **Easing**: power2.inOut for smooth acceleration/deceleration
+- **Direction Awareness**: Slides left-to-right or right-to-left based on target position
+- **Animation Cancellation**: `gsap.killTweensOf()` handles rapid clicks gracefully
+- **State Management**: `isAnimating` flag prevents overlapping animations
+- **Browser History**: Integrates with browser back/forward buttons
+- **Custom Events**: Notifies other components (StatusLine, TopBar) of state changes
+
+### Reduced Motion Support
+
+Users with `prefers-reduced-motion` preference experience instant transitions instead of slide animations:
+
+```typescript
+// GSAP matchMedia for reduced motion
+gsap.matchMedia().add('(prefers-reduced-motion: reduce)', () => {
+  // Instant fade transition (0.15s) instead of slide
+  gsap.to(sectionsContainer, {
+    xPercent: -targetIndex * 100,
+    duration: 0.15,
+    opacity: 0.5,
+    onComplete: () => {
+      gsap.set(sectionsContainer, { opacity: 1 });
+    }
+  });
+});
+```
+
+## Smooth Scroll Navigation (Mobile)
 
 ### Lenis Integration
 
-The navigation system uses Lenis for smooth, natural scrolling with section snap functionality:
+On mobile viewports (<1024px), the navigation system preserves traditional vertical scrolling using Lenis for smooth, natural scrolling:
 
 ```typescript
 // src/scripts/smooth-scroll.ts - Initialize Lenis with snap
@@ -167,6 +238,92 @@ function scrollToSection(sectionId: string) {
 - Smoothly snaps to section start using easeInOutExpo (1.2s duration)
 - 150ms debounce prevents snap triggering during active scroll
 - Minimum 10px distance threshold prevents micro-adjustments
+
+### Keyboard Navigation
+
+The navigation system supports keyboard shortcuts on desktop for IDE-like navigation:
+
+```typescript
+// src/scripts/tui-navigation.ts
+document.addEventListener('keydown', (e) => {
+  // Only on desktop
+  if (viewportMode !== 'desktop') return;
+
+  const key = e.key.toLowerCase();
+
+  // j or ArrowDown: Next section
+  if (key === 'j' || key === 'arrowdown') {
+    e.preventDefault();
+    const nextIndex = Math.min(currentSectionIndex + 1, sections.length - 1);
+    if (nextIndex !== currentSectionIndex) {
+      slideToSection(nextIndex);
+    }
+  }
+
+  // k or ArrowUp: Previous section
+  if (key === 'k' || key === 'arrowup') {
+    e.preventDefault();
+    const prevIndex = Math.max(currentSectionIndex - 1, 0);
+    if (prevIndex !== currentSectionIndex) {
+      slideToSection(prevIndex);
+    }
+  }
+});
+```
+
+**Supported Keys**:
+- `j` or `ArrowDown`: Navigate to next section (right slide)
+- `k` or `ArrowUp`: Navigate to previous section (left slide)
+
+**Behavior**:
+- Only active on desktop (≥1024px)
+- Prevents default scrolling behavior
+- Triggers horizontal slide animation
+- Respects animation state (no action if animation in progress)
+- Stays within section bounds (doesn't wrap around)
+
+### Viewport Mode Detection
+
+The system automatically detects viewport size and switches navigation behavior:
+
+```typescript
+// Viewport mode tracking
+let viewportMode: 'desktop' | 'mobile' = window.innerWidth >= 1024 ? 'desktop' : 'mobile';
+
+// Listen for resize events
+window.addEventListener('resize', () => {
+  const newMode = window.innerWidth >= 1024 ? 'desktop' : 'mobile';
+
+  if (newMode !== viewportMode) {
+    viewportMode = newMode;
+
+    // Complete any in-progress animation before switching modes
+    if (isAnimating) {
+      gsap.killTweensOf(sectionsContainer);
+      isAnimating = false;
+    }
+
+    // Apply layout changes
+    if (viewportMode === 'desktop') {
+      // Enable horizontal layout
+      sectionsContainer.style.display = 'flex';
+      sectionsContainer.style.flexDirection = 'row';
+      gsap.set(sectionsContainer, { xPercent: -currentSectionIndex * 100 });
+    } else {
+      // Disable horizontal layout, reset transform
+      sectionsContainer.style.display = 'block';
+      gsap.set(sectionsContainer, { xPercent: 0 });
+    }
+  }
+});
+```
+
+**Features**:
+- Breakpoint at 1024px (desktop/mobile threshold)
+- Debounced resize listener prevents excessive recalculations
+- Completes animations before switching modes
+- Applies appropriate layout (flex row for desktop, block for mobile)
+- Resets section container transform on mode change
 
 ### Reduced Motion Support
 

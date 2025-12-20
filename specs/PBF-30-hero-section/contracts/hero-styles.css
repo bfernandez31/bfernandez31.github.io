@@ -11,35 +11,35 @@
    ========================================================================== */
 
 :root {
-  /* Typography Scale - Responsive with clamp() */
-  --hero-name-size: clamp(3rem, 10vw, 8rem);
-  --hero-name-weight: 700;
-  --hero-name-line-height: 1.1;
-  --hero-name-letter-spacing: -0.02em;
+	/* Typography Scale - Responsive with clamp() */
+	--hero-name-size: clamp(3rem, 10vw, 8rem);
+	--hero-name-weight: 700;
+	--hero-name-line-height: 1.1;
+	--hero-name-letter-spacing: -0.02em;
 
-  --hero-role-size: clamp(1.25rem, 3vw, 2rem);
-  --hero-role-weight: 400;
-  --hero-role-line-height: 1.4;
+	--hero-role-size: clamp(1.25rem, 3vw, 2rem);
+	--hero-role-weight: 400;
+	--hero-role-line-height: 1.4;
 
-  --hero-tagline-size: clamp(1rem, 2vw, 1.25rem);
-  --hero-tagline-weight: 400;
+	--hero-tagline-size: clamp(1rem, 2vw, 1.25rem);
+	--hero-tagline-weight: 400;
 
-  /* Spacing - Responsive with clamp() */
-  --hero-name-margin-bottom: clamp(1rem, 2.5vw, 2rem);
-  --hero-role-margin-bottom: clamp(0.5rem, 1.5vw, 1rem);
-  --hero-cta-margin-top: clamp(2rem, 4vw, 3rem);
+	/* Spacing - Responsive with clamp() */
+	--hero-name-margin-bottom: clamp(1rem, 2.5vw, 2rem);
+	--hero-role-margin-bottom: clamp(0.5rem, 1.5vw, 1rem);
+	--hero-cta-margin-top: clamp(2rem, 4vw, 3rem);
 
-  /* Animation Timing */
-  --hero-animation-duration: 0.6s;
-  --hero-animation-delay: 0.1s;
-  --hero-animation-easing: cubic-bezier(0.16, 1, 0.3, 1);
+	/* Animation Timing */
+	--hero-animation-duration: 0.6s;
+	--hero-animation-delay: 0.1s;
+	--hero-animation-easing: cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* Background Gradient */
-  --hero-bg-gradient: linear-gradient(
-    135deg,
-    var(--color-background) 0%,
-    var(--color-surface-0) 100%
-  );
+	/* Background Gradient */
+	--hero-bg-gradient: linear-gradient(
+		135deg,
+		var(--color-background) 0%,
+		var(--color-surface-0) 100%
+	);
 }
 
 /* ==========================================================================
@@ -47,22 +47,22 @@
    ========================================================================== */
 
 .hero {
-  /* Layout */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  min-height: 100dvh; /* Dynamic viewport height for mobile */
+	/* Layout */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	min-height: 100dvh; /* Dynamic viewport height for mobile */
 
-  /* Background */
-  background: var(--hero-bg-gradient);
+	/* Background */
+	background: var(--hero-bg-gradient);
 
-  /* Spacing */
-  padding: var(--space-xl) var(--space-md);
+	/* Spacing */
+	padding: var(--space-xl) var(--space-md);
 
-  /* Position context for absolute children if needed */
-  position: relative;
-  overflow: hidden;
+	/* Position context for absolute children if needed */
+	position: relative;
+	overflow: hidden;
 }
 
 /* ==========================================================================
@@ -70,42 +70,43 @@
    ========================================================================== */
 
 .hero__content {
-  /* Layout */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+	/* Layout */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
 
-  /* Sizing */
-  max-width: 1200px;
-  width: 100%;
+	/* Sizing */
+	max-width: 1200px;
+	width: 100%;
 
-  /* Animation initial state */
-  opacity: 0;
-  transform: translateY(20px);
+	/* Animation initial state */
+	opacity: 0;
+	transform: translateY(20px);
 }
 
 /* Animated state (applied via JavaScript or animation) */
 .hero__content--visible {
-  opacity: 1;
-  transform: translateY(0);
+	opacity: 1;
+	transform: translateY(0);
 }
 
 /* CSS animation alternative (if not using JS) */
 @keyframes heroFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 .hero__content--animate {
-  animation: heroFadeIn var(--hero-animation-duration) var(--hero-animation-easing) forwards;
-  animation-delay: var(--hero-animation-delay);
+	animation: heroFadeIn var(--hero-animation-duration)
+		var(--hero-animation-easing) forwards;
+	animation-delay: var(--hero-animation-delay);
 }
 
 /* ==========================================================================
@@ -113,18 +114,18 @@
    ========================================================================== */
 
 .hero__name {
-  /* Typography */
-  font-size: var(--hero-name-size);
-  font-weight: var(--hero-name-weight);
-  line-height: var(--hero-name-line-height);
-  letter-spacing: var(--hero-name-letter-spacing);
+	/* Typography */
+	font-size: var(--hero-name-size);
+	font-weight: var(--hero-name-weight);
+	line-height: var(--hero-name-line-height);
+	letter-spacing: var(--hero-name-letter-spacing);
 
-  /* Color */
-  color: var(--color-text);
+	/* Color */
+	color: var(--color-text);
 
-  /* Spacing */
-  margin: 0;
-  margin-bottom: var(--hero-name-margin-bottom);
+	/* Spacing */
+	margin: 0;
+	margin-bottom: var(--hero-name-margin-bottom);
 }
 
 /* ==========================================================================
@@ -132,20 +133,20 @@
    ========================================================================== */
 
 .hero__role {
-  /* Typography */
-  font-size: var(--hero-role-size);
-  font-weight: var(--hero-role-weight);
-  line-height: var(--hero-role-line-height);
+	/* Typography */
+	font-size: var(--hero-role-size);
+	font-weight: var(--hero-role-weight);
+	line-height: var(--hero-role-line-height);
 
-  /* Color - slightly muted */
-  color: var(--color-text-muted);
+	/* Color - slightly muted */
+	color: var(--color-text-muted);
 
-  /* Spacing */
-  margin: 0;
-  margin-bottom: var(--hero-role-margin-bottom);
+	/* Spacing */
+	margin: 0;
+	margin-bottom: var(--hero-role-margin-bottom);
 
-  /* Constrain width for readability */
-  max-width: 600px;
+	/* Constrain width for readability */
+	max-width: 600px;
 }
 
 /* ==========================================================================
@@ -153,20 +154,20 @@
    ========================================================================== */
 
 .hero__tagline {
-  /* Typography */
-  font-size: var(--hero-tagline-size);
-  font-weight: var(--hero-tagline-weight);
+	/* Typography */
+	font-size: var(--hero-tagline-size);
+	font-weight: var(--hero-tagline-weight);
 
-  /* Color - more muted */
-  color: var(--color-text-muted);
-  opacity: 0.8;
+	/* Color - more muted */
+	color: var(--color-text-muted);
+	opacity: 0.8;
 
-  /* Spacing */
-  margin: 0;
-  margin-bottom: var(--hero-cta-margin-top);
+	/* Spacing */
+	margin: 0;
+	margin-bottom: var(--hero-cta-margin-top);
 
-  /* Constrain width */
-  max-width: 500px;
+	/* Constrain width */
+	max-width: 500px;
 }
 
 /* ==========================================================================
@@ -174,57 +175,57 @@
    ========================================================================== */
 
 .hero__cta {
-  /* Layout */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+	/* Layout */
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 
-  /* Sizing */
-  min-height: 48px;
-  padding: var(--space-sm) var(--space-lg);
+	/* Sizing */
+	min-height: 48px;
+	padding: var(--space-sm) var(--space-lg);
 
-  /* Typography */
-  font-size: 1rem;
-  font-weight: 500;
-  text-decoration: none;
+	/* Typography */
+	font-size: 1rem;
+	font-weight: 500;
+	text-decoration: none;
 
-  /* Colors */
-  background-color: var(--color-primary);
-  color: var(--color-background);
+	/* Colors */
+	background-color: var(--color-primary);
+	color: var(--color-background);
 
-  /* Border */
-  border: 2px solid var(--color-primary);
-  border-radius: 8px;
+	/* Border */
+	border: 2px solid var(--color-primary);
+	border-radius: 8px;
 
-  /* Spacing */
-  margin-top: var(--hero-cta-margin-top);
+	/* Spacing */
+	margin-top: var(--hero-cta-margin-top);
 
-  /* Transitions */
-  transition:
-    background-color var(--transition-color),
-    color var(--transition-color),
-    border-color var(--transition-color),
-    transform 0.2s ease;
+	/* Transitions */
+	transition:
+		background-color var(--transition-color),
+		color var(--transition-color),
+		border-color var(--transition-color),
+		transform 0.2s ease;
 
-  /* Cursor */
-  cursor: pointer;
+	/* Cursor */
+	cursor: pointer;
 }
 
 /* Hover state */
 .hero__cta:hover {
-  background-color: transparent;
-  color: var(--color-primary);
+	background-color: transparent;
+	color: var(--color-primary);
 }
 
 /* Focus state (keyboard accessibility) */
 .hero__cta:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 4px;
+	outline: 2px solid var(--color-primary);
+	outline-offset: 4px;
 }
 
 /* Active state */
 .hero__cta:active {
-  transform: scale(0.98);
+	transform: scale(0.98);
 }
 
 /* ==========================================================================
@@ -232,19 +233,19 @@
    ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__content {
-    /* Show content immediately */
-    opacity: 1;
-    transform: none;
-  }
+	.hero__content {
+		/* Show content immediately */
+		opacity: 1;
+		transform: none;
+	}
 
-  .hero__content--animate {
-    animation: none;
-  }
+	.hero__content--animate {
+		animation: none;
+	}
 
-  .hero__cta {
-    transition: none;
-  }
+	.hero__cta {
+		transition: none;
+	}
 }
 
 /* ==========================================================================
@@ -253,23 +254,23 @@
 
 /* Tablet and up */
 @media (min-width: 768px) {
-  .hero {
-    padding: var(--space-2xl) var(--space-xl);
-  }
+	.hero {
+		padding: var(--space-2xl) var(--space-xl);
+	}
 }
 
 /* Desktop and up */
 @media (min-width: 1024px) {
-  .hero__content {
-    /* Optional: left-align on desktop */
-    /* align-items: flex-start; */
-    /* text-align: left; */
-  }
+	.hero__content {
+		/* Optional: left-align on desktop */
+		/* align-items: flex-start; */
+		/* text-align: left; */
+	}
 }
 
 /* Very large screens */
 @media (min-width: 2560px) {
-  .hero__content {
-    max-width: 1400px;
-  }
+	.hero__content {
+		max-width: 1400px;
+	}
 }

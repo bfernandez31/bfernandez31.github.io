@@ -75,55 +75,62 @@ export const sections: SectionProps[] = [
 /**
  * TUI Section metadata
  * Maps sections to TUI-specific display properties
+ * @feature PBF-37-layout-tui - Added lineCount property per section
  */
 export const TUI_SECTIONS: TuiSection[] = [
 	{
-		id: 'hero',
-		displayName: 'Hero',
-		fileName: 'hero.tsx',
-		icon: '\uf0a2', // Nerd Font file icon
+		id: "hero",
+		displayName: "Hero",
+		fileName: "hero.tsx",
+		icon: "\uf0a2", // Nerd Font file icon
 		order: 1,
-		styleType: 'typing',
+		styleType: "typing",
+		lineCount: 15,
 	},
 	{
-		id: 'about',
-		displayName: 'About',
-		fileName: 'about.tsx',
-		icon: '\uf0a2',
+		id: "about",
+		displayName: "About",
+		fileName: "about.tsx",
+		icon: "\uf0a2",
 		order: 2,
-		styleType: 'readme',
+		styleType: "readme",
+		lineCount: 40,
 	},
 	{
-		id: 'experience',
-		displayName: 'Experience',
-		fileName: 'experience.tsx',
-		icon: '\uf0a2',
+		id: "experience",
+		displayName: "Experience",
+		fileName: "experience.tsx",
+		icon: "\uf0a2",
 		order: 3,
-		styleType: 'git-log',
+		styleType: "git-log",
+		lineCount: 60,
 	},
 	{
-		id: 'projects',
-		displayName: 'Projects',
-		fileName: 'projects.tsx',
-		icon: '\uf0a2',
+		id: "projects",
+		displayName: "Projects",
+		fileName: "projects.tsx",
+		icon: "\uf0a2",
 		order: 4,
-		styleType: 'telescope',
+		styleType: "telescope",
+		lineCount: 50,
 	},
 	{
-		id: 'expertise',
-		displayName: 'Expertise',
-		fileName: 'expertise.tsx',
-		icon: '\uf0a2',
+		id: "expertise",
+		displayName: "Expertise",
+		fileName: "expertise.tsx",
+		icon: "\uf0a2",
 		order: 5,
-		styleType: 'checkhealth',
+		styleType: "checkhealth",
+		lineCount: 35,
 	},
 	{
-		id: 'contact',
-		displayName: 'Contact',
-		fileName: 'contact.tsx',
-		icon: '\uf01ea', // Nerd Font mail icon
+		id: "contact",
+		displayName: "Contact",
+		fileName: "contact.tsx",
+		icon: "\uf01ea", // Nerd Font mail icon
 		order: 6,
-		styleType: 'terminal',
+		styleType: "terminal",
+		lineCount: 25,
 	},
 ];
 
@@ -143,13 +150,16 @@ export function getSortedTuiSections(): TuiSection[] {
 
 /**
  * Generate buffer tabs from TUI sections
+ * @feature PBF-37-layout-tui - Added icon and showClose properties
  */
 export function generateBufferTabs(activeSectionId: SectionId): BufferTab[] {
 	return TUI_SECTIONS.map((section, index) => ({
 		sectionId: section.id,
 		label: section.displayName,
+		icon: section.icon,
 		windowNumber: index + 1,
 		isActive: section.id === activeSectionId,
+		showClose: section.id === activeSectionId,
 	}));
 }
 

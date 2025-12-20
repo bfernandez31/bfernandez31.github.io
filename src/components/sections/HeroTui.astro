@@ -7,24 +7,24 @@
  */
 
 interface Props {
-  /** Main headline text */
-  headline: string;
-  /** Subheadline text */
-  subheadline?: string;
-  /** Typing speed (chars/sec) */
-  typingSpeed?: number;
-  /** CTA button text */
-  ctaText?: string;
-  /** CTA button link */
-  ctaLink?: string;
+	/** Main headline text */
+	headline: string;
+	/** Subheadline text */
+	subheadline?: string;
+	/** Typing speed (chars/sec) */
+	typingSpeed?: number;
+	/** CTA button text */
+	ctaText?: string;
+	/** CTA button link */
+	ctaLink?: string;
 }
 
 const {
-  headline,
-  subheadline,
-  typingSpeed = 12.5,
-  ctaText = 'Explore Projects',
-  ctaLink = '#projects',
+	headline,
+	subheadline,
+	typingSpeed = 12.5,
+	ctaText = "Explore Projects",
+	ctaLink = "#projects",
 } = Astro.props;
 ---
 

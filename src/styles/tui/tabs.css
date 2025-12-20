@@ -1,0 +1,218 @@
+/**
+ * TUI Buffer Tab Styling
+ * Feature: PBF-37-layout-tui
+ *
+ * Neovim-style buffer tab aesthetic with:
+ * - File icons
+ * - Vertical separators
+ * - Active/inactive/hover states
+ * - Close button on active tab
+ */
+
+/* ============================================
+   Buffer Tab Base
+   ============================================ */
+
+.tui-buffer-tab {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.375rem;
+	padding: 0.25rem 0.75rem;
+	font-family: var(--font-mono);
+	font-size: 0.75rem;
+	color: var(--color-text-muted);
+	background-color: transparent;
+	border: none;
+	border-bottom: 2px solid transparent;
+	cursor: pointer;
+	transition:
+		background-color var(--transition-fast),
+		color var(--transition-fast);
+	white-space: nowrap;
+	flex-shrink: 0;
+	text-decoration: none;
+}
+
+/* ============================================
+   Vertical Separator
+   ============================================ */
+
+.tui-buffer-tab::after {
+	content: "│";
+	position: absolute;
+	right: -0.125rem;
+	color: var(--color-border);
+	opacity: 0.3;
+	pointer-events: none;
+}
+
+.tui-buffer-tab:last-child::after,
+.tui-buffer-tab.is-active::after,
+.tui-buffer-tab.is-active + .tui-buffer-tab::after {
+	display: none;
+}
+
+/* ============================================
+   Hover State
+   ============================================ */
+
+.tui-buffer-tab:hover {
+	background-color: var(--color-surface-1);
+	color: var(--color-text);
+}
+
+/* ============================================
+   Active State
+   ============================================ */
+
+.tui-buffer-tab.is-active {
+	background-color: var(--color-surface-2);
+	color: var(--color-primary);
+	font-weight: 700;
+	border-bottom-color: var(--color-primary);
+}
+
+/* ============================================
+   Focus State
+   ============================================ */
+
+.tui-buffer-tab:focus-visible {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 2px;
+}
+
+/* ============================================
+   File Icon
+   ============================================ */
+
+.tui-buffer-tab__icon {
+	font-size: 0.875rem;
+	color: var(--color-text-muted);
+	font-family: var(--font-nerd), var(--font-mono);
+	line-height: 1;
+}
+
+.tui-buffer-tab.is-active .tui-buffer-tab__icon {
+	color: var(--color-secondary);
+}
+
+/* ============================================
+   Tab Label
+   ============================================ */
+
+.tui-buffer-tab__label {
+	line-height: 1;
+}
+
+/* ============================================
+   Close Button
+   ============================================ */
+
+.tui-buffer-tab__close {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	width: 1rem;
+	height: 1rem;
+	padding: 0;
+	margin-left: 0.25rem;
+	background: none;
+	border: none;
+	color: inherit;
+	cursor: pointer;
+	border-radius: 2px;
+	font-size: 0.75rem;
+	line-height: 1;
+	transition: background-color var(--transition-fast);
+}
+
+.tui-buffer-tab.is-active .tui-buffer-tab__close {
+	display: flex;
+}
+
+.tui-buffer-tab__close:hover {
+	background-color: rgba(243, 139, 168, 0.7);
+	color: var(--color-background);
+}
+
+.tui-buffer-tab__close:focus-visible {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 1px;
+}
+
+/* ============================================
+   Tab Container
+   ============================================ */
+
+.tui-topbar__tabs {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+	overflow-x: auto;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+	scroll-behavior: smooth;
+	scroll-snap-type: x proximity;
+}
+
+.tui-topbar__tabs::-webkit-scrollbar {
+	display: none;
+}
+
+.tui-topbar__tabs .tui-buffer-tab {
+	scroll-snap-align: start;
+}
+
+/* ============================================
+   Window Number Badge (optional)
+   ============================================ */
+
+.tui-buffer-tab__window {
+	display: none;
+	font-size: 0.625rem;
+	color: var(--color-text-muted);
+	opacity: 0.6;
+}
+
+/* Show window numbers on wider screens */
+@media (min-width: 768px) {
+	.tui-buffer-tab__window {
+		display: inline;
+	}
+}
+
+/* ============================================
+   Responsive Adjustments
+   ============================================ */
+
+@media (max-width: 767px) {
+	.tui-buffer-tab {
+		padding: 0.25rem 0.5rem;
+		gap: 0.25rem;
+	}
+
+	.tui-buffer-tab__icon {
+		font-size: 0.75rem;
+	}
+
+	.tui-buffer-tab__close {
+		width: 0.875rem;
+		height: 0.875rem;
+		font-size: 0.625rem;
+	}
+}
+
+/* ============================================
+   Reduced Motion
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+	.tui-buffer-tab {
+		transition: none;
+	}
+
+	.tui-buffer-tab__close {
+		transition: none;
+	}
+}

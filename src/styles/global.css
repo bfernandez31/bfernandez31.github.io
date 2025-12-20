@@ -11,6 +11,7 @@
 @import "./tui/typography.css";
 @import "./tui/icons.css";
 @import "./tui/layout.css";
+@import "./tui/tabs.css";
 @import "./tui/sidebar.css";
 @import "./tui/statusline.css";
 @import "./tui/syntax.css";
