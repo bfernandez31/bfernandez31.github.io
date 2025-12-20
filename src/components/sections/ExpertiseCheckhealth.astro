@@ -84,7 +84,7 @@ function getProgressBar(level: number): string {
                 <li class={`tui-checkhealth__check tui-checkhealth__check--${status.class}`}>
                   <div class="tui-checkhealth__check-indicator">
                     <span class={`tui-checkhealth__status tui-checkhealth__status--${status.class}`}>
-                      {status.class === 'ok' ? '✓ OK' : status.class === 'warn' ? '! WARN' : 'i INFO'}
+                      {status.class === 'ok' || status.class === 'warn' ? '' : 'INFO'}
                     </span>
                   </div>
 
@@ -121,7 +121,7 @@ function getProgressBar(level: number): string {
     {/* Summary footer */}
     <div class="tui-checkhealth__footer">
       <div class="tui-checkhealth__footer-status">
-        <span class="tui-checkhealth__status tui-checkhealth__status--ok">✓ OK</span>
+        <span class="tui-checkhealth__status tui-checkhealth__status--ok"/>
         <span>All checks passed</span>
       </div>
       <div class="tui-checkhealth__footer-meta">

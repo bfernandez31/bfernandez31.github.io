@@ -1,9 +1,18 @@
 ---
 title: "AI-BOARD"
-description: "AI-powered project management board that leverages Claude AI to streamline development workflows and automate task specifications"
+description: "AI-powered project management board that leverages Claude code to streamline development workflows and automate task specifications"
 image: "/images/projects/ai-board.webp"
 imageAlt: "AI-BOARD dashboard interface showing project boards and AI-generated specifications"
-technologies: ["TypeScript", "Claude API", "Astro", "GSAP"]
+technologies:
+  [
+    "TypeScript",
+    "Claude code",
+    "React",
+    "TanStack",
+    "Next.js",
+    "PostgreSQL",
+    "Prisma",
+  ]
 featured: true
 displayOrder: 1
 externalUrl: "https://ai-board-three.vercel.app/"

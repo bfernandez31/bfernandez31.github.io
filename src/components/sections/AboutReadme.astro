@@ -29,7 +29,7 @@ const paragraphs = biography.split('\n').filter(p => p.trim());
     <!-- Title with markdown header -->
     <h2 class="tui-readme__title">
       <span class="tui-readme__hash" aria-hidden="true">#</span>
-      About Me
+      <span class="tui-readme__text">About Me</span>
     </h2>
 
     <!-- Biography paragraphs -->
@@ -44,7 +44,7 @@ const paragraphs = biography.split('\n').filter(p => p.trim());
       <div class="tui-readme__section">
         <h3 class="tui-readme__subtitle">
           <span class="tui-readme__hash" aria-hidden="true">##</span>
-          Highlights
+          <span class="tui-readme__text">Highlights</span>
         </h3>
         <ul class="tui-readme__list" role="list">
           {highlights.map((highlight) => (
@@ -56,32 +56,6 @@ const paragraphs = biography.split('\n').filter(p => p.trim());
         </ul>
       </div>
     )}
-
-    <!-- Code block section -->
-    <div class="tui-readme__section">
-      <h3 class="tui-readme__subtitle">
-        <span class="tui-readme__hash" aria-hidden="true">##</span>
-        Quick Start
-      </h3>
-      <div class="tui-readme__codeblock">
-        <div class="tui-readme__code-header">
-          <span class="tui-readme__code-lang">bash</span>
-        </div>
-        <pre class="tui-readme__code"><code><span class="tui-readme__code-comment"># Clone my portfolio</span>
-<span class="tui-readme__code-prompt">$</span> git clone https://github.com/b-fernandez/portfolio
-
-<span class="tui-readme__code-comment"># Let's connect!</span>
-<span class="tui-readme__code-prompt">$</span> echo "Hello, let's build something amazing"</code></pre>
-      </div>
-    </div>
-
-    <!-- Footer badge -->
-    <div class="tui-readme__footer">
-      <span class="tui-readme__badge">
-        <span class="tui-readme__badge-icon" aria-hidden="true"></span>
-        Open for opportunities
-      </span>
-    </div>
   </article>
 </div>
 
@@ -128,7 +102,7 @@ const paragraphs = biography.split('\n').filter(p => p.trim());
     font-size: 1.75rem;
     font-weight: 700;
     color: var(--color-text, #cdd6f4);
-    margin: 0 0 1.5rem;
+    margin: 0;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--color-surface-1, #313244);
   }
@@ -153,7 +127,7 @@ const paragraphs = biography.split('\n').filter(p => p.trim());
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--color-text, #cdd6f4);
-    margin: 0 0 1rem;
+    margin: 0;
   }
 
   .tui-readme__paragraph {
