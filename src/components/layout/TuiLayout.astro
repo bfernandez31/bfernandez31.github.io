@@ -122,7 +122,14 @@ const activeLineCount = activeSection?.lineCount || lineCount;
     background-color: var(--color-surface-0, #1e1e2e);
     border-right: 1px solid var(--color-surface-1, #313244);
     user-select: none;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* Sync scroll with content viewport */
+    scrollbar-width: none;
+  }
+
+  .tui-content__gutter::-webkit-scrollbar {
+    display: none;
   }
 
   .tui-content__viewport {
@@ -183,8 +190,8 @@ const activeLineCount = activeSection?.lineCount || lineCount;
   import type { SectionId, SectionChangeEventDetail } from '../../types/tui';
   import { TUI_SECTIONS } from '../../data/sections';
 
-  // Per-section line numbers (PBF-37)
-  // Update line numbers when section changes
+  // Per-section line numbers (PBF-37 + PBF-40)
+  // Update line numbers when section changes, dynamically calculating line count based on content height
   function updateLineNumbers(sectionId: SectionId): void {
     const gutter = document.getElementById('tui-line-gutter');
     if (!gutter) return;
@@ -192,10 +199,22 @@ const activeLineCount = activeSection?.lineCount || lineCount;
     const section = TUI_SECTIONS.find(s => s.id === sectionId);
     if (!section) return;
 
-    const lineCount = section.lineCount;
+    // Get the active section element to measure its scrollable height
+    const sectionElement = document.querySelector(`[data-section="${sectionId}"]`);
+    if (!sectionElement) return;
+
+    // Calculate line count based on content scroll height
+    // Use a standard line height (1.6 * 0.75rem ≈ 18px at default font size)
+    const lineHeight = 18; // pixels
+    const scrollHeight = sectionElement.scrollHeight;
+
+    // Calculate how many lines are needed to cover the full scrollable area
+    // Use at least the configured lineCount, but extend if content is taller
+    const minLineCount = section.lineCount;
+    const calculatedLineCount = Math.max(minLineCount, Math.ceil(scrollHeight / lineHeight));
 
     // Generate new line numbers HTML
-    const lines = Array.from({ length: lineCount }, (_, i) => i + 1);
+    const lines = Array.from({ length: calculatedLineCount }, (_, i) => i + 1);
     const linesHtml = lines.map(num => `<span class="tui-line-numbers__line">${num}</span>`).join('');
 
     // Update the gutter content
@@ -206,8 +225,72 @@ const activeLineCount = activeSection?.lineCount || lineCount;
     }
   }
 
+  // Synchronize scroll between gutter and content (PBF-40)
+  function syncScroll(): void {
+    const gutter = document.getElementById('tui-line-gutter');
+    const viewport = document.querySelector('.tui-content__viewport');
+
+    if (!gutter || !viewport) return;
+
+    // Get the active section
+    const activeSection = document.querySelector('.tui-section.is-active') as HTMLElement;
+    if (!activeSection) return;
+
+    // Sync gutter scroll to match active section scroll
+    let isScrolling = false;
+
+    activeSection.addEventListener('scroll', () => {
+      if (!isScrolling) {
+        isScrolling = true;
+        requestAnimationFrame(() => {
+          gutter.scrollTop = activeSection.scrollTop;
+          isScrolling = false;
+        });
+      }
+    });
+
+    // Also sync when gutter is scrolled (though it's user-select: none, still accessible via keyboard)
+    gutter.addEventListener('scroll', () => {
+      if (!isScrolling) {
+        isScrolling = true;
+        requestAnimationFrame(() => {
+          activeSection.scrollTop = gutter.scrollTop;
+          isScrolling = false;
+        });
+      }
+    });
+  }
+
   // Listen for section changes
   document.addEventListener('tui:section-change', ((event: CustomEvent<SectionChangeEventDetail>) => {
     updateLineNumbers(event.detail.currentSectionId);
+    // Re-setup scroll sync for the new active section
+    setTimeout(syncScroll, 100); // Small delay to ensure DOM is ready
   }) as EventListener);
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    // Update line numbers for initial section
+    const initialSection = document.querySelector('.tui-section.is-active') as HTMLElement;
+    if (initialSection) {
+      const sectionId = initialSection.getAttribute('data-section') as SectionId;
+      if (sectionId) {
+        updateLineNumbers(sectionId);
+      }
+    }
+
+    // Setup initial scroll sync
+    syncScroll();
+
+    // Re-calculate line numbers on window resize
+    window.addEventListener('resize', () => {
+      const activeSection = document.querySelector('.tui-section.is-active') as HTMLElement;
+      if (activeSection) {
+        const sectionId = activeSection.getAttribute('data-section') as SectionId;
+        if (sectionId) {
+          updateLineNumbers(sectionId);
+        }
+      }
+    });
+  });
 </script>
