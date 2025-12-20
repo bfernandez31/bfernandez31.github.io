@@ -219,15 +219,6 @@
 	gap: 0.25rem;
 }
 
-.tui-branch::before {
-	content: "";
-	display: inline-block;
-	width: 0.75rem;
-	height: 0.75rem;
-	background-color: var(--color-success);
-	border-radius: 50%;
-}
-
 /* ============================================
    Responsive Layout
    ============================================ */
