@@ -28,8 +28,8 @@
 
 **⚠️ CRITICAL**: User Story 1 and 2 both depend on the sections configuration update.
 
-- [ ] T001 Update About section fileName from "about.tsx" to "about.md" in src/data/sections.ts
-- [ ] T002 Modify generateBufferTabs() to use fileName instead of displayName for label in src/data/sections.ts
+- [X] T001 Update About section fileName from "about.tsx" to "about.md" in src/data/sections.ts
+- [X] T002 Modify generateBufferTabs() to use fileName instead of displayName for label in src/data/sections.ts
 
 **Checkpoint**: Foundation ready - both user stories can now verify their changes
 
@@ -43,7 +43,7 @@
 
 ### Implementation for User Story 1
 
-- [ ] T003 [US1] Verify FileEntry component in src/components/ui/FileEntry.astro correctly uses fileName from sections.ts (no changes expected)
+- [X] T003 [US1] Verify FileEntry component in src/components/ui/FileEntry.astro correctly uses fileName from sections.ts (no changes expected)
 
 **Checkpoint**: Sidebar explorer now displays `about.md` for About section. Click navigation to About section still works.
 
@@ -57,9 +57,9 @@
 
 ### Implementation for User Story 2
 
-- [ ] T004 [US2] Remove .tui-readme__header div element from template in src/components/sections/AboutReadme.astro
-- [ ] T005 [US2] Remove border properties (border, border-top, border-radius) from .tui-readme__content in src/components/sections/AboutReadme.astro
-- [ ] T006 [US2] Remove unused CSS rules (.tui-readme__header, .tui-readme__icon, .tui-readme__filename) from src/components/sections/AboutReadme.astro
+- [X] T004 [US2] Remove .tui-readme__header div element from template in src/components/sections/AboutReadme.astro
+- [X] T005 [US2] Remove border properties (border, border-top, border-radius) from .tui-readme__content in src/components/sections/AboutReadme.astro
+- [X] T006 [US2] Remove unused CSS rules (.tui-readme__header, .tui-readme__icon, .tui-readme__filename) from src/components/sections/AboutReadme.astro
 
 **Checkpoint**: About section displays clean markdown content without fake header bar or border. Markdown formatting (# headings, - bullets) remains visible.
 
@@ -73,7 +73,7 @@
 
 ### Implementation for User Story 3
 
-- [ ] T007 [US3] Verify BufferTab component in src/components/ui/BufferTab.astro correctly uses label prop (no changes expected - relies on T002)
+- [X] T007 [US3] Verify BufferTab component in src/components/ui/BufferTab.astro correctly uses label prop (no changes expected - relies on T002)
 
 **Checkpoint**: Buffer tab now displays `about.md` for About section. Tab click navigation still works.
 
@@ -83,9 +83,9 @@
 
 **Purpose**: Final validation and verification
 
-- [ ] T008 Run linting with bun run lint
-- [ ] T009 Build for production with bun run build
-- [ ] T010 Run quickstart.md validation checklist in dev server
+- [X] T008 Run linting with bun run lint
+- [X] T009 Build for production with bun run build
+- [X] T010 Run quickstart.md validation checklist in dev server
 
 ---
 

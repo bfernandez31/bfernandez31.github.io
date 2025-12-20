@@ -20,11 +20,6 @@ const paragraphs = biography.split("\n").filter((p) => p.trim());
 ---
 
 <div class="tui-readme">
-  <div class="tui-readme__header">
-    <span class="tui-readme__icon" aria-hidden="true"></span>
-    <span class="tui-readme__filename">README.md</span>
-  </div>
-
   <article class="tui-readme__content">
     <!-- Title with markdown header -->
     <h2 class="tui-readme__title">
@@ -67,31 +62,8 @@ const paragraphs = biography.split("\n").filter((p) => p.trim());
     padding: 1rem;
   }
 
-  .tui-readme__header {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 0.75rem;
-    background-color: var(--color-surface-1, #313244);
-    border-radius: 0.5rem 0.5rem 0 0;
-    font-size: 0.875rem;
-    color: var(--color-text-muted, #6c7086);
-  }
-
-  .tui-readme__icon {
-    font-family: var(--font-nerd, monospace);
-    color: var(--color-info, #89b4fa);
-  }
-
-  .tui-readme__filename {
-    color: var(--color-text, #cdd6f4);
-  }
-
   .tui-readme__content {
     background-color: var(--color-surface-0, #1e1e2e);
-    border: 1px solid var(--color-surface-1, #313244);
-    border-top: none;
-    border-radius: 0 0 0.5rem 0.5rem;
     padding: 1.5rem;
   }
 

@@ -90,7 +90,7 @@ export const TUI_SECTIONS: TuiSection[] = [
 	{
 		id: "about",
 		displayName: "About",
-		fileName: "about.tsx",
+		fileName: "about.md",
 		icon: "\uf0a2",
 		order: 2,
 		styleType: "readme",
@@ -155,7 +155,7 @@ export function getSortedTuiSections(): TuiSection[] {
 export function generateBufferTabs(activeSectionId: SectionId): BufferTab[] {
 	return TUI_SECTIONS.map((section, index) => ({
 		sectionId: section.id,
-		label: section.displayName,
+		label: section.fileName,
 		icon: section.icon,
 		windowNumber: index + 1,
 		isActive: section.id === activeSectionId,
