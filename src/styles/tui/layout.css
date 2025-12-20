@@ -15,20 +15,20 @@
    ============================================ */
 
 .tui-layout {
-  display: grid;
-  grid-template-rows: auto 1fr auto auto;
-  grid-template-columns: minmax(200px, 250px) 1fr;
-  grid-template-areas:
-    "topbar  topbar"
-    "sidebar content"
-    "status  status"
-    "cmdline cmdline";
-  height: 100vh;
-  height: 100dvh;
-  overflow: hidden;
-  background-color: var(--color-background);
-  color: var(--color-text);
-  font-family: var(--font-mono);
+	display: grid;
+	grid-template-rows: auto 1fr auto auto;
+	grid-template-columns: minmax(200px, 250px) 1fr;
+	grid-template-areas:
+		"topbar  topbar"
+		"sidebar content"
+		"status  status"
+		"cmdline cmdline";
+	height: 100vh;
+	height: 100dvh;
+	overflow: hidden;
+	background-color: var(--color-background);
+	color: var(--color-text);
+	font-family: var(--font-mono);
 }
 
 /* ============================================
@@ -36,73 +36,123 @@
    ============================================ */
 
 .tui-topbar {
-  grid-area: topbar;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.25rem 0.5rem;
-  background-color: var(--color-surface-0);
-  border-bottom: 1px solid var(--color-surface-1);
-  min-height: 2rem;
-  z-index: 100;
+	grid-area: topbar;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.25rem 0.5rem;
+	background-color: var(--color-surface-0);
+	border-bottom: 1px solid var(--color-surface-1);
+	min-height: 2rem;
+	z-index: 100;
 }
 
 .tui-sidebar {
-  grid-area: sidebar;
-  overflow-y: auto;
-  background-color: var(--color-surface-0);
-  border-right: 1px solid var(--color-surface-1);
-  padding: 0.5rem 0;
+	grid-area: sidebar;
+	overflow-y: auto;
+	background-color: var(--color-surface-0);
+	border-right: 1px solid var(--color-surface-1);
+	padding: 0.5rem 0;
 }
 
 .tui-content {
-  grid-area: content;
-  display: flex;
-  overflow-y: auto;
-  overflow-x: hidden;
-  position: relative;
+	grid-area: content;
+	display: flex;
+	overflow-y: auto;
+	overflow-x: hidden;
+	position: relative;
+}
+
+/* ============================================
+   Horizontal Section Container (PBF-37)
+   Desktop: Horizontal slide navigation
+   ============================================ */
+
+.tui-section-container {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.tui-section {
+	position: relative;
+	flex: 0 0 100%;
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+	/* GPU acceleration for smooth animations */
+	will-change: transform;
+	transform: translateZ(0);
+}
+
+/* Position sections for horizontal slide */
+@media (min-width: 1024px) {
+	.tui-section-container {
+		position: relative;
+	}
+
+	.tui-section {
+		position: absolute;
+		top: 0;
+		left: 0;
+		transform: translateX(100%);
+		opacity: 0;
+	}
+
+	.tui-section.is-active {
+		transform: translateX(0);
+		opacity: 1;
+	}
+
+	.tui-section.is-previous {
+		transform: translateX(-100%);
+		opacity: 0;
+	}
 }
 
 .tui-content__gutter {
-  flex-shrink: 0;
-  width: 3rem;
-  padding: 0.5rem 0;
-  text-align: right;
-  color: var(--color-text-muted);
-  background-color: var(--color-surface-0);
-  border-right: 1px solid var(--color-surface-1);
-  user-select: none;
+	flex-shrink: 0;
+	width: 3rem;
+	padding: 0.5rem 0;
+	text-align: right;
+	color: var(--color-text-muted);
+	background-color: var(--color-surface-0);
+	border-right: 1px solid var(--color-surface-1);
+	user-select: none;
 }
 
 .tui-content__viewport {
-  flex: 1;
-  padding: 0.5rem 1rem;
-  overflow-y: auto;
+	flex: 1;
+	padding: 0.5rem 1rem;
+	overflow-y: auto;
 }
 
 .tui-statusline {
-  grid-area: status;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.125rem 0.5rem;
-  background-color: var(--color-primary);
-  color: var(--color-background);
-  font-size: 0.75rem;
-  min-height: 1.5rem;
+	grid-area: status;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.125rem 0.5rem;
+	background-color: var(--color-primary);
+	color: var(--color-background);
+	font-size: 0.75rem;
+	min-height: 1.5rem;
 }
 
 .tui-commandline {
-  grid-area: cmdline;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.125rem 0.5rem;
-  background-color: var(--color-background);
-  color: var(--color-text);
-  font-size: 0.875rem;
-  min-height: 1.5rem;
-  border-top: 1px solid var(--color-surface-1);
+	grid-area: cmdline;
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+	padding: 0.125rem 0.5rem;
+	background-color: var(--color-background);
+	color: var(--color-text);
+	font-size: 0.875rem;
+	min-height: 1.5rem;
+	border-top: 1px solid var(--color-surface-1);
 }
 
 /* ============================================
@@ -110,43 +160,43 @@
    ============================================ */
 
 .tui-topbar__tabs {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  overflow-x: auto;
-  scrollbar-width: none;
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+	overflow-x: auto;
+	scrollbar-width: none;
 }
 
 .tui-topbar__tabs::-webkit-scrollbar {
-  display: none;
+	display: none;
 }
 
 .tui-topbar__meta {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
-  white-space: nowrap;
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	font-size: 0.75rem;
+	color: var(--color-text-muted);
+	white-space: nowrap;
 }
 
 .tui-clock {
-  font-variant-numeric: tabular-nums;
+	font-variant-numeric: tabular-nums;
 }
 
 .tui-branch {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
 }
 
 .tui-branch::before {
-  content: '';
-  display: inline-block;
-  width: 0.75rem;
-  height: 0.75rem;
-  background-color: var(--color-success);
-  border-radius: 50%;
+	content: "";
+	display: inline-block;
+	width: 0.75rem;
+	height: 0.75rem;
+	background-color: var(--color-success);
+	border-radius: 50%;
 }
 
 /* ============================================
@@ -155,68 +205,70 @@
 
 /* Mobile: sidebar hidden, full-width content */
 @media (max-width: 767px) {
-  .tui-layout {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "topbar"
-      "content"
-      "status"
-      "cmdline";
-  }
+	.tui-layout {
+		grid-template-columns: 1fr;
+		grid-template-areas:
+			"topbar"
+			"content"
+			"status"
+			"cmdline";
+	}
 
-  .tui-sidebar {
-    display: none;
-    position: fixed;
-    top: 2rem;
-    left: 0;
-    bottom: 3rem;
-    width: 80vw;
-    max-width: 300px;
-    z-index: 200;
-    box-shadow: 4px 0 16px rgba(0, 0, 0, 0.4);
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-  }
+	.tui-sidebar {
+		display: none;
+		position: fixed;
+		top: 2rem;
+		left: 0;
+		bottom: 3rem;
+		width: 80vw;
+		max-width: 300px;
+		z-index: 200;
+		box-shadow: 4px 0 16px rgba(0, 0, 0, 0.4);
+		transform: translateX(-100%);
+		transition: transform 0.3s ease;
+	}
 
-  .tui-sidebar.is-open {
-    display: block;
-    transform: translateX(0);
-  }
+	.tui-sidebar.is-open {
+		display: block;
+		transform: translateX(0);
+	}
 
-  .tui-content__gutter {
-    width: 2.5rem;
-    font-size: 0.75rem;
-  }
+	.tui-content__gutter {
+		width: 2.5rem;
+		font-size: 0.75rem;
+	}
 
-  .tui-content__viewport {
-    padding: 0.5rem;
-  }
+	.tui-content__viewport {
+		padding: 0.5rem;
+	}
 }
 
 /* Tablet: collapsible sidebar */
 @media (min-width: 768px) and (max-width: 1023px) {
-  .tui-layout {
-    grid-template-columns: auto 1fr;
-  }
+	.tui-layout {
+		grid-template-columns: auto 1fr;
+	}
 
-  .tui-sidebar {
-    width: 200px;
-    transition: width 0.3s ease, opacity 0.3s ease;
-  }
+	.tui-sidebar {
+		width: 200px;
+		transition:
+			width 0.3s ease,
+			opacity 0.3s ease;
+	}
 
-  .tui-sidebar.is-collapsed {
-    width: 0;
-    padding: 0;
-    overflow: hidden;
-    opacity: 0;
-  }
+	.tui-sidebar.is-collapsed {
+		width: 0;
+		padding: 0;
+		overflow: hidden;
+		opacity: 0;
+	}
 }
 
 /* Desktop: always visible sidebar */
 @media (min-width: 1024px) {
-  .tui-sidebar {
-    width: 250px;
-  }
+	.tui-sidebar {
+		width: 250px;
+	}
 }
 
 /* ============================================
@@ -224,35 +276,35 @@
    ============================================ */
 
 .tui-sidebar-toggle {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  padding: 0;
-  margin-right: 0.5rem;
-  background: none;
-  border: none;
-  color: var(--color-text);
-  cursor: pointer;
-  border-radius: 0.25rem;
-  transition: background-color 0.15s ease;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	width: 2rem;
+	height: 2rem;
+	padding: 0;
+	margin-right: 0.5rem;
+	background: none;
+	border: none;
+	color: var(--color-text);
+	cursor: pointer;
+	border-radius: 0.25rem;
+	transition: background-color 0.15s ease;
 }
 
 .tui-sidebar-toggle:hover {
-  background-color: var(--color-surface-1);
+	background-color: var(--color-surface-1);
 }
 
 .tui-sidebar-toggle:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+	outline: 2px solid var(--color-primary);
+	outline-offset: 2px;
 }
 
 /* Show toggle on mobile/tablet */
 @media (max-width: 1023px) {
-  .tui-sidebar-toggle {
-    display: flex;
-  }
+	.tui-sidebar-toggle {
+		display: flex;
+	}
 }
 
 /* ============================================
@@ -260,15 +312,15 @@
    ============================================ */
 
 .tui-sidebar-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 150;
+	display: none;
+	position: fixed;
+	inset: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 150;
 }
 
 .tui-sidebar-overlay.is-visible {
-  display: block;
+	display: block;
 }
 
 /* ============================================
@@ -276,17 +328,17 @@
    ============================================ */
 
 .tui-content__viewport {
-  scroll-behavior: smooth;
+	scroll-behavior: smooth;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tui-content__viewport {
-    scroll-behavior: auto;
-  }
+	.tui-content__viewport {
+		scroll-behavior: auto;
+	}
 
-  .tui-sidebar {
-    transition: none;
-  }
+	.tui-sidebar {
+		transition: none;
+	}
 }
 
 /* ============================================
@@ -294,24 +346,24 @@
    ============================================ */
 
 .tui-layout :focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+	outline: 2px solid var(--color-primary);
+	outline-offset: 2px;
 }
 
 /* Skip link for accessibility */
 .tui-skip-link {
-  position: absolute;
-  top: -100%;
-  left: 0;
-  padding: 0.5rem 1rem;
-  background-color: var(--color-primary);
-  color: var(--color-background);
-  z-index: 1000;
-  text-decoration: none;
+	position: absolute;
+	top: -100%;
+	left: 0;
+	padding: 0.5rem 1rem;
+	background-color: var(--color-primary);
+	color: var(--color-background);
+	z-index: 1000;
+	text-decoration: none;
 }
 
 .tui-skip-link:focus {
-  top: 0;
+	top: 0;
 }
 
 /* ============================================
@@ -319,35 +371,67 @@
    ============================================ */
 
 @media (max-width: 320px) {
-  .tui-topbar {
-    padding: 0.125rem 0.25rem;
-  }
+	.tui-topbar {
+		padding: 0.125rem 0.25rem;
+	}
 
-  .tui-topbar__meta {
-    gap: 0.5rem;
-  }
+	.tui-topbar__meta {
+		gap: 0.5rem;
+	}
 
-  .tui-statusline {
-    padding: 0.125rem 0.25rem;
-    gap: 0.25rem;
-    font-size: 0.6875rem;
-  }
+	.tui-statusline {
+		padding: 0.125rem 0.25rem;
+		gap: 0.25rem;
+		font-size: 0.6875rem;
+	}
 
-  .tui-commandline {
-    padding: 0.125rem 0.25rem;
-    font-size: 0.75rem;
-  }
+	.tui-commandline {
+		padding: 0.125rem 0.25rem;
+		font-size: 0.75rem;
+	}
 
-  .tui-content__gutter {
-    width: 2rem;
-    font-size: 0.625rem;
-  }
+	.tui-content__gutter {
+		width: 2rem;
+		font-size: 0.625rem;
+	}
 
-  .tui-content__viewport {
-    padding: 0.25rem;
-  }
+	.tui-content__viewport {
+		padding: 0.25rem;
+	}
 
-  .tui-sidebar {
-    max-width: calc(100vw - 2rem);
-  }
+	.tui-sidebar {
+		max-width: calc(100vw - 2rem);
+	}
+}
+
+/* ============================================
+   Mobile Section Layout (PBF-37)
+   Vertical scroll instead of horizontal slide
+   ============================================ */
+
+@media (max-width: 1023px) {
+	.tui-section-container {
+		flex-direction: column;
+		overflow-y: auto;
+	}
+
+	.tui-section {
+		position: relative;
+		flex: 0 0 auto;
+		min-height: 100dvh;
+		transform: none;
+		opacity: 1;
+		will-change: auto;
+	}
+}
+
+/* ============================================
+   Reduced Motion Section Transitions
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+	.tui-section {
+		will-change: auto;
+		transform: none;
+	}
 }

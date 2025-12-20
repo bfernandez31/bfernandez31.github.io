@@ -2,28 +2,43 @@
 /**
  * LineNumbers Component
  * Feature: PBF-32-portofolio-with-tui
+ * Feature: PBF-37-layout-tui (Added sectionId prop for per-section line numbers)
  *
  * Decorative line number gutter for TUI content area
  */
 
+import type { SectionId } from "../../types/tui";
+
 interface Props {
-  /** Starting line number (default: 1) */
-  startLine?: number;
-  /** Number of lines to display */
-  lineCount: number;
-  /** Currently highlighted/active line (optional) */
-  highlightLine?: number;
-  /** Additional CSS class */
-  class?: string;
+	/** Section ID this line numbers belongs to */
+	sectionId?: SectionId;
+	/** Starting line number (default: 1, always 1 per PBF-37 spec) */
+	startLine?: number;
+	/** Number of lines to display */
+	lineCount: number;
+	/** Currently highlighted/active line (optional) */
+	highlightLine?: number;
+	/** Additional CSS class */
+	class?: string;
 }
 
-const { startLine = 1, lineCount, highlightLine, class: className } = Astro.props;
+const {
+	sectionId,
+	startLine = 1,
+	lineCount,
+	highlightLine,
+	class: className,
+} = Astro.props;
 
 // Generate line numbers array
 const lines = Array.from({ length: lineCount }, (_, i) => startLine + i);
 ---
 
-<div class:list={["tui-line-numbers", className]} aria-hidden="true">
+<div
+  class:list={["tui-line-numbers", className]}
+  aria-hidden="true"
+  data-section-id={sectionId}
+>
   {lines.map((lineNum) => (
     <span
       class:list={[

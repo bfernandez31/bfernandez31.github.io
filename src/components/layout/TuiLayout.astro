@@ -6,36 +6,41 @@
  * Main TUI layout container integrating TopBar, Sidebar, content, StatusLine, CommandLine
  */
 
-import TopBar from './TopBar.astro';
-import Sidebar from './Sidebar.astro';
-import StatusLine from './StatusLine.astro';
-import CommandLine from './CommandLine.astro';
-import LineNumbers from '../ui/LineNumbers.astro';
-import type { SectionId } from '../../types/tui';
-import { TUI_SECTIONS, generateBufferTabs, generateFileEntries } from '../../data/sections';
+import TopBar from "./TopBar.astro";
+import Sidebar from "./Sidebar.astro";
+import StatusLine from "./StatusLine.astro";
+import CommandLine from "./CommandLine.astro";
+import LineNumbers from "../ui/LineNumbers.astro";
+import type { SectionId } from "../../types/tui";
+import {
+	TUI_SECTIONS,
+	generateBufferTabs,
+	generateFileEntries,
+} from "../../data/sections";
 
 interface Props {
-  /** Initial active section */
-  activeSectionId?: SectionId;
-  /** Show line numbers gutter */
-  showLineNumbers?: boolean;
-  /** Number of lines for line numbers gutter */
-  lineCount?: number;
+	/** Initial active section */
+	activeSectionId?: SectionId;
+	/** Show line numbers gutter */
+	showLineNumbers?: boolean;
+	/** Number of lines for line numbers gutter */
+	lineCount?: number;
 }
 
 const {
-  activeSectionId = 'hero',
-  showLineNumbers = true,
-  lineCount = 50,
+	activeSectionId = "hero",
+	showLineNumbers = true,
+	lineCount = 50,
 } = Astro.props;
 
 // Generate tabs and files from section config
 const tabs = generateBufferTabs(activeSectionId);
 const files = generateFileEntries(activeSectionId);
 
-// Get active section info
-const activeSection = TUI_SECTIONS.find(s => s.id === activeSectionId);
-const activeFileName = activeSection?.fileName || 'hero.tsx';
+// Get active section info for per-section line numbers (PBF-37)
+const activeSection = TUI_SECTIONS.find((s) => s.id === activeSectionId);
+const activeFileName = activeSection?.fileName || "hero.tsx";
+const activeLineCount = activeSection?.lineCount || lineCount;
 ---
 
 <div class="tui-layout">
@@ -63,12 +68,18 @@ const activeFileName = activeSection?.fileName || 'hero.tsx';
   <!-- Content area (grid-area: content) -->
   <main id="main-content" class="tui-content">
     {showLineNumbers && (
-      <div class="tui-content__gutter">
-        <LineNumbers lineCount={lineCount} />
+      <div class="tui-content__gutter" id="tui-line-gutter">
+        <LineNumbers
+          sectionId={activeSectionId}
+          lineCount={activeLineCount}
+        />
       </div>
     )}
     <div class="tui-content__viewport">
-      <slot />
+      <!-- Section container for horizontal slide navigation (PBF-37) -->
+      <div class="tui-section-container">
+        <slot />
+      </div>
     </div>
   </main>
 
@@ -166,3 +177,36 @@ const activeFileName = activeSection?.fileName || 'hero.tsx';
     }
   }
 </style>
+
+<script>
+  import type { SectionId, SectionChangeEventDetail } from '../../types/tui';
+  import { TUI_SECTIONS } from '../../data/sections';
+
+  // Per-section line numbers (PBF-37)
+  // Update line numbers when section changes
+  function updateLineNumbers(sectionId: SectionId): void {
+    const gutter = document.getElementById('tui-line-gutter');
+    if (!gutter) return;
+
+    const section = TUI_SECTIONS.find(s => s.id === sectionId);
+    if (!section) return;
+
+    const lineCount = section.lineCount;
+
+    // Generate new line numbers HTML
+    const lines = Array.from({ length: lineCount }, (_, i) => i + 1);
+    const linesHtml = lines.map(num => `<span class="tui-line-numbers__line">${num}</span>`).join('');
+
+    // Update the gutter content
+    const lineNumbersContainer = gutter.querySelector('.tui-line-numbers');
+    if (lineNumbersContainer) {
+      lineNumbersContainer.innerHTML = linesHtml;
+      lineNumbersContainer.setAttribute('data-section-id', sectionId);
+    }
+  }
+
+  // Listen for section changes
+  document.addEventListener('tui:section-change', ((event: CustomEvent<SectionChangeEventDetail>) => {
+    updateLineNumbers(event.detail.currentSectionId);
+  }) as EventListener);
+</script>

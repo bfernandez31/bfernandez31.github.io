@@ -2,26 +2,39 @@
 /**
  * BufferTab Component
  * Feature: PBF-32-portofolio-with-tui
+ * Feature: PBF-37-layout-tui (Neovim-style tab with icon, close button, separator)
  *
  * Individual tmux-style buffer tab for top bar navigation
  */
 
-import type { SectionId } from '../../types/tui';
+import type { SectionId } from "../../types/tui";
 
 interface Props {
-  /** Section ID this tab navigates to */
-  sectionId: SectionId;
-  /** Tab display label */
-  label: string;
-  /** Window number (tmux-style: 1, 2, 3...) */
-  windowNumber: number;
-  /** Whether this tab is currently active */
-  isActive?: boolean;
-  /** Additional CSS class */
-  class?: string;
+	/** Section ID this tab navigates to */
+	sectionId: SectionId;
+	/** Tab display label */
+	label: string;
+	/** File icon character (Nerd Font) */
+	icon?: string;
+	/** Window number (tmux-style: 1, 2, 3...) */
+	windowNumber: number;
+	/** Whether this tab is currently active */
+	isActive?: boolean;
+	/** Show close button (only when active) */
+	showClose?: boolean;
+	/** Additional CSS class */
+	class?: string;
 }
 
-const { sectionId, label, windowNumber, isActive = false, class: className } = Astro.props;
+const {
+	sectionId,
+	label,
+	icon = "\uf0a2",
+	windowNumber,
+	isActive = false,
+	showClose = false,
+	class: className,
+} = Astro.props;
 ---
 
 <a
@@ -30,59 +43,173 @@ const { sectionId, label, windowNumber, isActive = false, class: className } = A
   data-section-id={sectionId}
   aria-current={isActive ? "page" : undefined}
 >
-  <span class="tui-buffer-tab__number">{windowNumber}</span>
+  <span class="tui-buffer-tab__icon" aria-hidden="true">{icon}</span>
   <span class="tui-buffer-tab__label">{label}</span>
+  <span class="tui-buffer-tab__window" aria-hidden="true">{windowNumber}</span>
+  {(isActive || showClose) && (
+    <button
+      type="button"
+      class="tui-buffer-tab__close"
+      aria-label={`Close ${label}`}
+      tabindex="-1"
+      style={isActive ? "" : "display: none;"}
+    >
+      <span aria-hidden="true">×</span>
+    </button>
+  )}
 </a>
 
 <style>
+  /* Base styles moved to tabs.css for global access */
+  /* Component-scoped overrides and responsive styling here */
+
   .tui-buffer-tab {
+    position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem;
-    padding: 0.25rem 0.5rem;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
     font-family: var(--font-mono, monospace);
     font-size: 0.75rem;
     color: var(--color-text-muted, #6c7086);
     text-decoration: none;
-    border-radius: 0.25rem;
     background-color: transparent;
-    transition: background-color 0.15s ease, color 0.15s ease;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition:
+      background-color var(--transition-fast, 0.15s ease),
+      color var(--transition-fast, 0.15s ease);
     white-space: nowrap;
+    flex-shrink: 0;
   }
 
+  /* Vertical Separator */
+  .tui-buffer-tab::after {
+    content: '│';
+    position: absolute;
+    right: -0.125rem;
+    color: var(--color-border, #45475a);
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  .tui-buffer-tab:last-child::after,
+  .tui-buffer-tab.is-active::after {
+    display: none;
+  }
+
+  /* Hover State */
   .tui-buffer-tab:hover {
     background-color: var(--color-surface-1, #313244);
     color: var(--color-text, #cdd6f4);
   }
 
+  /* Active State */
+  .tui-buffer-tab.is-active {
+    background-color: var(--color-surface-2, #45475a);
+    color: var(--color-primary, #cba6f7);
+    font-weight: 700;
+    border-bottom-color: var(--color-primary, #cba6f7);
+  }
+
+  /* Focus State */
   .tui-buffer-tab:focus-visible {
     outline: 2px solid var(--color-primary, #cba6f7);
     outline-offset: 2px;
   }
 
-  .tui-buffer-tab.is-active {
-    background-color: var(--color-surface-2, #45475a);
-    color: var(--color-primary, #cba6f7);
-    font-weight: 700;
-  }
-
-  .tui-buffer-tab__number {
+  /* File Icon */
+  .tui-buffer-tab__icon {
+    font-size: 0.875rem;
     color: var(--color-text-muted, #6c7086);
-    font-size: 0.625rem;
+    font-family: var(--font-nerd, monospace);
+    line-height: 1;
   }
 
-  .tui-buffer-tab.is-active .tui-buffer-tab__number {
+  .tui-buffer-tab.is-active .tui-buffer-tab__icon {
     color: var(--color-secondary, #f5c2e7);
   }
 
+  /* Tab Label */
   .tui-buffer-tab__label {
+    line-height: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 80px;
   }
 
+  /* Window Number */
+  .tui-buffer-tab__window {
+    display: none;
+    font-size: 0.625rem;
+    color: var(--color-text-muted, #6c7086);
+    opacity: 0.6;
+  }
+
+  @media (min-width: 768px) {
+    .tui-buffer-tab__window {
+      display: inline;
+    }
+  }
+
+  /* Close Button */
+  .tui-buffer-tab__close {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+    padding: 0;
+    margin-left: 0.25rem;
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    border-radius: 2px;
+    font-size: 0.75rem;
+    line-height: 1;
+    transition: background-color var(--transition-fast, 0.15s ease);
+  }
+
+  .tui-buffer-tab.is-active .tui-buffer-tab__close {
+    display: flex;
+  }
+
+  .tui-buffer-tab__close:hover {
+    background-color: rgba(243, 139, 168, 0.7);
+    color: var(--color-background, #1e1e2e);
+  }
+
+  .tui-buffer-tab__close:focus-visible {
+    outline: 2px solid var(--color-primary, #cba6f7);
+    outline-offset: 1px;
+  }
+
+  /* Responsive */
+  @media (max-width: 767px) {
+    .tui-buffer-tab {
+      padding: 0.25rem 0.5rem;
+      gap: 0.25rem;
+    }
+
+    .tui-buffer-tab__icon {
+      font-size: 0.75rem;
+    }
+
+    .tui-buffer-tab__close {
+      width: 0.875rem;
+      height: 0.875rem;
+      font-size: 0.625rem;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .tui-buffer-tab {
+      transition: none;
+    }
+
+    .tui-buffer-tab__close {
       transition: none;
     }
   }
