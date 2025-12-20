@@ -34,6 +34,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), CSS Custom Properties (no additional JS libraries for hero) (PBF-30-hero-section)
 - N/A (static site, no data persistence) (PBF-30-hero-section)
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), GSAP 3.13.0 (animations), Lenis 1.0.42 (smooth scroll), Biome 2.3.4 (linting) (PBF-32-portofolio-with-tui)
+- TypeScript 5.9+ (strict mode) with CSS3 + Astro 5.15.3 (static site generator), CSS Grid Layout (PBF-33-fix-explorer)
+- N/A (static site, CSS-only fix) (PBF-33-fix-explorer)
 
 ## Project Structure
 ```
@@ -233,18 +235,37 @@ Each section has unique TUI-inspired styling:
 - Respects monospace font alignment
 - Defined in `src/styles/tui/layout.css`
 
+### TUI Layout Architecture
+
+**CSS Grid Implementation**:
+- **Global Grid Definition** (`src/styles/tui/layout.css`): Controls layout structure with CSS Grid
+- **Component Structure** (`src/components/layout/TuiLayout.astro`): Provides semantic HTML and visual styling
+- **Separation of Concerns**: Grid layout properties managed globally, component-scoped styles handle only visual properties (colors, fonts, sizing)
+- **Grid Template Columns** (desktop): `minmax(200px, 250px) 1fr` (sidebar | content)
+- **Grid Areas**: Named areas (topbar, sidebar, content, statusline, commandline) allow direct placement without wrapper elements
+
+**Architecture Pattern**:
+- Component-scoped styles MUST NOT include `display: grid` or `grid-template-*` properties
+- These properties are defined globally in `layout.css` to prevent conflicts
+- Scoped styles focus on viewport sizing (height), colors, fonts, and other visual properties
+- This ensures grid layout remains consistent and prevents override issues
+
 ### TUI Responsive Behavior
 
 **Desktop (≥1024px)**:
-- Full TUI layout visible
-- Sidebar fixed at ~200-250px width
+- Full TUI layout visible with CSS Grid side-by-side layout
+- Sidebar and content displayed simultaneously using grid columns
+- Sidebar: ~200-250px width (minmax constraint)
+- Content: fills remaining space (1fr)
 - All TUI elements visible (top bar, statusline, command line)
 - Line numbers always visible
+- No overlap between sidebar and content
 
 **Tablet (768-1023px)**:
 - Collapsible sidebar with toggle button
 - Top bar remains visible
-- Content area expands when sidebar hidden
+- Content area expands to full width when sidebar hidden
+- Sidebar becomes overlay when visible
 - TUI elements adapt with reduced padding
 
 **Mobile (<768px)**:
@@ -805,6 +826,17 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
+- **PBF-33-fix-explorer**: Fixed TUI sidebar visibility on desktop viewports (≥1024px)
+  - **FIXED**: CSS layout conflict preventing sidebar from displaying side-by-side with main content on desktop
+  - Removed conflicting `display: grid` and `grid-template-rows` from TuiLayout.astro component-scoped styles
+  - Removed unnecessary `.tui-main` flex wrapper element from HTML structure
+  - Global grid layout from `layout.css` now applies correctly with `grid-template-columns: minmax(200px, 250px) 1fr`
+  - Sidebar and content now participate directly in grid layout using named grid areas
+  - Established architecture pattern: grid layout properties in global CSS, visual properties in component-scoped styles
+  - Zero functional changes to mobile/tablet overlay behavior (working as designed)
+  - CSS-only fix with zero JavaScript changes and no performance impact
+  - TypeScript 5.9+ (strict mode) with CSS3 + Astro 5.15.3 (static site generator), CSS Grid Layout
+  - N/A (static site, CSS-only fix)
 - **PBF-32-portofolio-with-tui**: Complete TUI (Terminal User Interface) redesign
   - **REPLACED** entire portfolio layout with terminal-inspired Neovim/tmux aesthetic
   - Created comprehensive TUI layout system with 5 structural components:
@@ -886,7 +918,6 @@ try {
   - Immediate content visibility (no waiting for animation scripts to load)
   - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, CSS Custom Properties
   - N/A (static site, no data persistence)
-- PBF-27-featured-project-issue: Fixed Projects section layout and image fallback
   - **FIXED**: Section title ordering - added unified "Projects" h2 title in src/pages/index.astro before FeaturedProject component
   - Changed ProjectsHexGrid title from h2 "Featured Projects" to h3 "More Projects" for proper heading hierarchy
   - Ensures correct visual hierarchy across all viewport sizes (mobile/tablet/desktop)

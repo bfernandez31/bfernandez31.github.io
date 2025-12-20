@@ -1,0 +1,119 @@
+/**
+ * TUI Layout Fix Contract
+ * Feature: PBF-33-fix-explorer
+ *
+ * This file documents the CSS properties that MUST be present in the
+ * TUI layout for correct sidebar/content display on desktop.
+ *
+ * Source of truth: src/styles/tui/layout.css
+ * Do NOT duplicate in component-scoped styles.
+ */
+
+/* ============================================
+   REQUIRED: Desktop Grid Layout (≥1024px)
+   Source: src/styles/tui/layout.css lines 17-32
+   ============================================ */
+
+.tui-layout {
+  /* MUST define two-column grid for sidebar + content */
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  grid-template-columns: minmax(200px, 250px) 1fr; /* ← CRITICAL */
+  grid-template-areas:
+    "topbar  topbar"
+    "sidebar content"
+    "status  status"
+    "cmdline cmdline";
+}
+
+/* ============================================
+   REQUIRED: Grid Area Assignments
+   ============================================ */
+
+.tui-sidebar {
+  grid-area: sidebar;
+  /* Must NOT have position: fixed on desktop */
+  /* Must NOT have display: none on desktop */
+}
+
+.tui-content {
+  grid-area: content;
+  /* Must NOT be wrapped in a flex container that breaks grid */
+}
+
+/* ============================================
+   FORBIDDEN: Conflicting Component Styles
+
+   The following patterns in TuiLayout.astro MUST be removed:
+   ============================================ */
+
+/*
+ * ❌ REMOVE: Incomplete .tui-layout grid
+ *    Problem: Overrides layout.css without grid-template-columns
+ *
+ *    .tui-layout {
+ *      display: grid;
+ *      grid-template-rows: auto 1fr auto auto;
+ *      // MISSING: grid-template-columns
+ *      // MISSING: grid-template-areas
+ *    }
+ */
+
+/*
+ * ❌ REMOVE: Flex wrapper for sidebar/content
+ *    Problem: Bypasses grid-area assignments
+ *
+ *    .tui-main {
+ *      display: flex;
+ *    }
+ */
+
+/*
+ * ❌ REMOVE: Flex properties on .tui-content
+ *    Problem: Conflicts with grid-area layout
+ *
+ *    .tui-content {
+ *      flex: 1;
+ *      display: flex;
+ *    }
+ */
+
+/* ============================================
+   ALLOWED: Component-Specific Styles
+
+   These MAY remain in TuiLayout.astro:
+   ============================================ */
+
+/*
+ * ✅ KEEP: Viewport sizing
+ *    .tui-layout { height: 100vh; height: 100dvh; }
+ *
+ * ✅ KEEP: Visual properties
+ *    .tui-layout { background-color: var(--color-background); }
+ *    .tui-layout { color: var(--color-text); }
+ *    .tui-layout { font-family: var(--font-mono); }
+ *
+ * ✅ KEEP: Content sub-components
+ *    .tui-content__gutter { ... }
+ *    .tui-content__viewport { ... }
+ *
+ * ✅ KEEP: Overlay and accessibility
+ *    .tui-sidebar-overlay { ... }
+ *    .tui-skip-link { ... }
+ */
+
+/* ============================================
+   VERIFICATION CHECKLIST
+   ============================================ */
+
+/*
+ * After implementation, verify:
+ *
+ * [ ] Desktop (≥1024px): Sidebar and content side-by-side
+ * [ ] Sidebar width: 250px on desktop
+ * [ ] Content fills remaining space
+ * [ ] No horizontal scrollbar
+ * [ ] TopBar, StatusLine, CommandLine span full width
+ * [ ] Mobile (<768px): Sidebar hidden, overlay on toggle
+ * [ ] Tablet (768-1023px): Collapsible sidebar works
+ */

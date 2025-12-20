@@ -54,26 +54,23 @@ const activeFileName = activeSection?.fileName || 'hero.tsx';
     showSidebarToggle={true}
   />
 
-  <!-- Main content area with sidebar -->
-  <div class="tui-main">
-    <!-- NvimTree sidebar -->
-    <Sidebar
-      files={files}
-      activeSectionId={activeSectionId}
-    />
+  <!-- NvimTree sidebar (grid-area: sidebar) -->
+  <Sidebar
+    files={files}
+    activeSectionId={activeSectionId}
+  />
 
-    <!-- Content area -->
-    <main id="main-content" class="tui-content">
-      {showLineNumbers && (
-        <div class="tui-content__gutter">
-          <LineNumbers lineCount={lineCount} />
-        </div>
-      )}
-      <div class="tui-content__viewport">
-        <slot />
+  <!-- Content area (grid-area: content) -->
+  <main id="main-content" class="tui-content">
+    {showLineNumbers && (
+      <div class="tui-content__gutter">
+        <LineNumbers lineCount={lineCount} />
       </div>
-    </main>
-  </div>
+    )}
+    <div class="tui-content__viewport">
+      <slot />
+    </div>
+  </main>
 
   <!-- Neovim statusline -->
   <StatusLine
@@ -94,9 +91,8 @@ const activeFileName = activeSection?.fileName || 'hero.tsx';
 </div>
 
 <style>
+  /* Viewport sizing and visual properties only - grid layout defined in layout.css */
   .tui-layout {
-    display: grid;
-    grid-template-rows: auto 1fr auto auto;
     height: 100vh;
     height: 100dvh;
     overflow: hidden;
@@ -105,18 +101,7 @@ const activeFileName = activeSection?.fileName || 'hero.tsx';
     font-family: var(--font-mono, monospace);
   }
 
-  .tui-main {
-    display: flex;
-    overflow: hidden;
-    min-height: 0;
-  }
-
-  .tui-content {
-    flex: 1;
-    display: flex;
-    overflow: hidden;
-  }
-
+  /* Content sub-components */
   .tui-content__gutter {
     flex-shrink: 0;
     width: 3rem;
@@ -172,12 +157,6 @@ const activeFileName = activeSection?.fileName || 'hero.tsx';
     .tui-content__gutter {
       width: 2.5rem;
       font-size: 0.75rem;
-    }
-  }
-
-  @media (max-width: 1023px) {
-    .tui-main {
-      /* Sidebar is hidden/overlay on mobile/tablet */
     }
   }
 
