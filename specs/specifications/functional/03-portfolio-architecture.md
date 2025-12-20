@@ -91,41 +91,58 @@ When active section changes:
 
 ## Hero Section
 
-The hero section features a typewriter-style typing animation with a blinking cursor, providing an authentic terminal greeting experience.
+The hero section features a distinctive ASCII art name display combined with a typewriter animation for the subheadline, creating an authentic terminal greeting experience.
 
-**Typing Animation**:
-- Character-by-character text reveal using GSAP TextPlugin
+**ASCII Art Name Display**:
+- Developer's full name ("Benoit Fernandez") rendered as multi-line ASCII art using box-drawing Unicode characters
+- Uses ANSI Shadow font style matching the CONTACT section ASCII art for visual consistency
+- Stacked layout: "Benoit" on top, "Fernandez" below (76 characters wide, 14 lines total height)
+- Displays statically without animation for optimal readability
+- Wrapped in semantic `<h1>` heading element for SEO and document structure
+- Pre-formatted text contained in `<pre>` element with `aria-label="Benoit Fernandez"` for screen reader accessibility
+- Styled with primary color variable (--color-primary) matching theme palette
+- Responsive sizing using CSS clamp() scaling from 0.3rem to 0.5rem font size
+- Mobile breakpoint (@media max-width: 767px) ensures readability on narrow viewports
+- Overflow-x: auto fallback for extreme narrow viewports (<320px) to prevent horizontal scroll issues
+
+**Typing Animation (Subheadline Only)**:
+- Character-by-character text reveal for subheadline ("Full Stack Developer & Creative Technologist") using GSAP TextPlugin
 - Typing speed: 50-80ms per character for readable pace
 - Blinking block cursor (█) at typing position with ~530ms blink interval
 - Cursor continues blinking after text completes
 - Animation triggers automatically when hero section enters viewport
+- ASCII art name is excluded from typewriter chain and appears immediately
 
 **Visual Design**:
 - TUI-styled section with line numbers in left gutter
 - Monospace font (JetBrains Mono) for terminal aesthetic
-- Terminal-like layout with cursor and typing effect
+- Terminal-like layout with ASCII art and typing effect
 - Syntax highlighting colors from Catppuccin Mocha palette
 - Responsive typography with CSS clamp() for optimal scaling
 
 **Accessibility**:
-- Respects `prefers-reduced-motion`: text appears instantly, cursor static
-- Original text preserved in visually-hidden span for screen readers
-- Animated text marked with `aria-hidden="true"`
-- Semantic HTML with proper heading hierarchy (h1 for name)
+- Respects `prefers-reduced-motion`: subheadline text appears instantly, cursor static
+- ASCII art includes aria-label for screen reader announcement of full name
+- Semantic `<h1>` wrapper ensures proper heading hierarchy
+- Animated subheadline text marked with `aria-hidden="true"`
+- Original subheadline text preserved in visually-hidden span for screen readers
 - Keyboard navigation support for all interactive elements
 
 **Performance**:
-- GSAP TextPlugin for efficient character animation (~3KB)
+- ASCII art is pure HTML/CSS with minimal page weight impact (~1.3KB total)
+- GSAP TextPlugin for efficient character animation (~3KB) on subheadline only
 - GPU-accelerated cursor blink animation (CSS)
-- Progressive enhancement: text visible immediately if JavaScript fails
+- Progressive enhancement: ASCII art and text visible immediately if JavaScript fails
 - Animation pauses when section not visible (IntersectionObserver)
 - Automatic cleanup on page navigation
+- Reduced JavaScript footprint by removing headline from typewriter chain (~200 bytes saved)
 
 **Animation States**:
 - `idle`: Not started, waiting for viewport trigger
-- `typing`: Character-by-character reveal in progress
+- `typing`: Subheadline character-by-character reveal in progress
 - `complete`: All text visible, cursor continues blinking
 - `reduced`: Instant reveal when user prefers reduced motion
+- ASCII art: Always static (no animation states)
 
 ## Navigation System
 
