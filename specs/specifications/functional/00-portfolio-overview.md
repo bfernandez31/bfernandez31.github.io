@@ -96,16 +96,19 @@ The portfolio adapts to all screen sizes and devices:
 - Accessible navigation patterns
 
 ### Hero Section
-The portfolio features a clean, name-first hero section following modern portfolio conventions:
+The portfolio features a distinctive TUI-style hero section with ASCII art branding:
 - Simple CSS gradient background using Catppuccin Mocha colors
-- Developer's full name displayed prominently as h1 heading
-- Professional role/title shown below name
-- Clear call-to-action button linking to projects
-- Simple CSS-based fade-in animation (opacity + translateY)
-- Zero JavaScript required for rendering
-- Full accessibility support with `prefers-reduced-motion`
-- Responsive typography using CSS clamp() for all viewport sizes
-- Progressive enhancement: content visible before JavaScript loads
+- Developer's full name ("Benoit Fernandez") displayed as decorative ASCII art using box-drawing Unicode characters (ANSI Shadow style)
+- ASCII art matches the visual style of the CONTACT section for consistency
+- Professional role/title shown below name with typewriter animation effect
+- ASCII art name displays statically (no animation) for optimal readability
+- Subheadline ("Full Stack Developer & Creative Technologist") animates with character-by-character typewriter effect
+- Full accessibility with aria-label for screen readers on ASCII art element
+- Responsive ASCII art sizing using CSS clamp() (0.3rem to 0.5rem) for all viewport sizes from 320px to 1920px+
+- Mobile responsive without horizontal overflow (scales proportionally on narrow viewports)
+- Semantic h1 heading wraps ASCII art for SEO and document structure
+- Progressive enhancement: ASCII art visible immediately, no JavaScript required for rendering
+- Typewriter animation respects `prefers-reduced-motion` user preference
 
 ### Smooth Animations
 The portfolio includes performance-optimized animations:
