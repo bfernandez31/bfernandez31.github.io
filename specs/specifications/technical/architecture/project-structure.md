@@ -61,7 +61,7 @@ portfolio/
   - ContactTerminal (terminal commands style)
   - FeaturedProject (AI-BOARD showcase with hero-style card layout)
 - `ui/` - Generic UI elements
-  - BufferTab, FileEntry, LineNumbers, TypewriterText
+  - BufferTab, FileEntry, LineNumbers (dynamic line count with scroll sync), TypewriterText
   - Button, Card, Modal
   - Forms, Inputs, Dropdowns
 - `islands/` - Interactive components with client-side JavaScript
@@ -742,6 +742,82 @@ import Button from '@/components/ui/Button.astro';
 ```astro
 <img src={`${import.meta.env.BASE_URL}assets/image.svg`} alt="Description" />
 ```
+
+## TUI Layout Implementation
+
+### Dynamic Line Numbers System
+
+The TUI layout includes a sophisticated line numbers system that mimics editor behavior with dynamic height calculation and scroll synchronization.
+
+**Implementation** (`src/components/layout/TuiLayout.astro`):
+
+**Key Features**:
+- Dynamic line count calculation based on section scrollable content height
+- Per-section line numbering starting from 1 for each "file"
+- Bi-directional scroll synchronization between gutter and content
+- Responsive to window resize events
+- Updates automatically on section changes
+
+**Line Count Calculation**:
+```typescript
+// Calculate line count based on content scroll height
+const lineHeight = 18; // pixels (1.6 * 0.75rem at default font size)
+const scrollHeight = sectionElement.scrollHeight;
+
+// Use minimum of configured lineCount or calculated count (whichever is greater)
+const minLineCount = section.lineCount;
+const calculatedLineCount = Math.max(minLineCount, Math.ceil(scrollHeight / lineHeight));
+```
+
+**Scroll Synchronization**:
+```typescript
+// Sync gutter scroll to match active section scroll
+activeSection.addEventListener('scroll', () => {
+  if (!isScrolling) {
+    isScrolling = true;
+    requestAnimationFrame(() => {
+      gutter.scrollTop = activeSection.scrollTop;
+      isScrolling = false;
+    });
+  }
+});
+```
+
+**Event Handling**:
+- `tui:section-change` - Updates line numbers when section changes
+- `window.resize` - Recalculates line numbers for responsive behavior
+- `DOMContentLoaded` - Initializes line numbers and scroll sync
+
+**Performance Optimizations**:
+- Uses `requestAnimationFrame` for smooth scroll synchronization
+- Debounces scroll events to prevent excessive updates
+- Hidden scrollbar (`scrollbar-width: none`) for cleaner UI
+- GPU-accelerated scroll with minimal CPU overhead
+
+**CSS Configuration** (`src/styles/tui/layout.css`):
+```css
+.tui-content__gutter {
+  flex-shrink: 0;
+  width: 3rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none; /* Hide scrollbar */
+}
+
+.tui-content__gutter::-webkit-scrollbar {
+  display: none;
+}
+```
+
+**Component Integration**:
+- `LineNumbers.astro` - Renders initial line numbers based on section config
+- `TuiLayout.astro` - Manages dynamic updates via client-side script
+- `sections.ts` - Defines default line counts per section
+
+**Accessibility**:
+- Line numbers marked `aria-hidden="true"` (decorative, not functional)
+- Scroll synchronization works with keyboard navigation
+- Respects user interaction preferences
 
 ## Best Practices
 

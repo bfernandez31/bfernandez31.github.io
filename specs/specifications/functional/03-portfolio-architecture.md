@@ -86,8 +86,12 @@ When active section changes:
 - Per-section line numbering starting from 1 for each "file"
 - Each section simulates individual buffer with independent line count
 - Line numbers reset when navigating between sections
-- Default line counts: Hero (15), About (40), Experience (60), Projects (50), Expertise (35), Contact (25)
+- Dynamic line count calculation based on section scrollable content height
+- Line numbers extend automatically to cover full scrollable area
+- Scroll synchronization between line number gutter and active section content
 - Maintains terminal aesthetic with monospace alignment and muted coloring
+- Default line counts: Hero (15), About (40), Experience (60), Projects (50), Expertise (35), Contact (25)
+- Calculated line count uses minimum of default value or height-based count (whichever is greater)
 
 ## Hero Section
 
