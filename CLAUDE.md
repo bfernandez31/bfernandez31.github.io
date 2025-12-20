@@ -34,6 +34,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), CSS Custom Properties (no additional JS libraries for hero) (PBF-30-hero-section)
 - N/A (static site, no data persistence) (PBF-30-hero-section)
 - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3 (static site generator), GSAP 3.13.0 (animations), Lenis 1.0.42 (smooth scroll), Biome 2.3.4 (linting) (PBF-32-portofolio-with-tui)
+- TypeScript 5.9+ (strict mode) with CSS3 + Astro 5.15.3 (static site generator), CSS Grid Layout (PBF-33-fix-explorer)
+- N/A (static site, CSS-only fix) (PBF-33-fix-explorer)
 
 ## Project Structure
 ```
@@ -805,6 +807,7 @@ try {
 - Enforce performance budgets via Lighthouse CI (85+ mobile, 95+ desktop)
 
 ## Recent Changes
+- PBF-33-fix-explorer: Added TypeScript 5.9+ (strict mode) with CSS3 + Astro 5.15.3 (static site generator), CSS Grid Layout
 - **PBF-32-portofolio-with-tui**: Complete TUI (Terminal User Interface) redesign
   - **REPLACED** entire portfolio layout with terminal-inspired Neovim/tmux aesthetic
   - Created comprehensive TUI layout system with 5 structural components:
@@ -886,7 +889,6 @@ try {
   - Immediate content visibility (no waiting for animation scripts to load)
   - TypeScript 5.9+ (strict mode, native Bun ≥1.0.0 runtime) + Astro 5.15.3, CSS Custom Properties
   - N/A (static site, no data persistence)
-- PBF-27-featured-project-issue: Fixed Projects section layout and image fallback
   - **FIXED**: Section title ordering - added unified "Projects" h2 title in src/pages/index.astro before FeaturedProject component
   - Changed ProjectsHexGrid title from h2 "Featured Projects" to h3 "More Projects" for proper heading hierarchy
   - Ensures correct visual hierarchy across all viewport sizes (mobile/tablet/desktop)
