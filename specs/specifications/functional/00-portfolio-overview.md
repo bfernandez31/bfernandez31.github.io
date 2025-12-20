@@ -55,7 +55,7 @@ The portfolio displays a comprehensive professional experience timeline showcasi
 - Full keyboard accessibility with ARIA landmarks and focus management
 
 ### Skills & Expertise Showcase
-The portfolio includes a refined skills matrix focused on core competencies. After filtering, approximately 25 high-proficiency skills (proficiency ≥ 2) are displayed across 8 categories:
+The portfolio includes a refined skills matrix focused on core competencies, styled as a Neovim `:checkhealth` report. After filtering, approximately 25 high-proficiency skills (proficiency ≥ 2) are displayed across 8 categories:
 - **Frontend Development**: Modern frameworks and libraries including Angular, React, TypeScript, JavaScript
 - **Backend Development**: Server-side technologies including Java, Spring Boot, Node.js, Python
 - **DevOps & Infrastructure**: CI/CD, containerization, cloud platforms
@@ -66,7 +66,10 @@ The portfolio includes a refined skills matrix focused on core competencies. Aft
 - **Soft Skills & Management**: Communication, leadership, problem-solving
 
 Each skill includes:
+- Status badge with both icon and text (✓ OK, ! WARN, i INFO) for improved readability
+- Status determined by proficiency level: ≥4 OK (green), ≥3 WARN (yellow), <3 INFO (blue)
 - Proficiency level (1-5 scale, filtered to show only ≥2)
+- Visual progress bar using block characters (█ filled, ░ empty)
 - Years of experience (calculated from 2010 career start date)
 - Related projects (linkable to portfolio projects)
 - Icon identifier for visual representation
