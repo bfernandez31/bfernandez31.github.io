@@ -10,7 +10,7 @@ The portfolio uses a comprehensive TUI (Terminal User Interface) layout that wra
 
 **Layout Structure**:
 - **Top Bar**: tmux-style window bar with buffer tabs, clock display, and git branch indicator
-- **Sidebar**: NvimTree-style file explorer showing navigable section "files" (hero.tsx, about.tsx, etc.)
+- **Sidebar**: NvimTree-style file explorer showing navigable section "files" (hero.tsx, about.md, experience.tsx, etc.)
 - **Content Area**: Main content region with line numbers gutter and syntax-highlighted sections
 - **Status Line**: Neovim-style statusline displaying mode, active file, and cursor position
 - **Command Line**: Decorative command line at bottom showing vim-style commands
@@ -74,6 +74,7 @@ When active section changes:
 
 **Buffer Tabs**:
 - Neovim-style buffer tabs with authentic file icons and separators
+- Tab labels display file names from the explorer (e.g., hero.tsx, about.md, experience.tsx)
 - Active tab features distinct styling: highlighted background, primary color text, bottom border accent
 - Inactive tabs use muted colors with semi-transparent backgrounds
 - Hover state provides visual feedback with subtle color transitions
@@ -406,10 +407,9 @@ Each portfolio section has unique TUI-inspired styling that matches its content 
 **About (README.md Style)**:
 - Markdown-inspired formatting with `#` headers
 - List items with `-` bullet points
-- Inline code blocks with syntax highlighting
-- Blockquote styling for callouts
-- Code fence blocks for technical details
-- Maintains terminal color palette
+- Content displays directly without header bar or border chrome
+- Clean markdown file reading experience
+- Maintains terminal color palette with monospace typography
 
 **Experience (Git Log Style)**:
 - Timeline visualization with branch indicators

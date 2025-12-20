@@ -66,7 +66,7 @@ Terminal-inspired layout (Neovim/tmux aesthetic).
 
 **Section Styling**:
 - Hero: ASCII art name (box-drawing characters, ANSI Shadow style) with typewriter animation on subheadline
-- About: README.md style (markdown formatting)
+- About: README.md style (markdown formatting, displayed without header bar or border for clean file reading)
 - Experience: git log style (branch indicators, commits)
 - Projects: Telescope/fzf style (fuzzy finder aesthetic)
 - Expertise: `:checkhealth` style (OK/WARN/ERROR indicators)

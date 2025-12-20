@@ -54,7 +54,7 @@ portfolio/
   - TuiLayout, TopBar, Sidebar, StatusLine, CommandLine, Footer
 - `sections/` - Page-specific section components
   - HeroTui (typewriter animation with blinking cursor)
-  - AboutReadme (README.md style formatting)
+  - AboutReadme (README.md style formatting without header bar or border)
   - ExperienceGitLog (git log style timeline)
   - ProjectsTelescope (fuzzy finder aesthetic)
   - ExpertiseCheckhealth (`:checkhealth` style matrix)
