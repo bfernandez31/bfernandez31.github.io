@@ -151,6 +151,14 @@
 	background-color: var(--color-surface-0);
 	border-right: 1px solid var(--color-surface-1);
 	user-select: none;
+	overflow-y: auto;
+	overflow-x: hidden;
+	/* Hide scrollbar for cleaner UI */
+	scrollbar-width: none;
+}
+
+.tui-content__gutter::-webkit-scrollbar {
+	display: none;
 }
 
 .tui-content__viewport {
