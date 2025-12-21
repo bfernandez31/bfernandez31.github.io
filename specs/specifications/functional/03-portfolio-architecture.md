@@ -25,10 +25,12 @@ The portfolio uses a comprehensive TUI (Terminal User Interface) layout that wra
 **Navigation**:
 - Click sidebar files to navigate between sections
 - Click top bar tabs to switch sections with horizontal slide animation (desktop only)
+- Click any internal link (CTAs, back buttons, in-content links) to navigate between sections
 - Desktop (≥1024px): Horizontal slide animation between sections simulates IDE tab switching
 - Mobile (<1024px): Smooth vertical scrolling preserved for natural mobile experience
 - Keyboard navigation (j/k, arrow keys) triggers horizontal slide on desktop
 - Active section tracked via IntersectionObserver (30% threshold)
+- All navigation triggers (sidebar, tabs, CTAs, links) use unified navigation handler
 - Sidebar and tab states synchronize automatically
 - URL hash updates reflect current section (#hero, #about, etc.)
 - Browser back/forward buttons navigate between sections with appropriate slide direction

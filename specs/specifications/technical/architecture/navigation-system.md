@@ -27,6 +27,13 @@ The navigation system is powered by a unified TUI navigation module that provide
 - Separate modules: `smooth-scroll.ts`, `active-navigation.ts`, `navigation-links.ts`, `navigation-history.ts`, `navigation-dots.ts`
 - **Current**: Unified in `tui-navigation.ts` for better maintainability and device-adaptive logic
 
+**Navigation Triggers**:
+- Sidebar file entries (`.tui-file-entry`)
+- Top bar buffer tabs (`.tui-buffer-tab`)
+- Internal hash links (CTAs, back buttons, in-content links) via `a[href^="#"]` selector
+- Keyboard shortcuts (j/k, arrow keys on desktop)
+- Browser history (back/forward buttons)
+
 ### Implementation Pattern
 
 The TUI navigation system initializes with a single function call in `index.astro`:
@@ -43,9 +50,56 @@ The `initTuiNavigation()` function handles:
 2. Section container setup for horizontal layout (desktop)
 3. Lenis smooth scroll initialization (with device tier check)
 4. IntersectionObserver setup for active section tracking
-5. Event listeners for tab clicks, sidebar navigation, keyboard input
+5. Event listeners for tab clicks, sidebar navigation, keyboard input, internal links
 6. Browser history management (popstate, initial hash)
 7. State synchronization via custom events
+
+### Internal Link Navigation
+
+All internal hash links (CTAs, back buttons, in-content links) automatically trigger the unified navigation handler through a dedicated click handler.
+
+**Link Selection**:
+```typescript
+// Select all internal hash links, excluding special TUI elements
+const internalLinks = document.querySelectorAll<HTMLAnchorElement>(
+  'a[href^="#"]:not(.tui-skip-link):not(.tui-file-entry):not(.tui-buffer-tab)'
+);
+```
+
+**Handler Implementation**:
+```typescript
+function handleInternalLinkClick(event: Event): void {
+  event.preventDefault();
+  const target = event.currentTarget as HTMLAnchorElement;
+  const href = target.getAttribute("href");
+  if (!href) return;
+
+  const sectionId = href.substring(1) as SectionId;
+  if (SECTION_IDS.includes(sectionId)) {
+    navigateToSection(sectionId, "click");
+  }
+}
+```
+
+**Behavior**:
+- Prevents default browser hash navigation to avoid conflicts with TUI animations
+- Extracts section ID from `href` attribute (removes `#` prefix)
+- Validates section ID against known sections
+- Calls unified `navigateToSection()` handler
+- Triggers appropriate animation (horizontal slide on desktop, smooth scroll on mobile)
+- Updates browser history and URL hash
+- Synchronizes all navigation UI (sidebar, tabs, dots)
+
+**Excluded Elements**:
+- `.tui-skip-link`: Accessibility skip links use native navigation
+- `.tui-file-entry`: Handled by dedicated sidebar handler
+- `.tui-buffer-tab`: Handled by dedicated tab handler
+
+**Use Cases**:
+- CTA buttons (e.g., "Explore Projects" in hero section)
+- Back navigation links (e.g., "Return to Projects" in project details)
+- In-content section references (e.g., "See my work in Projects")
+- Footer navigation links
 
 ## Active Section Tracking
 
@@ -864,6 +918,14 @@ describe('Section Navigation', () => {
 - Check media query breakpoint is set to 1024px
 - Verify CSS `display: none` is applied at correct breakpoint
 - Check for CSS specificity issues overriding mobile styles
+
+**CTA buttons or internal links not navigating correctly**:
+- Verify links use hash format (`href="#projects"`, not `href="/#projects"`)
+- Check that internal link handler is registered in `setupClickHandlers()`
+- Ensure selector `a[href^="#"]` captures the links
+- Verify links don't have conflicting classes (`.tui-skip-link`, `.tui-file-entry`, `.tui-buffer-tab`)
+- Check browser console for JavaScript errors preventing handler execution
+- Confirm `navigateToSection()` is being called with valid section ID
 
 ## Future Enhancements
 

@@ -231,6 +231,21 @@ function setupIntersectionObserver(): void {
 }
 
 /**
+ * Handle click on internal hash link (CTAs, back links, etc.)
+ */
+function handleInternalLinkClick(event: Event): void {
+	event.preventDefault();
+	const target = event.currentTarget as HTMLAnchorElement;
+	const href = target.getAttribute("href");
+	if (!href) return;
+
+	const sectionId = href.substring(1) as SectionId;
+	if (SECTION_IDS.includes(sectionId)) {
+		navigateToSection(sectionId, "click");
+	}
+}
+
+/**
  * Setup click handlers for navigation elements
  */
 function setupClickHandlers(): void {
@@ -246,6 +261,14 @@ function setupClickHandlers(): void {
 		document.querySelectorAll<HTMLAnchorElement>(".tui-buffer-tab");
 	bufferTabs.forEach((tab) => {
 		tab.addEventListener("click", handleNavigationClick);
+	});
+
+	// Internal hash links (CTAs, back links, etc.)
+	const internalLinks = document.querySelectorAll<HTMLAnchorElement>(
+		'a[href^="#"]:not(.tui-skip-link):not(.tui-file-entry):not(.tui-buffer-tab)',
+	);
+	internalLinks.forEach((link) => {
+		link.addEventListener("click", handleInternalLinkClick);
 	});
 }
 
