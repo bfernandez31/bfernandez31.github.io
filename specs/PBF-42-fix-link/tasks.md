@@ -18,9 +18,9 @@
 
 **Purpose**: Verify environment and reproduce the issue
 
-- [ ] T001 Verify Bun and dependencies with `bun install`
-- [ ] T002 Start dev server with `bun run dev` and confirm site loads at http://localhost:4321
-- [ ] T003 Reproduce issue: Click "Explore Projects" CTA in hero section and confirm blank screen on desktop viewport (≥1024px)
+- [x] T001 Verify Bun and dependencies with `bun install`
+- [x] T002 Start dev server with `bun run dev` and confirm site loads at http://localhost:4321
+- [x] T003 Reproduce issue: Click "Explore Projects" CTA in hero section and confirm blank screen on desktop viewport (≥1024px)
 
 ---
 
@@ -42,9 +42,9 @@
 
 ### Implementation for User Story 1
 
-- [ ] T004 [US1] Add `handleInternalLinkClick()` function before `setupClickHandlers()` in src/scripts/tui-navigation.ts
-- [ ] T005 [US1] Add internal link handler registration to `setupClickHandlers()` in src/scripts/tui-navigation.ts
-- [ ] T006 [US1] Verify CTA click navigates correctly: Click "Explore Projects" → Projects section visible
+- [x] T004 [US1] Add `handleInternalLinkClick()` function before `setupClickHandlers()` in src/scripts/tui-navigation.ts
+- [x] T005 [US1] Add internal link handler registration to `setupClickHandlers()` in src/scripts/tui-navigation.ts
+- [x] T006 [US1] Verify CTA click navigates correctly: Click "Explore Projects" → Projects section visible
 
 **Checkpoint**: At this point, User Story 1 should be fully functional - CTA buttons work correctly
 
@@ -58,7 +58,7 @@
 
 ### Implementation for User Story 2
 
-- [ ] T007 [US2] Verify back navigation works: Navigate to projects, click any internal link to return → No blank screen
+- [x] T007 [US2] Verify back navigation works: Navigate to projects, click any internal link to return → No blank screen
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work - forward and back navigation via links works
 
@@ -72,11 +72,11 @@
 
 ### Implementation for User Story 3
 
-- [ ] T008 [P] [US3] Verify sidebar navigation still works: Click sidebar entries → Correct section displays
-- [ ] T009 [P] [US3] Verify buffer tab navigation still works: Click tabs in top bar → Correct section displays
-- [ ] T010 [P] [US3] Verify keyboard navigation still works: Press j/k keys → Section changes correctly
-- [ ] T011 [P] [US3] Verify scroll navigation still works: Scroll on desktop → Section changes correctly
-- [ ] T012 [P] [US3] Verify mobile navigation works: Resize to mobile viewport → Scroll navigation works
+- [x] T008 [P] [US3] Verify sidebar navigation still works: Click sidebar entries → Correct section displays
+- [x] T009 [P] [US3] Verify buffer tab navigation still works: Click tabs in top bar → Correct section displays
+- [x] T010 [P] [US3] Verify keyboard navigation still works: Press j/k keys → Section changes correctly
+- [x] T011 [P] [US3] Verify scroll navigation still works: Scroll on desktop → Section changes correctly
+- [x] T012 [P] [US3] Verify mobile navigation works: Resize to mobile viewport → Scroll navigation works
 
 **Checkpoint**: All navigation methods work consistently without regressions
 
@@ -86,9 +86,9 @@
 
 **Purpose**: Final validation and build verification
 
-- [ ] T013 Run linting with `bun run lint` and fix any issues
-- [ ] T014 Run build with `bun run build` and verify success
-- [ ] T015 Preview production build with `bun run preview` and verify navigation works in production build
+- [x] T013 Run linting with `bun run lint` and fix any issues
+- [x] T014 Run build with `bun run build` and verify success
+- [x] T015 Preview production build with `bun run preview` and verify navigation works in production build
 
 ---
 
