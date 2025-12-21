@@ -11,6 +11,7 @@
 - **Data**: Static content (Markdown via Astro Content Collections, JSON data files)
 - TypeScript 5.9+ with Astro 5.15.3 + Astro, GSAP 3.13.0, Lenis 1.0.42 (PBF-41-about-rework)
 - N/A (static site, no data persistence) (PBF-41-about-rework)
+- TypeScript 5.9+ (Astro 5.15.3 components) + Astro, GSAP 3.13.0 (for other animations, not navigation), Lenis 1.0.42 (smooth scroll) (PBF-42-fix-link)
 
 ## Project Structure
 ```
